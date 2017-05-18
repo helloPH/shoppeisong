@@ -133,65 +133,6 @@
         
     }];
     
-    
-    
-    
-//    MBProgressHUD *mHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//    mHud.mode = MBProgressHUDModeIndeterminate;
-//    mHud.delegate = self;
-//    mHud.labelText = @"请稍等...";
-//    [mHud show:YES];
-//    NSMutableDictionary *pram = [NSMutableDictionary dictionaryWithDictionary:@{@"danhao":self.danhao}];
-    
-//    [HTTPTool getWithUrl:@"dingdanInfo.action" params:pram success:^(id json) {
-//        [mHud hide:YES];
-//        NSLog(@"抢单详情 %@",json);
-//        if ([[json valueForKey:@"message"]integerValue]== 0) {
-//            [self promptMessageWithString:@"参数不能为空"];
-//        }
-//        else if ([[json valueForKey:@"message"] integerValue] == 1)
-//        {
-//            [self promptMessageWithString:@"加载失败"];
-//        }
-//        else
-//        {
-//            NSDictionary *dict = [json valueForKey:@"dingdanxq"];
-//            
-//            NSArray *shangpinList = dict[@"shoplist"];
-//            for (NSDictionary *dic in shangpinList) {
-//                OrderDetailShangpinModel *model = [[OrderDetailShangpinModel alloc]init];
-//                [model setValuesForKeysWithDictionary:dic];
-//                [self.shangpinListArray addObject:model];
-//            }
-//            
-//            NSDictionary *dict1 = @{@"key":@"预约送达时间:",@"value":dict[@"yuyuesongda"]};
-//            [self.zhifushangshiArray addObject:dict1];
-//            if ([dict[@"fapiao"] integerValue] != 0) {
-//                NSDictionary *dict2 = @{@"key":@"发票:",@"value":dict[@"fapiao"]};
-//                [self.zhifushangshiArray addObject:dict2];
-//            }
-//            NSDictionary *dict3 = @{@"key":@"下单时间:",@"value":dict[@"cretdate"]};
-//            NSDictionary *dict4 = @{@"key":@"单号:",@"value":dict[@"dingdanhao"]};
-//            [self.zhifushangshiArray addObject:dict3];
-//            [self.zhifushangshiArray addObject:dict4];
-//            
-//            if ([dict[@"shuliang"] integerValue] != 0) {
-//                NSDictionary *dict11 = @{@"key":@"数量:",@"value":[NSString stringWithFormat:@"%@",dict[@"shuliang"]]};
-//                [self.shuliangArray addObject:dict11];
-//            }
-//            if ([dict[@"dindanbeizhu"] integerValue] != 0) {
-//                NSDictionary *dict11 = @{@"key":@"备注:",@"value":[NSString stringWithFormat:@"%@",dict[@"dindanbeizhu"]]};
-//                [self.shuliangArray addObject:dict11];
-//            }
-//            
-//            self.dataArray = [NSArray arrayWithObjects:self.zhifushangshiArray,self.shangpinListArray,self.shuliangArray,nil];
-//        }
-//        [self.mainTableView reloadData];
-//        
-//    } failure:^(NSError *error) {
-//        [mHud hide:YES];
-//        [self promptMessageWithString:@"网络连接错误"];
-//    }];
 }
 
 #pragma mark UITableViewDelegate

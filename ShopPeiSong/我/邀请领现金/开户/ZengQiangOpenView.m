@@ -725,8 +725,6 @@
  *  开户的按钮
  */
 -(void)submitBtnClick:(UIButton *)sender{
-
-    
     
     UITextField * phone = [_mainScrollView viewWithTag:11003];
     if (![phone.text isValidateMobile]) {

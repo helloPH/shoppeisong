@@ -9,51 +9,58 @@
 #import "daoHangOfXiangqing.h"
 #import "Header.h"
 
-#import <BaiduMapAPI_Map/BMKMapView.h>
+#import "PHMap.h"
 
 
 
 
 @interface daoHangOfXiangqing()
-
-
-@property (nonatomic,strong)BMKMapView * map;
-
-
+@property (nonatomic,strong)PHMapView * map;
 @end
 @implementation daoHangOfXiangqing
 -(instancetype)init{
     if (self=[super init]) {
-        self.frame=CGRectMake(0, 0, kDeviceWidth, kDeviceHeight);
-        self.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
-        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap:)];
-        [self addGestureRecognizer:tap];
+        [self newView];
     }
     return self;
 }
--(BMKMapView *)map{
-    if (!_map) {
-        _map=[BMKMapView new];
-        [self addSubview:_map];
-    }
-    return _map;
-}
-#pragma mark -- location delegate
--(void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation{
+-(void)newView{
+
+    
+    self.frame=CGRectMake(0, 0, kDeviceWidth, kDeviceHeight);
+    self.backgroundColor=[UIColor clearColor];
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(disAppear)];
+    [self addGestureRecognizer:tap];
+    _map = [[PHMapView alloc]initWithFrame:CGRectMake(0, 0, kDeviceWidth*0.8, kDeviceWidth*0.8)];
+    [self addSubview:_map];
+    _map.center=CGPointMake(self.width/2, self.height/2);
     
     
-    
-}
--(void)layoutSubviews{
-    [super layoutSubviews];
-    self.map.frame=CGRectMake(0, 0, kDeviceWidth, kDeviceHeight*0.6);
-    
-}
--(void)tap:(UITapGestureRecognizer *)tap{
-    if (_block) {
-        _block();
-    }
+    _map.backgroundColor = [UIColor whiteColor];
+    _map.layer.cornerRadius = 15.0;
+    self.layer.shadowOpacity = 0.5;
+    self.layer.shadowOffset = CGSizeMake(0, 0);
+    _map.layer.masksToBounds=YES;
 }
 
+-(void)layoutSubviews{
+    [super layoutSubviews];
+}
+-(void)appear{
+    [[UIApplication sharedApplication].delegate.window addSubview:self];
+    self.alpha=0;
+    [_map routeWithStartPoint:CLLocationCoordinate2DMake(self.qiLati, self.qiLongi) endPoint:CLLocationCoordinate2DMake(self.zhongLati, self.zhongLongi)];
+    [UIView animateWithDuration:0.3 animations:^{
+        self.alpha=1;
+        
+    }];
+}
+-(void)disAppear{
+    [UIView animateWithDuration:0.3 animations:^{
+        self.alpha=0;
+    }completion:^(BOOL finished) {
+        [self removeFromSuperview];
+    }];
+}
 
 @end

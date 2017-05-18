@@ -31,7 +31,8 @@
     [super viewDidLoad];
     self.view.backgroundColor = txtColors(231, 231, 231, 1);
     [self surePersonState];
-    
+
+
 }
 
 -(UIImageView *)caozuotishiImage
@@ -315,6 +316,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 
 /*
  #pragma mark - Navigation

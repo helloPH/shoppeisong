@@ -35,7 +35,7 @@
     [self initNavi];
     [self newView];
 
-
+    [self reshBanBen];
     
     // Do any additional setup after loading the view.
 }
@@ -54,6 +54,20 @@
 -(void)initData{
     _isFree=YES;
 }
+-(void)reshBanBen{
+    if (banben_IsAfter) {
+        _titleView.hidden=NO;
+        _mainScrollView.frame=CGRectMake(0, _titleView.bottom, kDeviceWidth, kDeviceHeight-_titleView.bottom);
+        
+        _freeOpenView.frame=CGRectMake(0, 0, kDeviceWidth, _mainScrollView.height);
+        _zengOpneView.frame=CGRectMake(kDeviceWidth, 0, kDeviceWidth, _mainScrollView.height);
+    }else{
+        _titleView.hidden=YES;
+        _mainScrollView.frame=CGRectMake(0, 69, kDeviceWidth, kDeviceHeight-69);
+        _mainScrollView.contentSize=CGSizeMake(_mainScrollView.width, _mainScrollView.height);
+        _freeOpenView.frame=CGRectMake(0, 0, kDeviceWidth, _mainScrollView.height);
+    }
+}
 -(void)newView{
     self.view.backgroundColor=[UIColor whiteColor];
 
@@ -66,8 +80,6 @@
         _isFree=index==0?YES:NO;
         [weakSelf reshView];
     };
-    
-    
     
     _mainScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, _titleView.bottom, kDeviceWidth, kDeviceHeight-_titleView.bottom)];
     _mainScrollView.contentSize=CGSizeMake(_mainScrollView.width*2, _mainScrollView.height);
@@ -83,6 +95,8 @@
     _zengOpneView.controller=self;
     [_mainScrollView addSubview:_zengOpneView];
 
+
+    
 }
 -(void)reshView{
     [UIView animateWithDuration:0.3 animations:^{

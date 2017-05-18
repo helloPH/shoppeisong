@@ -429,4 +429,18 @@
         failure(error);
     }];
 }
+/*
+ * 获取版本信息
+ */
++(void)getAppStatusSuccess:(successBlock)success failure:(failureBlock)failure{
+//    [MBProgressHUD start];
+    [HTTPTool  postWithBaseUrl:HTTPHEADER url:@"banbeniosStatus.action" params:[NSMutableDictionary dictionaryWithDictionary:@{@"banbenhao":@"1.5"                                                                                                                        }] success:^(id json) {
+//        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+//        [MBProgressHUD stop];
+//        [MBProgressHUD promptWithString:@"网络连接错误"];
+        failure(error);
+    }];
+}
 @end

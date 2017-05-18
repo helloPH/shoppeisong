@@ -117,5 +117,10 @@
  * 获取支付宝 参数
  */
 +(void)getZhiFuBaoInfoSuccess:(successBlock)success failure:(failureBlock)failure;
+/*
+ * 获取版本信息
+ */
++(void)getAppStatusSuccess:(successBlock)success failure:(failureBlock)failure;
+
 @end
 

@@ -16,7 +16,7 @@
 #import "UseDirectionViewController.h"
 #import "PaymentPasswordView.h"
 //#import "PHPay.h"
-
+#import "OnLinePayView.h"
 
 @interface FreeOpenView()
 @property (nonatomic,strong)NSDictionary * dataDic;
@@ -268,9 +268,6 @@
  *  @param sender 提交按钮的点击事件
  */
 -(void)submitClick:(UIButton *)sender{
-    [self login];
-    return;
-    
     
     UITextField * dianPu=[_mainScrollView viewWithTag:11000];
     UILabel * hangYe=[_mainScrollView viewWithTag:11001];
@@ -315,6 +312,9 @@
     }];
 }
 -(void)login{
+    
+    
+    
     UITextField * phone =[_mainScrollView viewWithTag:11003];
     NSString * loginPass = [NSString stringWithFormat:@"%@",_dataDic[@"password"]];
     NSString * dianpuid = [NSString stringWithFormat:@"%@",_dataDic[@"dianpuid"]];

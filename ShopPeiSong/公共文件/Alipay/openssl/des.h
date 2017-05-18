@@ -59,8 +59,8 @@
 #ifndef HEADER_NEW_DES_H
 #define HEADER_NEW_DES_H
 
-#include <e_os2.h>	/* OPENSSL_EXTERN, OPENSSL_NO_DES,
-				   DES_LONG (via opensslconf.h */
+#include <openssl/e_os2.h>	/* OPENSSL_EXTERN, OPENSSL_NO_DES,
+				   DES_LONG (via openssl/opensslconf.h */
 
 #ifdef OPENSSL_NO_DES
 #error DES is disabled.
@@ -98,7 +98,7 @@ typedef struct DES_ks
 #endif
 
 #ifdef OPENSSL_ENABLE_OLD_DES_SUPPORT
-# include <des_old.h>
+# include <openssl/des_old.h>
 #endif
 
 #define DES_KEY_SZ 	(sizeof(DES_cblock))

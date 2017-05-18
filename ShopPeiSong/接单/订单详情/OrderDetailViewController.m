@@ -611,22 +611,16 @@
         case 6://送货导航
         {
             daoHangOfXiangqing * dao = [daoHangOfXiangqing new];
-            __block daoHangOfXiangqing * weakDao = dao;
-            dao.block=^(){
-                [weakDao removeFromSuperview];
-            };
-            [self.view addSubview:dao];
+            [dao appear];
+           
 
         }
             break;
         case 8:// 取货导航
         {
             daoHangOfXiangqing * dao = [daoHangOfXiangqing new];
-            __block daoHangOfXiangqing * weakDao = dao;
-            dao.block=^(){
-                [weakDao removeFromSuperview];
-            };
-            [self.view addSubview:dao];
+            [dao appear];
+      
         }
             break;
         default:

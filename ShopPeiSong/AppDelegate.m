@@ -58,7 +58,8 @@
 //    self.window.rootViewController = navi;
 //    
     
-    
+    /*微支付*/
+//    [WXApi registerApp:@"wx34d8cb6d9fda6306"];
     [self configBaiduMap];
     [self configShareSdk];
 
@@ -83,7 +84,8 @@
      *  如果您使用的时服务端托管平台信息时，第二、四项参数可以传入nil，第三项参数则根据服务端托管平台来决定要连接的社交SDK。
      */
     
-    
+
+ 
     [ShareSDK registerApp:@"1a5460bdf0b6c"
      
           activePlatforms:@[

@@ -25,7 +25,7 @@
 //#import <ShareSDK/ShareSDK.h>
 //#import <ShareSDKConnector/ShareSDKConnector.h>
 ////微信SDK头文件
-//#import "WXApi.h"
+#import "WXApi.h"
 ////腾讯开放平台（对应QQ和QQ空间）SDK头文件
 //#import <TencentOpenAPI/TencentOAuth.h>
 //#import <TencentOpenAPI/QQApiInterface.h>
@@ -77,11 +77,19 @@
 #define dianPuName [[NSUserDefaults standardUserDefaults]valueForKey:@"dianpuname"]//店铺名字
 
 
+
+
+
 #define set_LoginPass(loginPass) [[NSUserDefaults standardUserDefaults] setValue:loginPass forKey:@"loginPass"]//用户登录密码
 #define user_loginPass [[NSUserDefaults standardUserDefaults]valueForKey:@"loginPass"]//用户登录密码
 
 #define user_tel [[NSUserDefaults standardUserDefaults]valueForKey:@"user_tel"]//用户手机号
 #define set_User_Tel(user_Tel) [[NSUserDefaults standardUserDefaults] setValue:user_Tel forKey:@"user_tel"]//用户手机号
+
+
+//收银台权限
+#define set_User_ShouYingTaiQX(shouyintaiquanxian)  [[NSUserDefaults standardUserDefaults] setBool:shouyintaiquanxian forKey:@"shouyintaiquanxian"]
+#define user_ShouYingTaiQX  [[NSUserDefaults standardUserDefaults]boolForKey:@"shouyintaiquanxian"]
 
 //免密支付
 #define set_MianMiPay(mianMiPay)  [[NSUserDefaults standardUserDefaults] setBool:mianMiPay forKey:@"mianMiPay"]
@@ -99,6 +107,11 @@
 #define set_User_dianpuID(dianpuid) [[NSUserDefaults standardUserDefaults] setValue:dianpuid forKey:@"dianpuID"]
 #define user_dianpuID [[NSUserDefaults standardUserDefaults]valueForKey:@"dianpuID"]//店铺ID
 
+// before and after
+#define banben_IsAfter [[NSUserDefaults standardUserDefaults]boolForKey:@"banBen_isAfter"]
+#define set_Banben_IsAfter(isAfter) [[NSUserDefaults standardUserDefaults] setBool:isAfter forKey:@"banBen_isAfter"]
+
+
 
 // 是否免密登录
 #define user_IsMianMiLogin [[NSUserDefaults standardUserDefaults]boolForKey:@"user_IsMianMiLogin"]//员工身份
@@ -112,14 +125,17 @@
 
 #define stor_url @"https://itunes.apple.com/cn/app/miao-dian-jia-pei-song/id1163948137?mt=8"
 
-//#define HTTPHEADER @"http://www.shp360.com/MshcShopGuanjia/"
-//#define HTTPImage @"http://www.shp360.com/Store/"
-//#define HTTPWeb @"http://www.shp360.com/"
 
 
-#define HTTPHEADER @"http://192.168.1.250:8080/MshcShopGuanjia/"
-#define HTTPImage @"http://192.168.1.250:8080/Store/"
-#define HTTPWeb @"http://192.168.1.250:8080/"
+
+#define HTTPHEADER @"http://www.shp360.com/MshcShopGuanjia/"
+#define HTTPImage @"http://www.shp360.com/Store/"
+#define HTTPWeb @"http://www.shp360.com/"
+
+
+//#define HTTPHEADER @"http://192.168.1.250:8080/MshcShopGuanjia/"
+//#define HTTPImage @"http://192.168.1.250:8080/Store/"
+//#define HTTPWeb @"http://192.168.1.250:8080/"
 
 
 

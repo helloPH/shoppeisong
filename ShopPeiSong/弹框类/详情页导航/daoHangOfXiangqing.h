@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface daoHangOfXiangqing : UIView
-@property (nonatomic,strong)NSString * qiLongi;
-@property (nonatomic,strong)NSString * qiLati;
-@property (nonatomic,strong)NSString * zhongLongi;
-@property (nonatomic,strong)NSString * zhongLati;
+@property (nonatomic,assign)double  qiLongi;
+@property (nonatomic,assign)double  qiLati;
+@property (nonatomic,assign)double  zhongLongi;
+@property (nonatomic,assign)double  zhongLati;
 
-@property (nonatomic,strong)void (^block)();
+-(void)appear;
+-(void)disAppear;
 @end

@@ -163,6 +163,10 @@
     if (!_openBtn) {
        _openBtn = [BaseCostomer buttonWithFrame:CGRectZero font:[UIFont boldSystemFontOfSize:MLwordFont_3] textColor:[UIColor blackColor] backGroundColor:[UIColor clearColor] cornerRadius:0 text:@"注册" image:@""];
         [_openBtn addTarget:self action:@selector(openClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        if (!banben_IsAfter) {
+            [self reshBanben];
+        }
         [self addSubview:_openBtn];
     }
     return _openBtn;
@@ -287,10 +291,14 @@
                     
                     self.dianpuNameLabel.text = [json valueForKey:@"dianpuname"];
                     self.nameLabel.text =[NSString stringWithFormat:@"%@ %@ %@",[json valueForKey:@"bumen"],[json valueForKey:@"zhiwu"],[json valueForKey:@"name"]];
+                    
+                    NSString * bumen = [NSString stringWithFormat:@"%@",[json valueForKey:@"bumen"]];
+                    
+        
                     set_DianPuName(self.dianpuNameLabel.text);
                     [[NSUserDefaults standardUserDefaults] setValue:[json valueForKey:@"name"] forKey:@"name"];
                     [[NSUserDefaults standardUserDefaults] setValue:[json valueForKey:@"zhiwu"] forKey:@"zhiwu"];
-                    [[NSUserDefaults standardUserDefaults] setValue:[json valueForKey:@"bumen"] forKey:@"bumen"];
+                     set_User_BuMen(bumen);
                     [[NSUserDefaults standardUserDefaults] setValue:[json valueForKey:@"status"] forKey:@"status"];
                 }
             } failure:^(NSError *error) {
@@ -320,6 +328,11 @@
         [Request loginWithDic:pram Success:^(id json) {
             set_User_Tel(self.accountTextfield.text);
             set_User_Id([json valueForKey:@"yuangongid"]);
+            
+            NSString * shouyinTaiQX = [NSString stringWithFormat:@"%@",[json valueForKey:@"shouyintai"]];
+            set_User_ShouYingTaiQX([shouyinTaiQX isEqualToString:@"1"]);
+            
+            
             if ([self.registraDeleagte respondsToSelector:@selector(completeRegistration)]) {
                 [self.registraDeleagte completeRegistration];
             }
@@ -397,5 +410,17 @@
 
     
     
+}
+-(void)reshBanben{
+    [Request getAppStatusSuccess:^(id json) {
+        NSString * status = [NSString stringWithFormat:@"%@",[json valueForKey:@"status"]];
+        if ([status isEqualToString:@"1"]) {
+            set_Banben_IsAfter(YES);
+            return ;
+        }
+        set_Banben_IsAfter(NO);
+    } failure:^(NSError *error) {
+        set_Banben_IsAfter(NO);
+    }];
 }
 @end

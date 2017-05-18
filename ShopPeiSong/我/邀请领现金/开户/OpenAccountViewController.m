@@ -111,6 +111,7 @@
     [self initMask];
     [self popView];//弹框
     [self judgeTheFirst];
+
     
 }
 -(void)judgeTheFirst

@@ -17,6 +17,8 @@
 #import "LoginPasswordView.h"
 
 #import "CustomerTabbatViewController.h"
+#import "PHMap.h"
+#import "daoHangOfXiangqing.h"
 
 @interface PlatformViewController ()<UITableViewDelegate,UITableViewDataSource,MBProgressHUDDelegate,PlatformCellDelegate>
 
@@ -30,15 +32,14 @@
 
 @property (nonatomic,strong)PaymentPasswordView * passView;
 
+
 @end
 
 @implementation PlatformViewController
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self getbumenDataWithStates:@"0"];
-
-    
+    [self getbumenDataWithStates:@"0"];    
 //    [self.tabBarController setSelectedIndex:1];
 }
 - (void)viewDidLoad {
@@ -51,6 +52,7 @@
     
     [self setNavigationItem];
     [self refresh];
+
 
  }
 -(BOOL)isRefresh
@@ -212,6 +214,7 @@
         {
             self.mainTableView.backgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"白底.jpg"]];
             NSArray *diandanList = [json valueForKey:@"dingdanlist"];
+            
             for (NSDictionary *dic in diandanList) {
                 KeQiangDiandanModel *model = [[KeQiangDiandanModel alloc]init];
                 [model setValuesForKeysWithDictionary:dic];
@@ -245,10 +248,19 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
     KeQiangDiandanModel *model = self.keqiangdingdanArray[indexPath.row];
     
-    if ([model.peisongfangshi isEqualToString:@"0"]) {
+    
+    /**
+     *   收银台
+     */
+    if ([model.peisongfangshi isEqualToString:@"0"]) { // 本地 购买 显示收银台
+        if (!user_ShouYingTaiQX) { // 如果没有收银台权限 直接略过
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+            return;
+        };
+     
         ShouYinTaiPayWay * selePay = [ShouYinTaiPayWay new];
         selePay.danhao=model.danhao;
         [selePay appear];
@@ -257,12 +269,17 @@
         };
         return;
     };
-    if ([user_BuMen isEqualToString:@"管理"] || [user_BuMen isEqualToString:@"供应"]) {
+    
+    /**
+     *  进入详情
+     */
+    if ([user_BuMen isEqualToString:@"管理"] || [user_BuMen isEqualToString:@"供应"]) {//
         PalmformDetailViewController *DetailVC = [[PalmformDetailViewController alloc]init];
         DetailVC.danhao = model.danhao;
         DetailVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:DetailVC animated:YES];
     }else{
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
         [MBProgressHUD promptWithString:@"配送员不能进入详情"];
     }
  

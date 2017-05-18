@@ -218,47 +218,50 @@
     else if (tap.self.view == self.wChatImageView)
     {
         [self promptMessageWithString:@"该功能正在努力开发中"];
-        //        if (self.isFrom == 2 || self.isFrom == 4) {
-        //            [self reloadDataForVerification];
-        //            if (self.isFromSure == 1) {
-        //                float inputNum = [self.moneyTextFiled.text floatValue];
-        //                if (inputNum < [self.shouldMoney floatValue]) {
-        //                    [self promptMessageWithString:@"输入金额不足!请重新输入"]
-        //                }
-        //                else{
-        //                    self.payMoney = self.moneyTextFiled.text;
-        //                    [self wxPay];
-        //                }
-        //            }
-        //            else
-        //            {
-        //                if (self.payMoney.doubleValue >=50) {
-        //                    [self wxPay];
-        //
-        //                }else
-        //                {
-        //                    [self promptMessageWithString:@"输入金额不能低于50"]
-        //                }
-        //            }
-        //        }
-        //        else if (self.isFrom == 3)
-        //        {
-        //            [self reloadDataForVerification];
-        //            if (self.payMoney.doubleValue ==0)
-        //            {
-        //                [self promptMessageWithString:@"请输入金额"]
-        //            }else
-        //            {
-        //                [self wxPay];
-        //            }
-        //        }
-        //        else
-        //        {
-        //            [self wxPay];
-        //            NSNotification *wchatPayClick = [NSNotification notificationWithName:@"wchatPayClick" object:nil];
-        //            [[NSNotificationCenter defaultCenter] postNotification:wchatPayClick];
-        //            [[NSNotificationCenter defaultCenter]removeObserver:self name:@"wchatPayClick" object:nil];
-        //        }
+        return;
+        /*
+        if (self.isFrom == 2 || self.isFrom == 4) {
+            [self reloadDataForVerification];
+            if (self.isFromSure == 1) {
+                float inputNum = [self.moneyTextFiled.text floatValue];
+                if (inputNum < [self.shouldMoney floatValue]) {
+                    [self promptMessageWithString:@"输入金额不足!请重新输入"];
+                }
+                else{
+                    self.payMoney = self.moneyTextFiled.text;
+                    [self wxPay];
+                }
+            }
+            else
+            {
+                if (self.payMoney.doubleValue >=50) {
+                    [self wxPay];
+                    
+                }else
+                {
+                    [self promptMessageWithString:@"输入金额不能低于50"];
+                }
+            }
+        }
+        else if (self.isFrom == 3)
+        {
+            [self reloadDataForVerification];
+            if (self.payMoney.doubleValue ==0)
+            {
+                [self promptMessageWithString:@"请输入金额"];
+            }else
+            {
+                [self wxPay];
+            }
+        }
+        else
+        {
+            [self wxPay];
+            NSNotification *wchatPayClick = [NSNotification notificationWithName:@"wchatPayClick" object:nil];
+            [[NSNotificationCenter defaultCenter] postNotification:wchatPayClick];
+            [[NSNotificationCenter defaultCenter]removeObserver:self name:@"wchatPayClick" object:nil];
+        }
+        */
     }
     else
     {
@@ -345,13 +348,15 @@
         }];
     }
 }
-/*
+
 //微信
 -(void)wxPay
 {
     if (wxPaymessage.count == 0) {
-        NSMutableDictionary *pram = [[NSMutableDictionary alloc]initWithDictionary:@{@"total_fee":self.payMoney,@"shequid":@"8",@"body":self.body,@"userid":user_id}];
-        [HTTPTool postWithUrlPath:HTTPHEADER AndUrl:@"weixingfangwen.action" params:pram success:^(id json) {
+        NSMutableDictionary *pram = [[NSMutableDictionary alloc]initWithDictionary:@{@"total_fee":self.payMoney,@"shequid":@"8",@"body":self.body,@"userid":user_id?user_id:@"0"}];
+        
+ 
+        [HTTPTool postWithBaseUrl:@"http://www.shp360.com/MshcShop/" url:@"weixingfangwen.action" params:pram success:^(id json) {
             NSLog(@"%@",json);
             [wxPaymessage setValue:[json valueForKey:@"dingdanhao"] forKey:@"dingdanhao"];
             [wxPaymessage setValue:[json valueForKey:@"noncestr"] forKey:@"noncestr"];
@@ -388,7 +393,8 @@
             req.timeStamp           = stamp.intValue;
             req.package             = [dic objectForKey:@"package"];
             req.sign                = [dic objectForKey:@"sign"];
-            [WXApi sendReq:req];
+            BOOL  fag = [WXApi sendReq:req];
+            NSLog(@"%@",fag?@"YES":@"NO");
         }else{
             NSLog(@"retmsg%@",[dic objectForKey:@"retmsg"]);
         }
@@ -425,7 +431,7 @@
     }
     [wxPaymessage removeAllObjects];
 }
-*/
+
 -(void)layoutSubviews
 {
     [super layoutSubviews];

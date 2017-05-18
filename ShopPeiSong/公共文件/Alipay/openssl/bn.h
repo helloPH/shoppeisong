@@ -125,12 +125,12 @@
 #ifndef HEADER_BN_H
 #define HEADER_BN_H
 
-#include <e_os2.h>
+#include <openssl/e_os2.h>
 #ifndef OPENSSL_NO_FP_API
 #include <stdio.h> /* FILE */
 #endif
-#include <ossl_typ.h>
-#include <crypto.h>
+#include <openssl/ossl_typ.h>
+#include <openssl/crypto.h>
 
 #ifdef  __cplusplus
 extern "C" {

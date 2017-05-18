@@ -59,17 +59,15 @@
 #ifndef HEADER_RSA_H
 #define HEADER_RSA_H
 #import "openssl_wrapper.h"
-//#include <asn1.h>
-#import "asn1.h"
-
+#include "asn1.h"
 
 #ifndef OPENSSL_NO_BIO
-#include <bio.h>
+#include <openssl/bio.h>
 #endif
-#include <crypto.h>
-#include <ossl_typ.h>
+#include <openssl/crypto.h>
+#include <openssl/ossl_typ.h>
 #ifndef OPENSSL_NO_DEPRECATED
-#include <bn.h>
+#include <openssl/bn.h>
 #endif
 
 #ifdef OPENSSL_NO_RSA

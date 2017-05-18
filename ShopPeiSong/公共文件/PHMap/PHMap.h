@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <BaiduMapAPI_Location/BMKLocationComponent.h>//引入定位功能所有的头文件
 #import <BaiduMapAPI_Search/BMKSearchComponent.h>
+#import <BaiduMapAPI_Map/BMKMapView.h>
 
+#import "RouteAnnotation.h"
 typedef void(^locationing)(BMKUserLocation * location,NSError * error);// error  0表示正常
 typedef void(^block)();
 
@@ -34,3 +36,20 @@ typedef void(^ReGeoBlock)(BMKReverseGeoCodeResult * result,BMKSearchErrorCode  e
 -(void)regeoWithLocation:(CLLocationCoordinate2D )location block:(ReGeoBlock)geoBlock;
 
 @end
+
+
+
+
+#pragma mark -- mapview
+@interface PHMapView:BMKMapView
+@property (nonatomic,strong)void (^hasLoadBlock)();
+-(instancetype)initWithFrame:(CGRect)frame;
+
+/**
+ *  路径规划
+ */
+-(void)routeWithStartPoint:(CLLocationCoordinate2D)startLocation endPoint:(CLLocationCoordinate2D)endLocation;
+@end
+
+
+

@@ -52,6 +52,16 @@
     [self.view addSubview:self.mainTableView];
     [self.view addSubview:self.banbenLabel];
     [self.navigationItem setTitle:@"个人中心"];
+    if (!banben_IsAfter) {
+        [Request getAppStatusSuccess:^(id json) {
+            NSString * status = [NSString stringWithFormat:@"%@",[json valueForKey:@"status"]];
+            if ([status isEqualToString:@"1"]) {
+                set_Banben_IsAfter(YES);
+                [self getPersonalData];
+            }
+        } failure:^(NSError *error) {
+        }];
+    }
 }
 
 #pragma mark 获取个人中心信息
@@ -352,6 +362,9 @@
     NSString * banben = [NSString stringWithFormat:@"%@",_personDic[@"banben"]];
     if (indexPath.row==0) {
         [cell setValue:[banben isEqualToString:@"2"]?@"邀请领现金":@"版本升级" forKeyPath:@"nameLabel.text"];
+        if (!banben_IsAfter) {
+            [cell setValue:@"邀请领现金" forKeyPath:@"nameLabel.text"];
+        }
     }
     return cell;
 }
@@ -363,6 +376,13 @@
         case 0://邀请赚现金
         {
             NSString * banben = [NSString stringWithFormat:@"%@",_personDic[@"banben"]];
+            if (!banben_IsAfter) {
+                InvitationViewController *invitationVC = [[InvitationViewController alloc]init];
+                invitationVC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:invitationVC animated:YES];
+                return;
+            }
+            
             if ([banben isEqualToString:@"2"]) {//邀请领现金
                 InvitationViewController *invitationVC = [[InvitationViewController alloc]init];
                 invitationVC.hidesBottomBarWhenPushed = YES;
@@ -388,11 +408,15 @@
         {
             
             NSString * banben = [NSString stringWithFormat:@"%@",_personDic[@"banben"]];
-            if ([banben isEqualToString:@"2"]) {//邀请领现金
-            }else{// 升级完整版
-                [self promptMessageWithString:@"请升级后使用"];
-                return;
+            
+            if (banben_IsAfter) {// 授权
+                if ([banben isEqualToString:@"2"]) {//邀请领现金
+                }else{// 升级完整版
+                    [self promptMessageWithString:@"请升级后使用"];
+                    return;
+                }
             }
+
 
             
             if ([self.personDic[@"shangpinguanli"] integerValue]== 0) {

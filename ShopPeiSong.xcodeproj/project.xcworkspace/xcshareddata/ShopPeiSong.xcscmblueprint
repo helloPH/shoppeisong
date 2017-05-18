@@ -1,14 +1,16 @@
 {
-  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "11729CCCBBA9BDD9ADDAD3E7D307E32C7A0DB2A5",
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "97C28E3E15DC67BC14EE00051B6C8D815A9834AE",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "97C28E3E15DC67BC14EE00051B6C8D815A9834AE" : 9223372036854775807,
     "4928513EE50CFC7C3ACF43ECCDD6D23E20789F3E" : 9223372036854775807,
     "11729CCCBBA9BDD9ADDAD3E7D307E32C7A0DB2A5" : 9223372036854775807
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "30AA10EA-07CA-4E6B-A68C-A413974B870C",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "97C28E3E15DC67BC14EE00051B6C8D815A9834AE" : "shoppeisong\/",
     "4928513EE50CFC7C3ACF43ECCDD6D23E20789F3E" : "ShopPeiSong\/ShopPeiSong\/%E5%85%AC%E5%85%B1%E6%96%87%E4%BB%B6\/scan\/LBXScan\/",
     "11729CCCBBA9BDD9ADDAD3E7D307E32C7A0DB2A5" : "ShopPeiSong\/"
   },
@@ -25,6 +27,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/MxABC\/LBXScan.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "4928513EE50CFC7C3ACF43ECCDD6D23E20789F3E"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/helloPH\/shoppeisong.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "97C28E3E15DC67BC14EE00051B6C8D815A9834AE"
     }
   ]
 }

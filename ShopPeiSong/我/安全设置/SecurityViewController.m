@@ -110,10 +110,11 @@
 -(UITableView *)mainTableView
 {
     if (!_mainTableView) {
-        _mainTableView = [[UITableView alloc]initWithFrame:CGRectMake(0,64+100*MCscale,kDeviceWidth, 360*MCscale) style:UITableViewStylePlain];
+        _mainTableView = [[UITableView alloc]initWithFrame:CGRectMake(0,64*MCscale,kDeviceWidth, 420*MCscale) style:UITableViewStylePlain];
         _mainTableView.delegate = self;
         _mainTableView.dataSource = self;
         _mainTableView.separatorStyle = UITableViewCellSelectionStyleNone;
+        _mainTableView.scrollEnabled=NO;
     }
     return _mainTableView;
 }
