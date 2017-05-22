@@ -52,7 +52,14 @@
  *保存 订单修改
  */
 +(void)saveOrderEditWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure;
-
+/*
+ *取消配送费
+ */
++(void)cancelOrderPeiSongFeiWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure;
+/*
+ * 修改配送费
+ */
++(void)alterOrderPeiSongFeiWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure;
 
 #pragma mark --- 个人中心
 /*
@@ -121,6 +128,13 @@
  * 获取版本信息
  */
 +(void)getAppStatusSuccess:(successBlock)success failure:(failureBlock)failure;
-
+/*
+ *获取开户立减分享内容
+ */
++(void)getKaihuLiLianContentSuccess:(successBlock)success failure:(failureBlock)failure;
+/*
+ * 分享 开户立减内容成功
+ */
++(void)successFenxiangKaihuLiLianContentSuccess:(successBlock)success failure:(failureBlock)failure;
 @end
 

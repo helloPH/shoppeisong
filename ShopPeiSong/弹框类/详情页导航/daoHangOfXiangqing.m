@@ -31,9 +31,9 @@
     self.backgroundColor=[UIColor clearColor];
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(disAppear)];
     [self addGestureRecognizer:tap];
-    _map = [[PHMapView alloc]initWithFrame:CGRectMake(0, 0, kDeviceWidth*0.8, kDeviceWidth*0.8)];
+    _map = [[PHMapView alloc]initWithFrame:CGRectMake(0, 0, kDeviceWidth, kDeviceWidth)];
     [self addSubview:_map];
-    _map.center=CGPointMake(self.width/2, self.height/2);
+//    _map.center=CGPointMake(self.width/2, self.height/2);
     
     
     _map.backgroundColor = [UIColor whiteColor];

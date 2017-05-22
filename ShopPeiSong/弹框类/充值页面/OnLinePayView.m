@@ -261,7 +261,7 @@
             [[NSNotificationCenter defaultCenter] postNotification:wchatPayClick];
             [[NSNotificationCenter defaultCenter]removeObserver:self name:@"wchatPayClick" object:nil];
         }
-        */
+      */
     }
     else
     {

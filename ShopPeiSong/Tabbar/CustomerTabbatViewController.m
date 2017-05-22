@@ -89,6 +89,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setTabbar];
+
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+
+    
 }
 
 -(NSArray *)imageArray

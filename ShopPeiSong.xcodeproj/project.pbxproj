@@ -111,6 +111,8 @@
 		0A80A4A01E8B44AD0073921A /* NSArray+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A80A4921E8B44AD0073921A /* NSArray+MASAdditions.m */; };
 		0A80A4A11E8B44AD0073921A /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A80A4951E8B44AD0073921A /* NSLayoutConstraint+MASDebugAdditions.m */; };
 		0A80A4A21E8B44AD0073921A /* View+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A80A4971E8B44AD0073921A /* View+MASAdditions.m */; };
+		0A89449A1ED1389C000276D1 /* AlterOrderPeiSongFeiView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A8944991ED1389C000276D1 /* AlterOrderPeiSongFeiView.m */; };
+		0A89449E1ED143D2000276D1 /* FenXiangWithLoginAfter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A89449D1ED143D2000276D1 /* FenXiangWithLoginAfter.m */; };
 		0AA943861EBAFB81001E4E55 /* PHPush.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AA943851EBAFB81001E4E55 /* PHPush.m */; };
 		0AB2028D1E72432A0020485E /* OrdersModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB2028C1E72432A0020485E /* OrdersModel.m */; };
 		0AB202911E7278960020485E /* InvitationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB202901E7278960020485E /* InvitationViewController.m */; };
@@ -702,6 +704,10 @@
 		0A80A4961E8B44AD0073921A /* View+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASAdditions.h"; sourceTree = "<group>"; };
 		0A80A4971E8B44AD0073921A /* View+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "View+MASAdditions.m"; sourceTree = "<group>"; };
 		0A80A4981E8B44AD0073921A /* View+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASShorthandAdditions.h"; sourceTree = "<group>"; };
+		0A8944981ED1389C000276D1 /* AlterOrderPeiSongFeiView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlterOrderPeiSongFeiView.h; sourceTree = "<group>"; };
+		0A8944991ED1389C000276D1 /* AlterOrderPeiSongFeiView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlterOrderPeiSongFeiView.m; sourceTree = "<group>"; };
+		0A89449C1ED143D2000276D1 /* FenXiangWithLoginAfter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FenXiangWithLoginAfter.h; sourceTree = "<group>"; };
+		0A89449D1ED143D2000276D1 /* FenXiangWithLoginAfter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FenXiangWithLoginAfter.m; sourceTree = "<group>"; };
 		0AA9437E1EBAC933001E4E55 /* ShopPeiSong.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShopPeiSong.entitlements; sourceTree = "<group>"; };
 		0AA943841EBAFB81001E4E55 /* PHPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPush.h; sourceTree = "<group>"; };
 		0AA943851EBAFB81001E4E55 /* PHPush.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPush.m; sourceTree = "<group>"; };
@@ -2011,6 +2017,24 @@
 			path = Masonry;
 			sourceTree = "<group>";
 		};
+		0A8944971ED13864000276D1 /* 修改配送费 */ = {
+			isa = PBXGroup;
+			children = (
+				0A8944981ED1389C000276D1 /* AlterOrderPeiSongFeiView.h */,
+				0A8944991ED1389C000276D1 /* AlterOrderPeiSongFeiView.m */,
+			);
+			path = "修改配送费";
+			sourceTree = "<group>";
+		};
+		0A89449B1ED143BA000276D1 /* 登录分享 */ = {
+			isa = PBXGroup;
+			children = (
+				0A89449C1ED143D2000276D1 /* FenXiangWithLoginAfter.h */,
+				0A89449D1ED143D2000276D1 /* FenXiangWithLoginAfter.m */,
+			);
+			path = "登录分享";
+			sourceTree = "<group>";
+		};
 		0AA943831EBAFB81001E4E55 /* PHPush */ = {
 			isa = PBXGroup;
 			children = (
@@ -2165,6 +2189,8 @@
 		0AC980511EB9B9140068BDC8 /* 弹框类 */ = {
 			isa = PBXGroup;
 			children = (
+				0A89449B1ED143BA000276D1 /* 登录分享 */,
+				0A8944971ED13864000276D1 /* 修改配送费 */,
 				0A4350E31EC7146E00E1346B /* 收银台弹窗 */,
 				0A4350DF1EC6D12400E1346B /* 在线支付 */,
 				0AD435EC1EC45699007948A2 /* 地图取点 */,
@@ -3800,6 +3826,7 @@
 				0AF966141EC5BC7B00043BE0 /* ZXURIResultParser.m in Sources */,
 				0AF9665A1EC5BC7B00043BE0 /* ZXByQuadrantReader.m in Sources */,
 				0AF966521EC5BC7B00043BE0 /* ZXDataMatrixTextEncoder.m in Sources */,
+				0A89449A1ED1389C000276D1 /* AlterOrderPeiSongFeiView.m in Sources */,
 				0AF966791EC5BC7B00043BE0 /* ZXCodaBarReader.m in Sources */,
 				0AF965E01EC5BC7B00043BE0 /* LBXScanLineAnimation.m in Sources */,
 				0AF9666F1EC5BC7B00043BE0 /* ZXBitArrayBuilder.m in Sources */,
@@ -4151,6 +4178,7 @@
 				0A1AC6271E84E30C00A12658 /* BalanceViewController.m in Sources */,
 				0AF966871EC5BC7B00043BE0 /* ZXMultiFormatOneDReader.m in Sources */,
 				0AF966301EC5BC7B00043BE0 /* ZXGridSampler.m in Sources */,
+				0A89449E1ED143D2000276D1 /* FenXiangWithLoginAfter.m in Sources */,
 				0AF8EA3F1EB0AAA000846DE6 /* ZWview.m in Sources */,
 				0AC9808B1EB9B9140068BDC8 /* ChangeFujiafeiView.m in Sources */,
 				0AF966611EC5BC7B00043BE0 /* ZXAI013x0x1xDecoder.m in Sources */,
@@ -4344,6 +4372,7 @@
 					"$(PROJECT_DIR)/ShopPeiSong/公共文件/ShareSDK/Support/PlatformSDK/WeChatSDK",
 					"$(PROJECT_DIR)/ShopPeiSong/公共文件/Alipay",
 				);
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = com.shyshp.ShopPeiSong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -4398,6 +4427,7 @@
 					"$(PROJECT_DIR)/ShopPeiSong/公共文件/ShareSDK/Support/PlatformSDK/WeChatSDK",
 					"$(PROJECT_DIR)/ShopPeiSong/公共文件/Alipay",
 				);
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = com.shyshp.ShopPeiSong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

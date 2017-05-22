@@ -20,6 +20,10 @@
 #import "PHMap.h"
 #import "daoHangOfXiangqing.h"
 
+#import "OrdersModel.h"
+#import "OrderDetailViewController.h"
+#import "FenXiangWithLoginAfter.h"
+
 @interface PlatformViewController ()<UITableViewDelegate,UITableViewDataSource,MBProgressHUDDelegate,PlatformCellDelegate>
 
 @property(nonatomic,strong)UIButton *rightButton;
@@ -41,6 +45,14 @@
     [super viewWillAppear:animated];
     [self getbumenDataWithStates:@"0"];    
 //    [self.tabBarController setSelectedIndex:1];
+    
+
+    if (![loginShareContent isEmptyString]) {
+        FenXiangWithLoginAfter * fenxiang = [FenXiangWithLoginAfter new];
+        [fenxiang appear];
+        set_LoginShareContent(@"");
+    }
+    
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -53,6 +65,7 @@
     [self setNavigationItem];
     [self refresh];
 
+    
 
  }
 -(BOOL)isRefresh
@@ -256,8 +269,11 @@
      *   收银台
      */
     if ([model.peisongfangshi isEqualToString:@"0"]) { // 本地 购买 显示收银台
+        
+        NSLog(@"%@",user_ShouYingTaiQX?@"YES":@"NO");
         if (!user_ShouYingTaiQX) { // 如果没有收银台权限 直接略过
             [tableView deselectRowAtIndexPath:indexPath animated:YES];
+            [MBProgressHUD promptWithString:@"没有权限进入收银台"];
             return;
         };
      
@@ -272,7 +288,7 @@
     
     /**
      *  进入详情
-     */
+//     */
     if ([user_BuMen isEqualToString:@"管理"] || [user_BuMen isEqualToString:@"供应"]) {//
         PalmformDetailViewController *DetailVC = [[PalmformDetailViewController alloc]init];
         DetailVC.danhao = model.danhao;
@@ -343,12 +359,15 @@
 }
 -(void)jinRuXiangQing:(NSString *)danhao{
     
-    
-//    KeQiangDiandanModel *model = self.keqiangdingdanArray[indexPath.row];
-    PalmformDetailViewController *DetailVC = [[PalmformDetailViewController alloc]init];
-    DetailVC.danhao = danhao;
-    DetailVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:DetailVC animated:YES];
+
+    OrdersModel *model = [OrdersModel new];
+    model.button=@"6";
+    OrderDetailViewController *orderDetailVC = [[OrderDetailViewController alloc]init];
+    orderDetailVC.hidesBottomBarWhenPushed = YES;
+    orderDetailVC.viewTag = 1;
+    orderDetailVC.danhao = danhao;
+    orderDetailVC.model = model;
+    [self.navigationController pushViewController:orderDetailVC animated:YES];
 
 }
 -(void)refresh

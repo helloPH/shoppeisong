@@ -163,10 +163,36 @@
         [MBProgressHUD promptWithString:@"网络请求失败"];
         failure(error);
     }];
-    
-    
-    
-    
+}
+/*
+ *取消配送费
+ */
++(void)cancelOrderPeiSongFeiWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure{
+    NSString * url = @"updatediangdanpeisongqx.action";
+    [MBProgressHUD start];
+    [HTTPTool postWithUrl:url params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json){
+        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD stop];
+        [MBProgressHUD promptWithString:@"网络请求失败"];
+        failure(error);
+    }];
+}
+/*
+ * 修改配送费
+ */
++(void)alterOrderPeiSongFeiWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure{
+    NSString * url = @"updatepeisongzhichu.action";
+    [MBProgressHUD start];
+    [HTTPTool postWithUrl:url params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json){
+        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD stop];
+        [MBProgressHUD promptWithString:@"网络请求失败"];
+        failure(error);
+    }];
 }
 
 #pragma mark --- 个人中心
@@ -434,7 +460,10 @@
  */
 +(void)getAppStatusSuccess:(successBlock)success failure:(failureBlock)failure{
 //    [MBProgressHUD start];
-    [HTTPTool  postWithBaseUrl:HTTPHEADER url:@"banbeniosStatus.action" params:[NSMutableDictionary dictionaryWithDictionary:@{@"banbenhao":@"1.5"                                                                                                                        }] success:^(id json) {
+    NSString * banbenhao = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    
+    
+    [HTTPTool  postWithBaseUrl:HTTPHEADER url:@"banbeniosStatus.action" params:[NSMutableDictionary dictionaryWithDictionary:@{@"banbenhao":banbenhao                                                                                                                        }] success:^(id json) {
 //        [MBProgressHUD stop];
         success(json);
     } failure:^(NSError *error) {
@@ -442,5 +471,36 @@
 //        [MBProgressHUD promptWithString:@"网络连接错误"];
         failure(error);
     }];
+}
+/*
+ *获取开户立减分享内容
+ */
++(void)getKaihuLiLianContentSuccess:(successBlock)success failure:(failureBlock)failure{
+    [MBProgressHUD start];
+    [HTTPTool  postWithBaseUrl:HTTPHEADER url:@"fenxiangInfo.action" params:[NSMutableDictionary dictionaryWithDictionary:@{}] success:^(id json) {
+        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD stop];
+        [MBProgressHUD promptWithString:@"网络连接错误"];
+        failure(error);
+    }];
+
+}
+/*
+ * 分享 开户立减内容成功
+ */
++(void)successFenxiangKaihuLiLianContentSuccess:(successBlock)success failure:(failureBlock)failure{
+    [MBProgressHUD start];
+    [HTTPTool  postWithBaseUrl:HTTPHEADER url:@"fenxiangKaihu.action" params:[NSMutableDictionary dictionaryWithDictionary:@{@"yuangong.id":user_Id,
+                                                        @"yuangong.tel":user_tel}] success:^(id json) {
+        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD stop];
+        [MBProgressHUD promptWithString:@"网络连接错误"];
+        failure(error);
+    }];
+
 }
 @end

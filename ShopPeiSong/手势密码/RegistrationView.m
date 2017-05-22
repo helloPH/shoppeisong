@@ -8,6 +8,9 @@
 
 #import "RegistrationView.h"
 #import "NSString+MD5Addition.h"
+#import "FenXiangWithLoginAfter.h"
+
+
 @interface RegistrationView()<MBProgressHUDDelegate,UITextFieldDelegate>
 @property (nonatomic,strong)UILabel * naviView;
 
@@ -308,6 +311,9 @@
 }
 -(void)registraBtnClick:(UIButton *)button
 {
+    
+    
+    
     BOOL isMatch = [BaseCostomer phoneNumberJiamiWithString:self.accountTextfield.text];
     if(!isMatch){
         [self promptMessageWithString:@"您输入的手机号码不正确!请重新输入"];
@@ -326,12 +332,25 @@
         [pram setObject:passString forKey:@"yuangong.chushimima"];
         
         [Request loginWithDic:pram Success:^(id json) {
+            
+            
+            
+            
+            
             set_User_Tel(self.accountTextfield.text);
             set_User_Id([json valueForKey:@"yuangongid"]);
             
+            NSLog(@"%@",json);            
             NSString * shouyinTaiQX = [NSString stringWithFormat:@"%@",[json valueForKey:@"shouyintai"]];
+       
             set_User_ShouYingTaiQX([shouyinTaiQX isEqualToString:@"1"]);
+            NSLog(@"收银台   %@",user_ShouYingTaiQX?@"YES":@"NO");
             
+            if ([button isEqual:_registraBtn]) {
+                NSString * shareContent = [NSString stringWithFormat:@"%@",[json valueForKey:@"kaihufenxiang"]];
+                set_LoginShareContent(shareContent);
+            }
+
             
             if ([self.registraDeleagte respondsToSelector:@selector(completeRegistration)]) {
                 [self.registraDeleagte completeRegistration];

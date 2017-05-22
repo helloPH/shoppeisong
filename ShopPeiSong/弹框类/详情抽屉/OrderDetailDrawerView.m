@@ -31,14 +31,14 @@
 -(NSArray *)nameArray
 {
     if (!_nameArray) {
-        _nameArray = @[@"修改附加",@"实付退差",@"商户热线",@"取消订单",@"提交修改",@"增加商品",@"送货导航",@"",@"取货导航",@"",@"",@""];
+        _nameArray = @[@"修改附加",@"实付退差",@"商户热线",@"取消订单",@"提交修改",@"增加商品",@"送货导航",@"免配送费",@"取货导航",@"改配送费",@"",@""];
     }
     return _nameArray;
 }
 -(NSArray *)imageArray
 {
     if (!_imageArray) {
-        _imageArray = @[@"k1",@"k2",@"k3",@"k4",@"k5",@"k6",@"k7",@"",@"k8",@"",@"",@""];
+        _imageArray = @[@"k1",@"k2",@"k3",@"k4",@"k5",@"k6",@"k7",@"免配送费",@"k8",@"改配送费",@"",@""];
     }
     return _imageArray;
 }
@@ -75,7 +75,7 @@
     button.imageEdgeInsets = UIEdgeInsetsMake(10*MCscale, btnWidth/2.0-15*MCscale,btnHeight-40*MCscale,btnWidth/2.0-15*MCscale);
     button.titleEdgeInsets = UIEdgeInsetsMake(btnHeight-30*MCscale,-35*MCscale, 2*MCscale,0);
     NSInteger index = button.tag - 2000;
-    if (index == 7 ||index == 9 || index == 10||index ==11) {
+    if (index == 10||index ==11) {
 //        button.enabled = NO;
     }
     else

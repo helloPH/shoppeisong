@@ -91,9 +91,10 @@
           activePlatforms:@[
 //                            @(SSDKPlatformTypeSinaWeibo),
 //                            @(SSDKPlatformTypeQQ),
-//                            @(SSDKPlatformTypeWechat),
+                            @(SSDKPlatformTypeWechat),
                             @(SSDKPlatformTypeMail),
                             @(SSDKPlatformTypeSMS),
+                         
 
                             ]
                  onImport:^(SSDKPlatformType platformType)
@@ -127,8 +128,8 @@
                                             authType:SSDKAuthTypeBoth];
                  break;
              case SSDKPlatformTypeWechat:
-                 [appInfo SSDKSetupWeChatByAppId:@"wxc5607fe641cd382f"
-                                       appSecret:@"499e397e84f2a8ca772b185e6bc614f3"];
+                 [appInfo SSDKSetupWeChatByAppId:@"wx34d8cb6d9fda6306"
+                          appSecret:@"b59d82e254d344bc015e262b677bbd20"];
                  break;
              case SSDKPlatformTypeQQ:
                  [appInfo SSDKSetupQQByAppId:@"1106006922"

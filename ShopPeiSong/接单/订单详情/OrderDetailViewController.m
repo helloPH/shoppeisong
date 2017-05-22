@@ -18,8 +18,8 @@
 #import "OrderAddShangpinViewController.h"
 #import "Header.h"
 #import "daoHangOfXiangqing.h"
-
-
+#import "PHMap.h"
+#import "AlterOrderPeiSongFeiView.h"
 @interface OrderDetailViewController ()<UIGestureRecognizerDelegate,UITableViewDelegate,UITableViewDataSource,MBProgressHUDDelegate,OrderDetailDrawerViewDelegate,ChangeFujiafeiViewDelegate,PaymentPasswordViewDelegate,CancalOrderViewDelegate>
 @property(nonatomic,strong)UITableView *mainTableView;
 @property(nonatomic,strong)UIButton *leftButton,*rightButton;
@@ -271,6 +271,11 @@
 #pragma mark 获取订单详情
 -(void)getOrderDetailData
 {
+    self.dataArray=nil;
+    self.zhifushangshiArray=nil;
+    self.shangpinListArray=nil;
+    self.shuliangArray=nil;
+    self.shouhuoMoney=nil;
     /**
     yingfujines			  //应付金额
      youhuis	    		 //优惠（已去掉）
@@ -298,11 +303,11 @@
     [Request getOrderInfoWithDic:@{@"danhao":self.danhao} success:^(id json) {
         NSLog(@"订单详情 %@",json);
         if ([[json valueForKey:@"message"]integerValue]== 0) {
-            [self promptMessageWithString:@"参数不能为空"];
+            [MBProgressHUD promptWithString:@"参数不能为空"];
         }
         else if ([[json valueForKey:@"message"] integerValue] == 1)
         {
-            [self promptMessageWithString:@"加载失败"];
+            [MBProgressHUD promptWithString:@"加载失败"];
         }
         else
         {
@@ -311,12 +316,14 @@
             for (NSDictionary *dic in shangpinList) {
                 OrderDetailShangpinModel *model = [[OrderDetailShangpinModel alloc]init];
                 [model setValuesForKeysWithDictionary:dic];
+                
+    
                 [self.shangpinListArray addObject:model];
                 self.tihuofeiMoney = self.tihuofeiMoney+[model.total_money floatValue];
             }
-            
+        
             NSDictionary *dict1 = @{@"key":@"收货人:",@"value":self.DdxqDict[@"shouhuoren"]};
-            NSDictionary *dict2 = @{@"key":@"手机号码:",@"value":self.DdxqDict[@"tel"]};
+            NSDictionary *dict2 = @{@"key":@"手机号码:",@"value":[NSString stringWithFormat:@"%@",self.DdxqDict[@"tel"]]};
             NSDictionary *dict3 = @{@"key":@"收货地址:",@"value":self.DdxqDict[@"shouhuodizhi"]};
             NSDictionary *dict4 = @{@"key":@"下单时间:",@"value":self.DdxqDict[@"cretdate"]};
             NSDictionary *dict5 = @{@"key":@"单号:",@"value":self.DdxqDict[@"dingdanhao"]};
@@ -326,15 +333,22 @@
             NSDictionary *dict7 = @{@"key":@"预约送达时间:",@"value":self.DdxqDict[@"yuyuesongda"]};
             [self.zhifushangshiArray addObject:dict6];
             [self.zhifushangshiArray addObject:dict7];
-            if ([self.DdxqDict[@"fapiao"] integerValue] != 0) {
-                NSDictionary *dict8 = @{@"key":@"发票:",@"value":self.DdxqDict[@"fapiao"]};
+            
+            
+            NSString * fapiaoS = [NSString stringWithFormat:@"%@",self.DdxqDict[@"fapiao"]];
+            if ([fapiaoS integerValue] != 0) {
+                NSDictionary *dict8 = @{@"key":@"发票:",@"value":fapiaoS};
                 [self.zhifushangshiArray addObject:dict8];
             }
             
-            if ([self.DdxqDict[@"shuliang"] integerValue] != 0) {
+            
+            NSString * shuliangS = [NSString stringWithFormat:@"%@",self.DdxqDict[@"shuliang"]];
+            if ([shuliangS integerValue] != 0) {
                 NSDictionary *dict11 = @{@"key":@"数量:",@"value":[NSString stringWithFormat:@"%@",self.DdxqDict[@"shuliang"]]};
                 [self.shuliangArray addObject:dict11];
             }
+            
+            
             if ([self.DdxqDict[@"youhui"] integerValue] != 0) {
                 NSDictionary *dict11 = @{@"key":@"优惠:",@"value":[NSString stringWithFormat:@"¥%.2f",[self.DdxqDict[@"youhui"] floatValue]]};
                 [self.shuliangArray addObject:dict11];
@@ -610,19 +624,84 @@
             break;
         case 6://送货导航
         {
+            NSString * dianpux = [NSString stringWithFormat:@"%@",_DdxqDict[@"dianpu_x"]];
+            NSString * dianpuy = [NSString stringWithFormat:@"%@",_DdxqDict[@"dianpu_y"]];
+            
+            
+            NSString * addressx = [NSString stringWithFormat:@"%@",_DdxqDict[@"address_x"]];
+            NSString * addressy = [NSString stringWithFormat:@"%@",_DdxqDict[@"address_y"]];
+            
+            
             daoHangOfXiangqing * dao = [daoHangOfXiangqing new];
+            dao.qiLati=[dianpuy doubleValue];
+            dao.qiLongi=[dianpux doubleValue];
+            dao.zhongLati=[addressy doubleValue];
+            dao.zhongLongi=[addressx doubleValue];
+    
             [dao appear];
            
+    
+        }
+            break;
+        case 7://免配送费
+        {
+            NSDictionary * pram = @{@"danhao":_danhao};
+            [Request cancelOrderPeiSongFeiWithDic:pram success:^(id json) {
+                NSString * messge = [NSString stringWithFormat:@"%@",[json valueForKey:@"message"]];
+                if ([messge isEqualToString:@"1"]) {
+                    [MBProgressHUD promptWithString:@"成功免配送费"];
+                    [self getOrderDetailData];
+                }else{
+                    [MBProgressHUD promptWithString:@"免配送费失败"];
+                    [self getOrderDetailData];
+                }
+                
 
+                
+        
+            } failure:^(NSError *error) {
+                
+            }];
+        
         }
             break;
         case 8:// 取货导航
         {
             daoHangOfXiangqing * dao = [daoHangOfXiangqing new];
-            [dao appear];
+            PHMapHelper * helper = [PHMapHelper new];
+            [helper locationStartLocation:^{
+            } locationing:^(BMKUserLocation *location, NSError *error) {
+                [helper endLocation];
+                if (error) {
+                    [MBProgressHUD promptWithString:@"定位失败"];
+                    return ;
+                };
+                NSString * dianpux = [NSString stringWithFormat:@"%@",_DdxqDict[@"dianpu_x"]];
+                NSString * dianpuy = [NSString stringWithFormat:@"%@",_DdxqDict[@"dianpu_y"]];
+                
+                dao.qiLati=location.location.coordinate.latitude;
+                dao.qiLongi=location.location.coordinate.longitude;
+                dao.zhongLati=[dianpuy doubleValue];
+                dao.zhongLongi=[dianpux doubleValue];
+         
+
+                [dao appear];
+             
+            } stopLocation:^{
+            }];
+            
+ 
       
         }
             break;
+        case 9:// 修改配送费
+        {
+            
+            AlterOrderPeiSongFeiView * alterOrerpeisongfei = [AlterOrderPeiSongFeiView new];
+            alterOrerpeisongfei.danhao = _danhao;
+            [alterOrerpeisongfei appear];
+            
+        }
         default:
             break;
     }
@@ -675,10 +754,6 @@
 #pragma mark 取消订单
 -(void)cancalOrder
 {
-    
-    
-    
-    
     MBProgressHUD *mHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     mHud.mode = MBProgressHUDModeIndeterminate;
     mHud.delegate = self;

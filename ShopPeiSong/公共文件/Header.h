@@ -65,11 +65,9 @@
 
 
 
-
-
-#define PROTOCOL_URL @""
-
-
+//登录分享内容
+#define set_LoginShareContent(loginShareContent) [[NSUserDefaults standardUserDefaults] setValue:loginShareContent forKey:@"loginShareContent"]//登录时的分享内容
+#define loginShareContent [[NSUserDefaults standardUserDefaults]valueForKey:@"loginShareContent"]//登录时的分享内容
 
 
 //店铺名字名字
