@@ -17,6 +17,9 @@
 #import "ShuomingView.h"
 #import "OnLinePayView.h"
 #import "Header.h"
+#import "XuFeiViewController.h"
+#import "TopUpView.h"
+
 @interface BalanceViewController()<UIGestureRecognizerDelegate,UITableViewDelegate,UITableViewDataSource,MBProgressHUDDelegate,PaymentPasswordViewDelegate,BalanceCellDelegate>
 @property(nonatomic,strong)UITableView *mainTableView;
 @property(nonatomic,strong)UIButton *leftButton;
@@ -33,6 +36,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self setNavigationItem];
     [self getRecentRecordData];
 }
 - (void)viewDidLoad {
@@ -45,7 +49,7 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.mainTableView];
-    [self setNavigationItem];
+
     [self getRecentRecordDataAggregate];
 }
 #pragma mark 设置导航栏
@@ -60,9 +64,17 @@
 -(void)setNavigationItem
 {
     [self.navigationItem setTitle:@"账户记录"];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:MLwordFont_2],NSFontAttributeName, nil]];
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:self.leftButton];
     self.navigationItem.leftBarButtonItem = leftItem;
+    
+    UIBarButtonItem * rightItem = [[UIBarButtonItem alloc]initWithTitle:@"续费" style:UIBarButtonItemStyleDone target:self action:@selector(xufei)];
+    self.navigationItem.rightBarButtonItem= rightItem;
+}
+-(void)xufei{
+    [self.navigationController pushViewController:[XuFeiViewController new] animated:YES];
 }
 
 -(UILabel *)yueLabel
@@ -189,6 +201,13 @@
         NSLog(@"近期记录 %@",json);
         [self.recordArray removeAllObjects];
         
+        
+    
+        if (![[NSString stringWithFormat:@"%@",[json valueForKey:@"xufei"]] isEqualToString:@"1"]) {
+            self.navigationItem.rightBarButtonItem=nil;
+        }
+        
+        
         if ([[json valueForKey:@"message"]integerValue]== 1){
             [self promptMessageWithString:@"参数不能为空"];
         }
@@ -204,7 +223,12 @@
                 [model setValuesForKeysWithDictionary:dict];
                 [self.recordArray addObject:model];
             }
-            self.moneyLabel.text = [NSString stringWithFormat:@"%@元",[json valueForKey:@"money"]];
+            
+            NSString * money = [NSString stringWithFormat:@"%@",[json valueForKey:@"money"]];
+            money = [money isEmptyString]?@"0":money;
+            
+            
+            self.moneyLabel.text = [NSString stringWithFormat:@"%@元",money];
             self.quanxianStr = [NSString stringWithFormat:@"%@",[json valueForKey:@"quanxian"]];
         }
         [self.mainTableView reloadData];
@@ -364,13 +388,38 @@
     }
     else
     {
-        //充值
-        [UIView animateWithDuration:0.3 animations:^{
-            self.maskView.alpha = 1;
-            [self.view addSubview:self.maskView];
-            self.rechargePopView.alpha = 0.95;
-            [self.view addSubview:self.rechargePopView];
-        }];
+        
+        TopUpView * topup = [TopUpView new];
+        __block TopUpView * weakTopup =topup;
+        [topup setMoney:50 limitMoney:50 title:[NSString stringWithFormat:@"妙生活城+%@备用金充值",user_tel] body:user_Id canChange:YES];
+        topup.payBlock=^(BOOL isSuccess){
+            [weakTopup disAppear];
+            if (isSuccess) {// 成功
+                getBalanceViewController *balVc = [[getBalanceViewController alloc]init];
+                balVc.hidesBottomBarWhenPushed = YES;
+                UIBarButtonItem *bar=[[UIBarButtonItem alloc]init];
+                bar.title=@"";
+                //        bar.image = [UIImage imageNamed:@"返回"];
+                self.navigationItem.backBarButtonItem=bar;
+                [self.navigationController pushViewController:balVc animated:YES];
+            
+                
+                [MBProgressHUD promptWithString:@"充值成功"];
+            }else{
+                [MBProgressHUD promptWithString:@"充值失败"];
+            }
+            
+        };
+        [topup appear];
+        
+        
+//        //充值
+//        [UIView animateWithDuration:0.3 animations:^{
+//            self.maskView.alpha = 1;
+//            [self.view addSubview:self.maskView];
+//            self.rechargePopView.alpha = 0.95;
+//            [self.view addSubview:self.rechargePopView];
+//        }];
     }
 }
 

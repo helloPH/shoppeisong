@@ -24,12 +24,15 @@
 @property(nonatomic,strong)ReviewSelectedView *selectedView;
 @property(nonatomic,strong)UIView *maskView;
 
+
+@property(nonatomic,strong)NSMutableArray * addGoodsArray;
 @end
 
 @implementation OrderAddShangpinViewController
 -(void)viewWillAppear:(BOOL)animated
 {
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     __weak typeof (self) weakSelf = self;
@@ -42,8 +45,12 @@
     [self.view addSubview:self.mainTableView];
     [self getShangpinMessagesData];
     [self setNavigationItem];
+    
+    [self initData];
 }
-
+-(void)initData{
+    _addGoodsArray= [NSMutableArray array];
+}
 -(UIButton *)leftButton
 {
     if (!_leftButton) {
@@ -61,6 +68,13 @@
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:MLwordFont_2],NSFontAttributeName, nil]];
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:self.leftButton];
     self.navigationItem.leftBarButtonItem = leftItem;
+  
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    if (_block) {
+        _block(_hasGoodArray);
+    }
 }
 -(UIView *)maskView
 {
@@ -204,36 +218,98 @@
         cell = [[OrderAddShangpinCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     
-    
+
 
     [cell reloadDataWithIndexPath:indexPath AndArray:self.shangpinArray];
     cell.addBtnBlock=^(NSIndexPath *indexPath){
       //添加商品
         //获取商品id
         NSString * goodsId = [NSString stringWithFormat:@"%@",((ShangpinMessagesModel *)(_shangpinArray[indexPath.row])).shangpinid];
-        
-        
-        [Request getOrderInfoWithDic:@{@"danhao":goodsId} success:^(id json) {
-            NSInteger messageInter = [[NSString stringWithFormat:@"%@",[json valueForKey:@"message"]] integerValue];
-
-            NSString * message = [json valueForKey:@"message"];
-            
-          
-                        
-            
-            NSDictionary * dic = [json valueForKey:@"dingdanxq"];
-            
-
-            
-            //获取商品详情
+        [Request getGoodsInfoWithDic:@{@"shop.id":goodsId} success:^(id json) {
+            if ([[NSString stringWithFormat:@"%@",[json valueForKey:@"message"]] isEqualToString:@"2"]) {
+                [self addGoodWithDic:[json objectForKey:@"shop"]];
+            }else{
+                [MBProgressHUD promptWithString:@"获取商品信息失败"];
+            }
         } failure:^(NSError *error) {
-            
         }];
+    
         
+//        [Request getOrderInfoWithDic:@{@"danhao":goodsId} success:^(id json) {
+//            NSInteger messageInter = [[NSString stringWithFormat:@"%@",[json valueForKey:@"message"]] integerValue];
+//
+//            NSString * message = [json valueForKey:@"message"];
+//
+//            NSDictionary * dic = [json valueForKey:@"dingdanxq"];
+//            
+//
+//            
+//            //获取商品详情
+//        } failure:^(NSError *error) {
+//            
+//        }];
+//        
         
 
     };
     return cell;
+}
+-(void)addGoodWithDic:(NSDictionary *)dic{
+//    NSDictionary * currentDic = @{
+//                           @"fujiafei_money":@"0",
+//                           @"fujiafeishop":@"0",
+//                           @"jiage":@"5",
+//                           @"shopid":@"1758",
+//                           @"shopimg":@"http://www.shp360.com/Store/images/shangpin/7120160304032534.png",
+//                           @"shopname":@"",
+//                           @"shuliang":@"2.0",
+//                           @"total_money":@"10",
+//                           @"xianjia":@"5",
+//                           @"xinghao":@"0",
+//                           @"yanse":@"0",
+//                           };
+//    
+//    
+    
+
+    BOOL hasContain=NO;
+    
+    NSMutableArray * goodsArr = _hasGoodArray;
+    
+    for (int i = 0; i < goodsArr.count; i ++) {
+        NSMutableDictionary * indexDic = (NSMutableDictionary *)(_hasGoodArray[i]);
+        if ([[NSString stringWithFormat:@"%@",indexDic[@"shopid"]] isEqualToString:[NSString stringWithFormat:@"%@",dic[@"id"]]]) {//如果商品存在
+            hasContain=YES;
+            // 修改 数量
+            NSString * count = [indexDic valueForKey:@"shuliang"];
+            [indexDic setValue:[NSString stringWithFormat:@"%f",[count floatValue]+1] forKey:@"shuliang"];// 商品数量加一
+            
+            // 修改总价
+            NSString * jiage = [indexDic valueForKey:@"xianjia"];
+            float  totalMoney = [jiage floatValue]*[count floatValue];
+            [indexDic setValue:[NSString stringWithFormat:@"%f",totalMoney] forKey:@"total_money"];
+            
+            [_hasGoodArray replaceObjectAtIndex:i withObject:indexDic];
+        };
+    }
+    if (!hasContain) {
+        NSDictionary * currentDic = @{
+                                      @"fujiafei_money":[NSString stringWithFormat:@"%@",dic[@"fujiafeiyong_money"]],
+                                      @"fujiafeishop":[NSString stringWithFormat:@"%@",dic[@"fujiafeiyong_name"]],
+                                      @"jiage":[NSString stringWithFormat:@"%@",dic[@"yuanjia"]],
+                                      @"shopid":[NSString stringWithFormat:@"%@",dic[@"id"]],
+                                      @"shopimg":[NSString stringWithFormat:@"%@",dic[@"canpinpic"]],
+                                      @"shopname":[NSString stringWithFormat:@"%@",dic[@"shangpinname"]],
+                                      @"shuliang":@"1",
+                                      @"total_money":[NSString stringWithFormat:@"%@",dic[@"xianjia"]],
+                                      @"xianjia":[NSString stringWithFormat:@"%@",dic[@"xianjia"]],
+                                      @"xinghao":[NSString stringWithFormat:@"%@",dic[@"0"]],
+                                      @"yanse":@"0",
+                                      };
+        [_hasGoodArray addObject:[NSMutableDictionary dictionaryWithDictionary:currentDic]];
+    }
+    [MBProgressHUD promptWithString:@"商品添加成功"];
+    
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -328,7 +404,6 @@
                 
                 NSArray *shangpinList = [json valueForKey:@"listShangpin"];
                 for (NSDictionary *dict in shangpinList) {
-        
                     ShangpinMessagesModel *model = [[ShangpinMessagesModel alloc]init];
                     [model setValuesForKeysWithDictionary:dict];
                     [self.shangpinArray addObject:model];

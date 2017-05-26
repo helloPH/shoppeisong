@@ -194,6 +194,21 @@
         failure(error);
     }];
 }
+/*
+ * 获取商品详情
+ */
++(void)getGoodsInfoWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure{
+    NSString * url = @"enterShangpin.action";
+    [MBProgressHUD start];
+    [HTTPTool postWithUrl:url params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json){
+        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD stop];
+        [MBProgressHUD promptWithString:@"网络请求失败"];
+        failure(error);
+    }];
+}
 
 #pragma mark --- 个人中心
 /*
@@ -284,6 +299,44 @@
         failure(error);
     }];
 }
+/*
+ *获取服务有效期
+ */
++(void)getFuWuYouXiaoQiWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure{
+
+    [HTTPTool  getWithBaseUrl:HTTPHEADER url:@"enterXufei.action" params:[NSMutableDictionary dictionaryWithDictionary:@{@"yuangong.id":user_Id}] success:^(id json) {
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD promptWithString:@"网络连接错误1"];
+        failure(error);
+    }];
+}
+/*
+ *获取服务时间 列表
+ */
++(void)getFuWuDateListWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure{
+    [HTTPTool  getWithBaseUrl:HTTPHEADER url:@"kaihuChooseTime.action" params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json) {
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD promptWithString:@"获取服务费列表失败"];
+        failure(error);
+    }];
+}
+/*
+ *店铺续费
+ */
++(void)dianPuXuFeiWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure{
+    [MBProgressHUD start];
+    [HTTPTool  getWithBaseUrl:HTTPHEADER url:@"dianpuXuFei.action" params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json) {
+        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD stop];
+        [MBProgressHUD promptWithString:@"网络连接错误"];
+        failure(error);
+    }];
+}
+
 #pragma mark --- 登录注册
 /*
  *登录
@@ -462,10 +515,17 @@
 //    [MBProgressHUD start];
     NSString * banbenhao = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     
-    
     [HTTPTool  postWithBaseUrl:HTTPHEADER url:@"banbeniosStatus.action" params:[NSMutableDictionary dictionaryWithDictionary:@{@"banbenhao":banbenhao                                                                                                                        }] success:^(id json) {
+        NSString * status = [NSString stringWithFormat:@"%@",[json valueForKey:@"status"]];
+       status=@"1";
+        if ([status isEqualToString:@"2"]) {
+            success(@"0");// 待上线
+        }else{
+            success(@"1");// 已上线
+        }
+        
 //        [MBProgressHUD stop];
-        success(json);
+        
     } failure:^(NSError *error) {
 //        [MBProgressHUD stop];
 //        [MBProgressHUD promptWithString:@"网络连接错误"];

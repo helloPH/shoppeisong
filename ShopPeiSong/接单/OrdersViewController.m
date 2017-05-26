@@ -23,12 +23,17 @@
 @property(nonatomic,strong)SureSongdaView *songdaView;
 @property(nonatomic,assign)BOOL isRefresh;
 
+
+
 @end
 
 @implementation OrdersViewController
 -(void)viewWillAppear:(BOOL)animated
 {
     [self getOrdersData];
+    
+    
+    
 }
 - (void)viewDidLoad {
     [super viewDidLoad];

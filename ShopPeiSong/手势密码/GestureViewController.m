@@ -148,11 +148,7 @@
             set_User_Id([json valueForKey:@"yuangongid"]);
             set_DianPuName([json valueForKey:@"shequname"]);
             set_User_dianpuID([json valueForKey:@"shequid"]);
-            
-//            [[NSUserDefaults standardUserDefaults] setValue:[json valueForKey:@"yuangongid"] forKey:@"user_ID"];
-//            [[NSUserDefaults standardUserDefaults] setValue:[json valueForKey:@"shequname"] forKey:@"user_shequName"];
-//            [[NSUserDefaults standardUserDefaults] setValue:[json valueForKey:@"shequid"] forKey:@"dianpuID"];
-            
+
             
         } failure:^(NSError *error) {
             

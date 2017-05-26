@@ -60,7 +60,10 @@
  * 修改配送费
  */
 +(void)alterOrderPeiSongFeiWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure;
-
+/*
+ * 获取商品详情
+ */
++(void)getGoodsInfoWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure;
 #pragma mark --- 个人中心
 /*
  *判断手机号是否开户
@@ -86,6 +89,18 @@
  *余额是否足够
  */
 +(void)getMoneyIsEnoughWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure;
+/*
+ *获取服务有效期
+ */
++(void)getFuWuYouXiaoQiWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure;
+/*
+ *获取服务时间 列表
+ */
++(void)getFuWuDateListWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure;
+/*
+ *店铺续费
+ */
++(void)dianPuXuFeiWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure;
 
 #pragma mark --- 登录注册
 /*

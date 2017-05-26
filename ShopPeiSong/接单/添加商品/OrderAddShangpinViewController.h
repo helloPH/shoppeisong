@@ -11,4 +11,6 @@
 @interface OrderAddShangpinViewController : UIViewController
 @property(nonatomic,strong)NSString *dianpuID;
 @property(nonatomic,strong)NSString *dianpuName;
+@property (nonatomic,strong)void (^block)(NSMutableArray * hasGoodArr);
+@property(nonatomic,strong)NSMutableArray * hasGoodArray;
 @end

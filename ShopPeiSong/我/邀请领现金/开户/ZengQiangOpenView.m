@@ -11,6 +11,8 @@
 
 #import "OnLinePayView.h"
 #import "GestureViewController.h"
+#import "SelectFuWuFeiBanBen.h"
+#import "TopUpView.h"
 
 
 @interface ZengQiangOpenView()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
@@ -46,7 +48,7 @@
 @property (nonatomic,strong)UIView * protocolView;
 @property (nonatomic,assign)BOOL isAgree;
 
-
+@property (nonatomic,assign)NSInteger month;
 
 @property (nonatomic,assign)double latitude;
 @property (nonatomic,assign)double longitude;
@@ -91,6 +93,7 @@
     _isShouJu=NO;
     _isYouJi=NO;
     _isDing= YES;
+    _month=12;
 }
 -(void)reshData{
     [self reshView];
@@ -204,12 +207,6 @@
     
     
     _mainScrollView.contentSize=CGSizeMake(kDeviceWidth, temY+20*MCscale);
-    
-    
-    
-
-    
-    
     
 }
 
@@ -365,13 +362,12 @@
 
     
     
-    _feiLable= [[UILabel alloc]initWithFrame:CGRectMake(0, _signView.bottom+10, backView.width, 100)];
+    _feiLable= [[UILabel alloc]initWithFrame:CGRectMake(0, _signView.bottom+10, backView.width, 80)];
     [backView addSubview:_feiLable];
     _feiLable.textColor=redTextColor;
     _feiLable.numberOfLines=3;
+    _feiLable.textAlignment=NSTextAlignmentCenter;
     _feiLable.font=[UIFont systemFontOfSize:MLwordFont_3];
-    _feiLable.text=@"支付费用:1365.00\n优        惠:200.00\n实        付:1165.00";
-    [_feiLable sizeToFit];
     _feiLable.top = _signView.bottom+5;
     _feiLable.centerX=backView.width/2;
     
@@ -605,8 +601,51 @@
         btn2.selected=YES;
     }else{
         btn1.selected=YES;
+        
+        
+        
+        [Request getFuWuDateListWithDic:@{} success:^(id json) {
+            NSString * message = [NSString stringWithFormat:@"%@",[json valueForKey:@"message"]];
+            if ([message isEqualToString:@"1"]) {
+                SelectFuWuFeiBanBen * sele = [SelectFuWuFeiBanBen new];
+                sele.datas=[NSMutableArray arrayWithArray:[json valueForKey:@"priceInfo"]];
+                [sele appear];
+                sele.block=^(NSDictionary * dic){
+                    NSInteger month = [[NSString stringWithFormat:@"%@",dic[@"month"]] integerValue];
+                    NSString * price = [NSString stringWithFormat:@"%@",dic[@"price"]];
+                    _month=month;
+                    _money = price;
+                    NSDate * date = [NSDate date];
+                    
+                    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+                    NSDateComponents *comps = nil;
+                    comps = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date];
+                    NSDateComponents *adcomps = [[NSDateComponents alloc] init];
+                    [adcomps setYear:0];
+                    [adcomps setMonth:month];
+                    [adcomps setDay:0];
+                    NSDate * newDate = [calendar dateByAddingComponents:adcomps toDate:date options:0];
+                    
+                    
+                    NSDateFormatter * formatter = [[NSDateFormatter alloc]init];
+                    formatter.dateFormat=@"yyyy-MM-dd";
+                    NSString * dateString = [formatter stringFromDate:newDate];
+                    
+                    
+                    _feiLable.text = [NSString stringWithFormat:@"服务费:%@元\n服务有效期:%@",_money,dateString];
+  
+                };
+            }else{
+                [MBProgressHUD promptWithString:@"获取服务费列表失败"];
+            }
+        } failure:^(NSError *error) {
+            
+        }];
+        
+ 
+        
     }
-    
+
     
     NSString * banBen = _isShangChengBan?@"2":@"1";
     NSDictionary * dic = @{@"dianpu.banben":banBen};
@@ -623,16 +662,19 @@
   
             _money=shifukuan;
         }
-        if ([message isEqualToString:@"3"]) {
+        if ([message isEqualToString:@"3"]) { // 
             
             NSString * shifukuan = [NSString stringWithFormat:@"%@",[json valueForKey:@"shifukuan"]];
             NSString * zhifu = [NSString stringWithFormat:@"%@",[json valueForKey:@"zhifu"]];
             NSString * youhui   = [NSString stringWithFormat:@"%@",[json valueForKey:@"youhui"]];
             _feiLable.text=[NSString stringWithFormat:@"使用费用:%@元\n优惠:%@元\n实付款:%@元",zhifu,youhui,shifukuan];
             _money=shifukuan;
+            
+            if ([youhui isEqualToString:@"0"] && [zhifu isEqualToString:@"0"]) {
+                _feiLable.text = [NSString stringWithFormat:@"实付款:%@元",shifukuan];
+            }
+            
         }
-        
-        
     } failure:^(NSError *error) {
         
     }];
@@ -712,11 +754,8 @@
             }];
 
         };
-        
-        
-        
-    }
     
+    }
     
 }
 
@@ -744,16 +783,6 @@
     } failure:^(NSError *error) {
         
     }];
-
-    
-    
-    
-
-    
-
-    
-    
-
 
 }
 
@@ -862,31 +891,28 @@
         [pram removeObjectForKey:@"fapiaoinfo"];
         [pram removeObjectForKey:@"fapiaoway"];
     }
-    
+    if ([banBen isEqualToString:@"1"]) {
+        [pram addEntriesFromDictionary:@{@"month":[NSString stringWithFormat:@"%ld",(long)_month]}];
+    }
 
-    OnLinePayView * pay = [OnLinePayView new];
-    __block OnLinePayView *  weakPay = pay;
-    
-    NSString * mony =[NSString stringWithFormat:@"%.2f",[self.money floatValue]];
-    [pay setMoney:mony];
-    [pay appear];
-    pay.payBlock=^(BOOL isSuccess){
+    TopUpView * top = [TopUpView new];
+    __block TopUpView * weakTop =  top;
+    [top setMoney:[self.money floatValue] limitMoney:0 title:[NSString stringWithFormat:@"妙店佳商铺+%@备用金充值",user_tel] body:user_Id canChange:NO];
+    [top appear];
+    top.payBlock=^(BOOL isSuccess){
         if (isSuccess) {
-            [weakPay disAppear];
-    
             [Request kaiHuShengBanWithDic:pram success:^(id json) {
                 
                 NSString * message = [NSString stringWithFormat:@"%@",[json valueForKey:@"message"]];
                 if ([message isEqualToString:@"1"]) {
                     
-                    
                     _dianpuid = [NSString stringWithFormat:@"%@",[json valueForKey:@"dianpuid"]];
                     [self uploadTuPian];
                     _dataDic = (NSDictionary *)json;
+                    [weakTop disAppear];
                     [self login];
-                    
                     [self clearData];
-                
+                    
                     return ;
                 }
                 if ([message isEqualToString:@"0"]) {
@@ -897,10 +923,29 @@
             } failure:^(NSError *error) {
                 
             }];
+
         }else{
             [MBProgressHUD promptWithString:@"支付失败"];
         }
+        
+
     };
+    
+    
+//    OnLinePayView * pay = [OnLinePayView new];
+//    __block OnLinePayView *  weakPay = pay;
+//    
+//    NSString * mony =[NSString stringWithFormat:@"%.2f",[self.money floatValue]];
+//    [pay setMoney:mony];
+//    [pay appear];
+//    pay.payBlock=^(BOOL isSuccess){
+//        if (isSuccess) {
+//            [weakPay disAppear];
+//    
+//                   }else{
+//            [MBProgressHUD promptWithString:@"支付失败"];
+//        }
+//    };
     
   
     
@@ -1039,7 +1084,9 @@
      __block NSInteger  count = 0;
     
     if (selectedImageArray.count==0 || selectedImageArray == nil) {
+
         [self login];
+        [MBProgressHUD promptWithString:@"注册成功"];
     }
     
     for (NSDictionary *dict in selectedImageArray) {
@@ -1063,8 +1110,9 @@
 //            [MBProgressHUD promptWithString:@"开户成功"];
                 count ++;
             if (count>=selectedImageArray.count) {
-                [MBProgressHUD promptWithString:@"注册成功"];
+         
                 [self login];
+                [MBProgressHUD promptWithString:@"注册成功"];
             }
         
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -1113,41 +1161,7 @@
     [self.controller dismissViewControllerAnimated:YES completion:^{
     }];
     return;
-//    NSDictionary * dic = _dataDic;
-//    
-//    NSString * dianpuID = [NSString stringWithFormat:@"%@",dic[@"dianpuid"]];
-//    NSString * loginPass =  [NSString stringWithFormat:@"%@",dic[@"password"]];
-//    UITextField * phone =[_mainScrollView viewWithTag:11003];
-//    
-//    
-//    NSDictionary * pram = @{@"yuangong.shebeishenfen":user_shebeiId,
-//                            @"yuangong.chushimima":loginPass,
-//                            @"yuangong.tel":phone.text};
-//    [Request loginWithDic:pram Success:^(id json) {
-//        
-//        [Request yanZhengLoginPassSuccess:^(id json) {
-//            
-//            
-//            
-//            set_IsLogin(YES);
-//            set_User_dianpuID(dianpuID);
-//            set_LoginPass(loginPass);
-//            set_User_Tel(phone.text);
-//            set_User_IsMianMiLogin(YES);
-//            
-//            NSLog(@"%@%@%@",dianpuID,loginPass,phone.text);
-//            GestureViewController * ges = [GestureViewController new];
-//            [self.controller.navigationController pushViewController:ges animated:YES];
-//        } failure:^(NSError *error) {
-//            
-//        }];
-//        
-//        
-//    } failure:^(NSError *error) {
-//        
-//        
-//        
-//    }];
+
 }
 /**
  *  清空数据

@@ -16,6 +16,8 @@
 #import "AFHTTPRequestOperationManager.h"
 #import "UseDirectionViewController.h"
 #import "OnLinePayView.h"
+#import "SelectFuWuFeiBanBen.h"
+#import "TopUpView.h"
 
 @interface ShengJiViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
@@ -67,8 +69,7 @@
 @property (nonatomic,assign)BOOL isDing,isSign,img1,img2,img3,isShangChengBan,isFaPiao,isShouJu,isYouJi,isNoSelecedShouJu,isNoSelecedYouJi;
 @property (nonatomic,strong)NSString * money;
 
-
-
+@property (nonatomic,assign)NSInteger month;
 
 //开户后返回的数据
 @property (nonatomic,strong)NSString * dianpuid;
@@ -82,7 +83,7 @@
     [self newNavi];
     [self newView];
     
-    [self reshData];
+    [self reshData];    
     // Do any additional setup after loading the view.
 }
 -(void)newNavi{
@@ -106,6 +107,7 @@
     _isShouJu=NO;
     _isYouJi=NO;
     _isDing= YES;
+    _month=12;
 }
 -(void)reshData{
     NSDictionary * pram = @{@"yuangong.id":user_Id};
@@ -501,13 +503,12 @@
     
     
     
-    _feiLable= [[UILabel alloc]initWithFrame:CGRectMake(0, _signView.bottom+10, backView.width, 100)];
+    _feiLable= [[UILabel alloc]initWithFrame:CGRectMake(0, _signView.bottom+10, backView.width, 80)];
     [backView addSubview:_feiLable];
     _feiLable.textColor=redTextColor;
     _feiLable.numberOfLines=3;
     _feiLable.font=[UIFont systemFontOfSize:MLwordFont_3];
-    _feiLable.text=@"支付费用:1365.00\n优        惠:200.00\n实        付:1165.00";
-    [_feiLable sizeToFit];
+    _feiLable.textAlignment=NSTextAlignmentCenter;
     _feiLable.top = _signView.bottom+5;
     _feiLable.centerX=backView.width/2;
     
@@ -741,11 +742,63 @@
         btn2.selected=YES;
     }else{
         btn1.selected=YES;
+        
+        [Request getFuWuDateListWithDic:@{} success:^(id json) {
+            NSString * message = [NSString stringWithFormat:@"%@",[json valueForKey:@"message"]];
+            if ([message isEqualToString:@"1"]) {
+                SelectFuWuFeiBanBen * sele = [SelectFuWuFeiBanBen new];
+                sele.datas=[NSMutableArray arrayWithArray:[json valueForKey:@"priceInfo"]];
+                [sele appear];
+                sele.block=^(NSDictionary * dic){
+                    NSInteger month = [[NSString stringWithFormat:@"%@",dic[@"month"]] integerValue];
+                    NSString * price = [NSString stringWithFormat:@"%@",dic[@"price"]];
+                    _money = price;
+                    _month = month;
+                    
+                    
+                    
+                    
+
+                        NSDateFormatter * formatter = [[NSDateFormatter alloc]init];
+                        formatter.dateFormat=@"yyyy-MM-dd";
+
+                       NSDate *  date = [NSDate date];
+                    
+                    
+                        NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+                        NSDateComponents *comps = nil;
+                        comps = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date];
+                        NSDateComponents *adcomps = [[NSDateComponents alloc] init];
+                        [adcomps setYear:0];
+                        [adcomps setMonth:month];
+                        [adcomps setDay:0];
+                        NSDate * newDate = [calendar dateByAddingComponents:adcomps toDate:date options:0];
+                        
+                       NSDate * dateEnd = newDate;
+                        NSString * dateEndSt = [formatter stringFromDate:dateEnd];
+                        _feiLable.text = [NSString stringWithFormat:@"服务费:%@\n服务有效期:%@",_money,dateEndSt];
+//                    } failure:^(NSError *error) {
+//                        
+//                    }];
+       
+                    
+                    
+                    
+                };
+            }
+        } failure:^(NSError *error) {
+            
+        }];
+
+        
+   
+        
+        
     }
     
     NSString * message = [NSString stringWithFormat:@"%@",[_feiYongDic valueForKey:@"message"]];
     if ([message isEqualToString:@"1"]) {//免费版
-        if (_isShangChengBan) { // 升级为 商城版
+        if (_isShangChengBan) { // 升级为 代理版
             
             NSString * shifukuan = [NSString stringWithFormat:@"%@",[_feiYongDic valueForKey:@"shifukuan"]];
             NSString * zhifu = [NSString stringWithFormat:@"%@",[_feiYongDic valueForKey:@"zhifu"]];
@@ -753,6 +806,9 @@
             _feiLable.text=[NSString stringWithFormat:@"使用费用:%@元\n优惠:%@元\n实付款:%@元",zhifu,youhui,shifukuan];
             _money=shifukuan;
 
+            if ([youhui isEqualToString:@"0"] && [zhifu isEqualToString:@"0"]) {
+                _feiLable.text = [NSString stringWithFormat:@"实付款:%@元",shifukuan];
+            }
             
         }else{// 升级为 商城版
             NSString * nianfei =[NSString stringWithFormat:@"%@",[_feiYongDic valueForKey:@"nianfei"]];
@@ -760,15 +816,17 @@
             _money=nianfei;
         }
     }
-    if ([message isEqualToString:@"2"]) {// 商铺版
+    if ([message isEqualToString:@"2"]) {// 商铺版 升级为代理版
     
         NSString * shifukuan = [NSString stringWithFormat:@"%@",[_feiYongDic valueForKey:@"shifukuan"]];
         NSString * zhifu = [NSString stringWithFormat:@"%@",[_feiYongDic valueForKey:@"zhifu"]];
         NSString * youhui   = [NSString stringWithFormat:@"%@",[_feiYongDic valueForKey:@"youhui"]];
         _feiLable.text=[NSString stringWithFormat:@"使用费用:%@元\n优惠:%@元\n实付款:%@元",zhifu,youhui,shifukuan];
         _money=shifukuan;
-        
-        
+
+        if ([youhui isEqualToString:@"0"] && [zhifu isEqualToString:@"0"]) {
+            _feiLable.text = [NSString stringWithFormat:@"实付款:%@元",shifukuan];
+        }
     }
     
     
@@ -1012,18 +1070,19 @@
         [pram removeObjectForKey:@"fapiaoinfo"];
         [pram removeObjectForKey:@"fapiaoway"];
     }
+    if ([banBen isEqualToString:@"1"]) {
+        [pram addEntriesFromDictionary:@{@"month":[NSString stringWithFormat:@"%ld",(long)_month]}];
+    }
     
     
-    OnLinePayView * pay = [OnLinePayView new];
-    __block OnLinePayView *  weakPay = pay;
     
-    NSString * mony =[NSString stringWithFormat:@"%.2f",[self.money floatValue]];
-    [pay setMoney:mony];
-    [pay appear];
-    pay.payBlock=^(BOOL isSuccess){
+    TopUpView * top = [TopUpView new];
+    __block TopUpView * weakTop =top;
+    [top setMoney:[self.money floatValue] limitMoney:0 title:[NSString stringWithFormat:@"妙店佳商铺+%@备用金充值",user_tel] body:user_Id canChange:YES];
+    [top appear];
+    top.payBlock=^(BOOL isSuccess){
         if (isSuccess) {
-            [weakPay disAppear];///支付成功
-                        
+            [weakTop disAppear];
             [Request shengJiWanZhengBanWithDic:pram success:^(id json) {
                 NSString * message = [NSString stringWithFormat:@"%@",[json valueForKey:@"message"]];
                 if ([message isEqualToString:@"1"]){
@@ -1040,11 +1099,8 @@
                 
             }];
 
-            
-            
-            
         }else{
-            
+            [MBProgressHUD promptWithString:@"支付失败"];
         }
     };
     
@@ -1173,6 +1229,11 @@
     
     NSLog(@"selectedImageArrayselectedImageArray%@",selectedImageArray);
    __block  NSInteger count = 0;
+    if (selectedImageArray.count==0) {
+        [MBProgressHUD promptWithString:@"升级成功"];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
     
     for (NSDictionary *dict in selectedImageArray) {
         NSLog(@"dictdict%@",dict);
@@ -1194,7 +1255,7 @@
             //            [self clernDataForKaihu];
             
             count ++;
-            if (count==selectedImageArray.count-1) {
+            if (count==selectedImageArray.count) {
                 [MBProgressHUD promptWithString:@"升级成功"];
                 [self.navigationController popViewControllerAnimated:YES];
             }

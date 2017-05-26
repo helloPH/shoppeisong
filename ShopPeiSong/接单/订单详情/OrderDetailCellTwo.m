@@ -111,6 +111,8 @@
     [self.shopImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",model.shopimg]] placeholderImage:[UIImage imageNamed:@"yonghutouxiang"] options:SDWebImageRefreshCached];
     self.nameLabel.text = model.shopname;
     self.numLabel.text = [NSString stringWithFormat:@"数量:%@",model.shuliang];
+
+    
     self.priceLabel.text = [NSString stringWithFormat:@"¥%.2f",[model.jiage floatValue]];
     self.mongeyLabel.text = [NSString stringWithFormat:@"%.2f",[model.total_money floatValue]];
     self.fujiafeiLabel.text = [NSString stringWithFormat:@"%@",model.fujiafei_money];
@@ -128,9 +130,9 @@
     self.shopImageView.frame = CGRectMake(10*MCscale, self.height/2.0-25*MCscale,50*MCscale,50*MCscale);
     self.nameLabel.frame = CGRectMake(self.shopImageView.right +10*MCscale, self.shopImageView.top, self.width - 190*MCscale, 20*MCscale);
     self.fujiafeiLabel.frame = CGRectMake(self.width - 110*MCscale, self.nameLabel.top, 30*MCscale, 20*MCscale);
-    self.mongeyLabel.frame = CGRectMake(self.width -65*MCscale, self.nameLabel.top, 50*MCscale, 20*MCscale);
-    self.priceLabel.frame = CGRectMake(self.shopImageView.right +10*MCscale, self.nameLabel.bottom +10*MCscale, 50*MCscale, 20*MCscale);
-    self.numLabel.frame = CGRectMake(self.priceLabel.right +10*MCscale, self.priceLabel.top,60*MCscale, 20*MCscale);
+    self.mongeyLabel.frame = CGRectMake(self.width -115*MCscale, self.nameLabel.top, 100*MCscale, 20*MCscale);
+    self.priceLabel.frame = CGRectMake(self.shopImageView.right +10*MCscale, self.nameLabel.bottom +10*MCscale, 80*MCscale, 20*MCscale);
+    self.numLabel.frame = CGRectMake(self.priceLabel.right +10*MCscale, self.priceLabel.top,100*MCscale, 20*MCscale);
     self.yanseLabel.frame = CGRectMake(self.width - 110*MCscale, self.numLabel.top, 30*MCscale, 20*MCscale);
     self.xinghaoLabel.frame = CGRectMake(self.width -65*MCscale, self.numLabel.top, 50*MCscale, 20*MCscale);
     self.lineView.frame = CGRectMake(5*MCscale, self.height - 1, self.width-10*MCscale, 1);

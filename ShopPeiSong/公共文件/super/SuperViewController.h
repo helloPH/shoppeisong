@@ -11,5 +11,5 @@
 
 
 @interface SuperViewController : UIViewController
-
+-(void)setNavigationItem;
 @end

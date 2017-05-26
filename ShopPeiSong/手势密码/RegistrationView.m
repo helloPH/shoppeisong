@@ -140,6 +140,7 @@
         [self addSubview:self.passWordTextfield];
 
         
+        _passWordTextfield.secureTextEntry=YES;
         _passWordTextfield.leftView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"输入密码"]];
         _passWordTextfield.leftView.width=_passWordTextfield.leftView.height=25*MCscale;
         _passWordTextfield.leftViewMode=UITextFieldViewModeAlways;
@@ -333,10 +334,7 @@
         
         [Request loginWithDic:pram Success:^(id json) {
             
-            
-            
-            
-            
+        
             set_User_Tel(self.accountTextfield.text);
             set_User_Id([json valueForKey:@"yuangongid"]);
             
@@ -432,7 +430,7 @@
 }
 -(void)reshBanben{
     [Request getAppStatusSuccess:^(id json) {
-        NSString * status = [NSString stringWithFormat:@"%@",[json valueForKey:@"status"]];
+        NSString * status = [NSString stringWithFormat:@"%@",json];
         if ([status isEqualToString:@"1"]) {
             set_Banben_IsAfter(YES);
             return ;

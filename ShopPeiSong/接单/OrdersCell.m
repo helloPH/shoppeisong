@@ -207,7 +207,7 @@
     self.timeLabel.text = model.date;
     self.danhaoLabel.text = [NSString stringWithFormat:@"单号:%@",model.danhao];
     self.nameLabel.text = [NSString stringWithFormat:@"商户:%@",model.shanghu];
-    self.addressLabel.text = [NSString stringWithFormat:@"地址:%@",model.address];
+    self.addressLabel.text = [NSString stringWithFormat:@"地点:%@",model.address];
     
     UILabel *jiedantime = [self.stateBackView viewWithTag:200];
     UILabel *shouhuoTime = [self.stateBackView viewWithTag:201];

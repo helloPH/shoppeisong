@@ -19,11 +19,16 @@
 #import "QianDaoView.h"
 #import "OpenAccountViewController.h"
 #import "ShengJiViewController.h"
-
+#import "TopUpView.h"
 
 #import <ShareSDK/ShareSDK.h>
 #import <ShareSDKUI/ShareSDK+SSUI.h>
 #import <sharesdkui/SSUIShareActionSheetStyle.h>
+
+#import "XuFeiViewController.h"
+#import "getBalanceViewController.h"
+#import "NumberPassWordView.h"
+
 
 @interface MeViewController ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,ReviewSelectedViewDelegate,MBProgressHUDDelegate>
 @property(nonatomic,strong)UITableView *mainTableView;
@@ -34,17 +39,16 @@
 @property(nonatomic,strong)ReviewSelectedView *selectedView;
 @property(nonatomic,strong)QianDaoView        *qianDanView;
 
-
 @property(nonatomic,strong)UIView *maskView;
 @property(nonatomic,strong)NSDictionary *personDic;
 
 @end
-
 @implementation MeViewController
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [self getPersonalData];
+
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -53,9 +57,9 @@
     [self.view addSubview:self.banbenLabel];
     [self.navigationItem setTitle:@"个人中心"];
     if (!banben_IsAfter) {
-        [Request getAppStatusSuccess:^(id json) {
-            NSString * status = [NSString stringWithFormat:@"%@",[json valueForKey:@"status"]];
-            if ([status isEqualToString:@"1"]) {
+        [Request getAppStatusSuccess:^(id json) {/// 该方法 主要是来获取 版本是否上线
+           NSString * status = [NSString stringWithFormat:@"%@",json];
+            if ([status isEqualToString:@"1"]) {// 1 为上线
                 set_Banben_IsAfter(YES);
                 [self getPersonalData];
             }
@@ -68,7 +72,16 @@
 -(void)getPersonalData
 {
     [Request  getPersonInfoWithDic:@{@"yuangong.id":user_id} success:^(id json) {
+        
+        
+        
         self.personDic = (NSDictionary *)json;
+        NSMutableDictionary * mdic = [NSMutableDictionary dictionaryWithDictionary:self.personDic];
+//        [mdic setValue:@"1" forKey:@"dodo"];
+//        [mdic setValue:@"1" forKey:@"banben"];
+        self.personDic=mdic;
+        
+        
         if ([[json valueForKey:@"message"]integerValue]== 2){
             [self promptMessageWithString:@"参数不能为空"];
         }
@@ -265,18 +278,32 @@
 -(void)viewTapClick:(UITapGestureRecognizer *)tap
 {
     if (tap.view == self.yueView) {
-        if ([[self.personDic valueForKey:@"beiyongjin"]integerValue] == 0) {
-            [MBProgressHUD promptWithString:@"你的余额为零"];
-            
-        
-        }
-        else
-        {
+//        if ([[self.personDic valueForKey:@"beiyongjin"]floatValue] == 0) {
+//          
+//            TopUpView * topup = [TopUpView new];
+//            __block TopUpView * weakTopup =topup;
+//            [topup setMoney:50 limitMoney:50 title:[NSString stringWithFormat:@"妙店佳商铺端+%@备用金充值",user_tel] body:user_Id canChange:YES];
+//            topup.payBlock=^(BOOL isSuccess){
+//                [weakTopup disAppear];
+//                if (isSuccess) {// 成功
+//                    [self getPersonalData];
+//                    [MBProgressHUD promptWithString:@"充值成功"];
+//                }else{
+//                    [MBProgressHUD promptWithString:@"充值失败"];
+//                }
+//                
+//            };
+//            [topup appear];
+//            
+//          [MBProgressHUD promptWithString:@"余额为零,请充值!"];
+//        }
+//        else
+//        {
             //进入余额
             BalanceViewController *BalanceVC = [[BalanceViewController alloc]init];
             BalanceVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:BalanceVC animated:YES];
-        }
+//        }
     }
     else
     {
@@ -361,7 +388,18 @@
     
     NSString * banben = [NSString stringWithFormat:@"%@",_personDic[@"banben"]];
     if (indexPath.row==0) {
-        [cell setValue:[banben isEqualToString:@"2"]?@"邀请领现金":@"版本升级" forKeyPath:@"nameLabel.text"];
+        NSString * firstTitle;
+        
+        
+        NSString * dodo = [NSString stringWithFormat:@"%@",_personDic[@"dodo"]];
+        if ([banben isEqualToString:@"2"]) {
+            firstTitle = @"邀请领现金";
+        }else{
+            firstTitle = @"进入升级版";
+        }
+        
+        [cell setValue:firstTitle forKeyPath:@"nameLabel.text"];
+        
         if (!banben_IsAfter) {
             [cell setValue:@"邀请领现金" forKeyPath:@"nameLabel.text"];
         }
@@ -388,9 +426,20 @@
                 invitationVC.hidesBottomBarWhenPushed = YES;
                 [self.navigationController pushViewController:invitationVC animated:YES];
             }else{// 升级完整版
-                ShengJiViewController * shengji = [ShengJiViewController new];
-                shengji.hidesBottomBarWhenPushed=YES;
-                [self.navigationController pushViewController:shengji animated:YES];
+                NSString * dodo = [NSString stringWithFormat:@"%@",_personDic[@"dodo"]];
+                if ([dodo isEqualToString:@"1"]) {// 进入升级版
+                    ShengJiViewController * shengji = [ShengJiViewController new];
+                    shengji.hidesBottomBarWhenPushed=YES;
+                    [self.navigationController pushViewController:shengji animated:YES];
+                }else{// 进入续费
+                    XuFeiViewController * xufei = [XuFeiViewController new];
+                    xufei.hidesBottomBarWhenPushed=YES;
+                    [self.navigationController pushViewController:xufei animated:YES];
+                    
+                };
+                
+                
+       
                 
             }
             
@@ -409,15 +458,13 @@
             
             NSString * banben = [NSString stringWithFormat:@"%@",_personDic[@"banben"]];
             
-            if (banben_IsAfter) {// 授权
+            if (banben_IsAfter) {//  是否上线
                 if ([banben isEqualToString:@"2"]) {//邀请领现金
                 }else{// 升级完整版
                     [self promptMessageWithString:@"请升级后使用"];
                     return;
                 }
             }
-
-
             
             if ([self.personDic[@"shangpinguanli"] integerValue]== 0) {
                 [self promptMessageWithString:@"未授权"];
@@ -521,12 +568,13 @@
     NSDictionary *pram = @{@"dianpuid":[NSString stringWithFormat:@"%@",user_dianpuID]};
     [Request getFenXiangContentWithDic:pram success:^(id json) {
         NSDictionary *mesDic = (NSDictionary *)json;
-        if (mesDic.count>0) {
-            [self share:mesDic];
+        NSString * message = [NSString stringWithFormat:@"%@",[json valueForKey:@"message"]];
+        if ([message isEqualToString:@"0"]) {
+            [MBProgressHUD promptWithString:@"获取分享信息失败"];
+            return ;
         }
-        else{
-            [self promptMessageWithString:@"获取分享信息失败"];
-        }
+        [self share:mesDic];
+     
     } failure:^(NSError *error) {
         
     }];
@@ -592,16 +640,6 @@
      ];
     
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end
 

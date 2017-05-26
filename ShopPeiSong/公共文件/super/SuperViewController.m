@@ -16,10 +16,28 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationController.navigationBar.tintColor=naviBarTintColor;
+    self.view.backgroundColor=[UIColor whiteColor];
+    [self setNavigationItem];
+
     // Do any additional setup after loading the view.
 }
+-(void)setNavigationItem
+{
+    self.navigationController.navigationBar.tintColor=naviBarTintColor;
+    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:MLwordFont_2],NSFontAttributeName, nil]];
+    
+    
+    UIButton * leftBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, NVbtnWight, NVbtnWight)];
+    [leftBtn setImage:[UIImage imageNamed:@"返回按钮"] forState:UIControlStateNormal];
+    UIBarButtonItem * leftItem = [[UIBarButtonItem alloc]initWithCustomView:leftBtn];
+    [leftBtn addTarget:self action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.navigationItem.leftBarButtonItem = leftItem;
 
+}
+-(void)pop{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

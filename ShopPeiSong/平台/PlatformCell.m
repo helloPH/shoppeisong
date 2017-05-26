@@ -107,7 +107,7 @@
     _model=model;
     self.danhaoLabel.text = [NSString stringWithFormat:@"单号:%@",model.danhao];
     self.nameLabel.text = [NSString stringWithFormat:@"应收:%@",model.shanghu];
-    self.addressLabel.text = [NSString stringWithFormat:@"地址:%@",model.shouhuodizhi];
+    self.addressLabel.text = [NSString stringWithFormat:@"地点:%@",model.shouhuodizhi];
     self.timeLabel.text = [NSString stringWithFormat:@"%@",model.time];
     
     NSString * isPeiSong = _model.peisongfangshi; //

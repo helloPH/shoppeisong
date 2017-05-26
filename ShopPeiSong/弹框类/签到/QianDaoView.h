@@ -15,6 +15,4 @@
 @property (nonatomic,strong)NSString * status;
 @property (nonatomic,strong)void (^block)(NSInteger index);
 
-
-
 @end

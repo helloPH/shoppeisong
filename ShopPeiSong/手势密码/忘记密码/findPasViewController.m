@@ -8,8 +8,13 @@
 
 #import "findPasViewController.h"
 #import "Header.h"
+#import "ShouShiMiMaView.h"
+
+
 @interface findPasViewController ()<UIAlertViewDelegate,MBProgressHUDDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate>
 {
+    
+    NSString * newPass;
     UIView *findNumView;//找回密码方式
     UIView *mmsFindView;//短信找回
     UIView *resetPasdView;//重置密码
@@ -40,6 +45,15 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
+//    ShouShiMiMaView * ma = [ShouShiMiMaView new];
+//
+//    ma.passBlock=^(NSString * passWord){
+//        
+//    };
+//    [ma appear];
+  
+    
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -143,8 +157,15 @@
         [self presentViewController:alert animated:YES completion:nil];
     }
     else{
-        NSMutableDictionary *pram = [[NSMutableDictionary alloc]initWithDictionary:@{@"tel":tel.text}];
+        NSMutableDictionary *pram = [[NSMutableDictionary alloc]initWithDictionary:@{@"yuangong.tel":tel.text}];
+        
+        
+        
+        [MBProgressHUD start];
         [HTTPTool getWithUrl:@"back.action" params:pram success:^(id json) {
+            [MBProgressHUD stop];
+            
+            
             NSDictionary *dic = (NSDictionary *)json;
             if ([dic valueForKey:@"massage"]) {
                 if([[dic valueForKey:@"massage"]intValue]==1){
@@ -163,14 +184,16 @@
                 }
             }
             else{
-                userTel = [dic valueForKey:@"user.tel"];
-                userEmail = [dic valueForKey:@"user.email"];
-                userDevId = [dic valueForKey:@"user.shebeiId"];
+                userTel = [NSString stringWithFormat:@"%@",[dic valueForKey:@"tel"]];
+                userEmail = [NSString stringWithFormat:@"%@",[dic valueForKey:@"email"]];
+                userDevId = [NSString stringWithFormat:@"%@",[dic valueForKey:@"shebeiId"]];
                 [findWayView removeFromSuperview];
                 isTan = 1;
                 [self initAryData];
             }
         } failure:^(NSError *error) {
+            [MBProgressHUD stop];
+            
             [self promptMessageWithString:@"网络连接错误"];
         }];
     }
@@ -178,15 +201,15 @@
 -(void)initAryData
 {
     [findWayNameAry removeAllObjects];
-    if ([userDevId isEqualToString:@""]) {
+    if ([userDevId isEmptyString]) {
         [findWayNameAry addObject:@"系统找回"];
         [findWayTagAry addObject:@"1"];
     }
-    if (![userEmail isEqualToString:@""]) {
+    if (![userEmail isEmptyString]) {
         [findWayNameAry addObject:@"邮箱找回"];
         [findWayTagAry addObject:@"2"];
     }
-    if(![userTel isEqualToString:@""]){
+    if(![userTel isEmptyString]){
         [findWayNameAry addObject:@"短信找回"];
         [findWayTagAry addObject:@"3"];
     }
@@ -320,6 +343,10 @@
 //短信 系统找回密码 重置新密码
 -(void)initNewPasPopView
 {
+    
+    
+    
+    
     newPasPopView = [[UIView alloc]initWithFrame:CGRectMake(0, topHeight, kDeviceWidth, 180*MCscale)];
     newPasPopView.backgroundColor = [UIColor whiteColor];
     newPasPopView.tag = 110;
@@ -423,7 +450,7 @@
 }
 -(void)messageFindAction
 {
-    NSMutableDictionary *pram = [[NSMutableDictionary alloc]initWithDictionary:@{@"tel":userTel}];
+    NSMutableDictionary *pram = [[NSMutableDictionary alloc]initWithDictionary:@{@"yuangong.tel":userTel}];
     [HTTPTool getWithUrl:@"backCode.action" params:pram success:^(id json) {
         NSDictionary *dic = (NSDictionary *)json;
         if ([[dic valueForKey:@"massage"]intValue]==1) {
@@ -447,7 +474,7 @@
     UITextField *onePas = (UITextField *)[newPasPopView viewWithTag:1001];
     UITextField *secPas = (UITextField *)[newPasPopView viewWithTag:1002];
     if ([onePas.text isEqualToString:secPas.text]) {
-        NSMutableDictionary *pram = [[NSMutableDictionary alloc]initWithDictionary:@{@"tel":userTel,@"pw":onePas.text}];
+        NSMutableDictionary *pram = [[NSMutableDictionary alloc]initWithDictionary:@{@"yuangong.tel ":userTel,@"yuangong.chushimima":newPass}];
         [HTTPTool getWithUrl:@"backtelPassword.action" params:pram success:^(id json) {
             NSDictionary *dic = (NSDictionary *)json;
             if ([[dic valueForKey:@"massage"]intValue]==1) {
@@ -463,6 +490,10 @@
                 mbHud.labelText = @"密码重置成功";
                 mbHud.customView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"37x-Checkmark"]];
                 [mbHud showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];
+                
+                [self.navigationController dismissViewControllerAnimated:YES completion:^{
+                }];
+                
             }
             else{
                 [self promptMessageWithString:@"密码重置失败!请稍后重试"];
@@ -505,15 +536,11 @@
 -(void)messageEnsure
 {
     UITextField *mes = (UITextField *)[codePopView viewWithTag:101];
-    NSMutableDictionary *pram = [[NSMutableDictionary alloc]initWithDictionary:@{@"tel":userTel,@"code":mes.text}];
+    NSMutableDictionary *pram = [[NSMutableDictionary alloc]initWithDictionary:@{@"yuangong.tel":userTel,@"code":mes.text}];
     [HTTPTool getWithUrl:@"backlongin.action" params:pram success:^(id json) {
         NSDictionary *dic = (NSDictionary *)json;
         if([[dic valueForKey:@"massage"]intValue]==3){
-            [self dismPopView];
-            [UIView animateWithDuration:0.3 animations:^{
-                lastPopTag = 110;
-                [self.view addSubview:newPasPopView];
-            }];
+            [self shurumima];
         }
         else{
             [self promptMessageWithString:@"验证码有误"];
@@ -521,6 +548,44 @@
     } failure:^(NSError *error) {
         [self promptMessageWithString:@"网络连接错误"];
     }];
+}
+
+-(void)shurumima{
+    __block  NSString * setPassWord;
+    __block NSInteger count = 0;
+    ShouShiMiMaView * mima = [ShouShiMiMaView new];
+    [mima setTitle:@"请输入密码"];
+    __block ShouShiMiMaView * weakMima = mima;
+    mima.passBlock=^(NSString *password){
+        if (count == 0) { // 第一次划手势后进行判断
+            if (password.length>=3) {// 密码位数合格
+                setPassWord=password;
+            }else{// 不合格
+                [MBProgressHUD promptWithString:@"请至少连接3个点"];
+                [weakMima setTitle:@"请输入密码"];
+                weakMima.passWord=nil;
+                count = 0;
+                return ;
+            }
+        }
+        count ++;
+        if (count==1) {// 密码 首次设置成功
+            [weakMima setTitle:@"请再次输入密码"];
+            weakMima.passWord=setPassWord;
+        }
+        if (count==2) {// 密码 二次输入
+            if ([setPassWord isEqualToString:password]) {/// 密码输入正确
+                //                        [MBProgressHUD promptWithString:@"密码设置成功"];
+                [weakMima disAppear];//
+                newPass = setPassWord;
+                [self changeNewPasSure];
+            }else{
+                [MBProgressHUD promptWithString:@"两次输入不一致"];
+                count=1;
+            }
+        }
+    };
+    [mima appear];
 }
 //移除上次弹框
 -(void)dismPopView
@@ -542,8 +607,8 @@
 - (void)myTask {
     // Do something usefull in here instead of sleeping ...
     sleep(1.5);
-    [self dismissViewControllerAnimated:YES completion:^{
-    }];
+//    [self dismissViewControllerAnimated:YES completion:^{
+//    }];
 }
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {

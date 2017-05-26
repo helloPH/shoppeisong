@@ -163,8 +163,11 @@
         NSString *accont = [NSString stringWithFormat:@"%@",user_tel];
         NSString *pass = [NSString stringWithFormat:@"%@%@",accont,passStr];
         NSString *pass_md5 = [pass stringFromMD5];
+        NSString * userid = [NSString stringWithFormat:@"%@",user_Id];
         
-        NSMutableDictionary *pram = [NSMutableDictionary dictionaryWithDictionary:@{@"yuangong.id":user_id,@"yuangong.chushimima":pass_md5}];
+        
+        
+        NSMutableDictionary *pram = [NSMutableDictionary dictionaryWithDictionary:@{@"yuangong.id":userid,@"yuangong.chushimima":pass_md5}];
         NSLog(@"%@",pram);
         MBProgressHUD *mHud = [MBProgressHUD showHUDAddedTo:self animated:YES];
         mHud.mode = MBProgressHUDModeIndeterminate;

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0A076D2A1E823B450040FCFC /* CheckShangpinView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A076D291E823B450040FCFC /* CheckShangpinView.m */; };
+		0A07E5D41ED80F2E00E3FA91 /* OrderDetailChangeMoneyAndShuLiangView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A07E5D31ED80F2E00E3FA91 /* OrderDetailChangeMoneyAndShuLiangView.m */; };
 		0A0A63471E80BD1D00A75731 /* ShangpinManageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A63461E80BD1D00A75731 /* ShangpinManageCell.m */; };
 		0A0A634A1E80EE2F00A75731 /* ShangpinMessagesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A63491E80EE2F00A75731 /* ShangpinMessagesModel.m */; };
 		0A0A634E1E81082100A75731 /* AddShangpinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A634D1E81082100A75731 /* AddShangpinViewController.m */; };
@@ -99,7 +100,6 @@
 		0A32472A1E8CD3FB0013D7AE /* DataAggregateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A3247291E8CD3FB0013D7AE /* DataAggregateViewController.m */; };
 		0A38C0AD1EB9BBB20023DE57 /* QianDaoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A38C0AC1EB9BBB20023DE57 /* QianDaoView.m */; };
 		0A3C5D061E7FD57800F94CC9 /* ShangpinManageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A3C5D051E7FD57800F94CC9 /* ShangpinManageViewController.m */; };
-		0A4350E21EC6DFEF00E1346B /* SelectPayWayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A4350E11EC6DFEF00E1346B /* SelectPayWayView.m */; };
 		0A4350E61EC7146E00E1346B /* ShouYinTaiPayWay.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A4350E51EC7146E00E1346B /* ShouYinTaiPayWay.m */; };
 		0A80A4991E8B44AD0073921A /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A80A4811E8B44AD0073921A /* Info.plist */; };
 		0A80A49A1E8B44AD0073921A /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A80A4831E8B44AD0073921A /* MASCompositeConstraint.m */; };
@@ -113,6 +113,8 @@
 		0A80A4A21E8B44AD0073921A /* View+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A80A4971E8B44AD0073921A /* View+MASAdditions.m */; };
 		0A89449A1ED1389C000276D1 /* AlterOrderPeiSongFeiView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A8944991ED1389C000276D1 /* AlterOrderPeiSongFeiView.m */; };
 		0A89449E1ED143D2000276D1 /* FenXiangWithLoginAfter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A89449D1ED143D2000276D1 /* FenXiangWithLoginAfter.m */; };
+		0A912CD21ED27BEA00E0BE04 /* OnLinePayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A912CD11ED27BEA00E0BE04 /* OnLinePayView.m */; };
+		0A912CD61ED27C5400E0BE04 /* TopUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A912CD51ED27C5400E0BE04 /* TopUpView.m */; };
 		0AA943861EBAFB81001E4E55 /* PHPush.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AA943851EBAFB81001E4E55 /* PHPush.m */; };
 		0AB2028D1E72432A0020485E /* OrdersModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB2028C1E72432A0020485E /* OrdersModel.m */; };
 		0AB202911E7278960020485E /* InvitationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB202901E7278960020485E /* InvitationViewController.m */; };
@@ -122,13 +124,16 @@
 		0AB202C61E7286860020485E /* feedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB202C31E7286860020485E /* feedbackViewController.m */; };
 		0AB2EE0C1E6E40AC00BF4D84 /* OrdersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB2EE0B1E6E40AC00BF4D84 /* OrdersCell.m */; };
 		0AB2EE0F1E6E75D600BF4D84 /* PersonalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB2EE0E1E6E75D600BF4D84 /* PersonalCell.m */; };
+		0ABE4CBE1ED6F09B0041CC26 /* LatexView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ABE4CBD1ED6F09B0041CC26 /* LatexView.m */; };
+		0ABE4CC21ED6F0DE0041CC26 /* ShouShiMiMaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ABE4CC11ED6F0DE0041CC26 /* ShouShiMiMaView.m */; };
 		0AC21A791EB33D1000DBDBF1 /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC21A781EB33D1000DBDBF1 /* Request.m */; };
 		0AC21A7D1EB821DE00DBDBF1 /* PHTabbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC21A7C1EB821DE00DBDBF1 /* PHTabbar.m */; };
 		0AC21A811EB87C0C00DBDBF1 /* YanButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC21A801EB87C0C00DBDBF1 /* YanButton.m */; };
 		0AC21A851EB88A4600DBDBF1 /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC21A841EB88A4600DBDBF1 /* NSString+Helper.m */; };
+		0AC426451ED3CD4F00AB129A /* SelectFuWuFeiBanBen.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC426441ED3CD4F00AB129A /* SelectFuWuFeiBanBen.m */; };
+		0AC426491ED3D68D00AB129A /* XuFeiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC426481ED3D68D00AB129A /* XuFeiViewController.m */; };
 		0AC9808A1EB9B9140068BDC8 /* ChangePhoneNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC980541EB9B9140068BDC8 /* ChangePhoneNumber.m */; };
 		0AC9808B1EB9B9140068BDC8 /* ChangeFujiafeiView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC980571EB9B9140068BDC8 /* ChangeFujiafeiView.m */; };
-		0AC9808C1EB9B9140068BDC8 /* OnLinePayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC9805A1EB9B9140068BDC8 /* OnLinePayView.m */; };
 		0AC9808D1EB9B9140068BDC8 /* CancalOrderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC9805D1EB9B9140068BDC8 /* CancalOrderView.m */; };
 		0AC9808E1EB9B9140068BDC8 /* PaymentPasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC980601EB9B9140068BDC8 /* PaymentPasswordView.m */; };
 		0AC9808F1EB9B9140068BDC8 /* ShuohuoMoneyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC980631EB9B9140068BDC8 /* ShuohuoMoneyView.m */; };
@@ -489,6 +494,7 @@
 		0AF966C91EC5CDDD00043BE0 /* mapapi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0AF966C81EC5CDDD00043BE0 /* mapapi.bundle */; };
 		0AF966CD1EC5D03B00043BE0 /* SuperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF966CC1EC5D03B00043BE0 /* SuperViewController.m */; };
 		0AF966D01EC5D06100043BE0 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF966CF1EC5D06100043BE0 /* LoginViewController.m */; };
+		0AFE0D011ED5915400C8E41F /* NumberPassWordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AFE0D001ED5915400C8E41F /* NumberPassWordView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -511,6 +517,8 @@
 /* Begin PBXFileReference section */
 		0A076D281E823B450040FCFC /* CheckShangpinView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckShangpinView.h; sourceTree = "<group>"; };
 		0A076D291E823B450040FCFC /* CheckShangpinView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckShangpinView.m; sourceTree = "<group>"; };
+		0A07E5D21ED80F2E00E3FA91 /* OrderDetailChangeMoneyAndShuLiangView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailChangeMoneyAndShuLiangView.h; sourceTree = "<group>"; };
+		0A07E5D31ED80F2E00E3FA91 /* OrderDetailChangeMoneyAndShuLiangView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDetailChangeMoneyAndShuLiangView.m; sourceTree = "<group>"; };
 		0A0A63451E80BD1D00A75731 /* ShangpinManageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShangpinManageCell.h; sourceTree = "<group>"; };
 		0A0A63461E80BD1D00A75731 /* ShangpinManageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShangpinManageCell.m; sourceTree = "<group>"; };
 		0A0A63481E80EE2F00A75731 /* ShangpinMessagesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShangpinMessagesModel.h; sourceTree = "<group>"; };
@@ -676,8 +684,6 @@
 		0A38C0AC1EB9BBB20023DE57 /* QianDaoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QianDaoView.m; sourceTree = "<group>"; };
 		0A3C5D041E7FD57800F94CC9 /* ShangpinManageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShangpinManageViewController.h; sourceTree = "<group>"; };
 		0A3C5D051E7FD57800F94CC9 /* ShangpinManageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShangpinManageViewController.m; sourceTree = "<group>"; };
-		0A4350E01EC6DFEF00E1346B /* SelectPayWayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectPayWayView.h; sourceTree = "<group>"; };
-		0A4350E11EC6DFEF00E1346B /* SelectPayWayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectPayWayView.m; sourceTree = "<group>"; };
 		0A4350E41EC7146E00E1346B /* ShouYinTaiPayWay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShouYinTaiPayWay.h; sourceTree = "<group>"; };
 		0A4350E51EC7146E00E1346B /* ShouYinTaiPayWay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShouYinTaiPayWay.m; sourceTree = "<group>"; };
 		0A80A4811E8B44AD0073921A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -708,6 +714,10 @@
 		0A8944991ED1389C000276D1 /* AlterOrderPeiSongFeiView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlterOrderPeiSongFeiView.m; sourceTree = "<group>"; };
 		0A89449C1ED143D2000276D1 /* FenXiangWithLoginAfter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FenXiangWithLoginAfter.h; sourceTree = "<group>"; };
 		0A89449D1ED143D2000276D1 /* FenXiangWithLoginAfter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FenXiangWithLoginAfter.m; sourceTree = "<group>"; };
+		0A912CD01ED27BEA00E0BE04 /* OnLinePayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnLinePayView.h; sourceTree = "<group>"; };
+		0A912CD11ED27BEA00E0BE04 /* OnLinePayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnLinePayView.m; sourceTree = "<group>"; };
+		0A912CD41ED27C5400E0BE04 /* TopUpView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopUpView.h; sourceTree = "<group>"; };
+		0A912CD51ED27C5400E0BE04 /* TopUpView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopUpView.m; sourceTree = "<group>"; };
 		0AA9437E1EBAC933001E4E55 /* ShopPeiSong.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShopPeiSong.entitlements; sourceTree = "<group>"; };
 		0AA943841EBAFB81001E4E55 /* PHPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPush.h; sourceTree = "<group>"; };
 		0AA943851EBAFB81001E4E55 /* PHPush.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPush.m; sourceTree = "<group>"; };
@@ -802,6 +812,10 @@
 		0AB2EE0B1E6E40AC00BF4D84 /* OrdersCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrdersCell.m; sourceTree = "<group>"; };
 		0AB2EE0D1E6E75D600BF4D84 /* PersonalCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalCell.h; sourceTree = "<group>"; };
 		0AB2EE0E1E6E75D600BF4D84 /* PersonalCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalCell.m; sourceTree = "<group>"; };
+		0ABE4CBC1ED6F09B0041CC26 /* LatexView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LatexView.h; sourceTree = "<group>"; };
+		0ABE4CBD1ED6F09B0041CC26 /* LatexView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LatexView.m; sourceTree = "<group>"; };
+		0ABE4CC01ED6F0DE0041CC26 /* ShouShiMiMaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShouShiMiMaView.h; sourceTree = "<group>"; };
+		0ABE4CC11ED6F0DE0041CC26 /* ShouShiMiMaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShouShiMiMaView.m; sourceTree = "<group>"; };
 		0AC21A771EB33D0F00DBDBF1 /* Request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Request.h; sourceTree = "<group>"; };
 		0AC21A781EB33D1000DBDBF1 /* Request.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Request.m; sourceTree = "<group>"; };
 		0AC21A7B1EB821DE00DBDBF1 /* PHTabbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHTabbar.h; sourceTree = "<group>"; };
@@ -810,12 +824,14 @@
 		0AC21A801EB87C0C00DBDBF1 /* YanButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YanButton.m; sourceTree = "<group>"; };
 		0AC21A831EB88A4600DBDBF1 /* NSString+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Helper.h"; sourceTree = "<group>"; };
 		0AC21A841EB88A4600DBDBF1 /* NSString+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Helper.m"; sourceTree = "<group>"; };
+		0AC426431ED3CD4F00AB129A /* SelectFuWuFeiBanBen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectFuWuFeiBanBen.h; sourceTree = "<group>"; };
+		0AC426441ED3CD4F00AB129A /* SelectFuWuFeiBanBen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectFuWuFeiBanBen.m; sourceTree = "<group>"; };
+		0AC426471ED3D68D00AB129A /* XuFeiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XuFeiViewController.h; sourceTree = "<group>"; };
+		0AC426481ED3D68D00AB129A /* XuFeiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XuFeiViewController.m; sourceTree = "<group>"; };
 		0AC980531EB9B9140068BDC8 /* ChangePhoneNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePhoneNumber.h; sourceTree = "<group>"; };
 		0AC980541EB9B9140068BDC8 /* ChangePhoneNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePhoneNumber.m; sourceTree = "<group>"; };
 		0AC980561EB9B9140068BDC8 /* ChangeFujiafeiView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeFujiafeiView.h; sourceTree = "<group>"; };
 		0AC980571EB9B9140068BDC8 /* ChangeFujiafeiView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangeFujiafeiView.m; sourceTree = "<group>"; };
-		0AC980591EB9B9140068BDC8 /* OnLinePayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnLinePayView.h; sourceTree = "<group>"; };
-		0AC9805A1EB9B9140068BDC8 /* OnLinePayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnLinePayView.m; sourceTree = "<group>"; };
 		0AC9805C1EB9B9140068BDC8 /* CancalOrderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancalOrderView.h; sourceTree = "<group>"; };
 		0AC9805D1EB9B9140068BDC8 /* CancalOrderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CancalOrderView.m; sourceTree = "<group>"; };
 		0AC9805F1EB9B9140068BDC8 /* PaymentPasswordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentPasswordView.h; sourceTree = "<group>"; };
@@ -1518,6 +1534,8 @@
 		0AF966CC1EC5D03B00043BE0 /* SuperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperViewController.m; sourceTree = "<group>"; };
 		0AF966CE1EC5D06100043BE0 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		0AF966CF1EC5D06100043BE0 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		0AFE0CFF1ED5915400C8E41F /* NumberPassWordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NumberPassWordView.h; sourceTree = "<group>"; };
+		0AFE0D001ED5915400C8E41F /* NumberPassWordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NumberPassWordView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1589,6 +1607,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A07E5D11ED80EF900E3FA91 /* 订单详情修改金额改变数量 */ = {
+			isa = PBXGroup;
+			children = (
+				0A07E5D21ED80F2E00E3FA91 /* OrderDetailChangeMoneyAndShuLiangView.h */,
+				0A07E5D31ED80F2E00E3FA91 /* OrderDetailChangeMoneyAndShuLiangView.m */,
+			);
+			path = "订单详情修改金额改变数量";
+			sourceTree = "<group>";
+		};
 		0A0A634B1E81081100A75731 /* 新增或修改商品 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1827,6 +1854,7 @@
 				0A0B3AF71E6D36EC000FBAB6 /* MeViewController.m */,
 				0AB2EE0D1E6E75D600BF4D84 /* PersonalCell.h */,
 				0AB2EE0E1E6E75D600BF4D84 /* PersonalCell.m */,
+				0AC426461ED3D67500AB129A /* 续费 */,
 				0A3C5D031E7FD56300F94CC9 /* 商品管理 */,
 				0AE8ED541E70E7DE00CB65DF /* 接单奖 */,
 				0AB2028E1E7278560020485E /* 邀请领现金 */,
@@ -1968,15 +1996,6 @@
 			path = "商品管理";
 			sourceTree = "<group>";
 		};
-		0A4350DF1EC6D12400E1346B /* 在线支付 */ = {
-			isa = PBXGroup;
-			children = (
-				0A4350E01EC6DFEF00E1346B /* SelectPayWayView.h */,
-				0A4350E11EC6DFEF00E1346B /* SelectPayWayView.m */,
-			);
-			path = "在线支付";
-			sourceTree = "<group>";
-		};
 		0A4350E31EC7146E00E1346B /* 收银台弹窗 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2033,6 +2052,24 @@
 				0A89449D1ED143D2000276D1 /* FenXiangWithLoginAfter.m */,
 			);
 			path = "登录分享";
+			sourceTree = "<group>";
+		};
+		0A912CCF1ED27BEA00E0BE04 /* 在线支付 */ = {
+			isa = PBXGroup;
+			children = (
+				0A912CD01ED27BEA00E0BE04 /* OnLinePayView.h */,
+				0A912CD11ED27BEA00E0BE04 /* OnLinePayView.m */,
+			);
+			path = "在线支付";
+			sourceTree = "<group>";
+		};
+		0A912CD31ED27C3900E0BE04 /* 充值界面 */ = {
+			isa = PBXGroup;
+			children = (
+				0A912CD41ED27C5400E0BE04 /* TopUpView.h */,
+				0A912CD51ED27C5400E0BE04 /* TopUpView.m */,
+			);
+			path = "充值界面";
 			sourceTree = "<group>";
 		};
 		0AA943831EBAFB81001E4E55 /* PHPush */ = {
@@ -2158,6 +2195,15 @@
 			path = "意见反馈";
 			sourceTree = "<group>";
 		};
+		0ABE4CBF1ED6F0CA0041CC26 /* 手势密码 */ = {
+			isa = PBXGroup;
+			children = (
+				0ABE4CC01ED6F0DE0041CC26 /* ShouShiMiMaView.h */,
+				0ABE4CC11ED6F0DE0041CC26 /* ShouShiMiMaView.m */,
+			);
+			path = "手势密码";
+			sourceTree = "<group>";
+		};
 		0AC21A7A1EB821DE00DBDBF1 /* PHTabbar */ = {
 			isa = PBXGroup;
 			children = (
@@ -2186,18 +2232,40 @@
 			path = tool;
 			sourceTree = "<group>";
 		};
+		0AC426421ED3CCD800AB129A /* 服务费时间版本 */ = {
+			isa = PBXGroup;
+			children = (
+				0AC426431ED3CD4F00AB129A /* SelectFuWuFeiBanBen.h */,
+				0AC426441ED3CD4F00AB129A /* SelectFuWuFeiBanBen.m */,
+			);
+			path = "服务费时间版本";
+			sourceTree = "<group>";
+		};
+		0AC426461ED3D67500AB129A /* 续费 */ = {
+			isa = PBXGroup;
+			children = (
+				0AC426471ED3D68D00AB129A /* XuFeiViewController.h */,
+				0AC426481ED3D68D00AB129A /* XuFeiViewController.m */,
+			);
+			path = "续费";
+			sourceTree = "<group>";
+		};
 		0AC980511EB9B9140068BDC8 /* 弹框类 */ = {
 			isa = PBXGroup;
 			children = (
+				0A07E5D11ED80EF900E3FA91 /* 订单详情修改金额改变数量 */,
+				0ABE4CBF1ED6F0CA0041CC26 /* 手势密码 */,
+				0AFE0CFE1ED5912800C8E41F /* 数字密码 */,
+				0AC426421ED3CCD800AB129A /* 服务费时间版本 */,
+				0A912CD31ED27C3900E0BE04 /* 充值界面 */,
+				0A912CCF1ED27BEA00E0BE04 /* 在线支付 */,
 				0A89449B1ED143BA000276D1 /* 登录分享 */,
 				0A8944971ED13864000276D1 /* 修改配送费 */,
 				0A4350E31EC7146E00E1346B /* 收银台弹窗 */,
-				0A4350DF1EC6D12400E1346B /* 在线支付 */,
 				0AD435EC1EC45699007948A2 /* 地图取点 */,
 				0A38C0AA1EB9BB670023DE57 /* 签到 */,
 				0AC980521EB9B9140068BDC8 /* 修改手机号 */,
 				0AC980551EB9B9140068BDC8 /* 修改附加费  */,
-				0AC980581EB9B9140068BDC8 /* 充值页面 */,
 				0AC9805B1EB9B9140068BDC8 /* 取消订单申请 */,
 				0AC9805E1EB9B9140068BDC8 /* 支付密码 */,
 				0AC980611EB9B9140068BDC8 /* 收货金额 */,
@@ -2233,15 +2301,6 @@
 				0AC980571EB9B9140068BDC8 /* ChangeFujiafeiView.m */,
 			);
 			path = "修改附加费 ";
-			sourceTree = "<group>";
-		};
-		0AC980581EB9B9140068BDC8 /* 充值页面 */ = {
-			isa = PBXGroup;
-			children = (
-				0AC980591EB9B9140068BDC8 /* OnLinePayView.h */,
-				0AC9805A1EB9B9140068BDC8 /* OnLinePayView.m */,
-			);
-			path = "充值页面";
 			sourceTree = "<group>";
 		};
 		0AC9805B1EB9B9140068BDC8 /* 取消订单申请 */ = {
@@ -2453,6 +2512,8 @@
 		0AE8ED5F1E712C2100CB65DF /* 手势密码 */ = {
 			isa = PBXGroup;
 			children = (
+				0ABE4CBC1ED6F09B0041CC26 /* LatexView.h */,
+				0ABE4CBD1ED6F09B0041CC26 /* LatexView.m */,
 				0AE8ED621E712C2100CB65DF /* GestureViewController.h */,
 				0AE8ED631E712C2100CB65DF /* GestureViewController.m */,
 				0AE8ED601E712C2100CB65DF /* GestureLockView.h */,
@@ -3607,6 +3668,15 @@
 			path = super;
 			sourceTree = "<group>";
 		};
+		0AFE0CFE1ED5912800C8E41F /* 数字密码 */ = {
+			isa = PBXGroup;
+			children = (
+				0AFE0CFF1ED5915400C8E41F /* NumberPassWordView.h */,
+				0AFE0D001ED5915400C8E41F /* NumberPassWordView.m */,
+			);
+			path = "数字密码";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -3819,7 +3889,6 @@
 				0AF9663C1EC5BC7B00043BE0 /* ZXInvertedLuminanceSource.m in Sources */,
 				0A0B3AD11E6D3306000FBAB6 /* AFURLSessionManager.m in Sources */,
 				0AF95AAD1EC54FF900043BE0 /* IQTitleBarButtonItem.m in Sources */,
-				0A4350E21EC6DFEF00E1346B /* SelectPayWayView.m in Sources */,
 				0AF965FF1EC5BC7B00043BE0 /* ZXEmailAddressParsedResult.m in Sources */,
 				0AF966C01EC5BC7B00043BE0 /* ZXQRCodeMatrixUtil.m in Sources */,
 				0A80A49A1E8B44AD0073921A /* MASCompositeConstraint.m in Sources */,
@@ -3860,6 +3929,7 @@
 				0AF966B61EC5BC7B00043BE0 /* ZXQRCodeAlignmentPattern.m in Sources */,
 				0AF966001EC5BC7B00043BE0 /* ZXEmailAddressResultParser.m in Sources */,
 				0A80A4A11E8B44AD0073921A /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
+				0ABE4CC21ED6F0DE0041CC26 /* ShouShiMiMaView.m in Sources */,
 				0AF9665C1EC5BC7B00043BE0 /* ZXAbstractExpandedDecoder.m in Sources */,
 				0AF966491EC5BC7B00043BE0 /* ZXDataMatrixBase256Encoder.m in Sources */,
 				0AF965F11EC5BC7B00043BE0 /* ZXAztecHighLevelEncoder.m in Sources */,
@@ -3950,7 +4020,6 @@
 				0AF8EA3C1EB0AAA000846DE6 /* OpenAccountViewController.m in Sources */,
 				0A0B3AD71E6D3306000FBAB6 /* SDWebImageCompat.m in Sources */,
 				0AF9663D1EC5BC7B00043BE0 /* ZXLuminanceSource.m in Sources */,
-				0AC9808C1EB9B9140068BDC8 /* OnLinePayView.m in Sources */,
 				0AD435E81EC453CA007948A2 /* ZengQiangOpenView.m in Sources */,
 				0A0B3AD51E6D3306000FBAB6 /* NSData+ImageContentType.m in Sources */,
 				0AF966441EC5BC7B00043BE0 /* ZXDataMatrixDecodedBitStreamParser.m in Sources */,
@@ -3991,6 +4060,7 @@
 				0A0A63511E812F6E00A75731 /* AddShangpingView.m in Sources */,
 				0AF966671EC5BC7B00043BE0 /* ZXRSSExpandedBlockParsedResult.m in Sources */,
 				0AF966B01EC5BC7B00043BE0 /* ZXQRCodeDecoder.m in Sources */,
+				0ABE4CBE1ED6F09B0041CC26 /* LatexView.m in Sources */,
 				0AF9662E1EC5BC7B00043BE0 /* ZXDetectorResult.m in Sources */,
 				0A1AC6201E84B55800A12658 /* ReceivedDingdanModel.m in Sources */,
 				0AF966BC1EC5BC7B00043BE0 /* ZXQRCode.m in Sources */,
@@ -4012,10 +4082,12 @@
 				0AD436671EC45CD1007948A2 /* PHPay.m in Sources */,
 				0AF966C21EC5BC7B00043BE0 /* ZXMultiFinderPatternFinder.m in Sources */,
 				0A0EF2FE1E836B11001D7A3A /* UIScrollView+MJExtension.m in Sources */,
+				0AC426451ED3CD4F00AB129A /* SelectFuWuFeiBanBen.m in Sources */,
 				0AF9666E1EC5BC7B00043BE0 /* ZXRSSExpandedGeneralAppIdDecoder.m in Sources */,
 				0AC9809A1EB9B9140068BDC8 /* TypeSelectedCell.m in Sources */,
 				0AF966A01EC5BC7B00043BE0 /* ZXPDF417Detector.m in Sources */,
 				0AF46F541E6FD29800111C3D /* OrderDetailViewController.m in Sources */,
+				0AC426491ED3D68D00AB129A /* XuFeiViewController.m in Sources */,
 				0AC21A791EB33D1000DBDBF1 /* Request.m in Sources */,
 				0AF9661B1EC5BC7B00043BE0 /* ZXWifiResultParser.m in Sources */,
 				0AF9666D1EC5BC7B00043BE0 /* ZXRSSExpandedFieldParser.m in Sources */,
@@ -4035,6 +4107,7 @@
 				0AC21A851EB88A4600DBDBF1 /* NSString+Helper.m in Sources */,
 				0AF9669B1EC5BC7B00043BE0 /* ZXPDF417DecodedBitStreamParser.m in Sources */,
 				0AF9660B1EC5BC7B00043BE0 /* ZXResultParser.m in Sources */,
+				0A912CD61ED27C5400E0BE04 /* TopUpView.m in Sources */,
 				0AF9662F1EC5BC7B00043BE0 /* ZXGlobalHistogramBinarizer.m in Sources */,
 				0AF9667E1EC5BC7B00043BE0 /* ZXCode39Writer.m in Sources */,
 				0AC980991EB9B9140068BDC8 /* ReviewSelectedView.m in Sources */,
@@ -4058,6 +4131,7 @@
 				0AF9665E1EC5BC7B00043BE0 /* ZXAI01320xDecoder.m in Sources */,
 				0A0B3ADE1E6D3306000FBAB6 /* UIImage+GIF.m in Sources */,
 				0AF966B21EC5BC7B00043BE0 /* ZXQRCodeErrorCorrectionLevel.m in Sources */,
+				0A07E5D41ED80F2E00E3FA91 /* OrderDetailChangeMoneyAndShuLiangView.m in Sources */,
 				0AF966111EC5BC7B00043BE0 /* ZXTelResultParser.m in Sources */,
 				0AF966531EC5BC7B00043BE0 /* ZXDataMatrixX12Encoder.m in Sources */,
 				0AF9660C1EC5BC7B00043BE0 /* ZXSMSMMSResultParser.m in Sources */,
@@ -4075,6 +4149,7 @@
 				0AF966C41EC5BC7B00043BE0 /* ZXQRCodeReader.m in Sources */,
 				0AB202C51E7286860020485E /* OnlineServiceViewController.m in Sources */,
 				0AD436641EC45ACB007948A2 /* RSADataVerifier.m in Sources */,
+				0A912CD21ED27BEA00E0BE04 /* OnLinePayView.m in Sources */,
 				0AD4365C1EC45ACB007948A2 /* Order.mm in Sources */,
 				0AD435EF1EC45699007948A2 /* GetLocationView.m in Sources */,
 				0A0B3AE41E6D3306000FBAB6 /* UIViewExt.m in Sources */,
@@ -4177,6 +4252,7 @@
 				0AF5D2821E9F2C3400DF94BD /* OrderAddShangpinViewController.m in Sources */,
 				0A1AC6271E84E30C00A12658 /* BalanceViewController.m in Sources */,
 				0AF966871EC5BC7B00043BE0 /* ZXMultiFormatOneDReader.m in Sources */,
+				0AFE0D011ED5915400C8E41F /* NumberPassWordView.m in Sources */,
 				0AF966301EC5BC7B00043BE0 /* ZXGridSampler.m in Sources */,
 				0A89449E1ED143D2000276D1 /* FenXiangWithLoginAfter.m in Sources */,
 				0AF8EA3F1EB0AAA000846DE6 /* ZWview.m in Sources */,

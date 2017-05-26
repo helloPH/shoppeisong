@@ -90,7 +90,7 @@
     self.moneyTextFiled.font = [UIFont systemFontOfSize:MLwordFont_1];
     self.moneyTextFiled.textAlignment = NSTextAlignmentCenter;
     self.moneyTextFiled.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
-    self.moneyTextFiled.userInteractionEnabled=NO;
+//    self.moneyTextFiled.userInteractionEnabled=NO;
     [self.moneyView addSubview:self.moneyTextFiled];
     
     self.line1 = [[UIView alloc]initWithFrame:CGRectZero];
@@ -300,14 +300,8 @@
     NSString *seller = [dic valueForKey:@"seller_id"];
     NSString *privateKey =[dic valueForKey:@"private_key"];
     NSString *body;
-//    NSUserDefaults *sdf = [NSUserDefaults standardUserDefaults];
-//    if ([sdf integerForKey:@"isLogin"]==1)
-//    {
-//        body = [NSString stringWithFormat:@"%@",user_id];
-//    }
-//    else{
-//        body = [NSString stringWithFormat:@"%@",userSheBei_id];
-//    }
+
+
     body = @"0";
     
     Order *order = [[Order alloc]init];
@@ -521,7 +515,6 @@
     [formatter setDateFormat:@"yyMMddHHmmss"];
     NSString *dateTime = [formatter stringFromDate:[NSDate date]];
     int x = arc4random() % 15;
-    
     NSString * dan = [NSString stringWithFormat:@"%@%d",dateTime,x];
   
 //    self.moneyTextFiled.frame=CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width*2/3.0, 20);
