@@ -61,9 +61,13 @@
  */
 +(void)alterOrderPeiSongFeiWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure;
 /*
- * 获取商品详情
+ * 进入修改 获取 商品详情
  */
 +(void)getGoodsInfoWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure;
+/*
+ * 获取 商品详情
+ */
++(void)getShangPinInfoWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure;
 #pragma mark --- 个人中心
 /*
  *判断手机号是否开户

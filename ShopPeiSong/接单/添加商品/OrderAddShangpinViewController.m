@@ -12,6 +12,7 @@
 #import "ReviewSelectedView.h"
 #import "ShangpinMessagesModel.h"
 #import "OrderAddShangpinCell.h"
+#import "GoodDetailViewController.h"
 
 #import "Header.h"
 @interface OrderAddShangpinViewController ()<UIGestureRecognizerDelegate,UITableViewDelegate,UITableViewDataSource,MBProgressHUDDelegate,ReviewSelectedViewDelegate,UITextFieldDelegate>
@@ -313,15 +314,23 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    ShangpinMessagesModel *model = self.shangpinArray[indexPath.row];
-//    AddShangpinViewController *addVC = [[AddShangpinViewController alloc]init];
-//    addVC.hidesBottomBarWhenPushed = YES;
-//    addVC.viewTag = 2;
-//    addVC.shangpinID = model.shangpinid;
-//    addVC.dianpuName = self.dianpuName;
-//    addVC.dianpuID = self.dianpuID;
-//    [self.navigationController pushViewController:addVC animated:YES];
+//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    ShangpinMessagesModel * model = _shangpinArray[indexPath.row];
+    
+    NSString * goodId = model.shangpinid;
+    
+    GoodDetailViewController *goodDetail = [[GoodDetailViewController alloc]init];
+    goodDetail.goodId = goodId;
+    goodDetail.ViewTag = 1;
+    goodDetail.hasGoodArray=self.hasGoodArray;
+    goodDetail.hidesBottomBarWhenPushed = YES;
+    UIBarButtonItem *bar=[[UIBarButtonItem alloc]init];
+    bar.title=@"";
+    self.navigationItem.backBarButtonItem=bar;
+    [self.navigationController pushViewController:goodDetail animated:YES];
+    goodDetail.block=^(NSMutableArray * hasGoodArray){
+        _hasGoodArray=hasGoodArray;
+    };
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

@@ -195,7 +195,7 @@
     }];
 }
 /*
- * 获取商品详情
+ * 进入修改 获取 商品详情 
  */
 +(void)getGoodsInfoWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure{
     NSString * url = @"enterShangpin.action";
@@ -209,7 +209,21 @@
         failure(error);
     }];
 }
-
+/*
+ * 获取 商品详情
+ */
++(void)getShangPinInfoWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure{
+    NSString * url = @"shopInfo.action";
+    [MBProgressHUD start];
+    [HTTPTool postWithUrl:url params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json){
+        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD stop];
+        [MBProgressHUD promptWithString:@"网络请求失败"];
+        failure(error);
+    }];
+}
 #pragma mark --- 个人中心
 /*
  *判断手机号是否开户

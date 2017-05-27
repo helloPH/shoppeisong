@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ShopPeiSong/&#x63a5;&#x5355;/&#x8ba2;&#x5355;&#x8be6;&#x60c5;/OrderDetailViewController.m"
-            timestampString = "517486516.47009"
+            timestampString = "517542295.34203"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "920"
-            endingLineNumber = "920"
+            startingLineNumber = "960"
+            endingLineNumber = "960"
             landmarkName = "-selectedTargetWithIndex:"
             landmarkType = "7">
          </BreakpointContent>
@@ -244,12 +244,12 @@
                   moduleName = "ShopPeiSong"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/shiyuanshangpin/Desktop/%E9%A1%B9%E7%9B%AE/%E5%A6%99%E5%BA%97%E4%BD%B3%E9%85%8D%E9%80%81/shoppeisong/ShopPeiSong/%E6%88%91/%E9%82%80%E8%AF%B7%E9%A2%86%E7%8E%B0%E9%87%91/%E5%BC%80%E6%88%B7/ShengJiViewController.m"
-                  timestampString = "517484891.330913"
+                  timestampString = "517562635.414557"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1265"
                   endingLineNumber = "1265"
-                  offsetFromSymbolStart = "304">
+                  offsetFromSymbolStart = "282">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -259,12 +259,12 @@
                   moduleName = "ShopPeiSong"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/shiyuanshangpin/Desktop/%E9%A1%B9%E7%9B%AE/%E5%A6%99%E5%BA%97%E4%BD%B3%E9%85%8D%E9%80%81/shoppeisong/ShopPeiSong/%E6%88%91/%E9%82%80%E8%AF%B7%E9%A2%86%E7%8E%B0%E9%87%91/%E5%BC%80%E6%88%B7/ShengJiViewController.m"
-                  timestampString = "517484891.332986"
+                  timestampString = "517562635.415961"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1265"
                   endingLineNumber = "1265"
-                  offsetFromSymbolStart = "140">
+                  offsetFromSymbolStart = "138">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -274,12 +274,12 @@
                   moduleName = "ShopPeiSong"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/shiyuanshangpin/Desktop/%E9%A1%B9%E7%9B%AE/%E5%A6%99%E5%BA%97%E4%BD%B3%E9%85%8D%E9%80%81/shoppeisong/ShopPeiSong/%E6%88%91/%E9%82%80%E8%AF%B7%E9%A2%86%E7%8E%B0%E9%87%91/%E5%BC%80%E6%88%B7/ShengJiViewController.m"
-                  timestampString = "517484891.334696"
+                  timestampString = "517562635.417488"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1265"
                   endingLineNumber = "1265"
-                  offsetFromSymbolStart = "88">
+                  offsetFromSymbolStart = "75">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -289,12 +289,12 @@
                   moduleName = "ShopPeiSong"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/shiyuanshangpin/Desktop/%E9%A1%B9%E7%9B%AE/%E5%A6%99%E5%BA%97%E4%BD%B3%E9%85%8D%E9%80%81/shoppeisong/ShopPeiSong/%E6%88%91/%E9%82%80%E8%AF%B7%E9%A2%86%E7%8E%B0%E9%87%91/%E5%BC%80%E6%88%B7/ShengJiViewController.m"
-                  timestampString = "517484891.336143"
+                  timestampString = "517562635.41935"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1266"
                   endingLineNumber = "1266"
-                  offsetFromSymbolStart = "88">
+                  offsetFromSymbolStart = "83">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -462,16 +462,80 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ShopPeiSong/&#x63a5;&#x5355;/&#x8ba2;&#x5355;&#x8be6;&#x60c5;/OrderDetailViewController.m"
-            timestampString = "517486516.47009"
+            timestampString = "517546704.448391"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1087"
-            endingLineNumber = "1087"
-            landmarkName = "-changeFujiafeiSuccessWithMoney:AndIndex:"
+            startingLineNumber = "1034"
+            endingLineNumber = "1034"
+            landmarkName = "-saveMessages"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[OrderDetailViewController saveMessages]"
+                  moduleName = "ShopPeiSong"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shiyuanshangpin/Desktop/%E9%A1%B9%E7%9B%AE/%E5%A6%99%E5%BA%97%E4%BD%B3%E9%85%8D%E9%80%81/shoppeisong/ShopPeiSong/%E6%8E%A5%E5%8D%95/%E8%AE%A2%E5%8D%95%E8%AF%A6%E6%83%85/OrderDetailViewController.m"
+                  timestampString = "517541859.57436"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1037"
+                  endingLineNumber = "1037"
+                  offsetFromSymbolStart = "2608">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__41-[OrderDetailViewController saveMessages]_block_invoke"
+                  moduleName = "ShopPeiSong"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shiyuanshangpin/Desktop/%E9%A1%B9%E7%9B%AE/%E5%A6%99%E5%BA%97%E4%BD%B3%E9%85%8D%E9%80%81/shoppeisong/ShopPeiSong/%E6%8E%A5%E5%8D%95/%E8%AE%A2%E5%8D%95%E8%AF%A6%E6%83%85/OrderDetailViewController.m"
+                  timestampString = "517541859.575606"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1038"
+                  endingLineNumber = "1038"
+                  offsetFromSymbolStart = "64">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShopPeiSong/&#x63a5;&#x5355;/&#x8ba2;&#x5355;&#x8be6;&#x60c5;/&#x5546;&#x54c1;&#x8be6;&#x60c5;/GoodDetailViewController.m"
+            timestampString = "517562352.654381"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
+            landmarkName = "-loadListData"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShopPeiSong/&#x63a5;&#x5355;/&#x8ba2;&#x5355;&#x8be6;&#x60c5;/&#x5546;&#x54c1;&#x8be6;&#x60c5;/GoodDetailViewController.m"
+            timestampString = "517562352.654381"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "167"
+            endingLineNumber = "167"
+            landmarkName = "-loadListData"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -481,45 +545,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ShopPeiSong/&#x63a5;&#x5355;/&#x8ba2;&#x5355;&#x8be6;&#x60c5;/OrderDetailViewController.m"
-            timestampString = "517486516.47009"
+            filePath = "ShopPeiSong/&#x63a5;&#x5355;/&#x8ba2;&#x5355;&#x8be6;&#x60c5;/&#x5546;&#x54c1;&#x8be6;&#x60c5;/GoodDetailViewController.m"
+            timestampString = "517562352.654381"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1084"
-            endingLineNumber = "1084"
-            landmarkName = "-changeFujiafeiSuccessWithMoney:AndIndex:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ShopPeiSong/&#x63a5;&#x5355;/&#x8ba2;&#x5355;&#x8be6;&#x60c5;/OrderDetailViewController.m"
-            timestampString = "517484452.28612"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "398"
-            endingLineNumber = "398"
-            landmarkName = "-alertReshData"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ShopPeiSong/&#x63a5;&#x5355;/&#x8ba2;&#x5355;&#x8be6;&#x60c5;/OrderDetailViewController.m"
-            timestampString = "517486516.47009"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "435"
-            endingLineNumber = "435"
-            landmarkName = "-alertReshData"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
+            landmarkName = "-loadListData"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

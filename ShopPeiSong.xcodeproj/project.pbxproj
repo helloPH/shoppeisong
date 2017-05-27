@@ -179,6 +179,10 @@
 		0AE8ED701E712C2100CB65DF /* findPasViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8ED6B1E712C2100CB65DF /* findPasViewController.m */; };
 		0AE8ED731E712D4E00CB65DF /* NSString+MD5Addition.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8ED721E712D4E00CB65DF /* NSString+MD5Addition.m */; };
 		0AE8ED761E715CD000CB65DF /* KeQiangDiandanModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8ED751E715CD000CB65DF /* KeQiangDiandanModel.m */; };
+		0AEA2F781ED924210051ABCF /* goodDeailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AEA2F751ED924210051ABCF /* goodDeailModel.m */; };
+		0AEA2F791ED924210051ABCF /* GoodDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AEA2F771ED924210051ABCF /* GoodDetailViewController.m */; };
+		0AEA2F7C1ED924730051ABCF /* ShangpinModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AEA2F7B1ED924730051ABCF /* ShangpinModel.m */; };
+		0AEA2F7F1ED926070051ABCF /* TGCenterLineLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AEA2F7D1ED926070051ABCF /* TGCenterLineLabel.m */; };
 		0AF46F4D1E6F979500111C3D /* SecurityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF46F4C1E6F979500111C3D /* SecurityViewController.m */; };
 		0AF46F501E6F9F8700111C3D /* SecurityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF46F4F1E6F9F8700111C3D /* SecurityCell.m */; };
 		0AF46F541E6FD29800111C3D /* OrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF46F531E6FD29800111C3D /* OrderDetailViewController.m */; };
@@ -919,6 +923,14 @@
 		0AE8ED721E712D4E00CB65DF /* NSString+MD5Addition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5Addition.m"; sourceTree = "<group>"; };
 		0AE8ED741E715CD000CB65DF /* KeQiangDiandanModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeQiangDiandanModel.h; sourceTree = "<group>"; };
 		0AE8ED751E715CD000CB65DF /* KeQiangDiandanModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeQiangDiandanModel.m; sourceTree = "<group>"; };
+		0AEA2F741ED924210051ABCF /* goodDeailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = goodDeailModel.h; sourceTree = "<group>"; };
+		0AEA2F751ED924210051ABCF /* goodDeailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = goodDeailModel.m; sourceTree = "<group>"; };
+		0AEA2F761ED924210051ABCF /* GoodDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodDetailViewController.h; sourceTree = "<group>"; };
+		0AEA2F771ED924210051ABCF /* GoodDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodDetailViewController.m; sourceTree = "<group>"; };
+		0AEA2F7A1ED924730051ABCF /* ShangpinModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShangpinModel.h; sourceTree = "<group>"; };
+		0AEA2F7B1ED924730051ABCF /* ShangpinModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShangpinModel.m; sourceTree = "<group>"; };
+		0AEA2F7D1ED926070051ABCF /* TGCenterLineLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGCenterLineLabel.m; sourceTree = "<group>"; };
+		0AEA2F7E1ED926070051ABCF /* TGCenterLineLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGCenterLineLabel.h; sourceTree = "<group>"; };
 		0AF46F4B1E6F979500111C3D /* SecurityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecurityViewController.h; sourceTree = "<group>"; };
 		0AF46F4C1E6F979500111C3D /* SecurityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecurityViewController.m; sourceTree = "<group>"; };
 		0AF46F4E1E6F9F8700111C3D /* SecurityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecurityCell.h; sourceTree = "<group>"; };
@@ -1702,6 +1714,8 @@
 		0A0B3A891E6D32E9000FBAB6 /* 公共文件 */ = {
 			isa = PBXGroup;
 			children = (
+				0AEA2F7D1ED926070051ABCF /* TGCenterLineLabel.m */,
+				0AEA2F7E1ED926070051ABCF /* TGCenterLineLabel.h */,
 				0AF966CA1EC5D01600043BE0 /* super */,
 				0AF95DEA1EC5B76100043BE0 /* scan */,
 				0AF95AB11EC5504F00043BE0 /* PHMap */,
@@ -2536,6 +2550,19 @@
 			path = "忘记密码";
 			sourceTree = "<group>";
 		};
+		0AEA2F731ED924210051ABCF /* 商品详情 */ = {
+			isa = PBXGroup;
+			children = (
+				0AEA2F7A1ED924730051ABCF /* ShangpinModel.h */,
+				0AEA2F7B1ED924730051ABCF /* ShangpinModel.m */,
+				0AEA2F741ED924210051ABCF /* goodDeailModel.h */,
+				0AEA2F751ED924210051ABCF /* goodDeailModel.m */,
+				0AEA2F761ED924210051ABCF /* GoodDetailViewController.h */,
+				0AEA2F771ED924210051ABCF /* GoodDetailViewController.m */,
+			);
+			path = "商品详情";
+			sourceTree = "<group>";
+		};
 		0AF46F4A1E6F975700111C3D /* 安全设置 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2550,6 +2577,7 @@
 		0AF46F511E6FD28600111C3D /* 订单详情 */ = {
 			isa = PBXGroup;
 			children = (
+				0AEA2F731ED924210051ABCF /* 商品详情 */,
 				0AF46F521E6FD29800111C3D /* OrderDetailViewController.h */,
 				0AF46F531E6FD29800111C3D /* OrderDetailViewController.m */,
 				0AF46F551E6FDB6300111C3D /* OrderDetailCellOne.h */,
@@ -3927,6 +3955,7 @@
 				0AF5D2851E9F2E0700DF94BD /* OrderAddShangpinCell.m in Sources */,
 				0A0B3ADA1E6D3306000FBAB6 /* SDWebImageDownloaderOperation.m in Sources */,
 				0AF966B61EC5BC7B00043BE0 /* ZXQRCodeAlignmentPattern.m in Sources */,
+				0AEA2F781ED924210051ABCF /* goodDeailModel.m in Sources */,
 				0AF966001EC5BC7B00043BE0 /* ZXEmailAddressResultParser.m in Sources */,
 				0A80A4A11E8B44AD0073921A /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				0ABE4CC21ED6F0DE0041CC26 /* ShouShiMiMaView.m in Sources */,
@@ -3963,6 +3992,7 @@
 				0A0B3AD21E6D3306000FBAB6 /* MBProgressHUD.m in Sources */,
 				0AE8ED6F1E712C2100CB65DF /* RegistrationView.m in Sources */,
 				0AF966201EC5BC7B00043BE0 /* ZXMonochromeRectangleDetector.m in Sources */,
+				0AEA2F7C1ED924730051ABCF /* ShangpinModel.m in Sources */,
 				0AF966161EC5BC7B00043BE0 /* ZXVCardResultParser.m in Sources */,
 				0A3C5D061E7FD57800F94CC9 /* ShangpinManageViewController.m in Sources */,
 				0AF8EA3E1EB0AAA000846DE6 /* AutographView.m in Sources */,
@@ -4135,6 +4165,7 @@
 				0AF966111EC5BC7B00043BE0 /* ZXTelResultParser.m in Sources */,
 				0AF966531EC5BC7B00043BE0 /* ZXDataMatrixX12Encoder.m in Sources */,
 				0AF9660C1EC5BC7B00043BE0 /* ZXSMSMMSResultParser.m in Sources */,
+				0AEA2F791ED924210051ABCF /* GoodDetailViewController.m in Sources */,
 				0AF965F31EC5BC7B00043BE0 /* ZXAztecState.m in Sources */,
 				0AF966AA1EC5BC7B00043BE0 /* ZXPDF417ResultMetadata.m in Sources */,
 				0AF966651EC5BC7B00043BE0 /* ZXAI01weightDecoder.m in Sources */,
@@ -4233,6 +4264,7 @@
 				0AF966561EC5BC7B00043BE0 /* ZXMaxiCodeBitMatrixParser.m in Sources */,
 				0AF966BB1EC5BC7B00043BE0 /* ZXQRCodeFinderPatternInfo.m in Sources */,
 				0AF9660D1EC5BC7B00043BE0 /* ZXSMSParsedResult.m in Sources */,
+				0AEA2F7F1ED926070051ABCF /* TGCenterLineLabel.m in Sources */,
 				0A38C0AD1EB9BBB20023DE57 /* QianDaoView.m in Sources */,
 				0AF95AA31EC54FF900043BE0 /* IQUIScrollView+Additions.m in Sources */,
 				0AF966281EC5BC7B00043BE0 /* ZXBitSource.m in Sources */,

@@ -26,7 +26,8 @@
 @property(nonatomic,strong)UITableView *mainTableView;
 @property(nonatomic,strong)UIButton *leftButton,*rightButton;
 @property(nonatomic,strong)NSMutableArray *shangpinListArray,*zhifushangshiArray,*shuliangArray,*shouhuoMoney;
-@property(nonatomic,strong)NSArray *shouhuorenArray,*dataArray;
+@property(nonatomic,strong)NSMutableArray *shouhuorenArray;
+@property(nonatomic,strong)NSArray *dataArray;
 @property(nonatomic,strong)NSMutableDictionary *DdxqDict;
 @property(nonatomic,assign)float tihuofeiMoney,fujiafeiCount;
 @property(nonatomic,strong)UIView *choutiBackView,*maskView;
@@ -325,12 +326,37 @@
         self.tihuofeiMoney = self.tihuofeiMoney+[model.total_money floatValue];
     }
     
-    NSDictionary *dict1 = @{@"key":@"收货人:",@"value":self.DdxqDict[@"shouhuoren"]};
-    NSDictionary *dict2 = @{@"key":@"手机号码:",@"value":[NSString stringWithFormat:@"%@",self.DdxqDict[@"tel"]]};
-    NSDictionary *dict3 = @{@"key":@"收货地址:",@"value":self.DdxqDict[@"shouhuodizhi"]};
-    NSDictionary *dict4 = @{@"key":@"下单时间:",@"value":self.DdxqDict[@"cretdate"]};
-    NSDictionary *dict5 = @{@"key":@"单号:",@"value":self.DdxqDict[@"dingdanhao"]};
-    self.shouhuorenArray = [NSArray arrayWithObjects:dict1,dict2,dict3,dict4,dict5, nil];
+    
+    NSString * shouhuorenSt = [NSString stringWithFormat:@"%@",self.DdxqDict[@"shouhuoren"]];
+    NSDictionary *dict1 = @{@"key":@"收货人:",@"value":shouhuorenSt};
+    
+    NSString * shoujihaoSt = [NSString stringWithFormat:@"%@",self.DdxqDict[@"tel"]];
+    NSDictionary *dict2 = @{@"key":@"手机号码:",@"value":shoujihaoSt};
+    
+    
+    NSString * shouhuodizhiSt = [NSString stringWithFormat:@"%@",self.DdxqDict[@"shouhuodizhi"]];
+    NSDictionary *dict3 = @{@"key":@"收货地址:",@"value":shouhuodizhiSt};
+    
+    NSString * cretdateSt = [NSString stringWithFormat:@"%@",self.DdxqDict[@"cretdate"]];
+    NSDictionary *dict4 = @{@"key":@"下单时间:",@"value":cretdateSt};
+    
+    NSString * dingdanhaoSt = [NSString stringWithFormat:@"%@",self.DdxqDict[@"dingdanhao"]];
+    NSDictionary *dict5 = @{@"key":@"单号:",@"value":dingdanhaoSt};
+    
+    
+    
+    self.shouhuorenArray = [NSMutableArray arrayWithObjects:dict1,dict2,dict3,dict4,dict5, nil];
+    if ([shoujihaoSt isEmptyString]) {
+        [self.shouhuorenArray removeObject:dict2];
+    }
+    if ([shouhuorenSt isEmptyString]) {
+        [self.shouhuorenArray removeObject:dict1];
+    }
+    
+    
+    
+    
+    
     
     NSDictionary *dict6 = @{@"key":@"支付方式:",@"value":self.DdxqDict[@"zhifufangshi"]};
     NSDictionary *dict7 = @{@"key":@"预约送达时间:",@"value":self.DdxqDict[@"yuyuesongda"]};
@@ -432,13 +458,29 @@
     
     
     
-    NSDictionary *dict1 = @{@"key":@"收货人:",@"value":self.DdxqDict[@"shouhuoren"]};
+    NSString * shouhuorenSt = [NSString stringWithFormat:@"%@",self.DdxqDict[@"shouhuoren"]];
+    NSDictionary *dict1 = @{@"key":@"收货人:",@"value":shouhuorenSt};
     
-    NSDictionary *dict2 = @{@"key":@"手机号码:",@"value":[NSString stringWithFormat:@"%@",self.DdxqDict[@"tel"]]};
-    NSDictionary *dict3 = @{@"key":@"收货地址:",@"value":self.DdxqDict[@"shouhuodizhi"]};
-    NSDictionary *dict4 = @{@"key":@"下单时间:",@"value":self.DdxqDict[@"cretdate"]};
-    NSDictionary *dict5 = @{@"key":@"单号:",@"value":self.DdxqDict[@"dingdanhao"]};
-    self.shouhuorenArray = [NSArray arrayWithObjects:dict1,dict2,dict3,dict4,dict5, nil];
+    NSString * shoujihaoSt = [NSString stringWithFormat:@"%@",self.DdxqDict[@"tel"]];
+    NSDictionary *dict2 = @{@"key":@"手机号码:",@"value":shoujihaoSt};
+    
+    
+    NSString * shouhuodizhiSt = [NSString stringWithFormat:@"%@",self.DdxqDict[@"shouhuodizhi"]];
+    NSDictionary *dict3 = @{@"key":@"收货地址:",@"value":shouhuodizhiSt};
+    
+    NSString * cretdateSt = [NSString stringWithFormat:@"%@",self.DdxqDict[@"cretdate"]];
+    NSDictionary *dict4 = @{@"key":@"下单时间:",@"value":cretdateSt};
+    
+    NSString * dingdanhaoSt = [NSString stringWithFormat:@"%@",self.DdxqDict[@"dingdanhao"]];
+    NSDictionary *dict5 = @{@"key":@"单号:",@"value":dingdanhaoSt};
+    self.shouhuorenArray = [NSMutableArray arrayWithObjects:dict1,dict2,dict3,dict4,dict5, nil];
+    if ([shoujihaoSt isEmptyString]) {
+        [self.shouhuorenArray removeObject:dict2];
+    }
+    if ([shouhuorenSt isEmptyString]) {
+        [self.shouhuorenArray removeObject:dict1];
+    }
+    
 
     /**
      *  发票
@@ -451,8 +493,6 @@
     /**
      *
      */
-    
-    
     NSString * yingfujine=jine;
     
     
@@ -506,7 +546,7 @@
     
         NSDictionary *dict11 = @{@"key":@"实付款:",@"value":[NSString stringWithFormat:@"¥%.2f",self.tihuofeiMoney +[self.DdxqDict[@"peisongfei"] floatValue]]};
         [self.shuliangArray addObject:dict11];
-        [self.DdxqDict setValue:[NSString stringWithFormat:@"¥%.2f",self.tihuofeiMoney +[self.DdxqDict[@"peisongfei"] floatValue]] forKey:@"shifukuan"];
+        [self.DdxqDict setValue:[NSString stringWithFormat:@"%.2f",self.tihuofeiMoney +[self.DdxqDict[@"peisongfei"] floatValue]] forKey:@"shifukuan"];
 //    }
     
 
@@ -991,7 +1031,6 @@
                            @"yanse":yanses,//OK
                            @"xinghao":xinghaos,//OK
                            @"shangpinid":shangpinids};// OK
-    
     [Request saveOrderEditWithDic:dic success:^(id json) {
         NSLog(@"取消订单 %@",json);
         if ([[json valueForKey:@"message"]integerValue]== 1) {
