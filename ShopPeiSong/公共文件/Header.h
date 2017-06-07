@@ -111,6 +111,8 @@
 
 
 
+
+
 // 是否免密登录
 #define user_IsMianMiLogin [[NSUserDefaults standardUserDefaults]boolForKey:@"user_IsMianMiLogin"]//员工身份
 #define set_User_IsMianMiLogin(isMianMi) [[NSUserDefaults standardUserDefaults] setBool:isMianMi forKey:@"user_IsMianMiLogin"]
@@ -118,6 +120,21 @@
 //   部门职务
 #define user_BuMen [[NSUserDefaults standardUserDefaults] valueForKey:@"bumen"]
 #define set_User_BuMen(bumen) [[NSUserDefaults standardUserDefaults] setValue:bumen forKey:@"bumen"]
+
+
+//是否在岗
+#define set_IsZaiGang(zaigang)  [[NSUserDefaults standardUserDefaults] setBool:zaigang forKey:@"iszaigang"]
+#define isZaiGang  [[NSUserDefaults standardUserDefaults]boolForKey:@"iszaigang"]
+
+
+// 系统推送 保存上次的推送值
+#define push_SystemValue [[NSUserDefaults standardUserDefaults] valueForKey:@"pushsystemvalue"]
+#define set_Push_SystemValue(pushsystemvalue) [[NSUserDefaults standardUserDefaults] setValue:pushsystemvalue forKey:@"pushsystemvalue"]
+
+// 推送提醒时间
+#define pushTimeInter [[NSUserDefaults standardUserDefaults] integerForKey:@"pushTimerInter"]
+#define set_PushTimeInter(timeInter) [[NSUserDefaults standardUserDefaults] setInteger:timeInter forKey:@"pushTimerInter"]
+
 
 #define user_PATH [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES) firstObject] stringByAppendingPathComponent:@"yingyongArrayXML.xml"]
 

@@ -10,10 +10,15 @@
 
 @protocol SecurityCellDelegate <NSObject>
 -(void)selectedTixingTime;
-
 @end
 @interface SecurityCell : UITableViewCell
+
 @property(nonatomic,strong)id<SecurityCellDelegate>securityDelegate;
+
+
+@property (nonatomic,strong)void (^block)();
+
+@property (nonatomic,strong)UISwitch *switchView;
 -(void)reloadDataWithIndexpath:(NSIndexPath *)indexpath;
 
 @end

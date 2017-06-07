@@ -332,9 +332,6 @@
     if (self.controller.successBlock) {
         self.controller.successBlock(YES);
     }
-
-    
-    
     [self.controller dismissViewControllerAnimated:YES completion:^{
     }];
     [self.controller.navigationController popViewControllerAnimated:YES];

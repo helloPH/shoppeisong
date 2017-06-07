@@ -23,6 +23,9 @@
 #import "OrdersModel.h"
 #import "OrderDetailViewController.h"
 #import "FenXiangWithLoginAfter.h"
+#import "PHPush.h"
+#import "PHAlertView.h"
+//#import "GestureViewController.h"
 
 @interface PlatformViewController ()<UITableViewDelegate,UITableViewDataSource,MBProgressHUDDelegate,PlatformCellDelegate>
 
@@ -43,19 +46,64 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self getbumenDataWithStates:@"0"];    
-//    [self.tabBarController setSelectedIndex:1];
+    [self getbumenDataWithStates:@"0"];
     
+    
+    sharePush.localBlock=^(NSDictionary *info){
+        NSString * type = [NSString stringWithFormat:@"%@",info[@"id"]];
+        NSString * value = [NSString stringWithFormat:@"%@",info[@"value"]];
+        
+        switch ([type integerValue]) {
+            case 1:
+            {
+                set_Push_SystemValue(value);
+                if ([UIApplication sharedApplication].applicationState!=UIApplicationStateActive) {
+                    [((AppDelegate *)([UIApplication sharedApplication].delegate)) switchRootController];
+                }
+            }
+                break;
+            case 2:
+            {
+//                PHAlertView * alert = [[PHAlertView alloc]initWithTitle:@"员工信息,是否查看?" message:value delegate:nil cancelButtonTitle:@"忽略" otherButtonTitles:@"查看", nil];
+//                [alert show];
+//                alert.block=^(NSInteger index){
+//                };
+            }
+                break;
+            case 3:
+            {
+                PHAlertView * alert = [[PHAlertView alloc]initWithTitle:@"新订单,是否查看?" message:value delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"查看", nil];
+                [alert show];
+                alert.block=^(NSInteger index){
+                    if (index==1) {
+                        [((CustomerTabbatViewController *)self.navigationController.tabBarController) setCustomIndex:0];
+                        [self.navigationController popToRootViewControllerAnimated:YES];
+                    }
+                    
+                };
+            }
+                break;
+                
+            default:
+                break;
+        }
+
+        
+    };
 
     if (![loginShareContent isEmptyString]) {
         FenXiangWithLoginAfter * fenxiang = [FenXiangWithLoginAfter new];
+        NSLog(@"content --- - - %@",loginShareContent);
         [fenxiang appear];
-        set_LoginShareContent(@"");
+
     }
     
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+ 
+    
     self.automaticallyAdjustsScrollViewInsets = NO;
 
     if (iPhone) {
@@ -457,9 +505,7 @@
     
     NSArray * strs = [str1 componentsSeparatedByString:@"&"];
     
-    
-    
-    
+
     
     NSMutableDictionary * contentDic = [NSMutableDictionary dictionary];///获得的所有内容
     for (NSString * str in strs) {
@@ -524,7 +570,7 @@
             
             
             
-            
+    
             NSDictionary * pram = @{@"yuangongid":user_Id,
                                     @"yingyongid":yingyongId};
             
@@ -547,7 +593,6 @@
                         self.passView.block=^(){// 密码输入正确
 //                            [self maskViewDisMiss];
                             [weakSelf maskViewDisMiss];
-                            
                             
                             [contentDic addEntriesFromDictionary:@{@"yuangongid":user_Id}];
                             

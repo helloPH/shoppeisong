@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface GestureViewController : UIViewController
-
+-(void)mianmilogin;
+-(void)forgetBtnClick:(UIButton *)button;
 @end

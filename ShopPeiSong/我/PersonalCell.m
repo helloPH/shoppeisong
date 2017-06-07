@@ -89,7 +89,13 @@
     _dic=dic;
     
     self.rightLabel.text=[NSString stringWithFormat:@"%@",[self.dic valueForKey:@"clockstatus"]];
-
+    if ([self.rightLabel.text integerValue]%2==0) {
+        set_IsZaiGang(NO);
+    }else{
+        set_IsZaiGang(YES);
+    }
+    
+    
         switch ([self.rightLabel.text integerValue]) {
             case 0:
                 self.rightLabel.text=@"签到";
@@ -122,6 +128,7 @@
             default:
                 break;
         }
+    
     
 }
 -(void)reloadDataWithIndexpath:(NSIndexPath *)indexpath

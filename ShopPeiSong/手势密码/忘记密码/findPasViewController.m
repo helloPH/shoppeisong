@@ -35,6 +35,7 @@
     BOOL isTan;
     BOOL isEmail;
 }
+@property (nonatomic,strong)ShouShiMiMaView * shoushimima;
 @end
 
 @implementation findPasViewController
@@ -386,7 +387,7 @@
     btn.layer.masksToBounds = YES;
     btn.center = CGPointMake(kDeviceWidth/2.0, line2.bottom+40*MCscale);
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [btn addTarget:self action:@selector(changeNewPasSure) forControlEvents:UIControlEventTouchUpInside];
+//    [btn addTarget:self action:@selector(changeNewPasSure) forControlEvents:UIControlEventTouchUpInside];
     [newPasPopView addSubview:btn];
 }
 //短信验证码
@@ -469,13 +470,14 @@
 }
 #pragma mark -- 接口事件处理
 //新密码 修改
--(void)changeNewPasSure
+-(void)changeNewPasSure:(void(^)(BOOL isSuccess))block
 {
     UITextField *onePas = (UITextField *)[newPasPopView viewWithTag:1001];
     UITextField *secPas = (UITextField *)[newPasPopView viewWithTag:1002];
     if ([onePas.text isEqualToString:secPas.text]) {
-        NSMutableDictionary *pram = [[NSMutableDictionary alloc]initWithDictionary:@{@"yuangong.tel ":userTel,@"yuangong.chushimima":newPass}];
-        [HTTPTool getWithUrl:@"backtelPassword.action" params:pram success:^(id json) {
+        NSMutableDictionary *pram = [[NSMutableDictionary alloc]initWithDictionary:@{@"yuangong.tel":userTel,@"yuangong.chushimima":newPass}];
+        
+        [Request findMiMaWithDic:pram Success:^(id json) {
             NSDictionary *dic = (NSDictionary *)json;
             if ([[dic valueForKey:@"massage"]intValue]==1) {
                 for (int i = 0; i<findWayNameAry.count; i++) {
@@ -491,16 +493,26 @@
                 mbHud.customView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"37x-Checkmark"]];
                 [mbHud showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];
                 
+                
+                [_shoushimima disAppear];
                 [self.navigationController dismissViewControllerAnimated:YES completion:^{
                 }];
                 
             }
             else{
-                [self promptMessageWithString:@"密码重置失败!请稍后重试"];
+                [MBProgressHUD promptWithString:@"密码重置失败!请稍后重试"];
+             
             }
+
         } failure:^(NSError *error) {
-            [self promptMessageWithString:@"网络连接错误"];
+            
         }];
+  
+        
+//        [HTTPTool getWithUrl:@"backtelPassword.action" params:pram success:^(id json) {
+//                   } failure:^(NSError *error) {
+//            [self promptMessageWithString:@"网络连接错误"];
+//        }];
     }
     else{
         [self promptMessageWithString:@"两次密码不一致!请重新输入"];
@@ -537,7 +549,11 @@
 {
     UITextField *mes = (UITextField *)[codePopView viewWithTag:101];
     NSMutableDictionary *pram = [[NSMutableDictionary alloc]initWithDictionary:@{@"yuangong.tel":userTel,@"code":mes.text}];
+    
+    [MBProgressHUD start];
     [HTTPTool getWithUrl:@"backlongin.action" params:pram success:^(id json) {
+        [MBProgressHUD stop];
+        
         NSDictionary *dic = (NSDictionary *)json;
         if([[dic valueForKey:@"massage"]intValue]==3){
             [self shurumima];
@@ -546,6 +562,7 @@
             [self promptMessageWithString:@"验证码有误"];
         }
     } failure:^(NSError *error) {
+        [MBProgressHUD stop];
         [self promptMessageWithString:@"网络连接错误"];
     }];
 }
@@ -553,10 +570,20 @@
 -(void)shurumima{
     __block  NSString * setPassWord;
     __block NSInteger count = 0;
-    ShouShiMiMaView * mima = [ShouShiMiMaView new];
-    [mima setTitle:@"请输入密码"];
-    __block ShouShiMiMaView * weakMima = mima;
-    mima.passBlock=^(NSString *password){
+    
+    
+    if (_shoushimima) {
+        [_shoushimima disAppear];
+        _shoushimima = nil;
+    }
+    
+    _shoushimima= [ShouShiMiMaView new];
+    [_shoushimima setTitle:@"请输入密码"];
+    [_shoushimima appear];
+    __block ShouShiMiMaView * weakMima = _shoushimima;
+    __block findPasViewController * weakSelf = self;
+    
+    _shoushimima.passBlock=^(NSString *password){
         if (count == 0) { // 第一次划手势后进行判断
             if (password.length>=3) {// 密码位数合格
                 setPassWord=password;
@@ -578,15 +605,18 @@
                 //                        [MBProgressHUD promptWithString:@"密码设置成功"];
                 [weakMima disAppear];//
                 newPass = setPassWord;
-                [self changeNewPasSure];
+                [weakSelf changeNewPasSure:^(BOOL isSuccess) {
+//                    [weakMima disAppear];
+                }];
             }else{
                 [MBProgressHUD promptWithString:@"两次输入不一致"];
                 count=1;
             }
         }
     };
-    [mima appear];
+
 }
+
 //移除上次弹框
 -(void)dismPopView
 {

@@ -7,14 +7,17 @@
 //
 
 #import "SecurityCell.h"
+#import "SelectedTixingTimeView.h"
+
 #import "Header.h"
 @interface SecurityCell()
+
 
 @property(nonatomic,strong)UILabel *nameLabel,*stateLabel,*telLabel;
 @property(nonatomic,strong)UIImageView *rightImage;
 @property(nonatomic,strong)UIView *lineView,*rightView;
 @property(nonatomic,strong)NSArray *nameArray;
-@property (nonatomic,strong)UISwitch *switchView;
+
 
 
 @property (nonatomic,strong)NSIndexPath * indexPath;
@@ -132,24 +135,44 @@
     self.switchView.frame = CGRectMake(0,0, self.rightView.width, 20*MCscale);
     self.telLabel.frame = CGRectMake(self.nameLabel.right +10*MCscale, self.height/2.0-10*MCscale, 150*MCscale, 20*MCscale);
     self.lineView.frame = CGRectMake(0, self.height-1, self.width, 1);
-    
+    if (_indexPath.row==3) {
+        if (pushTimeInter && pushTimeInter!=0) {
+            self.switchView.on=YES;
+        }else{
+            self.switchView.on=NO;
+        }
+    }
     if (_indexPath.row==4) {
         self.switchView.on=mianMiPay;
     }
 }
 -(void)switchAction:(UISwitch *)SWView
 {
+    
+    
+    
     if (_indexPath.row==3) {
         if (SWView.on == 1) {
-            if ([self.securityDelegate respondsToSelector:@selector(selectedTixingTime)]) {
-                [self.securityDelegate selectedTixingTime];
-            }
+            SelectedTixingTimeView * sle= [SelectedTixingTimeView new];
+            [sle appear];
+            sle.block=^(BOOL isSuccess){
+                if (isSuccess) {
+                    SWView.on=YES;
+                    [((AppDelegate*)([UIApplication sharedApplication].delegate)) beginBgTask];
+                }else{
+                    SWView.on=NO;
+                }
+            };
+            
+        }else{
+            set_PushTimeInter(0);
+            [((AppDelegate*)([UIApplication sharedApplication].delegate)) endBgTask];
         }
     }
     if (_indexPath.row==4) {
         set_MianMiPay(self.switchView.on);
     }
-    
+   
 
     
     

@@ -10,6 +10,7 @@
 #import "CustomerTabbatViewController.h"
 #import "GestureViewController.h"
 #import "Header.h"
+#import "PHPush.h"
 #import <ShareSDK/ShareSDK.h>
 #import <ShareSDKConnector/ShareSDKConnector.h>
 //微信SDK头文件
@@ -30,18 +31,27 @@
 
 
 #import "PHPay.h"
-@interface AppDelegate ()
+#import "PHMap.h"
 
+#import "PHJavaScriptHelper.h"
+
+@interface AppDelegate ()
+@property (nonatomic,assign)UIBackgroundTaskIdentifier bgTask;
 @end
 
 @implementation AppDelegate
-{
-    BMKMapManager* _mapManager;
-}
+
 -(void)initData{
+    if (!push_SystemValue) {
+       set_Push_SystemValue(@"0");
+    }
+
 //    set_User_IsMianMiLogin(NO);
 }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [self initData];
+    [self beginBgTask];
+    
     
     if(![[NSUserDefaults standardUserDefaults] valueForKey:@"isFirstShoushi"]){
         [[NSUserDefaults standardUserDefaults] setValue:@"1" forKey:@"isFirstShoushi"];
@@ -49,10 +59,7 @@
     if(![[NSUserDefaults standardUserDefaults] valueForKey:@"isFirstDingdanDetil"]){
         [[NSUserDefaults standardUserDefaults] setValue:@"1" forKey:@"isFirstDingdanDetil"];
     }
-    GestureViewController *gestureVC = [[GestureViewController alloc]init];
-    self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.rootViewController = gestureVC;
-    [self.window makeKeyAndVisible];
+    [self switchRootController];
     
 //    UINavigationController * navi = [[UINavigationController alloc]initWithRootViewController:[LoginViewController new]];
 //    self.window.rootViewController = navi;
@@ -60,20 +67,17 @@
     
     /*微支付*/
 //    [WXApi registerApp:@"wx34d8cb6d9fda6306"];
-    [self configBaiduMap];
+    [[PHMapHelper new]configBaiduMap];
     [self configShareSdk];
-
+    [self beginBgTask];
     
     return YES;
 }
--(void)configBaiduMap{
-    // 要使用百度地图，请先启动BaiduMapManager
-    _mapManager = [[BMKMapManager alloc]init];
-    // 如果要关注网络及授权验证事件，请设定     generalDelegate参数
-    BOOL ret = [_mapManager start:@"1GnHQkt3rczn0Y3NYyIwp2hwlkZExXT8"  generalDelegate:nil];
-    if (!ret) {
-        NSLog(@"manager start failed!");
-    }
+-(void)switchRootController{
+    GestureViewController *gestureVC = [[GestureViewController alloc]init];
+    self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.rootViewController = gestureVC;
+    [self.window makeKeyAndVisible];
 }
 -(void)configShareSdk{
     /**
@@ -92,8 +96,8 @@
 //                            @(SSDKPlatformTypeSinaWeibo),
 //                            @(SSDKPlatformTypeQQ),
                             @(SSDKPlatformTypeWechat),
-                            @(SSDKPlatformTypeMail),
-                            @(SSDKPlatformTypeSMS),
+//                            @(SSDKPlatformTypeMail),
+//                            @(SSDKPlatformTypeSMS),
                          
 
                             ]
@@ -155,18 +159,21 @@
 
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    [self beginBgTask];
 }
 
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+    
+//    [self initPushTimer];
+    
+    
 }
-
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+//    [self initPushTimer];
 }
 
 
@@ -212,4 +219,131 @@
 }
 
 
+
+
+#pragma mark -- tuisong
+-(void)endBgTask{
+    if (_bgTask) {
+        UIApplication *app = [UIApplication sharedApplication];
+        [app endBackgroundTask:_bgTask];
+    }
+}
+- (void)beginBgTask{
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+
+    if (!banben_IsAfter) {
+        return;
+    }
+    
+   
+    int timeinter=60;
+    __block int weakTimeInter = timeinter;
+    
+//    if (!pushTimeInter || pushTimeInter == 0 ) {
+//        [self endBgTask];
+//        return;
+//    }
+    
+    
+    
+    NSLog(@"### -->backgroundinghandler");
+    UIApplication *app = [UIApplication sharedApplication];
+
+    [sharePush registWithBlock:^(NSData *token, NSError *error) {
+        
+    }];
+
+    
+    _bgTask = [app beginBackgroundTaskWithExpirationHandler:^{
+        __block UIBackgroundTaskIdentifier weakBgTask =_bgTask;
+        dispatch_async(dispatch_get_main_queue(),^{
+            if( weakBgTask != UIBackgroundTaskInvalid){
+                weakBgTask = UIBackgroundTaskInvalid;
+            }
+        });
+        NSLog(@"====任务完成了。。。。。。。。。。。。。。。===>");
+        [app endBackgroundTask:weakBgTask];
+    }];
+
+    
+    // Start the long-running task
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        while (true) {
+            if (!banben_IsAfter) {
+                break;
+            }
+            
+            NSString * urString = [NSString stringWithFormat:@"%@GuanjiaInfo.jsp?%@",HTTPImage,user_Id];
+            NSURL * url = [NSURL URLWithString:urString];
+            NSString * htmlString = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+            
+            PHJavaScriptHelper * jshelper = [PHJavaScriptHelper new];
+            jshelper.htmlString = htmlString;
+            NSArray * arrar =  [jshelper getInfoS];
+
+            
+            NSLog(@"推送的数据解析-------:%@",arrar);
+            for (NSDictionary * dic in arrar) {
+               NSString * value = [NSString stringWithFormat:@"%@",dic[@"value"]];
+               NSString * Id = [NSString stringWithFormat:@"%@",dic[@"id"]];
+                
+                if (![value isEmptyString] && ![value isEqualToString:@"0"]) {
+                    
+                    NSString * title;
+                    switch ([Id integerValue]) {
+                        case 1:
+                            title = @"欢迎使用妙店佳商铺";
+                            if ([value isEqualToString:@"0"]) {
+                                if (isZaiGang) {
+                                        NSLog(@"进入推送2");
+                                        Id = @"2";
+                                }else{
+                                    Id = @"0";
+                                }
+                            }else{
+                                if ([value isEqualToString:push_SystemValue]) {
+                                    if (isZaiGang) {
+                                        NSLog(@"进入推送2");
+                                        Id = @"2";
+                                    }
+                                    else{
+                                        Id = @"0";
+                                    }
+                                }
+                            }
+                            break;
+                        case 2:
+                            title = @"员工";
+                            break;
+                        case 3:
+                            break;
+                        default:
+                            break;
+                    }
+                    if ([Id integerValue]==1) {//系统
+                        set_Push_SystemValue(value);
+                        [sharePush localPushWithTitle:title body:@"点击进入详情"  time:0 sound:nil pram:dic];
+                    }else if ([Id integerValue]==2){
+                        if ([value isEqualToString:@"0"]) {// pc端地图接口
+                            
+                        }else{// 进入推送3
+                            
+                        }
+                    }else if([Id integerValue]==1){//新订单
+                        if (user_id) {
+                            weakTimeInter = (int)pushTimeInter;
+                            title = [NSString stringWithFormat:@"%@ %@",dianPuName,user_name];
+                            value = @"用户新订单提醒";
+                            [sharePush localPushWithTitle:title body:value  time:0 sound:@"dingdantixng.mp3" pram:dic];
+                            //          dingdantixng.mp3
+                        }
+                    }
+                }
+            }
+            
+            sleep(timeinter);
+        }
+        
+    });
+}
 @end

@@ -199,12 +199,12 @@
  */
 +(void)getGoodsInfoWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure{
     NSString * url = @"enterShangpin.action";
-    [MBProgressHUD start];
+//    [MBProgressHUD start];
     [HTTPTool postWithUrl:url params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json){
-        [MBProgressHUD stop];
+//        [MBProgressHUD stop];
         success(json);
     } failure:^(NSError *error) {
-        [MBProgressHUD stop];
+//        [MBProgressHUD stop];
         [MBProgressHUD promptWithString:@"网络请求失败"];
         failure(error);
     }];
@@ -393,6 +393,20 @@
     }];
 }
 /*
+ *找回密码
+ */
++(void)findMiMaWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure{
+    [MBProgressHUD start];
+    [HTTPTool  getWithBaseUrl:HTTPHEADER url:@"backtelPassword.action" params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json) {
+        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD stop];
+        //        [MBProgressHUD promptWithString:@"网络连接错误"];
+        failure(error);
+    }];
+}
+/*
  *验证设备
  */
 +(void)yanZhengSheBeiSuccess:(successBlock)success failure:(failureBlock)failure{
@@ -531,7 +545,6 @@
     
     [HTTPTool  postWithBaseUrl:HTTPHEADER url:@"banbeniosStatus.action" params:[NSMutableDictionary dictionaryWithDictionary:@{@"banbenhao":banbenhao                                                                                                                        }] success:^(id json) {
         NSString * status = [NSString stringWithFormat:@"%@",[json valueForKey:@"status"]];
-       status=@"1";
         if ([status isEqualToString:@"2"]) {
             success(@"0");// 待上线
         }else{
@@ -567,7 +580,7 @@
 +(void)successFenxiangKaihuLiLianContentSuccess:(successBlock)success failure:(failureBlock)failure{
     [MBProgressHUD start];
     [HTTPTool  postWithBaseUrl:HTTPHEADER url:@"fenxiangKaihu.action" params:[NSMutableDictionary dictionaryWithDictionary:@{@"yuangong.id":user_Id,
-                                                        @"yuangong.tel":user_tel}] success:^(id json) {
+                                                                                                                             @"yuangong.tel":user_tel}] success:^(id json) {
         [MBProgressHUD stop];
         success(json);
     } failure:^(NSError *error) {
@@ -576,5 +589,20 @@
         failure(error);
     }];
 
+}
+/*
+ * 推送
+ */
++(void)getPushSuccess:(successBlock)success failure:(failureBlock)failure{
+    NSMutableDictionary * pram =[NSMutableDictionary dictionaryWithDictionary:@{@"yuangongid":user_Id}];
+   
+    [HTTPTool  postWithBaseUrl:HTTPImage url:@"GuanjiaInfo.jsp" params:pram success:^(id json) {
+
+        success(json);
+    } failure:^(NSError *error) {
+//        [MBProgressHUD stop];
+//        [MBProgressHUD promptWithString:@"网络连接错误"];
+        failure(error);
+    }];
 }
 @end

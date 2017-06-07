@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ShouShiMiMaView : UIView
+@property (nonatomic,strong)UIButton * backView;
 @property (nonatomic,strong)void (^passBlock)(NSString * passWord);
 @property (nonatomic,strong)NSString * passWord;
 -(void)setTitle:(NSString *)title;

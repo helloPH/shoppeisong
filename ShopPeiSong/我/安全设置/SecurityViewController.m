@@ -26,7 +26,7 @@
 @property(nonatomic,strong)SetPaymentPasswordView *nextPayPas;//支付密码下一步
 @property(nonatomic,strong)YanzhengShenfenzhengView *shenfenzhengView;
 @property(nonatomic,strong)ChangeImageView *changeImage;
-@property(nonatomic,strong)SelectedTixingTimeView *selectedTimeView;
+//@property(nonatomic,strong)SelectedTixingTimeView *selectedTimeView;
 @property(nonatomic,strong)UIButton * outLoginBtn;
 
 @end
@@ -73,6 +73,7 @@
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"bumen"];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"zhiwu"];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"status"];
+        set_User_dianpuID(@"");
         
         GestureViewController * ges = [GestureViewController new];
         [self presentViewController:ges animated:YES completion:^{
@@ -175,13 +176,6 @@
     return _changeImage;
 }
 
--(SelectedTixingTimeView *)selectedTimeView
-{
-    if (!_selectedTimeView) {
-        _selectedTimeView = [[SelectedTixingTimeView alloc]initWithFrame:CGRectMake(30*MCscale, 230*MCscale, kDeviceWidth - 60*MCscale,130*MCscale)];
-    }
-    return _selectedTimeView;
-}
 
 #pragma mark UITableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -197,6 +191,9 @@
     }
     cell.securityDelegate = self;
     [cell reloadDataWithIndexpath:indexPath];
+    
+
+    
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -256,6 +253,7 @@
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"bumen"];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"zhiwu"];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"status"];
+        set_User_dianpuID(@"");
         
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"更换绑定设备成功,将退出系统" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *cleAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
@@ -386,16 +384,6 @@
     }
 }
 
-#pragma mark 选择提醒时间(SecutifiCellDelegate)
--(void)selectedTixingTime
-{
-    [UIView animateWithDuration:0.3 animations:^{
-        self.maskView.alpha = 1;
-        [self.view addSubview:self.maskView];
-        self.selectedTimeView.alpha = 0.95;
-        [self.view addSubview:self.selectedTimeView];
-    }];
-}
 //隐藏遮罩
 -(void)maskDisMiss
 {
@@ -414,8 +402,7 @@
         [self.shenfenzhengView removeFromSuperview];
         self.changeImage.alpha = 0;
         [self.changeImage removeFromSuperview];
-        self.selectedTimeView.alpha = 0;
-        [self.selectedTimeView removeFromSuperview];
+
     }];
 }
 -(void)btnAction:(UIButton *)button

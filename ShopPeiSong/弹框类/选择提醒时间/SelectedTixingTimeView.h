@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface SelectedTixingTimeView : UIView
-
+@property (nonatomic,strong)void (^block)(BOOL isSuccess);
+-(void)appear;
+-(void)disAppear;
 @end

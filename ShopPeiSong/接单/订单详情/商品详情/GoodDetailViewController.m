@@ -14,6 +14,7 @@
 
 @interface GoodDetailViewController ()<MBProgressHUDDelegate,CAAnimationDelegate,UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate>
 @property (nonatomic,strong)NSMutableDictionary * dataDic;
+@property (nonatomic,assign)BOOL loadCurrentGoods;
 
 @property (nonatomic,strong)NSMutableArray * dadangIds;
 @property (nonatomic,assign)NSInteger       keXuangIndex;
@@ -215,7 +216,7 @@
 
 -(void)initSubviews
 {
-    mainScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 64*MCscale, kDeviceWidth, kDeviceHeight - 130*MCscale)];
+    mainScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 64*MCscale, kDeviceWidth, kDeviceHeight - 69*MCscale)];
     //滑屏
     mainScrollView.delegate = self;
     //滑动一页
@@ -813,6 +814,8 @@
 -(void)addCarAction:(UIButton *)btn
 {
     [self addCarAnimation:btn];
+    
+    
 }
 -(void)addCarAnimation:(UIButton *)btn
 {
@@ -866,72 +869,95 @@
 #pragma mark -- 加入购物车
 -(void)addToCardData
 {
+    _loadCurrentGoods=YES;
     
-    //数据model
-    goodDeailModel *model = goodDataAry[0];
-    
-    
-    
-    float price = [model.xianjia floatValue];
-    float shuliang;
-    
-//    NSDictionary * currentDic = @{
-//                                  @"fujiafei_money":model.fujiafei,
-//                                  @"fujiafeishop":@"0",
-//                                  @"jiage":model.yuanjia,
-//                                  @"shopid":model.shangpinid,
-//                                  @"shopimg":model.canpinpic,
-//                                  @"shopname":model.shopname,
-//                                  @"shuliang":[NSString stringWithFormat:@"%.2f",shuliang],
-//                                  @"total_money":[NSString stringWithFormat:@"%.2f",price*shuliang],
-//                                  @"xianjia":model.xianjia,
-//                                  @"xinghao":xinghao,
-//                                  @"yanse":yanse,
-//                                  };
-//    [self addGoodWithDic:currentDic];
-
+    [Request getGoodsInfoWithDic:@{@"shop.id":_goodId} success:^(id json) {
+        if ([[NSString stringWithFormat:@"%@",[json valueForKey:@"message"]] isEqualToString:@"2"]) {
+            [self addGoodWithDic:[json objectForKey:@"shop"]];
+            _loadCurrentGoods=NO;
+            [MBProgressHUD promptWithString:[NSString stringWithFormat:@"添加商品%@成功",_goodId]];
+            
+            
+            
+            for (NSString * gooId in dadangAry) {
+                if ([gooId isKindOfClass:[NSString class]]) {
+                    if (![gooId isEqualToString:@"-1"]) {
+                     [self addGooWithId:gooId];
+                    }
+                    
+                    
+                   
+                }
+            }
+ 
+        }else{
+            [MBProgressHUD promptWithString:@"获取商品信息失败"];
+        }
+    } failure:^(NSError *error) {
+    }];
 
 }
+-(void)addGooWithId:(NSString *)goodsId{
+    [Request getGoodsInfoWithDic:@{@"shop.id":goodsId} success:^(id json) {
+        if ([[NSString stringWithFormat:@"%@",[json valueForKey:@"message"]] isEqualToString:@"2"]) {
+            [self addGoodWithDic:[json objectForKey:@"shop"]];
+            [MBProgressHUD promptWithString:[NSString stringWithFormat:@"添加商品%@成功",goodsId]];
+        }else{
+            [MBProgressHUD promptWithString:@"获取商品信息失败"];
+        }
+    } failure:^(NSError *error) {
+    }];
+}
 -(void)addGoodWithDic:(NSDictionary *)dic{
-    //    NSDictionary * currentDic = @{
-    //                           @"fujiafei_money":@"0",
-    //                           @"fujiafeishop":@"0",
-    //                           @"jiage":@"5",
-    //                           @"shopid":@"1758",
-    //                           @"shopimg":@"http://www.shp360.com/Store/images/shangpin/7120160304032534.png",
-    //                           @"shopname":@"",
-    //                           @"shuliang":@"2.0",
-    //                           @"total_money":@"10",
-    //                           @"xianjia":@"5",
-    //                           @"xinghao":@"0",
-    //                           @"yanse":@"0",
-    //                           };
-    //
-    
     
     
     BOOL hasContain=NO;
+    NSInteger  addCount;
+    addCount = 1;
+    
+    if (_loadCurrentGoods) {
+        addCount = goodCount;
+    }
     
     NSMutableArray * goodsArr = _hasGoodArray;
     
     for (int i = 0; i < goodsArr.count; i ++) {
-        NSMutableDictionary * indexDic = (NSMutableDictionary *)(_hasGoodArray[i]);
-        if ([[NSString stringWithFormat:@"%@",indexDic[@"shopid"]] isEqualToString:[NSString stringWithFormat:@"%@",dic[@"shopid"]]]) {//如果商品存在
+        NSMutableDictionary * indexDic = [NSMutableDictionary  dictionaryWithDictionary:(_hasGoodArray[i])];
+        if ([[NSString stringWithFormat:@"%@",indexDic[@"shopid"]] isEqualToString:[NSString stringWithFormat:@"%@",dic[@"id"]]]) {//如果商品存在
             hasContain=YES;
+            
             // 修改 数量
             NSString * count = [indexDic valueForKey:@"shuliang"];
-            [indexDic setValue:[NSString stringWithFormat:@"%f",[count floatValue]+[[dic valueForKey:@"shuliang"] floatValue]] forKey:@"shuliang"];// 商品数量加一
+            count = [NSString stringWithFormat:@"%.2f",[count floatValue]+addCount];
+            
+            
+//            [indexDic setValue:count forKey:@"shuliang"];// 商品数量加一
+            
+            [indexDic setObject:count forKey:@"shuliang"];// 数量加
+            
             
             // 修改总价
             NSString * jiage = [indexDic valueForKey:@"xianjia"];
             float  totalMoney = [jiage floatValue]*[count floatValue];
-            [indexDic setValue:[NSString stringWithFormat:@"%f",totalMoney] forKey:@"total_money"];
+            [indexDic setValue:[NSString stringWithFormat:@"%.2f",totalMoney] forKey:@"total_money"];
             
             [_hasGoodArray replaceObjectAtIndex:i withObject:indexDic];
         };
     }
     if (!hasContain) {
-        NSDictionary * currentDic = dic;
+        NSDictionary * currentDic = @{
+                                      @"fujiafei_money":[NSString stringWithFormat:@"%@",dic[@"fujiafeiyong_money"]],
+                                      @"fujiafeishop":[NSString stringWithFormat:@"%@",dic[@"fujiafeiyong_name"]],
+                                      @"jiage":[NSString stringWithFormat:@"%@",dic[@"yuanjia"]],
+                                      @"shopid":[NSString stringWithFormat:@"%@",dic[@"id"]],
+                                      @"shopimg":[NSString stringWithFormat:@"%@",dic[@"canpinpic"]],
+                                      @"shopname":[NSString stringWithFormat:@"%@",dic[@"shangpinname"]],
+                                      @"shuliang":[NSString stringWithFormat:@"%ld",(long)addCount],
+                                      @"total_money":[NSString stringWithFormat:@"%@",dic[@"xianjia"]],
+                                      @"xianjia":[NSString stringWithFormat:@"%@",dic[@"xianjia"]],
+                                      @"xinghao":[NSString stringWithFormat:@"%@",dic[@"0"]],
+                                      @"yanse":@"0",
+                                      };
         [_hasGoodArray addObject:[NSMutableDictionary dictionaryWithDictionary:currentDic]];
     }
     [MBProgressHUD promptWithString:@"商品添加成功"];

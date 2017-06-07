@@ -156,10 +156,12 @@
     NSLog(@"result======%@",result);
     UIButton *lastBtn = [selectBtnArr lastObject];
     currentPoint = lastBtn.center;
-    
+    [self loginWithPassWord:result];
+}
+-(void)loginWithPassWord:(NSString *)password{// 手势 密码的点击事件
     if ([[[NSUserDefaults standardUserDefaults]valueForKey:@"isFirstLogin"]integerValue] == 1) {
         //首次登录
-        NSString *passStr = [result stringFromMD5];
+        NSString *passStr = [password stringFromMD5];
         NSString *accont = [NSString stringWithFormat:@"%@",user_tel];
         NSString *pass = [NSString stringWithFormat:@"%@%@",accont,passStr];
         NSString *pass_md5 = [pass stringFromMD5];
@@ -169,14 +171,9 @@
         
         NSMutableDictionary *pram = [NSMutableDictionary dictionaryWithDictionary:@{@"yuangong.id":userid,@"yuangong.chushimima":pass_md5}];
         NSLog(@"%@",pram);
-        MBProgressHUD *mHud = [MBProgressHUD showHUDAddedTo:self animated:YES];
-        mHud.mode = MBProgressHUDModeIndeterminate;
-        mHud.delegate = self;
-        mHud.labelText = @"请稍等...";
-        [mHud show:YES];
-        
+        [MBProgressHUD start];
         [HTTPTool getWithUrl:@"checkLogin.action" params:pram success:^(id json) {
-            [mHud hide:YES];
+            [MBProgressHUD stop];
             NSLog(@"json  %@",json);
             if ([[json valueForKey:@"message"]integerValue]== 2) {
                 [self promptMessageWithString:@"请输入正确的手势密码"];
@@ -200,14 +197,14 @@
             else
             {
                 [[NSUserDefaults standardUserDefaults] setValue:@"2" forKey:@"isFirstLogin"];
-                [[NSUserDefaults standardUserDefaults] setValue:result forKey:@"loginPass"];
+                [[NSUserDefaults standardUserDefaults] setValue:password forKey:@"loginPass"];
                 if ([self.GestureDelegate respondsToSelector:@selector(GestureLockPasswordRight:)]) {
                     [self.GestureDelegate GestureLockPasswordRight:self];
                 }
                 [self resetView];
             }
         } failure:^(NSError *error) {
-            [mHud hide:YES];
+            [MBProgressHUD stop];
             [self promptMessageWithString:@"网络连接错误"];
         }];
     }
@@ -219,12 +216,12 @@
         //结果与正确密码比较
         
         if (user_loginPass) {
-            [self yanzhengPasswordWithString:result];
+            [self yanzhengPasswordWithString:password];
         }
         else
         {
             if (![rightResult isEqualToString:@""]) {
-                if ([rightResult isEqualToString:result]) {//密码正确
+                if ([rightResult isEqualToString:password]) {//密码正确
                     [self.GestureDelegate GestureLockPasswordRight:self];
                     [self resetView];
                 }else
@@ -241,11 +238,12 @@
                 }
             }else
             {//无密码设置密码
-                [self.GestureDelegate GestureLockSetResult:result gestureView:self];
+                [self.GestureDelegate GestureLockSetResult:password gestureView:self];
                 [self resetView];
             }
         }
     }
+
 }
 #pragma mark 验证登录密码
 -(void)yanzhengPasswordWithString:(NSString *)string

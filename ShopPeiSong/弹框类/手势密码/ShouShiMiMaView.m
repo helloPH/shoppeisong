@@ -12,7 +12,7 @@
 #import "Header.h"
 
 @interface ShouShiMiMaView()
-@property (nonatomic,strong)UIButton * backView;
+
 @property (nonatomic,strong)UIButton  * titleButton;
 
 
@@ -99,6 +99,7 @@
     }];
 }
 -(void)disAppear{
+    _backView.alpha=0.95;
     [UIView animateWithDuration:0.3 animations:^{
         _backView.alpha=0;
     }completion:^(BOOL finished) {

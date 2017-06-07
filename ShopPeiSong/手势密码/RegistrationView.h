@@ -7,12 +7,15 @@
 // 注册设备
 
 #import <UIKit/UIKit.h>
+#import "GestureViewController.h"
 #import "Header.h"
 @protocol RegistrationViewDelegate <NSObject>
 
 -(void)completeRegistration;
 @end
 @interface RegistrationView : UIView
+@property (nonatomic,strong)GestureViewController * controller;
+
 @property (nonatomic,strong)void (^openBlock)();
 @property(nonatomic,strong)id<RegistrationViewDelegate>registraDeleagte;
 

@@ -28,5 +28,5 @@
 -(void)reloDataWithIndex:(NSInteger)index;
 
 - (void)setRigthResult:(NSString *)rightResult;
-
+-(void)loginWithPassWord:(NSString *)password;
 @end

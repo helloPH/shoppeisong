@@ -14,7 +14,7 @@
 #import "findPasViewController.h"
 #import "OpenAccountViewController.h"
 #import "OpenAccViewController.h"
-
+#import "PHAlertView.h"
 
 @interface GestureViewController ()<GestureLockDelegate,MBProgressHUDDelegate,RegistrationViewDelegate>
 @property (strong, nonatomic) UILabel *label;
@@ -33,6 +33,9 @@
     [self surePersonState];
 
 
+}
+-(void)mianmilogin{
+    [self.gesView loginWithPassWord:user_loginPass];
 }
 
 -(UIImageView *)caozuotishiImage
@@ -82,18 +85,21 @@
     if (!_registraView) {
         _registraView = [[RegistrationView alloc]initWithFrame:CGRectZero];
         _registraView.registraDeleagte = self;
-        
+        _registraView.controller=self;
         
         __block GestureViewController * weakSelf = self;
-        _registraView.openBlock=^(){
+        _registraView.openBlock=^(){// 登录界面的 开户按钮 回调
             OpenAccViewController * openAcc = [OpenAccViewController new];
             UINavigationController * openNavi = [[UINavigationController alloc]initWithRootViewController:openAcc];
             [openNavi.navigationBar setBarTintColor:naviBarTintColor];
             [weakSelf presentViewController:openNavi animated:YES completion:^{
             }];
             
-            openAcc.successBlock=^(BOOL isLoginSuc){///开户成功
-                [weakSelf.registraView mianMiLogin];
+            openAcc.successBlock=^(BOOL isLoginSuc){///开户成功 的 回调
+//                PHAlertView * alertview = [[PHAlertView alloc]initWithTitle:@"提示" message:@"商铺开户成功，请输入手机号并设置初始登录密码" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+//                [alertview show];
+                
+//                [weakSelf.registraView mianMiLogin];
             };
         };
         [self.view addSubview:_registraView];

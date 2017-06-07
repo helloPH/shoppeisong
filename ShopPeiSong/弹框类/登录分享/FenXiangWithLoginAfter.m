@@ -32,6 +32,7 @@
         NSString * messge = [NSString stringWithFormat:@"%@",[json valueForKey:@"message"]];
         if ([messge isEqualToString:@"1"]) {
             _dataDic = (NSDictionary *)json;
+            
 
         }
     } failure:^(NSError *error) {
@@ -63,6 +64,7 @@
     textField.textAlignment=NSTextAlignmentCenter;
     textField.textColor=textBlackColor;
     textField.text=loginShareContent;
+    set_LoginShareContent(@"");
     [textField sizeToFit];
     textField.centerX=self.width/2;
     _textField = textField;
@@ -117,6 +119,10 @@
                                            type:SSDKContentTypeAuto];
         
         [ShareSDK share:SSDKPlatformSubTypeWechatTimeline parameters:shareParams onStateChanged:^(SSDKResponseState state, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error) {
+            if (state != SSDKResponseStateSuccess) {
+                [MBProgressHUD promptWithString:@"分享失败"];
+                return ;
+            }
             [Request successFenxiangKaihuLiLianContentSuccess:^(id json) {
                 [self disAppear];
             } failure:^(NSError *error) {

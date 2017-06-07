@@ -21,7 +21,7 @@
    return   push;
 }
 
--(void)localPushWithTitle:(NSString *)title body:(NSString *)body time:(NSInteger)time pram:(NSDictionary *)pram{
+-(void)localPushWithTitle:(NSString *)title body:(NSString *)body time:(NSInteger)time  sound:(NSString *)soundName pram:(NSDictionary *)pram{
     UILocalNotification *notification = [[UILocalNotification alloc] init];
     // 设置触发通知的时间
     NSDate *fireDate = [NSDate dateWithTimeIntervalSinceNow:time];
@@ -38,12 +38,20 @@
     notification.alertTitle = title;
 //    notification.applicationIconBadgeNumber = 1;
     // 通知被触发时播放的声音
-    notification.soundName = UILocalNotificationDefaultSoundName;
+
+    if (soundName && [soundName length]!=0) {
+       notification.soundName=soundName;
+    }else{
+        notification.soundName = UILocalNotificationDefaultSoundName;  
+    }
+    
+  
     // 通知参数
   
     notification.userInfo = pram;
      notification.repeatInterval = NSCalendarUnitDay;
-    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+    [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+//    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
 
 }
 -(void)registWithBlock:(RegistBlock)block{

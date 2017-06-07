@@ -32,6 +32,7 @@ typedef void(^ReGeoBlock)(BMKReverseGeoCodeResult * result,BMKSearchErrorCode  e
 //编码
 @property (nonatomic,strong)GeoBlock geoBlock;
 @property (nonatomic,strong)ReGeoBlock regeoBlock;
+-(void)configBaiduMap;
 -(void)geoWithAddress:(NSString *)address city:(NSString *)city block:(GeoBlock)geoBlock;
 -(void)regeoWithLocation:(CLLocationCoordinate2D )location block:(ReGeoBlock)geoBlock;
 
@@ -43,8 +44,6 @@ typedef void(^ReGeoBlock)(BMKReverseGeoCodeResult * result,BMKSearchErrorCode  e
 #pragma mark -- mapview
 @interface PHMapView:BMKMapView
 @property (nonatomic,strong)void (^hasLoadBlock)();
--(instancetype)initWithFrame:(CGRect)frame;
-
 /**
  *  路径规划
  */

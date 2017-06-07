@@ -9,7 +9,9 @@
 #import "RegistrationView.h"
 #import "NSString+MD5Addition.h"
 #import "FenXiangWithLoginAfter.h"
-
+#import "ShouShiMiMaView.h"
+#import "findPasViewController.h"
+#import "PHAlertView.h"
 
 @interface RegistrationView()<MBProgressHUDDelegate,UITextFieldDelegate>
 @property (nonatomic,strong)UILabel * naviView;
@@ -19,6 +21,7 @@
 @property (nonatomic,strong)NSMutableArray *yingyongArr ;//应用数组
 @property (nonatomic,strong)UILabel *dianpuNameLabel,*nameLabel;//店铺名,姓名
 @property (nonatomic,strong)UIView *line1,*line2,*line3,*line4;
+@property (nonatomic,strong)UIButton * findPass;
 
 @end
 @implementation RegistrationView
@@ -144,6 +147,7 @@
         _passWordTextfield.leftView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"输入密码"]];
         _passWordTextfield.leftView.width=_passWordTextfield.leftView.height=25*MCscale;
         _passWordTextfield.leftViewMode=UITextFieldViewModeAlways;
+        _passWordTextfield.hidden=YES;
     }
     return _passWordTextfield;
 }
@@ -152,8 +156,19 @@
     if (!_line4) {
         _line4 = [BaseCostomer viewWithFrame:CGRectZero backgroundColor:lineColor];
         [self addSubview:self.line4];
+        _line4.hidden=YES;
     }
     return _line4;
+}
+-(UIButton *)findPass{
+    if (!_findPass) {
+        _findPass = [BaseCostomer buttonWithFrame:CGRectZero backGroundColor:nil text:@"忘记密码" image:nil];
+        _findPass.hidden=YES;
+        [_findPass setTitleColor:mainColor forState:UIControlStateNormal];
+        [_findPass addTarget:self.controller action:@selector(forgetBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:_findPass];
+    }
+    return _findPass;
 }
 
 -(NSMutableArray *)yingyongArr
@@ -186,6 +201,7 @@
     if (_registraBtn == nil) {
         _registraBtn = [BaseCostomer buttonWithFrame:CGRectZero font:[UIFont boldSystemFontOfSize:MLwordFont_2] textColor:[UIColor whiteColor] backGroundColor:txtColors(250, 54, 71, 1) cornerRadius:5*MCscale text:@"登录" image:@""];
         [_registraBtn addTarget:self action:@selector(registraBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+//        _registraBtn.hidden=YES;
         [self addSubview:_registraBtn];
     }
     return _registraBtn;
@@ -264,6 +280,12 @@
         make.right.equalTo(self).offset(-30*MCscale);
         make.height.equalTo(@(1*MCscale));
     }];
+    [self.findPass mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.line4.mas_bottom).offset(5*MCscale);
+        make.right.equalTo(self.line4.mas_right).offset(0);
+        make.height.equalTo(@(20*MCscale));
+        make.width.equalTo(@(100*MCscale));
+    }];
     
     [self.registraBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.line4.mas_bottom).offset(60*MCscale);
@@ -275,45 +297,153 @@
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
     if (textField == self.passWordTextfield) {
-        BOOL isMatch = [BaseCostomer panduanPhoneNumberWithString:self.accountTextfield.text];
-        if(!isMatch){
-            [self promptMessageWithString:@"您输入的手机号码不正确!请重新输入"];
-        }
-        else{
-            NSMutableDictionary *pram = [NSMutableDictionary dictionaryWithDictionary:@{@"tel":self.accountTextfield.text}];
-            [HTTPTool getWithUrl:@"getYuangongInfo.action" params:pram success:^(id json) {
-                NSLog(@"json%@",json);
-                if ([[json valueForKey:@"message"]integerValue] == 0) {
-                    [self promptMessageWithString:@"无此员工信息"];
-                }
-                else if ([[json valueForKey:@"message"]integerValue] == 1)
-                {
-                    self.dianpuNameLabel.hidden = NO;
-                    self.line1.hidden = NO;
-                    self.nameLabel.hidden = NO;
-                    self.line2.hidden = NO;
-                    
-                    self.dianpuNameLabel.text = [json valueForKey:@"dianpuname"];
-                    self.nameLabel.text =[NSString stringWithFormat:@"%@ %@ %@",[json valueForKey:@"bumen"],[json valueForKey:@"zhiwu"],[json valueForKey:@"name"]];
-                    
-                    NSString * bumen = [NSString stringWithFormat:@"%@",[json valueForKey:@"bumen"]];
-                    
         
-                    set_DianPuName(self.dianpuNameLabel.text);
-                    [[NSUserDefaults standardUserDefaults] setValue:[json valueForKey:@"name"] forKey:@"name"];
-                    [[NSUserDefaults standardUserDefaults] setValue:[json valueForKey:@"zhiwu"] forKey:@"zhiwu"];
-                     set_User_BuMen(bumen);
-                    [[NSUserDefaults standardUserDefaults] setValue:[json valueForKey:@"status"] forKey:@"status"];
-                }
-            } failure:^(NSError *error) {
-            }];
-        }
+        
     }
+}
+-(void)getUserInfoWithPhone:(NSString *)phone{
+    BOOL isMatch = [BaseCostomer panduanPhoneNumberWithString:phone];
+    if(!isMatch){
+        [self promptMessageWithString:@"您输入的手机号码不正确!请重新输入"];
+    }
+    else{
+        [MBProgressHUD start];
+        NSMutableDictionary *pram = [NSMutableDictionary dictionaryWithDictionary:@{@"tel":phone}];
+        [HTTPTool getWithUrl:@"getYuangongInfo.action" params:pram success:^(id json) {
+            [MBProgressHUD stop];
+            NSLog(@"json%@",json);
+            if ([[json valueForKey:@"message"]integerValue] == 0) {
+                [self promptMessageWithString:@"无此员工信息"];
+            }
+            else if ([[json valueForKey:@"message"]integerValue] == 1)
+            {
+                self.dianpuNameLabel.hidden = NO;
+                self.line1.hidden = NO;
+                self.nameLabel.hidden = NO;
+                self.line2.hidden = NO;
+                
+                
+                BOOL hasMima;
+                hasMima= [[NSString stringWithFormat:@"%@",[json valueForKey:@"pwd"]] isEqualToString:@"1"];
+            
+                if (hasMima) {
+                    self.passWordTextfield.hidden=NO;
+                    self.line4.hidden=NO;
+//                    self.registraBtn.hidden=NO;
+                    self.findPass.hidden = NO;
+                }else{
+                    self.passWordTextfield.hidden=YES;
+                    self.line4.hidden=YES;
+//                    self.registraBtn.hidden=YES;
+                    self.findPass.hidden = YES;
+                    [self shezhimima];
+                    
+                    
+                }
+                
+                
+                
+                self.dianpuNameLabel.text = [json valueForKey:@"dianpuname"];
+                self.nameLabel.text =[NSString stringWithFormat:@"%@ %@ %@",[json valueForKey:@"bumen"],[json valueForKey:@"zhiwu"],[json valueForKey:@"name"]];
+                
+                NSString * bumen = [NSString stringWithFormat:@"%@",[json valueForKey:@"bumen"]];
+                
+                
+                set_DianPuName(self.dianpuNameLabel.text);
+                [[NSUserDefaults standardUserDefaults] setValue:[json valueForKey:@"name"] forKey:@"name"];
+                [[NSUserDefaults standardUserDefaults] setValue:[json valueForKey:@"zhiwu"] forKey:@"zhiwu"];
+                set_User_BuMen(bumen);
+                [[NSUserDefaults standardUserDefaults] setValue:[json valueForKey:@"status"] forKey:@"status"];
+            }
+        } failure:^(NSError *error) {
+            [MBProgressHUD stop];
+            [MBProgressHUD promptWithString:@"网络连接失败"];
+        }];
+        
+    }
+
+}
+-(void)shezhimima{
+    [self endEditing:YES];
+    
+    __block  NSString * setPassWord;
+    __block NSInteger count = 0;
+    
+    
+ 
+    
+    ShouShiMiMaView* shoushimima= [ShouShiMiMaView new];
+    [shoushimima setTitle:@"请设置初始密码"];
+    [shoushimima appear];
+    [shoushimima.backView removeTarget:shoushimima action:@selector(disAppear) forControlEvents:UIControlEventTouchUpInside];
+    __block ShouShiMiMaView * weakMima = shoushimima;
+    __block RegistrationView * weakSelf = self;
+    
+    shoushimima.passBlock=^(NSString *password){
+        if (count == 0) { // 第一次划手势后进行判断
+            if (password.length>=3) {// 密码位数合格
+                setPassWord=password;
+            }else{// 不合格
+                [MBProgressHUD promptWithString:@"请至少连接3个点"];
+                [weakMima setTitle:@"请设置初始密码"];
+                weakMima.passWord=nil;
+                count = 0;
+                return ;
+            }
+        }
+        count ++;
+        if (count==1) {// 密码 首次设置成功
+            [weakMima setTitle:@"请再次输入密码"];
+            weakMima.passWord=setPassWord;
+        }
+        if (count==2) {// 密码 二次输入
+            if ([setPassWord isEqualToString:password]) {/// 密码输入正确
+                //                        [MBProgressHUD promptWithString:@"密码设置成功"];
+                [weakMima disAppear];//
+                
+                [weakSelf findMimaWithPhone:weakSelf.accountTextfield.text password:setPassWord];
+//                newPass = setPassWord;
+//                [weakSelf changeNewPasSure:^(BOOL isSuccess) {
+//                    //                    [weakMima disAppear];
+//                }];
+            }else{
+                [MBProgressHUD promptWithString:@"两次输入不一致"];
+                count=1;
+            }
+        }
+    };
+}
+-(void)findMimaWithPhone:(NSString *)phone password:(NSString *)password{
+    NSMutableDictionary *pram = [[NSMutableDictionary alloc]initWithDictionary:@{@"yuangong.tel":phone,@"yuangong.chushimima":password}];
+  
+    [Request findMiMaWithDic:pram Success:^(id json) {
+        if ([[NSString stringWithFormat:@"%@",[json valueForKey:@"massage"]] isEqualToString:@"1"]) {
+            [MBProgressHUD promptWithString:@"密码重置成功"];
+            set_User_Tel(phone);
+            set_LoginPass(password);
+            
+            
+            PHAlertView * alert = [[PHAlertView alloc]initWithTitle:nil message:[NSString stringWithFormat:@"登录密码设置，商铺管理后台登录密码为“%@”。",user_loginPass] delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil];
+            [alert show];
+            
+            alert.block=^(NSInteger index){
+                [self mianMiLogin];  
+            };
+            
+      
+            
+        }
+    } failure:^(NSError *error) {
+    
+
+    }];
 }
 -(void)registraBtnClick:(UIButton *)button
 {
-    
-    
+    if (!self.accountTextfield.text || self.accountTextfield.text.length==0) {
+        [MBProgressHUD promptWithString:@"请输入手机号"];
+        return;
+    }
     
     BOOL isMatch = [BaseCostomer phoneNumberJiamiWithString:self.accountTextfield.text];
     if(!isMatch){
@@ -344,12 +474,16 @@
             set_User_ShouYingTaiQX([shouyinTaiQX isEqualToString:@"1"]);
             NSLog(@"收银台   %@",user_ShouYingTaiQX?@"YES":@"NO");
             
-            if ([button isEqual:_registraBtn]) {
-                NSString * shareContent = [NSString stringWithFormat:@"%@",[json valueForKey:@"kaihufenxiang"]];
-                set_LoginShareContent(shareContent);
+            
+            NSString * shareContent = [NSString stringWithFormat:@"%@",[json valueForKey:@"kaihufenxiang"]];
+            set_LoginShareContent(shareContent);
+            if ([button isEqual:_registraBtn]) {// 手动点击 登录按钮
+                
+         
+            }else{                            //  自动点击 登录按钮
+                [self.controller mianmilogin];// 手势密码的 自动点击事件
             }
 
-            
             if ([self.registraDeleagte respondsToSelector:@selector(completeRegistration)]) {
                 [self.registraDeleagte completeRegistration];
             }
@@ -357,9 +491,6 @@
             [MBProgressHUD promptWithString:@"网络连接失败"];
             
         }];
-        
-        
-
     }
 }
 //键盘收回
@@ -371,14 +502,29 @@
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     if(textField == self.accountTextfield){
-        NSInteger leng = textField.text.length;
-        NSInteger selectLeng = range.length;
-        NSInteger replaceLeng = string.length;
-        if (leng - selectLeng + replaceLeng > 11){
-            return NO;
+        NSString * newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+
+        
+      
+        if (newString.length <= 11){
+            if (newString.length<11) {// 手机号输入不完整
+                self.passWordTextfield.hidden=YES;
+                self.line4.hidden=YES;
+                self.dianpuNameLabel.hidden = YES;
+                self.line1.hidden = YES;
+                self.nameLabel.hidden = YES;
+                self.line2.hidden = YES;
+//                self.registraBtn.hidden=YES;
+                self.findPass.hidden=YES;
+            }else{//
+                [self getUserInfoWithPhone:newString];
+            }
+            
+            return YES;
         }
         else
-            return YES;
+            
+            return NO;
     }
     return YES;
 }
@@ -394,10 +540,9 @@
     sleep(2);
 }
 #pragma mark  -- 免密登录
--(void)mianMiLogin{
+-(void)mianMiLogin{//  登录界面的 自动输入密码
     _accountTextfield.text=user_tel;
     _passWordTextfield.text=user_loginPass;
-    
     
     NSMutableDictionary *pram = [NSMutableDictionary dictionaryWithDictionary:@{@"tel":self.accountTextfield.text}];
     [HTTPTool getWithUrl:@"getYuangongInfo.action" params:pram success:^(id json) {
@@ -411,6 +556,8 @@
             self.line1.hidden = NO;
             self.nameLabel.hidden = NO;
             self.line2.hidden = NO;
+            
+            
             
             self.dianpuNameLabel.text = [json valueForKey:@"dianpuname"];
             self.nameLabel.text =[NSString stringWithFormat:@"%@ %@ %@",[json valueForKey:@"bumen"],[json valueForKey:@"zhiwu"],[json valueForKey:@"name"]];

@@ -21,6 +21,15 @@
 
 @end
 @implementation PHMapHelper
+-(void)configBaiduMap{
+    // 要使用百度地图，请先启动BaiduMapManager
+    BMKMapManager * mapManager = [[BMKMapManager alloc]init];
+    // 如果要关注网络及授权验证事件，请设定     generalDelegate参数
+    BOOL ret = [mapManager start:@"1GnHQkt3rczn0Y3NYyIwp2hwlkZExXT8"  generalDelegate:nil];
+    if (!ret) {
+        NSLog(@"manager start failed!");
+    }
+}
 #pragma mark --  百度地图的定位代理
 -(void)locationStartLocation:(block)startLocation locationing:(locationing)locationing stopLocation:(block)stopLocation{
     
@@ -131,6 +140,12 @@
     }
     return self;
 }
+-(instancetype)init{
+    if (self=[super init]) {
+        [self initData];
+    }
+    return self;
+}
 -(void)initData{
     self.delegate=self;
 }
@@ -177,12 +192,8 @@
     BMKPlanNode * fromNode = [[BMKPlanNode alloc]init];
     fromNode.pt=startLocation;
 
-    
-    
     BMKPlanNode * toNode = [[BMKPlanNode alloc]init];
     toNode.pt=endLocation;
-
-    
     
     ridingOption.from=fromNode;
     ridingOption.to=toNode;

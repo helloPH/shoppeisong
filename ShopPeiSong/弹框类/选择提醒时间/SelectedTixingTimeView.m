@@ -9,10 +9,13 @@
 #import "SelectedTixingTimeView.h"
 #import "Header.h"
 @interface SelectedTixingTimeView ()
+@property(nonatomic,strong)UIButton * backView;
 
 @property(nonatomic,strong)UILabel *titleLabel;//提示文字
 @property(nonatomic,strong)UIView *timeView;//提示文字
 @property(nonatomic,strong)UIButton *sureBtn;//
+@property(nonatomic,assign)NSInteger seleIndex;
+
 
 @end
 @implementation SelectedTixingTimeView
@@ -21,6 +24,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        _seleIndex=0;
         self.backgroundColor = [UIColor whiteColor];
         self.layer.cornerRadius = 15.0;
         self.layer.shadowRadius = 5.0;
@@ -29,6 +33,46 @@
         self.layer.shadowOffset = CGSizeMake(0, 0);
     }
     return self;
+}
+-(instancetype)init{
+    if (self=[super init]) {
+        [self newView];
+    }
+    return self;
+}
+-(void)newView{
+    _backView = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+    [_backView addTarget:self action:@selector(disAppear) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    _seleIndex=0;
+    [_backView addSubview:self];
+    self.center=CGPointMake(_backView.width/2, _backView.height/2);
+    self.frame=CGRectMake(30*MCscale, 230*MCscale, kDeviceWidth - 60*MCscale,130*MCscale);
+    self.backgroundColor = [UIColor whiteColor];
+    self.layer.cornerRadius = 15.0;
+    self.layer.shadowRadius = 5.0;
+    self.layer.shadowOpacity = 0.5;
+    self.alpha = 0.95;
+    self.layer.shadowOffset = CGSizeMake(0, 0);
+    
+}
+-(void)appear{
+    [[UIApplication sharedApplication].delegate.window addSubview:_backView];
+    _backView.alpha=0;
+    [UIView animateWithDuration:0.3 animations:^{
+        _backView.alpha=0.95;
+    }];
+}
+-(void)disAppear{
+    if (_block) {
+        _block(NO);
+    }
+    [UIView animateWithDuration:0.3 animations:^{
+        _backView.alpha=0;
+    }completion:^(BOOL finished) {
+        [_backView removeFromSuperview];
+    }];
 }
 
 -(UILabel *)titleLabel
@@ -58,7 +102,7 @@
             UIImageView *selectedImage = [BaseCostomer imageViewWithFrame:CGRectMake(10*MCscale,6*MCscale,18*MCscale,18*MCscale) backGroundColor:[UIColor clearColor] image:@"选择"];
             selectedImage.tag = 2000+i;
             [view addSubview:selectedImage];
-            if (i == 0) {
+            if (i == _seleIndex) {
                 selectedImage.image = [UIImage imageNamed:@"选中"];
             }
             
@@ -93,10 +137,30 @@
     }
     UIImageView *image = tap.view.subviews[0];
     image.image = [UIImage imageNamed:@"选中"];
+    _seleIndex = image.tag-2000;
 }
 -(void)sureBtnClick
 {
-    
+    NSInteger timeInter = 0;
+    switch (_seleIndex) {
+        case 0:
+            timeInter = 60*2;
+            break;
+        case 1:
+            timeInter = 60*4;
+            break;
+        case 2:
+            timeInter = 60*8;
+            break;
+        default:
+            break;
+    }
+    set_PushTimeInter(timeInter);
+    NSLog(@"%ld",(long)pushTimeInter);
+    [self disAppear];
+    if (_block) {
+        _block(YES);
+    }
 }
 
 @end

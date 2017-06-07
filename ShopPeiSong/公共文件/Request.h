@@ -112,6 +112,10 @@
  */
 +(void)loginWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure;
 /*
+ *找回密码
+ */
++(void)findMiMaWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure;
+/*
  *验证设备
  */
 +(void)yanZhengSheBeiSuccess:(successBlock)success failure:(failureBlock)failure;
@@ -155,5 +159,9 @@
  * 分享 开户立减内容成功
  */
 +(void)successFenxiangKaihuLiLianContentSuccess:(successBlock)success failure:(failureBlock)failure;
+/*
+ * 推送
+ */
++(void)getPushSuccess:(successBlock)success failure:(failureBlock)failure;
 @end
 

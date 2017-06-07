@@ -9,10 +9,8 @@
 #import "ShouYinTaiPayWay.h"
 #import "LoginPasswordView.h"
 
-
 @interface ShouYinTaiPayWay()<UITextFieldDelegate>
 @property (nonatomic,strong)NSDictionary * dataDic;
-
 
 @property (nonatomic,assign)NSInteger whatForPay;
 
@@ -45,12 +43,6 @@
             _dataDic = (NSDictionary *)json;
             NSLog(@"订单信息:---%@",_dataDic);
 
-            
-            //强制 改方式为0
-//            NSMutableDictionary * mdic = [NSMutableDictionary dictionaryWithDictionary:_dataDic];
-//            [mdic setValue:@"0" forKey:@"zhifufangshi"];
-//            _dataDic = [NSDictionary dictionaryWithDictionary:mdic];
-//            
             [self reshView];
         }else{
             [MBProgressHUD promptWithString:@"无可显示信息"];
@@ -72,8 +64,6 @@
     inputField.userInteractionEnabled = [change isEqualToString:@"1"];
     inputField.enabled = [change isEqualToString:@"1"];
 
-
-    
     UIButton * xiaofeiBtn = [self viewWithTag:30];// 消费中按钮
     NSString * xiaofeizhong = [NSString stringWithFormat:@"%@",_dataDic[@"xiaofeizhong"]];
     xiaofeiBtn.userInteractionEnabled=[xiaofeizhong isEqualToString:@"0"];
@@ -95,14 +85,11 @@
     NSString * zhifuF = [NSString stringWithFormat:@"%@",_dataDic[@"zhifufangshi"]];
     NSString * payTitle;
     
-
-    
     if([zhifuF isEqualToString:@"0"]){//未支付
         [payBtn.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
         payTitle = @"";
 //        payBtn.userInteractionEnabled=NO;
         // // 显示全部的付款方式
-        
         
         CGFloat zeroY = 0;
         NSArray * title = @[@"   现金收款",@"       妙支付",@"   微信收款",@"支付宝收款"];
@@ -110,9 +97,7 @@
             CGFloat zeroW = payBtn.width;
             CGFloat zeroH = payBtn.height;
             CGFloat zeroX = 0 ;
-//            CGFloat zeroY = i * zeroH;
-            
-            
+
             UIButton * zeroBtn = [[UIButton alloc]initWithFrame:CGRectMake(zeroX, zeroY, zeroW, zeroH)];
             [payBtn addSubview:zeroBtn];
             [zeroBtn setImage:[UIImage imageNamed:@"选择"] forState:UIControlStateNormal];
@@ -129,10 +114,6 @@
             line.backgroundColor=lineColor;
             [payBtn addSubview:line];
             
-            
-            
-            
-
         }
         payBtn.height=zeroY;
     }
@@ -166,9 +147,6 @@
     _backView.alpha=0;
     [[UIApplication sharedApplication].delegate.window addSubview:_backView];
     
-    
-    
-
     [_backView addSubview:self];
     self.backgroundColor=[UIColor whiteColor];
     self.frame=CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width-80, 100);
@@ -305,8 +283,6 @@
     }
     
     [self shoukuan];
-    
- 
 }
 -(void)shoukuan{
     UITextField * inputField = [self viewWithTag:110];
@@ -462,9 +438,6 @@
 -(void)payByZeroPayBtn:(UIButton *)sender{
     _btnIndex = sender.tag-300;
     
-    
-    
-    
     NSString * zhifuF = [NSString stringWithFormat:@"%@",_dataDic[@"zhifufangshi"]];
     UITextField * inputField = [self viewWithTag:110];
     float money = [[NSString stringWithFormat:@"%@",_dataDic[@"shishou"]] floatValue];
@@ -509,17 +482,6 @@
     
     [self shoukuan];
     
-
-    
-    
-    
 }
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 @end

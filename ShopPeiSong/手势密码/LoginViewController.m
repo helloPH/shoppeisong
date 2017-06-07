@@ -11,7 +11,6 @@
 @interface LoginViewController ()
 @property (nonatomic,strong)UIScrollView * mainScrollView;
 
-
 @end
 
 @implementation LoginViewController
