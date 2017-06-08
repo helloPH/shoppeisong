@@ -602,8 +602,6 @@
     }else{
         btn1.selected=YES;
         
-        
-        
         [Request getFuWuDateListWithDic:@{} success:^(id json) {
             NSString * message = [NSString stringWithFormat:@"%@",[json valueForKey:@"message"]];
             if ([message isEqualToString:@"1"]) {
@@ -897,7 +895,9 @@
 
     TopUpView * top = [TopUpView new];
     __block TopUpView * weakTop =  top;
-    [top setMoney:[self.money floatValue] limitMoney:0 title:[NSString stringWithFormat:@"妙店佳商铺+%@备用金充值",user_tel] body:user_Id canChange:NO];
+    
+
+    [top setMoney:[self.money floatValue] limitMoney:0 title:[NSString stringWithFormat:@"妙店佳商铺+%@备用金充值",phone.text] body:@"0" canChange:NO];
     [top appear];
     top.payBlock=^(BOOL isSuccess){
         if (isSuccess) {
@@ -930,26 +930,6 @@
         
 
     };
-    
-    
-//    OnLinePayView * pay = [OnLinePayView new];
-//    __block OnLinePayView *  weakPay = pay;
-//    
-//    NSString * mony =[NSString stringWithFormat:@"%.2f",[self.money floatValue]];
-//    [pay setMoney:mony];
-//    [pay appear];
-//    pay.payBlock=^(BOOL isSuccess){
-//        if (isSuccess) {
-//            [weakPay disAppear];
-//    
-//                   }else{
-//            [MBProgressHUD promptWithString:@"支付失败"];
-//        }
-//    };
-    
-  
-    
-    
     
 }
 -(void)faPiaoBtnClick:(UIButton *)sender{

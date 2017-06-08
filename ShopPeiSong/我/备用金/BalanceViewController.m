@@ -202,7 +202,6 @@
         [self.recordArray removeAllObjects];
         
         
-    
         if (![[NSString stringWithFormat:@"%@",[json valueForKey:@"xufei"]] isEqualToString:@"1"]) {
             self.navigationItem.rightBarButtonItem=nil;
         }
@@ -365,6 +364,8 @@
 -(void)buttonClick:(UIButton *)button
 {
     if (button.tag == 1200) {//余额提现
+       
+        
         if ([self.quanxianStr isEqualToString:@"1"]) {
             [UIView animateWithDuration:0.3 animations:^{
                 self.maskView.alpha = 1;
@@ -384,6 +385,8 @@
         else if ([self.quanxianStr isEqualToString:@"4"])
         {
             [self promptMessageWithString:@"未设置提现密码"];
+        }else{
+            [MBProgressHUD promptWithString:@"不能提现"];
         }
     }
     else

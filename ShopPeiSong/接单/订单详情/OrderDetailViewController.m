@@ -39,7 +39,7 @@
 
 @property(nonatomic,strong)UIImageView *caozuotishiImage;
 @property(nonatomic,assign)BOOL isOpen,isRepeat;//抽屉是否打开,取消订单是否重复
-@property (nonatomic,assign)BOOL isFirstLoad;
+@property (nonatomic,assign)BOOL isFirstEnter;
 @end
 @implementation OrderDetailViewController
 - (void)viewDidLoad {
@@ -55,8 +55,10 @@
         [self.view addSubview:self.choutiBackView];
     }
     [self setNavigationItem];
-    _isFirstLoad=YES;
+    _isFirstEnter=YES;
     [self getOrderDetailData];
+    
+    
     
 }
 #pragma mark 设置导航栏
@@ -291,8 +293,8 @@
         {
             [self.DdxqDict addEntriesFromDictionary:[json valueForKey:@"dingdanxq"]];
             
-            if (_isFirstLoad) {// 第一次进入
-                _isFirstLoad=NO;
+            if (_isFirstEnter) {// 第一次进入
+                _isFirstEnter=NO;
                 [self reshData];
             }{
                 [self alertReshData];
@@ -303,10 +305,12 @@
          
 //            [self reshData];
         }
-        [self.mainTableView reloadData];
+        [self.mainTableView reloadData];  
+        [self showGuideImageWithUrl:@"images/caozuotishi/chouti.png"];
 
     } failure:^(NSError *error) {
     }];
+    
 }
 -(void)reshData{
     self.dataArray=nil;

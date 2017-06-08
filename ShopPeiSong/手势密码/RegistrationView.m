@@ -477,13 +477,14 @@
             
             NSString * shareContent = [NSString stringWithFormat:@"%@",[json valueForKey:@"kaihufenxiang"]];
             set_LoginShareContent(shareContent);
+            
+            
             if ([button isEqual:_registraBtn]) {// 手动点击 登录按钮
-                
-         
             }else{                            //  自动点击 登录按钮
                 [self.controller mianmilogin];// 手势密码的 自动点击事件
             }
 
+            
             if ([self.registraDeleagte respondsToSelector:@selector(completeRegistration)]) {
                 [self.registraDeleagte completeRegistration];
             }

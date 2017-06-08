@@ -282,8 +282,6 @@
         [MBProgressHUD promptWithString:@"网络请求失败"];
         failure(error);
     }];
-    
-    
 }
 /*
  *获取分享内容
@@ -381,11 +379,7 @@
             default:
                 break;
         }
-        
-        
-
-        
-        
+    
     } failure:^(NSError *error) {
         [MBProgressHUD stop];
         //        [MBProgressHUD promptWithString:@"网络连接错误"];
@@ -442,9 +436,6 @@
             default:
                 break;
         }
-        
-        
-
     } failure:^(NSError *error) {
         [MBProgressHUD stop];
         //        [MBProgressHUD promptWithString:@"网络连接错误"];
@@ -588,7 +579,6 @@
         [MBProgressHUD promptWithString:@"网络连接错误"];
         failure(error);
     }];
-
 }
 /*
  * 推送
@@ -597,11 +587,8 @@
     NSMutableDictionary * pram =[NSMutableDictionary dictionaryWithDictionary:@{@"yuangongid":user_Id}];
    
     [HTTPTool  postWithBaseUrl:HTTPImage url:@"GuanjiaInfo.jsp" params:pram success:^(id json) {
-
         success(json);
     } failure:^(NSError *error) {
-//        [MBProgressHUD stop];
-//        [MBProgressHUD promptWithString:@"网络连接错误"];
         failure(error);
     }];
 }

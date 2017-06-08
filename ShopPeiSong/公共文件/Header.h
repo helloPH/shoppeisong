@@ -13,6 +13,7 @@
 #endif /* Header_h */
 
 
+
 #import <UIKit/UIKit.h>
 #import "UIViewExt.h"
 #import "MBProgressHUD.h"
@@ -21,6 +22,8 @@
 #import "NSString+MD5Addition.h"
 #import "Request.h"
 #import "tool/NSString+Helper.h"
+#import "UIViewController+Helper.h"
+
 //#import <CoreLocation/CoreLocation.h>
 //#import <ShareSDK/ShareSDK.h>
 //#import <ShareSDKConnector/ShareSDKConnector.h>

@@ -22,7 +22,7 @@
 @property (strong, nonatomic) UIButton *forgetBtn;
 @property (strong, nonatomic) GestureLockView *gesView;//手势密码
 @property (strong, nonatomic) RegistrationView *registraView;//注册
-@property (strong, nonatomic) UIImageView *backImge,*caozuotishiImage;
+@property (strong, nonatomic) UIImageView *backImge;
 
 @end
 @implementation GestureViewController
@@ -38,32 +38,6 @@
     [self.gesView loginWithPassWord:user_loginPass];
 }
 
--(UIImageView *)caozuotishiImage
-{
-    if (!_caozuotishiImage) {
-        _caozuotishiImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kDeviceWidth, kDeviceHeight)];
-        _caozuotishiImage.alpha = 0.9;
-        _caozuotishiImage.userInteractionEnabled = YES;
-        UITapGestureRecognizer *imageTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imageHidden)];
-        [_caozuotishiImage addGestureRecognizer:imageTap];
-        [self.view addSubview:_caozuotishiImage];
-    }
-    return _caozuotishiImage;
-}
--(void)judgeTheFirst
-{
-    if ([[[NSUserDefaults standardUserDefaults]valueForKey:@"isFirstShoushi"] integerValue] == 1) {
-        NSString *url = @"images/caozuotishi/shoushi.png";
-        NSString * urlPath = [NSString stringWithFormat:@"%@%@",HTTPHEADER,url];
-        [self.caozuotishiImage sd_setImageWithURL:[NSURL URLWithString:urlPath]];
-    }
-}
-
--(void)imageHidden
-{
-    [[NSUserDefaults standardUserDefaults] setValue:@"0" forKey:@"isFirstShoushi"];
-    [self.caozuotishiImage removeFromSuperview];
-}
 -(GestureLockView *)gesView
 {
     if (!_gesView) {
@@ -168,7 +142,9 @@
         self.backImge.hidden = NO;
         self.gesView.hidden = NO;
         self.forgetBtn.hidden = NO;
-        [self judgeTheFirst];
+        [self showGuideImageWithUrl:@"images/caozuotishi/shoushi.png"];
+        
+//        [self judgeTheFirst];
         
         
         /**
@@ -292,7 +268,9 @@
         self.backImge.hidden = NO;
     }];
     self.label.text = @"请输入手势密码";
-    [self judgeTheFirst];
+    [self showGuideImageWithUrl:@"images/caozuotishi/shoushi.png"];
+
+//    [self judgeTheFirst];
 }
 
 

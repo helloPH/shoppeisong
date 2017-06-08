@@ -22,11 +22,11 @@
 @property (nonatomic,strong)BMKPointAnnotation *annotation;
 @property (nonatomic,assign)BMKCoordinateRegion region ;//表示范围的结构体
 @end
+
+
 //method not implement
 @implementation OpenAccountViewController
 {
-    UIImageView *caozuotishiImage;
-    
     UIView *industryView;
     UILabel *selectedIndustrLabel;
     UIImageView *imageview1;
@@ -110,29 +110,8 @@
     [self initMaskView];
     [self initMask];
     [self popView];//弹框
-    [self judgeTheFirst];
 
-    
-}
--(void)judgeTheFirst
-{
-    if ([[[NSUserDefaults standardUserDefaults]valueForKey:@"isFirstkaihu"] integerValue] == 1) {
-        NSString *url = @"images/caozuotishi/caogao.png";
-        NSString * urlPath = [NSString stringWithFormat:@"%@%@",HTTPHEADER,url];
-        caozuotishiImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, -10, kDeviceWidth, kDeviceHeight)];
-        caozuotishiImage.alpha = 0.9;
-        caozuotishiImage.userInteractionEnabled = YES;
-        [caozuotishiImage sd_setImageWithURL:[NSURL URLWithString:urlPath]];
-        UITapGestureRecognizer *imageTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imageHidden)];
-        [caozuotishiImage addGestureRecognizer:imageTap];
-        [self.view addSubview:caozuotishiImage];
-    }
-}
-
--(void)imageHidden
-{
-    [[NSUserDefaults standardUserDefaults] setValue:@"0" forKey:@"isFirstkaihu"];
-    [caozuotishiImage removeFromSuperview];
+    [self showGuideImageWithUrl:@"images/caozuotishi/caogao.png"];
 }
 //获取后台版本(版本更新有关)
 -(void)getUpdateData

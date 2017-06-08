@@ -380,8 +380,6 @@
     PersonalCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
         cell = [[PersonalCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-      
-        
     }
     cell.dic=self.personDic;
     [cell reloadDataWithIndexpath:indexPath];
@@ -397,6 +395,16 @@
         }else{
             firstTitle = @"进入升级版";
         }
+        
+//        if (![[NSUserDefaults standardUserDefaults] boolForKey:NSStringFromClass([self class])]) {
+//            [[NSUserDefaults standardUserDefaults]setBool:YES forKey:NSStringFromClass([self class])];
+
+        
+        
+        
+//        };
+        
+        
         
 //        NSStringFromClass([self class]);
         

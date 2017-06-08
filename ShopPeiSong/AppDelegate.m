@@ -42,6 +42,10 @@
 @implementation AppDelegate
 
 -(void)initData{
+    
+  
+    
+    
     if (!push_SystemValue) {
        set_Push_SystemValue(@"0");
     }

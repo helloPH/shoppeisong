@@ -39,16 +39,26 @@
 
 @property (nonatomic,strong)PaymentPasswordView * passView;
 
-
 @end
 
 @implementation PlatformViewController
 -(void)viewWillAppear:(BOOL)animated
 {
+
+   
+    
     [super viewWillAppear:animated];
     [self getbumenDataWithStates:@"0"];
     
     
+    
+    
+    if (![loginShareContent isEmptyString]) {
+        FenXiangWithLoginAfter * fenxiang = [FenXiangWithLoginAfter new];
+        NSLog(@"content --- - - %@",loginShareContent);
+        [fenxiang appear];
+        set_LoginShareContent(@"");
+    }
     sharePush.localBlock=^(NSDictionary *info){
         NSString * type = [NSString stringWithFormat:@"%@",info[@"id"]];
         NSString * value = [NSString stringWithFormat:@"%@",info[@"value"]];
@@ -91,17 +101,15 @@
         
     };
 
-    if (![loginShareContent isEmptyString]) {
-        FenXiangWithLoginAfter * fenxiang = [FenXiangWithLoginAfter new];
-        NSLog(@"content --- - - %@",loginShareContent);
-        [fenxiang appear];
 
-    }
     
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    /**
+     *  开户分享
+     */
+
  
     
     self.automaticallyAdjustsScrollViewInsets = NO;

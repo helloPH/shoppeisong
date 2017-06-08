@@ -64,7 +64,7 @@
     textField.textAlignment=NSTextAlignmentCenter;
     textField.textColor=textBlackColor;
     textField.text=loginShareContent;
-    set_LoginShareContent(@"");
+   
     [textField sizeToFit];
     textField.centerX=self.width/2;
     _textField = textField;
@@ -125,13 +125,11 @@
             }
             [Request successFenxiangKaihuLiLianContentSuccess:^(id json) {
                 [self disAppear];
+                 set_LoginShareContent(@"");
             } failure:^(NSError *error) {
             }];
         }];
-     
-        
     }
-    
 }
 -(void)appear{
     self.centerX=[UIScreen mainScreen].bounds.size.width/2;

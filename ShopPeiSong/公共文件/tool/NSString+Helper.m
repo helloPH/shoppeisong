@@ -318,5 +318,4 @@
     return  [regextestmoney evaluateWithObject:self];
     
 }
-
 @end

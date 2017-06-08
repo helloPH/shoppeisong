@@ -186,6 +186,7 @@
 		0AEA2F791ED924210051ABCF /* GoodDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AEA2F771ED924210051ABCF /* GoodDetailViewController.m */; };
 		0AEA2F7C1ED924730051ABCF /* ShangpinModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AEA2F7B1ED924730051ABCF /* ShangpinModel.m */; };
 		0AEA2F7F1ED926070051ABCF /* TGCenterLineLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AEA2F7D1ED926070051ABCF /* TGCenterLineLabel.m */; };
+		0AEA89C01EE93016003842FC /* UIViewController+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AEA89BF1EE93016003842FC /* UIViewController+Helper.m */; };
 		0AF46F4D1E6F979500111C3D /* SecurityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF46F4C1E6F979500111C3D /* SecurityViewController.m */; };
 		0AF46F501E6F9F8700111C3D /* SecurityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF46F4F1E6F9F8700111C3D /* SecurityCell.m */; };
 		0AF46F541E6FD29800111C3D /* OrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF46F531E6FD29800111C3D /* OrderDetailViewController.m */; };
@@ -939,6 +940,8 @@
 		0AEA2F7B1ED924730051ABCF /* ShangpinModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShangpinModel.m; sourceTree = "<group>"; };
 		0AEA2F7D1ED926070051ABCF /* TGCenterLineLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGCenterLineLabel.m; sourceTree = "<group>"; };
 		0AEA2F7E1ED926070051ABCF /* TGCenterLineLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGCenterLineLabel.h; sourceTree = "<group>"; };
+		0AEA89BE1EE93016003842FC /* UIViewController+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Helper.h"; sourceTree = "<group>"; };
+		0AEA89BF1EE93016003842FC /* UIViewController+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Helper.m"; sourceTree = "<group>"; };
 		0AF46F4B1E6F979500111C3D /* SecurityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecurityViewController.h; sourceTree = "<group>"; };
 		0AF46F4C1E6F979500111C3D /* SecurityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecurityViewController.m; sourceTree = "<group>"; };
 		0AF46F4E1E6F9F8700111C3D /* SecurityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecurityCell.h; sourceTree = "<group>"; };
@@ -2278,6 +2281,8 @@
 			children = (
 				0AC21A831EB88A4600DBDBF1 /* NSString+Helper.h */,
 				0AC21A841EB88A4600DBDBF1 /* NSString+Helper.m */,
+				0AEA89BE1EE93016003842FC /* UIViewController+Helper.h */,
+				0AEA89BF1EE93016003842FC /* UIViewController+Helper.m */,
 			);
 			path = tool;
 			sourceTree = "<group>";
@@ -4012,6 +4017,7 @@
 				0AC9808A1EB9B9140068BDC8 /* ChangePhoneNumber.m in Sources */,
 				0AF965F51EC5BC7B00043BE0 /* ZXAztecDetectorResult.m in Sources */,
 				0AF46F4D1E6F979500111C3D /* SecurityViewController.m in Sources */,
+				0AEA89C01EE93016003842FC /* UIViewController+Helper.m in Sources */,
 				0A32472A1E8CD3FB0013D7AE /* DataAggregateViewController.m in Sources */,
 				0AF9664A1EC5BC7B00043BE0 /* ZXDataMatrixC40Encoder.m in Sources */,
 				0AF966AC1EC5BC7B00043BE0 /* ZXQRCodeBitMatrixParser.m in Sources */,
