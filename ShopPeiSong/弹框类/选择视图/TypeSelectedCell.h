@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface TypeSelectedCell : UITableViewCell
-
+@property (nonatomic,strong)NSIndexPath * indexPath;
 @property(nonatomic,strong)UILabel *typeLabel;
 //行业列表
 -(void)reloadDataForHangyeWithIndexPath:(NSIndexPath *)indexpath AndArray:(NSArray *)array;

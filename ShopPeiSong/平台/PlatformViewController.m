@@ -44,14 +44,9 @@
 @implementation PlatformViewController
 -(void)viewWillAppear:(BOOL)animated
 {
-
-   
-    
     [super viewWillAppear:animated];
     [self getbumenDataWithStates:@"0"];
-    
-    
-    
+
     
     if (![loginShareContent isEmptyString]) {
         FenXiangWithLoginAfter * fenxiang = [FenXiangWithLoginAfter new];
@@ -104,6 +99,12 @@
 
     
 }
+-(void)fingerprint{
+    
+    
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     /**
@@ -270,6 +271,7 @@
             [self endRefresh];
         }
         
+        
         [self.keqiangdingdanArray removeAllObjects];
 
         if ([[json valueForKey:@"message"]integerValue]== 1) {
@@ -277,7 +279,7 @@
         }
         else if ([[json valueForKey:@"message"] integerValue] == 2)
         {
-            self.mainTableView.backgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"订单无内容"]];
+            [self tableIsEmpty];
         }
         else
         {
@@ -291,6 +293,7 @@
             }
         }
     
+        
         [self.mainTableView reloadData];
 
     } failure:^(NSError *error) {
@@ -298,7 +301,14 @@
         [self promptMessageWithString:@"网络连接错误1"];
     }];
 }
+-(void)tableIsEmpty{
+    if (isZaiGang) {
+        self.mainTableView.backgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"订单无内容"]];
+    }else{
+        self.mainTableView.backgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"ligangla"]];
+    }
 
+}
 #pragma mark UITableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {

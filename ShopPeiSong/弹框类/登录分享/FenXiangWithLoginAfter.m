@@ -44,7 +44,7 @@
 
 -(void)newView{
     _backView = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
-    [_backView addTarget:self action:@selector(disAppear) forControlEvents:UIControlEventTouchUpInside];
+//    [_backView addTarget:self action:@selector(disAppear) forControlEvents:UIControlEventTouchUpInside];
     _backView.alpha=0;
     [[UIApplication sharedApplication].delegate.window addSubview:_backView];
     [_backView addSubview:self];

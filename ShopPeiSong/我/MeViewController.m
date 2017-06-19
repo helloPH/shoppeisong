@@ -28,13 +28,13 @@
 #import "XuFeiViewController.h"
 #import "getBalanceViewController.h"
 #import "NumberPassWordView.h"
-
+#import "PHMap.h"
 
 @interface MeViewController ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,ReviewSelectedViewDelegate,MBProgressHUDDelegate>
 @property(nonatomic,strong)UITableView *mainTableView;
 @property(nonatomic,strong)UIView *headView,*lineView,*yueView,*jiangliView,*lineViewV;
 @property(nonatomic,strong)UIImageView *headImageView,*iconImageView;
-@property(nonatomic,strong)UILabel *nameLabel,*telLabel,*banbenLabel,*yueLabel,*yueStrLabel,*jiangliLabel,*jiangliStrLabel;
+@property(nonatomic,strong)UILabel *nameLabel,*telLabel,*yueLabel,*yueStrLabel,*jiangliLabel,*jiangliStrLabel;
 @property(nonatomic,strong)UIImagePickerController *imagePicker;
 @property(nonatomic,strong)ReviewSelectedView *selectedView;
 @property(nonatomic,strong)QianDaoView        *qianDanView;
@@ -42,19 +42,29 @@
 @property(nonatomic,strong)UIView *maskView;
 @property(nonatomic,strong)NSDictionary *personDic;
 
+@property(nonatomic,strong)PHMapHelper * mapHelper;
+
 @end
 @implementation MeViewController
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [self getPersonalData];
-
+//    UIViewController * current = [UIViewController presentingVC];
+//    
+//    UIView * view = [[UIView alloc]initWithFrame:CGRectMake(100, 200, 100, 100)];
+//    view.backgroundColor=[UIColor redColor];
+//
+//    [current.view addSubview:view];
+}
+-(void)initData{
+    
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.view addSubview:self.mainTableView];
-    [self.view addSubview:self.banbenLabel];
+
     [self.navigationItem setTitle:@"个人中心"];
     if (!banben_IsAfter) {
         [Request getAppStatusSuccess:^(id json) {/// 该方法 主要是来获取 版本是否上线
@@ -72,23 +82,24 @@
 -(void)getPersonalData
 {
     [Request  getPersonInfoWithDic:@{@"yuangong.id":user_id} success:^(id json) {
-        
-        
-        
-        self.personDic = (NSDictionary *)json;
-        NSMutableDictionary * mdic = [NSMutableDictionary dictionaryWithDictionary:self.personDic];
-//        [mdic setValue:@"1" forKey:@"dodo"];
-//        [mdic setValue:@"1" forKey:@"banben"];
-        self.personDic=mdic;
-        
-        
         if ([[json valueForKey:@"message"]integerValue]== 2){
             [self promptMessageWithString:@"参数不能为空"];
         }
         else
         {
-            [[NSUserDefaults standardUserDefaults]setValue:[self.personDic valueForKey:@"image"] forKey:@"touxiangImage"];
+  
+
+            self.personDic = [NSDictionary dictionaryWithDictionary:(NSDictionary *)json];
+            NSMutableDictionary * temd = [NSMutableDictionary dictionaryWithDictionary:self.personDic];
+//        [temd setValue:@"1" forKey:@"admin"];
+            self.personDic = temd;
+            
+            
+            set_User_Logo([self.personDic valueForKey:@"image"]);
+            
             [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[self.personDic valueForKey:@"image"]]] placeholderImage:[UIImage imageNamed:@"yonghutouxiang"] options:SDWebImageRefreshCached];
+            
+            
             NSString *phoneNum = [BaseCostomer phoneNumberJiamiWithString:[NSString stringWithFormat:@"%@",[self.personDic valueForKey:@"tel"]]];
             self.telLabel.text = phoneNum;
             self.nameLabel.text = [NSString stringWithFormat:@"%@ %@",[self.personDic valueForKey:@"zhiwu"],[self.personDic valueForKey:@"name"]];
@@ -259,20 +270,12 @@
         _mainTableView.dataSource = self;
         _mainTableView.separatorStyle = UITableViewCellSelectionStyleNone;
         _mainTableView.tableHeaderView = self.headView;
-        _mainTableView.scrollEnabled = NO;
+//        _mainTableView.scrollEnabled = NO;
     }
     return _mainTableView;
 }
 
--(UILabel *)banbenLabel
-{
-    if (!_banbenLabel) {
-        NSString *versionStr = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-        NSString *banbenStr = [NSString stringWithFormat:@"版本号:%@",versionStr];
-        _banbenLabel = [BaseCostomer labelWithFrame:CGRectMake(0, kDeviceHeight - 49-40*MCscale, kDeviceWidth, 20*MCscale) font:[UIFont systemFontOfSize:MLwordFont_5] textColor:txtColors(236, 236, 236, 1) backgroundColor:[UIColor clearColor] textAlignment:NSTextAlignmentCenter numOfLines:1 text:banbenStr];
-    }
-    return _banbenLabel;
-}
+
 
 #pragma mark 账户余额及近期订单
 -(void)viewTapClick:(UITapGestureRecognizer *)tap
@@ -372,7 +375,10 @@
 #pragma mark UITableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 6;
+    if ([[NSString stringWithFormat:@"%@",[self.personDic valueForKey:@"admin"]] isEqualToString:@"1"]) {
+        return 8;
+    }
+    return 7;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -380,7 +386,9 @@
     PersonalCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
         cell = [[PersonalCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+
     }
+    cell.admin=[[NSString stringWithFormat:@"%@",[self.personDic valueForKey:@"admin"]] isEqualToString:@"1"];
     cell.dic=self.personDic;
     [cell reloadDataWithIndexpath:indexPath];
     
@@ -462,15 +470,15 @@
         case 2: //商品管理
         {
             
-            NSString * banben = [NSString stringWithFormat:@"%@",_personDic[@"banben"]];
+//            NSString * banben = [NSString stringWithFormat:@"%@",_personDic[@"banben"]];
             
-            if (banben_IsAfter) {//  是否上线
-                if ([banben isEqualToString:@"2"]) {//邀请领现金
-                }else{// 升级完整版
-                    [self promptMessageWithString:@"请升级后使用"];
-                    return;
-                }
-            }
+//            if (banben_IsAfter) {//  是否上线
+//                if ([banben isEqualToString:@"2"]) {//邀请领现金
+//                }else{// 升级完整版
+//                    [self promptMessageWithString:@"请升级后使用"];
+//                }
+//                return;
+//            }
             
             if ([self.personDic[@"shangpinguanli"] integerValue]== 0) {
                 [self promptMessageWithString:@"未授权"];
@@ -518,6 +526,46 @@
             break;
         case 5://分享朋友
             [self shareMessage];
+            break;
+        case 6://刷新定位
+        {
+            if (![[NSString stringWithFormat:@"%@",[self.personDic valueForKey:@"admin"]] isEqualToString:@"1"]){
+                return;
+            };
+            
+            _mapHelper = [PHMapHelper new];
+            [_mapHelper configBaiduMap];
+            [_mapHelper locationStartLocation:^{
+                NSLog(@"开始定位");
+            } locationing:^(BMKUserLocation *location, NSError *error) {
+                [_mapHelper regeoWithLocation:CLLocationCoordinate2DMake(location.location.coordinate.latitude, location.location.coordinate.longitude) block:^(BMKReverseGeoCodeResult *result, BMKSearchErrorCode error) {
+                    if (error) {
+                        return ;
+                    }
+                    NSDictionary * pram = @{@"dianpu.id":user_dianpuID,
+                                            @"dianpu.x":[NSString stringWithFormat:@"%f",location.location.coordinate.latitude],
+                                            @"dianpu.y":[NSString stringWithFormat:@"%f",location.location.coordinate.longitude],
+                                            @"code":result.addressDetail.city};
+                    [Request updateLocationWithDic:pram Success:^(id json) {
+                        if ([[NSString stringWithFormat:@"%@",[json valueForKey:@"message"]] isEqualToString:@"1"]) {
+                            [MBProgressHUD promptWithString:@"定位修改成功"];
+                        }
+                        else{
+                            [MBProgressHUD promptWithString:@"定位修改失败"];
+                        }
+                    } failure:^(NSError *error) {
+                        
+                    }];
+                }];
+                
+
+                [_mapHelper endLocation];
+            } stopLocation:^{
+                
+            }];
+        }
+            break;
+            case 7:
             break;
         default:
             break;

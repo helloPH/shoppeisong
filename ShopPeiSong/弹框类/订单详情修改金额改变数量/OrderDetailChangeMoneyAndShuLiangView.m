@@ -58,6 +58,9 @@
     self.center=CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/2);
     [_backView addSubview:self];
     
+    
+ 
+    
     CGFloat setY = 10*MCscale;
     
     

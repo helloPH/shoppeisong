@@ -15,12 +15,10 @@
 #import "UpdateTipView.h"
 #import "PaymentPasswordView.h"
 #import "UseDirectionViewController.h"
-@interface OpenAccountViewController ()<updateTipDelegate,ReviewSelectedViewDelegate,MBProgressHUDDelegate,UIImagePickerControllerDelegate,UIActionSheetDelegate,UINavigationControllerDelegate,ModifyKaihufeiViewDelegate,AutographViewDelegate,BMKMapViewDelegate,BMKLocationServiceDelegate,UITextFieldDelegate,PaymentPasswordViewDelegate>
-@property (nonatomic,strong)BMKMapView* mapView;
-@property (nonatomic,strong)BMKLocationService* locService;
-@property (nonatomic,assign)CLLocationCoordinate2D coor;
-@property (nonatomic,strong)BMKPointAnnotation *annotation;
-@property (nonatomic,assign)BMKCoordinateRegion region ;//表示范围的结构体
+#import "GetLocationView.h"
+#import "PHMap.h"
+
+@interface OpenAccountViewController ()<updateTipDelegate,MBProgressHUDDelegate,UIImagePickerControllerDelegate,UIActionSheetDelegate,UINavigationControllerDelegate,ModifyKaihufeiViewDelegate,AutographViewDelegate,UITextFieldDelegate,PaymentPasswordViewDelegate>
 @end
 
 
@@ -46,7 +44,7 @@
     BOOL isMap,isAgree,isModify,ISImage;//地图定位,同意协议,修改草稿,选择照片
     
     NSString *hangyeID;
-    ReviewSelectedView *selectedView;
+
     ModifyKaihufeiView *kaihufeiView;
     UIImagePickerController *imagePicker;
     NSInteger imageViewTag;
@@ -73,7 +71,7 @@
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [self maskViewDisMiss];
-    [self.mapView viewWillDisappear];
+//    [self.mapView viewWillDisappear];
 
 }
 - (void)viewDidLoad {
@@ -87,10 +85,14 @@
     longitudeStr = @"";
     city = @"";
     isMap = 0;
+    [self locationAndUpdateView];
+    
     isAgree = 1;
     isModify = 0;
     ISImage = 0;
     selectedImageArray = [NSMutableArray arrayWithObjects:@{},@{},@{},@{}, nil];
+   
+    
     
     UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
     rightButton.frame = CGRectMake(0, 0, NVbtnWight, NVbtnWight);
@@ -100,11 +102,7 @@
     UIBarButtonItem *rightButtonItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
     self.navigationItem.rightBarButtonItem = rightButtonItem;
     
-    //初始化BMKLocationService
-    _locService = [[BMKLocationService alloc]init];
-    _locService.delegate = self;
-    //启动LocationService
-    [_locService startUserLocationService];
+
     [self getUpdateData];
     [self createUI];
     [self initMaskView];
@@ -242,13 +240,13 @@
             [bubbleView removeFromSuperview];
         }];
         
-        [UIView animateWithDuration:0.3 animations:^{
-            maskView.alpha = 1;
-            [self.view addSubview:maskView];
-            selectedView.alpha = 0.95;
-            [selectedView reloadDataWithViewTag:2];
-            [self.view addSubview:selectedView];
-        }];
+        ReviewSelectedView * sele = [ReviewSelectedView new];
+        [sele appear];
+        [sele reloadDataWithViewTag:6];
+        sele.block=^(id data){
+            [self selectedCaogaoWithId:[NSString stringWithFormat:@"%@",[data valueForKey:@"dianpuid"]]];
+        };
+        
     }
 }
 -(void)createUI
@@ -434,8 +432,7 @@
     maskView = [[UIView alloc]initWithFrame:self.view.bounds];
     maskView.backgroundColor = [UIColor clearColor];
     maskView.alpha = 0;
-    selectedView = [[ReviewSelectedView  alloc]initWithFrame:CGRectMake(30*MCscale, 180*MCscale, kDeviceWidth - 60*MCscale, 240*MCscale)];
-    selectedView.selectedDelegate = self;
+
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(maskViewDisMiss)];
     [maskView addGestureRecognizer:tap];
     
@@ -575,13 +572,7 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 
-#pragma mark ReviewSelectedViewDelegate(选择行业)
--(void)selectedIndustryWithString:(NSString *)string AndId:(NSString *)ID
-{
-    selectedIndustrLabel.text = string;
-    hangyeID = ID;
-    [self maskViewDisMiss];
-}
+
 
 #pragma mark 草稿详情
 -(void)selectedCaogaoWithId:(NSString *)ID
@@ -658,105 +649,6 @@
     [self maskViewDisMiss];
 }
 
-#pragma mark 地图定位
--(BMKMapView *)mapView
-{
-    if (_mapView == nil) {
-        _mapView = [[BMKMapView alloc]initWithFrame:CGRectMake(35,150,300,300)];
-        _mapView.layer.cornerRadius = 30;
-        _mapView.layer.masksToBounds = YES;
-        //_mapView.rotateEnabled = NO;//禁用旋转手势
-        _region.span.latitudeDelta = 0.01;//经度范围（设置为0.1表示显示范围为0.2的纬度范围）
-        _region.span.longitudeDelta = 0.005;//纬度范围
-        [_mapView setRegion:_region animated:YES];
-        
-        //添加一个PointAnnotation
-        _annotation = [[BMKPointAnnotation alloc]init];
-        //        _annotation.title = @"北京欢迎你";
-        [_mapView addAnnotation:_annotation];
-        
-        UITapGestureRecognizer *mapTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(mapTapClick:)];
-        [_mapView addGestureRecognizer:mapTap];
-    }
-    return _mapView;
-}
-
--(void)mapTapClick:(UITapGestureRecognizer *)tap
-{
-    CGPoint touchPoint = [tap locationInView:self.mapView];//这里touchPoint是点击的某点在地图控件中的位置
-    CLLocationCoordinate2D touchMapCoordinate =
-    [self.mapView convertPoint:touchPoint toCoordinateFromView:self.mapView];//这里touchMapCoordinate就是该点的经纬度了
-    
-    CLLocation *sloccation = [[CLLocation alloc]initWithLatitude:touchMapCoordinate.latitude longitude:touchMapCoordinate.longitude];
-    CLGeocoder *geocoder = [[CLGeocoder alloc]init];
-    [geocoder reverseGeocodeLocation:sloccation completionHandler:^(NSArray *placemarks, NSError *error) {
-        if (placemarks.count) {
-            //获取当前城市
-            CLPlacemark *mark = placemarks.firstObject;
-            NSDictionary *dict = [mark addressDictionary];
-            NSLog(@"%@",dict);
-            city = [dict objectForKey:@"City"];
-            [self.navigationItem setTitle:city];
-        }
-    }];
-    
-    NSLog(@"touching %f,%f",touchMapCoordinate.latitude,touchMapCoordinate.longitude);
-    _coor.longitude = touchMapCoordinate.longitude;
-    _coor.latitude = touchMapCoordinate.latitude;
-    _annotation.coordinate = _coor;
-    longitudeStr = [NSString stringWithFormat:@"%f",touchMapCoordinate.longitude];
-    latitudeStr = [NSString stringWithFormat:@"%f",touchMapCoordinate.latitude];
-    [self maskViewDisMiss];
-}
-//
-////实现相关delegate 处理位置信息更新
-////处理方向变更信息
-- (void)didUpdateUserHeading:(BMKUserLocation *)userLocation
-{
-    //NSLog(@"heading is %@",userLocation.heading);
-}
-//处理位置坐标更新
-- (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation
-{
-    [_locService stopUserLocationService];
-    NSLog(@"didUpdateUserLocation lat %f,long %f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
-    latitudeStr = [NSString stringWithFormat:@"%f",userLocation.location.coordinate.latitude];
-    longitudeStr = [NSString stringWithFormat:@"%f",userLocation.location.coordinate.longitude];
-    //普通态
-    [self.mapView updateLocationData:userLocation];//更新位置 前提是MapView.showsUserLocation=YES;
-    self.mapView.centerCoordinate = userLocation.location.coordinate;//移动到中心点
-    //以下_mapView为BMKMapView对象
-    _coor.longitude = userLocation.location.coordinate.longitude;
-    _coor.latitude = userLocation.location.coordinate.latitude;
-    _annotation.coordinate = _coor;
-    _region.center = userLocation.location.coordinate;//中心点
-    
-    CLLocation *sloccation = [[CLLocation alloc]initWithLatitude:userLocation.location.coordinate.latitude longitude:userLocation.location.coordinate.longitude];
-    CLGeocoder *geocoder = [[CLGeocoder alloc]init];
-    [geocoder reverseGeocodeLocation:sloccation completionHandler:^(NSArray *placemarks, NSError *error) {
-        if (placemarks.count) {
-            //获取当前城市
-            CLPlacemark *mark = placemarks.firstObject;
-            NSDictionary *dict = [mark addressDictionary];
-            NSLog(@"%@",dict);
-            city = [dict objectForKey:@"City"];
-            [self.navigationItem setTitle:city];
-            
-        }
-    }];
-}
-
-#pragma mark BMKAnnotationViewDelegate
--(BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id<BMKAnnotation>)annotation
-{
-    if ([annotation isKindOfClass:[BMKPointAnnotation class]]) {
-        BMKPinAnnotationView *newAnnotation = [[BMKPinAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:@"myAnnotation"];
-        newAnnotation.pinColor = BMKPinAnnotationColorPurple;
-        newAnnotation.animatesDrop = YES;//设置该标注点动画显示
-        return newAnnotation;
-    }
-    return nil;
-}
 
 #pragma mark ModifyKaihufeiViewDelegate
 -(void)modifyKaihufeiWithString:(NSString *)string
@@ -773,9 +665,12 @@
 }
 -(void)submitBtnClick
 {
-    NSMutableDictionary *pram =[NSMutableDictionary dictionaryWithDictionary:@{@"zhiyuan.id":user_id}];
+    NSMutableDictionary *pram =[NSMutableDictionary dictionaryWithDictionary:@{@"yuangong.id":user_id}];
     [HTTPTool  postWithUrl:@"zhiyuanYue.action" params:pram success:^(id json) {
         NSLog(@"开户%@",json);
+//        [self PaymentSuccess];
+//        return ;
+        
         if ([[json valueForKey:@"flag"]integerValue] == 1) {
             if ([[json valueForKey:@"message"]integerValue] == 1) {
                 [UIView animateWithDuration:0.3 animations:^{
@@ -783,6 +678,7 @@
                     [self .view addSubview:maskView];
                     passPopView.alpha = 0.95;
                     [self.view addSubview:passPopView];
+
                 }];
             }
             else if([[json valueForKey:@"message"]integerValue] == 2)
@@ -816,9 +712,8 @@
     }
     else
     {
-        NSString *phoneRegex = @"^((13[0-9])|(15[^4,\\D])|(18[0,0-9])|(14[7,5])|(17[0,3,6,7,8]))\\d{8}$";    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
-        BOOL isMatch = [phoneTest evaluateWithObject:phoneTextField.text];
-        if(isMatch){
+
+        if([phoneTextField.text isValidateMobile]){
             NSMutableDictionary *pram =[NSMutableDictionary dictionaryWithDictionary:@{@"dianpu.yidongtel":phoneTextField.text}];
             [HTTPTool  postWithUrl:@"kaihuCheck.action" params:pram success:^(id json) {
                 NSLog(@"开户%@",json);
@@ -827,14 +722,10 @@
                 }
                 else
                 {
-                    MBProgressHUD *mbHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                    mbHud.delegate = self;
-                    mbHud.mode = MBProgressHUDModeIndeterminate;
-                    mbHud.labelText = @"请稍后...";
-                    [mbHud show:YES];
+                    [MBProgressHUD start];
                     NSMutableDictionary *pram =[NSMutableDictionary dictionaryWithDictionary:@{@"dianpu.dianpuname":storyNameTextField.text,@"dianpu.suozaihangyi":hangyeID,@"dianpu.dianpuleixing":[NSString stringWithFormat:@"%d",isMap],@"dianpu.x":longitudeStr,@"dianpu.y":latitudeStr,@"dianpu.lianxiren":nameTextField.text,@"dianpu.yidongtel":phoneTextField.text,@"dianpu.kefurexian":telTextField.text,@"dianpu.dingweidizhi":addressTextField.text,@"dianpu.yingyezhizhao":yingyezhizhao,@"dianpu.suiwudengjizhen":suiwudengjizhen,@"dianpu.jigoudaima":jigoudaima,@"dianpu.shenhe":shenhe,@"zhiyuanid":user_id,@"money":money,@"dianpu.shifoukaitonghoutai":city}];
                     [HTTPTool  postWithUrl:@"kaihu.action" params:pram success:^(id json) {
-                        [mbHud hide:YES];
+                        [MBProgressHUD stop];
                         NSLog(@"开户%@",json);
                         if ([[json valueForKey:@"message"]integerValue] == 1) {
                             dianpuID = [NSString stringWithFormat:@"%@",[json valueForKey:@"dianpuid"]];
@@ -862,7 +753,7 @@
                             [self promptMessageWithString:@"请将开户信息填写完整后重试"];
                         }
                     } failure:^(NSError *error) {
-                        [mbHud hide:YES];
+                        [MBProgressHUD stop];
                         [self promptMessageWithString:@"网络连接错误3"];
                     }];
                 }
@@ -890,9 +781,8 @@
     }
     else
     {
-        NSString *phoneRegex = @"^((13[0-9])|(15[^4,\\D])|(18[0,0-9])|(14[7,5])|(17[0,3,6,7,8]))\\d{8}$";    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
-        BOOL isMatch = [phoneTest evaluateWithObject:phoneTextField.text];
-        if(isMatch){
+
+        if([phoneTextField.text isValidateMobile]){
             NSMutableDictionary *pram =[NSMutableDictionary dictionaryWithDictionary:@{@"dianpu.yidongtel":phoneTextField.text}];
             [HTTPTool  postWithUrl:@"kaihuCheck.action" params:pram success:^(id json) {
                 NSLog(@"验证手机号%@",json);
@@ -902,16 +792,12 @@
                 }
                 else
                 {
-                    MBProgressHUD *mbHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                    mbHud.delegate = self;
-                    mbHud.mode = MBProgressHUDModeIndeterminate;
-                    mbHud.labelText = @"请稍后...";
-                    [mbHud show:YES];
-                    
+                    [MBProgressHUD start];
+
                     NSMutableDictionary *pram =[NSMutableDictionary dictionaryWithDictionary:@{@"dianpu.id":dianpuID,@"dianpu.dianpuname":storyNameTextField.text,@"dianpu.suozaihangyi":hangyeID,@"dianpu.dianpuleixing":[NSString stringWithFormat:@"%d",isMap],@"dianpu.x":latitudeStr,@"dianpu.y":longitudeStr,@"dianpu.lianxiren":nameTextField.text,@"dianpu.yidongtel":phoneTextField.text,@"dianpu.kefurexian":telTextField.text,@"dianpu.dingweidizhi":addressTextField.text,@"dianpu.yingyezhizhao":yingyezhizhao,@"dianpu.suiwudengjizhen":suiwudengjizhen,@"dianpu.jigoudaima":jigoudaima,@"dianpu.shenhe":shenhe,@"zhiyuanid":user_id,@"money":money}];
                     
                     [HTTPTool postWithUrl:@"updateKaihuCaogao.action" params:pram success:^(id json) {
-                        [mbHud hide:YES];
+                        [MBProgressHUD stop];
                         NSLog(@"修改开户%@",json);
                         if ([[json valueForKey:@"message"]integerValue] == 1) {
                             if (ISImage) {
@@ -939,7 +825,7 @@
                             [self promptMessageWithString:@"请将开户信息填写完整后重试"];
                         }
                     } failure:^(NSError *error){
-                        [mbHud hide:YES];
+                        [MBProgressHUD stop];
                         [self promptMessageWithString:@"网络连接错误5"];
                     }];
                 }
@@ -1139,31 +1025,46 @@
     
     if(tap.view == industryView)
     {
-        [UIView animateWithDuration:0.3 animations:^{
-            maskView.alpha = 1;
-            [self.view addSubview:maskView];
-            selectedView.alpha = 0.95;
-            [selectedView reloadDataWithViewTag:1];
-            [self.view addSubview:selectedView];
-        }];
+        
+        ReviewSelectedView * sele = [ReviewSelectedView new];
+        [sele appear];
+        [sele reloadDataWithViewTag:7];
+        sele.block=^(id data){
+            selectedIndustrLabel.text = [NSString stringWithFormat:@"%@",[data valueForKey:@"name"]];
+            hangyeID = [NSString stringWithFormat:@"%@",[data valueForKey:@"id"]];
+        };
+        
     }
     else if (tap.view == locationView)
     {
         locationImage.image = [UIImage imageNamed:@"选中"];
         mapImage.image = [UIImage imageNamed:@"选择"];
         isMap = 0;
-        [_locService startUserLocationService];
+        [self locationAndUpdateView];
     }
     else if (tap.view == mapView)
     {
         locationImage.image = [UIImage imageNamed:@"选择"];
         mapImage.image = [UIImage imageNamed:@"选中"];
         isMap = 1;
-        [UIView animateWithDuration:0.3 animations:^{
-            maskView.alpha = 1;
-            [self.view addSubview:maskView];
-            [self.view addSubview:self.mapView];
-        }];
+        
+        
+        GetLocationView * location = [GetLocationView new];
+        PHMapHelper * helper = [PHMapHelper new];
+        
+        [location appear];
+        location.block=^(double  latitude,double longitude){
+            latitudeStr=[NSString stringWithFormat:@"%f",latitude];
+            longitudeStr = [NSString stringWithFormat:@"%f",longitude];
+                 [helper regeoWithLocation:CLLocationCoordinate2DMake(latitude, longitude) block:^(BMKReverseGeoCodeResult *result, BMKSearchErrorCode error) {
+                     if (error) {
+                         [MBProgressHUD promptWithString:@"地理编码失败"];
+                         return ;
+                     }
+                     city = result.addressDetail.city;
+                 }];
+        };
+ 
     }
     else if (tap.view ==  protocolView)
     {
@@ -1183,7 +1084,7 @@
         }
         else
         {
-            agr.pageUrl = [NSString stringWithFormat:@"%@useXieyi.action",HTTPImage];
+            agr.pageUrl = [NSString stringWithFormat:@"%@shiyongxieyi.jsp",HTTPWeb];
         }
         agr.titStr = @"妙店佳应用系统使用协议";
         agr.hidesBottomBarWhenPushed = YES;
@@ -1193,6 +1094,29 @@
         self.navigationItem.backBarButtonItem=bar;
         [self.navigationController pushViewController:agr animated:YES];
     }
+}
+
+/**
+ *  获取当前位置  并且获取当前城市 并且赋值给属性
+ */
+-(void)locationAndUpdateView{
+    PHMapHelper * helper = [PHMapHelper new];
+    [helper locationStartLocation:^{
+    } locationing:^(BMKUserLocation *location, NSError *error) {
+        latitudeStr = [NSString stringWithFormat:@"%f",location.location.coordinate.latitude];
+        longitudeStr = [NSString stringWithFormat:@"%f",location.location.coordinate.longitude];
+        
+        [helper regeoWithLocation:CLLocationCoordinate2DMake(location.location.coordinate.latitude, location.location.coordinate.longitude) block:^(BMKReverseGeoCodeResult *result, BMKSearchErrorCode error) {
+            if (error) {
+                [MBProgressHUD promptWithString:@"地理编码失败"];
+                return ;
+            }
+            city = result.addressDetail.city;
+        }];
+        [helper endLocation];
+    } stopLocation:^{
+    }];
+
 }
 
 -(void)custom:(UITextField *)textField AndString:(NSString *)string
@@ -1221,22 +1145,17 @@
         maskView.alpha = 0;
         [maskView removeFromSuperview];
         [self.view endEditing:YES];
-        selectedView.alpha = 0;
-        [selectedView removeFromSuperview];
+
         bubbleView.alpha = 0;
         [bubbleView removeFromSuperview];
         kaihufeiView.alpha = 0;
         [kaihufeiView removeFromSuperview];
-        [self.mapView removeFromSuperview];
+
         passPopView.alpha = 0;
         [passPopView removeFromSuperview];
     }];
 }
--(void)viewWillAppear:(BOOL)animated
-{
-    [self.mapView viewWillAppear];
-    self.mapView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
-}
+
 
 -(void)viewDidAppear:(BOOL)animated
 {

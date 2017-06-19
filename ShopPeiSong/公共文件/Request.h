@@ -68,6 +68,7 @@
  * 获取 商品详情
  */
 +(void)getShangPinInfoWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure;
+
 #pragma mark --- 个人中心
 /*
  *判断手机号是否开户
@@ -105,7 +106,26 @@
  *店铺续费
  */
 +(void)dianPuXuFeiWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure;
-
+/*
+ * 获取支付密码
+ */
++(void)checkZhiFuMimaWithPassWord:(NSString *)passWord Success:(successBlock)success failure:(failureBlock)failure;
+/*
+ * 更新坐标
+ */
++(void)updateLocationWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure;
+/*
+ * 增加分类
+ */
++(void)addFeiLeiWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure;
+/*
+ * 修改分类
+ */
++(void)alterFenLeiWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure;
+/*
+ * 删除分类
+ */
++(void)deleFenLeiWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure;
 #pragma mark --- 登录注册
 /*
  *登录

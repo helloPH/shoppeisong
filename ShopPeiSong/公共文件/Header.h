@@ -100,6 +100,10 @@
 #define set_IsLogin(isLogin)  [[NSUserDefaults standardUserDefaults] setBool:isLogin forKey:@"user_IsLogin"]
 #define isLogin  [[NSUserDefaults standardUserDefaults]boolForKey:@"user_IsLogin"]
 
+//用户头像
+#define user_Login [[NSUserDefaults standardUserDefaults] valueForKey:@"user_Login"]
+#define set_User_Logo(user_Login) [[NSUserDefaults standardUserDefaults] setValue:user_Login forKey:@"user_Login"]
+
 //用户id
 #define user_Id [[NSUserDefaults standardUserDefaults] valueForKey:@"user_ID"]
 #define set_User_Id(userid) [[NSUserDefaults standardUserDefaults] setValue:userid forKey:@"user_ID"]

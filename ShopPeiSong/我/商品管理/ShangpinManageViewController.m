@@ -12,6 +12,11 @@
 #import "ReviewSelectedView.h"
 #import "AddShangpinViewController.h"
 #import "Header.h"
+#import "ShopManagerAddAddAlter.h"
+#import "PHAlertView.h"
+#import "PHButton.h"
+
+
 @interface ShangpinManageViewController ()<UIGestureRecognizerDelegate,UITableViewDelegate,UITableViewDataSource,MBProgressHUDDelegate,ReviewSelectedViewDelegate,UITextFieldDelegate>
 @property(nonatomic,strong)UIButton *fenleiBtn,*leftButton,*rightButton,*searchBtn;
 @property(nonatomic,strong)UIView  *lineView,*line1,*line2,*backView;
@@ -81,14 +86,14 @@
     }
     return _maskView;
 }
--(ReviewSelectedView *)selectedView
-{
-    if (!_selectedView) {
-        _selectedView = [[ReviewSelectedView  alloc]initWithFrame:CGRectMake(60*MCscale,230*MCscale, kDeviceWidth - 120*MCscale, 240*MCscale)];
-        _selectedView.selectedDelegate = self;
-    }
-    return _selectedView;
-}
+//-(ReviewSelectedView *)selectedView
+//{
+//    if (!_selectedView) {
+//        _selectedView = [[ReviewSelectedView  alloc]initWithFrame:CGRectMake(60*MCscale,230*MCscale, kDeviceWidth - 120*MCscale, 240*MCscale)];
+//        _selectedView.selectedDelegate = self;
+//    }
+//    return _selectedView;
+//}
 -(UIButton *)fenleiBtn
 {
     if (!_fenleiBtn) {
@@ -232,9 +237,10 @@
 }
 
 #pragma mark 选择商品类别
+
 -(void)selectedLeixingWithString:(NSString *)string
 {
-    [self maskViewDisMiss];
+//    [self maskViewDisMiss];
     NSMutableDictionary *pram = [NSMutableDictionary dictionaryWithDictionary:@{@"dianpuid":self.dianpuID,@"leibie":string}];
     [self getShangpinMessagesWithUrl:@"getDianpuShopByLeibie.action" AndDict:pram AndIndex:2];
 }
@@ -299,7 +305,7 @@
                 [self.shangpinArray removeAllObjects];
 
                 self.mainTableView.backgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"白底.jpg"]];
-\
+
                 NSArray *shangpinList = [json valueForKey:@"listShangpin"];
                 for (NSDictionary *dict in shangpinList) {
                     ShangpinMessagesModel *model = [[ShangpinMessagesModel alloc]init];
@@ -321,14 +327,102 @@
     }
     else if(button == self.fenleiBtn)
     {
-        [UIView animateWithDuration:0.3 animations:^{
-            self.maskView.alpha = 1;
-            [self.view addSubview:self.maskView];
-            self.selectedView.alpha = 0.95;
-            self.selectedView.dianpuId = self.dianpuID;
-            [self.selectedView reloadDataWithViewTag:2];
-            [self.view addSubview:self.selectedView];
-        }];
+        ReviewSelectedView * sele = [ReviewSelectedView new];
+        [sele appear];
+        
+        
+        // 标题
+        UILabel * tiplabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 10, sele.width, 20)];
+        tiplabel.textColor=lineColor;
+        tiplabel.textAlignment=NSTextAlignmentCenter;
+        tiplabel.text=@"长按标题可编辑";
+        tiplabel.font=[UIFont systemFontOfSize:MLwordFont_6];
+        [sele addSubview:tiplabel];
+        
+        // 中间的内容
+        UITableView * mainTableview = [sele valueForKey:@"mainTableview"];
+        mainTableview.height = sele.height - 80*MCscale;
+        mainTableview.top=tiplabel.bottom+10;
+        mainTableview.height=200*MCscale;
+    
+        // 增加分类的按钮
+        UIButton * btn = [[UIButton alloc]initWithFrame:CGRectMake(sele.width*0.2, mainTableview.bottom+10*MCscale, sele.width*0.6, 40)];
+        [btn setTitle:@"增加分类" forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        btn.backgroundColor=redTextColor;
+        btn.layer.cornerRadius=5;
+        [btn addTarget:self action:@selector(addFenLei:) forControlEvents:UIControlEventTouchUpInside];
+        sele.height = btn.bottom+10*MCscale;
+        [sele addSubview:btn];
+        btn.bottom=sele.height-10*MCscale;
+        sele.notLayout=YES;
+     
+        
+
+        [sele reloadDataWithViewTag:2];
+        sele.block=^(id data){
+            NSDictionary * dic = (NSDictionary*)data;
+            NSString * islongPress = [NSString stringWithFormat:@"%@",dic[@"isLongPress"]];
+            if ([islongPress isEqualToString:@"1"]) {
+                ShopManagerAddAddAlter * alter = [ShopManagerAddAddAlter new];
+                [alter appear];
+          
+                
+                
+                PHButton * btn = [alter valueForKey:@"submitBtn"];
+                btn.width = alter.width*0.3;
+                btn.centerX=alter.width*0.75;
+                [btn setTitle:@"修改" forState:UIControlStateNormal];
+                
+                alter.block=^(NSString * result){
+                    
+                    NSString * leiBieId=[NSString stringWithFormat:@"%@",dic[@"id"]];
+                    NSDictionary * pram =@{@"dianpuleibie.leibie":result,@"dianpuleibie.id":leiBieId,@"dianpuid":user_dianpuID};
+                    [Request alterFenLeiWithDic:pram Success:^(id json) {
+                        [_selectedView reloadDataWithViewTag:2];
+                    } failure:^(NSError *error) {
+                        
+                    }];
+                };
+                
+                
+                
+                PHButton * dele = [[PHButton alloc]initWithFrame:btn.frame];
+                [alter addSubview:dele];
+                dele.layer.cornerRadius=btn.layer.cornerRadius;
+                dele.backgroundColor=btn.backgroundColor;
+                [dele setTitle:@"删除" forState:UIControlStateNormal];
+                [dele setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                dele.centerX=sele.width*0.25;
+                [dele addAction:^() {
+                    NSString * leiBieId=[NSString stringWithFormat:@"%@",dic[@"id"]];
+                    
+                    NSDictionary * pram = @{@"dianpuid":user_dianpuID,
+                                            @"dianpuleibie.id":leiBieId};
+                    [Request deleFenLeiWithDic:pram Success:^(id json) {
+                        [MBProgressHUD promptWithString:@"删除成功"];
+                        [_selectedView reloadDataWithViewTag:2];
+                        [alter disAppear];
+                    } failure:^(NSError *error) {
+                        
+                    }];
+                    
+                }];
+   
+            }
+            else//
+            {
+                NSString * string = [NSString stringWithFormat:@"%@",dic[@"leibie"]];
+                NSMutableDictionary *pram = [NSMutableDictionary dictionaryWithDictionary:@{@"dianpuid":self.dianpuID,@"leibie":string}];
+                
+                [self getShangpinMessagesWithUrl:@"getDianpuShopByLeibie.action" AndDict:pram AndIndex:2];
+            }
+//            [MBProgressHUD promptWithString:islongPress];
+            
+            
+        };
+         _selectedView = sele;
+
     }
     else if (button == self.searchBtn)
     {
@@ -352,6 +446,28 @@
         [self.navigationController pushViewController:addVC animated:YES];
     }
 }
+-(void)addFenLei:(UIButton *)sender{
+    ShopManagerAddAddAlter * add = [ShopManagerAddAddAlter new];
+    __block ShopManagerAddAddAlter * weakAdd = add;
+    [add appear];
+    add.block=^(NSString * string){
+        [Request addFeiLeiWithDic:@{@"dianpuleibie.leibie":string,
+                                    @"dianpuid":user_dianpuID} Success:^(id json) {
+             [_selectedView reloadDataWithViewTag:2];
+                                        [weakAdd disAppear];
+             [MBProgressHUD promptWithString:@"添加成功"];
+        } failure:^(NSError *error) {
+            
+        }];
+        
+    };
+
+    
+    
+    
+    
+   
+}
 #pragma mark UITextDelegate
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -371,16 +487,16 @@
 {
     [self.nameTextField resignFirstResponder];
 }
--(void)maskViewDisMiss
-{
-    [UIView animateWithDuration:0.3 animations:^{
-        self.maskView.alpha = 0;
-        [self.maskView removeFromSuperview];
-        [self.view endEditing:YES];
-        self.selectedView.alpha = 0;
-        [self.selectedView removeFromSuperview];
-    }];
-}
+//-(void)maskViewDisMiss
+//{
+//    [UIView animateWithDuration:0.3 animations:^{
+//        self.maskView.alpha = 0;
+//        [self.maskView removeFromSuperview];
+//        [self.view endEditing:YES];
+//        self.selectedView.alpha = 0;
+//        [self.selectedView removeFromSuperview];
+//    }];
+//}
 -(void)promptMessageWithString:(NSString *)string
 {
     MBProgressHUD *mHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];

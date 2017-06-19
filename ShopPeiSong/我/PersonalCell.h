@@ -11,5 +11,6 @@
 @interface PersonalCell : UITableViewCell
 @property (nonatomic,strong)NSDictionary * dic;
 -(void)reloadDataWithIndexpath:(NSIndexPath *)indexpath;
-
+@property(nonatomic,assign)BOOL admin;
+@property (nonatomic,strong)NSArray *imageArray,*nameArray;
 @end

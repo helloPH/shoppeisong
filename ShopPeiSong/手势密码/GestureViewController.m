@@ -15,6 +15,7 @@
 #import "OpenAccountViewController.h"
 #import "OpenAccViewController.h"
 #import "PHAlertView.h"
+#import "PHMap.H"
 
 @interface GestureViewController ()<GestureLockDelegate,MBProgressHUDDelegate,RegistrationViewDelegate>
 @property (strong, nonatomic) UILabel *label;
@@ -24,6 +25,9 @@
 @property (strong, nonatomic) RegistrationView *registraView;//注册
 @property (strong, nonatomic) UIImageView *backImge;
 
+
+
+@property (nonatomic,strong)PHMapHelper * mapHelper;
 @end
 @implementation GestureViewController
 - (void)viewDidLoad {
@@ -35,6 +39,8 @@
 
 }
 -(void)mianmilogin{
+    [self surePersonState];
+    
     [self.gesView loginWithPassWord:user_loginPass];
 }
 
@@ -44,12 +50,7 @@
         _gesView = [[GestureLockView alloc]initWithFrame:CGRectMake(20*MCscale, 200*MCscale, kDeviceWidth-40*MCscale, kDeviceWidth-40*MCscale)];
         _gesView.GestureDelegate = self;
         [self.view addSubview:_gesView];
-//        [_gesView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.top.equalTo(self.view).offset(200);
-//            make.left.equalTo(self.view).offset(20);
-//            make.right.equalTo(self.view).offset(-20);
-//            make.height.equalTo(@(kDeviceWidth-40));
-//        }];
+
     }
     return _gesView;
 }
@@ -128,8 +129,10 @@
             set_User_Id([json valueForKey:@"yuangongid"]);
             set_DianPuName([json valueForKey:@"shequname"]);
             set_User_dianpuID([json valueForKey:@"shequid"]);
-
-            
+   
+            if (_willUpdateLocation) {
+                [self updateLocation];
+            }
         } failure:^(NSError *error) {
             
         }];
@@ -171,6 +174,36 @@
     
 
 }
+-(void)updateLocation{
+    _mapHelper = [PHMapHelper new];
+    [_mapHelper configBaiduMap];
+    [_mapHelper locationStartLocation:^{
+        
+    } locationing:^(BMKUserLocation *location, NSError *error) {
+        [_mapHelper regeoWithLocation:CLLocationCoordinate2DMake(location.location.coordinate.latitude, location.location.coordinate.longitude) block:^(BMKReverseGeoCodeResult *result, BMKSearchErrorCode error) {
+            if (error) {
+                [MBProgressHUD promptWithString:@"地理编码失败"];
+                return ;
+            }
+            NSDictionary * pram = @{@"dianpu.id":user_dianpuID,
+                                    @"dianpu.x":[NSString stringWithFormat:@"%f",location.location.coordinate.latitude],
+                                    @"dianpu.y":[NSString stringWithFormat:@"%f",location.location.coordinate.longitude],
+                                    @"code":result.addressDetail.city};
+            [Request updateLocationWithDic:pram Success:^(id json) {
+            } failure:^(NSError *error) {
+            }];
+        }];
+        
+        
+
+        [_mapHelper endLocation];
+    } stopLocation:^{
+        
+    }];
+    
+    
+}
+
 - (void)resetLabel
 {
     self.label.text = @"请输入正确的密码";

@@ -72,6 +72,8 @@
 		0A1AC6301E84EFFF00A12658 /* BalanceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A1AC62F1E84EFFF00A12658 /* BalanceModel.m */; };
 		0A1AC6331E84F76800A12658 /* BalanceRecordModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A1AC6321E84F76800A12658 /* BalanceRecordModel.m */; };
 		0A1AC6371E85183000A12658 /* PalmformDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A1AC6361E85183000A12658 /* PalmformDetailViewController.m */; };
+		0A1B32BB1EEE5F1400BAA8D3 /* ShopManagerAddAddAlter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A1B32BA1EEE5F1400BAA8D3 /* ShopManagerAddAddAlter.m */; };
+		0A1B32C41EEE88AC00BAA8D3 /* PHButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A1B32C31EEE88AC00BAA8D3 /* PHButton.m */; };
 		0A21CF171EE501D60091BBAF /* dingdantixng.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0A21CF161EE501D60091BBAF /* dingdantixng.mp3 */; };
 		0A25D7CE1ECAE1BB00B9D269 /* RouteAnnotation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0A25D7CD1ECAE1BB00B9D269 /* RouteAnnotation.mm */; };
 		0A25D7D11ECAE30E00B9D269 /* UIImage+Rotate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A25D7D01ECAE30E00B9D269 /* UIImage+Rotate.m */; };
@@ -656,6 +658,10 @@
 		0A1AC6321E84F76800A12658 /* BalanceRecordModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BalanceRecordModel.m; sourceTree = "<group>"; };
 		0A1AC6351E85183000A12658 /* PalmformDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PalmformDetailViewController.h; sourceTree = "<group>"; };
 		0A1AC6361E85183000A12658 /* PalmformDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PalmformDetailViewController.m; sourceTree = "<group>"; };
+		0A1B32B91EEE5F1400BAA8D3 /* ShopManagerAddAddAlter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopManagerAddAddAlter.h; sourceTree = "<group>"; };
+		0A1B32BA1EEE5F1400BAA8D3 /* ShopManagerAddAddAlter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopManagerAddAddAlter.m; sourceTree = "<group>"; };
+		0A1B32C21EEE88AC00BAA8D3 /* PHButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHButton.h; sourceTree = "<group>"; };
+		0A1B32C31EEE88AC00BAA8D3 /* PHButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHButton.m; sourceTree = "<group>"; };
 		0A21CF161EE501D60091BBAF /* dingdantixng.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = dingdantixng.mp3; sourceTree = "<group>"; };
 		0A25D7CC1ECAE1BB00B9D269 /* RouteAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteAnnotation.h; sourceTree = "<group>"; };
 		0A25D7CD1ECAE1BB00B9D269 /* RouteAnnotation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RouteAnnotation.mm; sourceTree = "<group>"; };
@@ -1758,6 +1764,8 @@
 				0A0B3AC81E6D3306000FBAB6 /* UIViewExt.m */,
 				0AC21A771EB33D0F00DBDBF1 /* Request.h */,
 				0AC21A781EB33D1000DBDBF1 /* Request.m */,
+				0A1B32C21EEE88AC00BAA8D3 /* PHButton.h */,
+				0A1B32C31EEE88AC00BAA8D3 /* PHButton.m */,
 			);
 			path = "公共文件";
 			sourceTree = "<group>";
@@ -1949,6 +1957,15 @@
 				0A1AC6361E85183000A12658 /* PalmformDetailViewController.m */,
 			);
 			path = "接单详情";
+			sourceTree = "<group>";
+		};
+		0A1B32B81EEE5EF300BAA8D3 /* 商品管理新增和修改 */ = {
+			isa = PBXGroup;
+			children = (
+				0A1B32B91EEE5F1400BAA8D3 /* ShopManagerAddAddAlter.h */,
+				0A1B32BA1EEE5F1400BAA8D3 /* ShopManagerAddAddAlter.m */,
+			);
+			path = "商品管理新增和修改";
 			sourceTree = "<group>";
 		};
 		0A21CF151EE501C20091BBAF /* 附件 */ = {
@@ -2308,6 +2325,7 @@
 		0AC980511EB9B9140068BDC8 /* 弹框类 */ = {
 			isa = PBXGroup;
 			children = (
+				0A1B32B81EEE5EF300BAA8D3 /* 商品管理新增和修改 */,
 				0A55BBBD1EE142F700B1C23E /* 系统弹窗 */,
 				0A07E5D11ED80EF900E3FA91 /* 订单详情修改金额改变数量 */,
 				0ABE4CBF1ED6F0CA0041CC26 /* 手势密码 */,
@@ -3973,6 +3991,7 @@
 				0AF966791EC5BC7B00043BE0 /* ZXCodaBarReader.m in Sources */,
 				0AF965E01EC5BC7B00043BE0 /* LBXScanLineAnimation.m in Sources */,
 				0AF9666F1EC5BC7B00043BE0 /* ZXBitArrayBuilder.m in Sources */,
+				0A1B32BB1EEE5F1400BAA8D3 /* ShopManagerAddAddAlter.m in Sources */,
 				0AF966A21EC5BC7B00043BE0 /* ZXPDF417.m in Sources */,
 				0A1AC62D1E84EA8100A12658 /* BalanceRecordCell.m in Sources */,
 				0AF966A91EC5BC7B00043BE0 /* ZXPDF417Reader.m in Sources */,
@@ -4045,6 +4064,7 @@
 				0AF8EA3E1EB0AAA000846DE6 /* AutographView.m in Sources */,
 				0AF966011EC5BC7B00043BE0 /* ZXEmailDoCoMoResultParser.m in Sources */,
 				0AF966C51EC5BC7B00043BE0 /* ZXQRCodeWriter.m in Sources */,
+				0A1B32C41EEE88AC00BAA8D3 /* PHButton.m in Sources */,
 				0AF965FE1EC5BC7B00043BE0 /* ZXCalendarParsedResult.m in Sources */,
 				0AF966101EC5BC7B00043BE0 /* ZXTelParsedResult.m in Sources */,
 				0AF95AAE1EC54FF900043BE0 /* IQToolbar.m in Sources */,

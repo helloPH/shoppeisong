@@ -90,7 +90,7 @@
 -(UILabel *)moneyLabel
 {
     if (!_moneyLabel) {
-        _moneyLabel = [BaseCostomer labelWithFrame:CGRectMake(40*MCscale,self.yueLabel.bottom + 5*MCscale,kDeviceWidth - 80*MCscale, 30*MCscale) font:[UIFont boldSystemFontOfSize:MLwordFont_1] textColor:redTextColor text:@"6890.00元"];
+        _moneyLabel = [BaseCostomer labelWithFrame:CGRectMake(40*MCscale,self.yueLabel.bottom + 5*MCscale,kDeviceWidth - 80*MCscale, 30*MCscale) font:[UIFont boldSystemFontOfSize:MLwordFont_1] textColor:redTextColor text:@"0.00元"];
         _moneyLabel.backgroundColor = [UIColor clearColor];
         [self.headView addSubview:self.moneyLabel];
     }

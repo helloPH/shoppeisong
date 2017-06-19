@@ -12,9 +12,8 @@
 @property (nonatomic,strong)UIImageView *headImage,*rightImageView;
 @property (nonatomic,strong)UILabel *nameLabel;
 @property (nonatomic,strong)UIView *lingView;
-@property (nonatomic,strong)NSArray *imageArray,*nameArray;
 @property (nonatomic,strong)UILabel * rightLabel;
-
+@property (nonatomic,strong)NSIndexPath * indexPath;
 //@property (nonatomic,strong)NSArray *status;
 @end
 @implementation PersonalCell
@@ -71,18 +70,25 @@
 }
 -(NSArray *)imageArray
 {
-    if (!_imageArray) {
-        _imageArray = @[@"fenhong",@"updatepwd",@"spglicon",@"yijianfankui",@"helpicon",@"fenxiangtu"];
+//    if (!_imageArray) {
+        _imageArray = @[@"fenhong",@"updatepwd",@"spglicon",@"yijianfankui",@"helpicon",@"fenxiangtu",@""];
+    if (_admin) {
+            _imageArray = @[@"fenhong",@"updatepwd",@"spglicon",@"yijianfankui",@"helpicon",@"fenxiangtu",@"helpicon",@""];
     }
+//    }
     return _imageArray;
 }
 -(NSArray *)nameArray
 {
-    if (!_nameArray) {
-
-            _nameArray = @[@"升级增强版",@"安全设置",@"商品管理",@"作业签到",@"我的客服",@"分享朋友"];
-        
+//    if (!_nameArray) {
+        NSString *versionStr = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+        NSString *banbenStr = [NSString stringWithFormat:@"版本号:%@",versionStr];
+            _nameArray = @[@"升级增强版",@"安全设置",@"商品管理",@"作业签到",@"我的客服",@"分享朋友",banbenStr];
+    if (_admin) {
+                   _nameArray = @[@"升级增强版",@"安全设置",@"商品管理",@"作业签到",@"我的客服",@"分享朋友",@"现场定位",banbenStr];
     }
+        
+//    }
     return _nameArray;
 }
 -(void)setDic:(NSDictionary *)dic{
@@ -133,6 +139,7 @@
 }
 -(void)reloadDataWithIndexpath:(NSIndexPath *)indexpath
 {
+    _indexPath = indexpath;
     self.nameLabel.text = self.nameArray[indexpath.row];
     self.headImage.image = [UIImage imageNamed:self.imageArray[indexpath.row]];
     if (indexpath.row==3) {
@@ -150,15 +157,24 @@
     self.nameLabel.frame = CGRectMake(self.headImage.right +5*MCscale, self.height/2.0-10*MCscale,150*MCscale, 20*MCscale);
     self.rightImageView.frame = CGRectMake(self.width - 25*MCscale, self.height/2.0-10*MCscale, 15*MCscale, 20*MCscale);
     self.lingView.frame = CGRectMake(0, self.height - 1,kDeviceWidth, 1);
-
-  
-    
+    self.rightImageView.hidden=NO;
+    self.lingView.hidden=NO;
     
     
     [self.rightLabel sizeToFit];
     self.rightLabel.center=self.contentView.center;
     self.rightLabel.right=self.rightImageView.left-5;
 
-    
+    if (_indexPath.row == self.nameArray.count-1) {
+        self.rightImageView.hidden=YES;
+        [self.nameLabel sizeToFit];
+        self.nameLabel.centerX=kDeviceWidth/2;
+        self.nameLabel.textColor=lineColor;
+        self.lingView.hidden=YES;
+        
+    }
+    else{
+        self.nameLabel.textColor=textBlackColor;
+    }
 }
 @end

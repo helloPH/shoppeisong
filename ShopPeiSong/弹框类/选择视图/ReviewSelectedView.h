@@ -8,6 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "Header.h"
+typedef NS_ENUM(NSUInteger,SeleType){
+    seleType1 = 1,//
+    seleType2 = 2,//
+    seleType3 = 3,//
+    seleType4 = 4,//
+    seleType5 = 5,//
+    seleType6 = 6,//草稿列表
+    seleType7 = 7,//行业列表
+};
+
+
 @protocol ReviewSelectedViewDelegate <NSObject>
 /**
  *  选择店铺
@@ -46,9 +57,8 @@
 
 @property (nonatomic,strong)id<ReviewSelectedViewDelegate>selectedDelegate;
 @property(nonatomic,strong)NSString *dianpuId;
--(void)reloadDataWithViewTag:(NSInteger)index ;
-
-
+@property(nonatomic,assign)BOOL notLayout;
+-(void)reloadDataWithViewTag:(SeleType)index ;
 @property (nonatomic,strong)void (^block)(id selecedData);
 -(void)appear;
 -(void)dissAppear;

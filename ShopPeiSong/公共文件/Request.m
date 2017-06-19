@@ -349,6 +349,81 @@
     }];
 }
 
+/*
+ * 获取支付密码
+ */
++(void)checkZhiFuMimaWithPassWord:(NSString *)passWord Success:(successBlock)success failure:(failureBlock)failure{
+    [MBProgressHUD start];
+    [HTTPTool  getWithBaseUrl:HTTPHEADER url:@"checkZhifu.action" params:[NSMutableDictionary dictionaryWithDictionary:@{@"yuangong.id":user_Id,
+                                                        @"zhifupwd":passWord}] success:^(id json) {
+        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD stop];
+        //        [MBProgressHUD promptWithString:@"网络连接错误"];
+        failure(error);
+    }];
+}
+/*
+ * 更新坐标
+ */
++(void)updateLocationWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure{
+//    [MBProgressHUD start];
+    [HTTPTool  getWithBaseUrl:HTTPHEADER url:@"updateDianpuAddress.action" params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json) {
+//        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+//        [MBProgressHUD stop];
+        [MBProgressHUD promptWithString:@"网络连接错误"];
+        failure(error);
+    }];
+    
+}
+/*
+ * 增加分类
+ */
++(void)addFeiLeiWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure{
+    [MBProgressHUD start];
+    [HTTPTool  getWithBaseUrl:HTTPImage url:@"Addleibies.action" params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json) {
+        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD stop];
+        [MBProgressHUD promptWithString:@"网络连接错误"];
+        failure(error);
+    }];
+
+}
+/*
+ * 修改分类
+ */
++(void)alterFenLeiWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure{
+    [MBProgressHUD start];
+    [HTTPTool  getWithBaseUrl:HTTPImage url:@"UpdateLeibies.action" params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json) {
+        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD stop];
+        [MBProgressHUD promptWithString:@"网络连接错误"];
+        failure(error);
+    }];
+
+}
+/*
+ * 删除分类
+ */
++(void)deleFenLeiWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure{
+    [MBProgressHUD start];
+    [HTTPTool  getWithBaseUrl:HTTPImage url:@"DelLeibies.action" params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json) {
+        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD stop];
+        [MBProgressHUD promptWithString:@"网络连接错误"];
+        failure(error);
+    }];
+
+}
 #pragma mark --- 登录注册
 /*
  *登录
@@ -592,4 +667,5 @@
         failure(error);
     }];
 }
+
 @end

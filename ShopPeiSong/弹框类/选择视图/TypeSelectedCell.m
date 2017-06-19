@@ -30,6 +30,7 @@
     return _typeLabel;
 }
 
+
 -(UIView *)lineView
 {
     if (!_lineView) {

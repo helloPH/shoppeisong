@@ -16,9 +16,6 @@
 @property(nonatomic,strong)NSMutableArray *dataArray;
 @property(nonatomic,strong)NSArray *statesArray;
 @property(nonatomic,strong)UIButton * backView;
-
-
-
 @end
 @implementation ReviewSelectedView
 {
@@ -93,7 +90,7 @@
     return _statesArray;
 }
 
--(void)reloadDataWithViewTag:(NSInteger)index
+-(void)reloadDataWithViewTag:(SeleType)index
 {
     viewTag = index;
     if (index == 1) [self getShopMessageData];
@@ -109,10 +106,22 @@
 {
     if (!_mainTableview) {
         _mainTableview = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _mainTableview.frame = CGRectMake(0, 15*MCscale, self.width, self.height - 30*MCscale);
         _mainTableview.delegate = self;
         _mainTableview.dataSource = self;
         _mainTableview.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self addSubview:_mainTableview];
+        
+        
+        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap:)];
+        [_mainTableview addGestureRecognizer:tap];
+        
+        UILongPressGestureRecognizer * longPress = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longPress:)];
+        [_mainTableview addGestureRecognizer:longPress];
+        
+        
+        
+        
     }
     return _mainTableview;
 }
@@ -129,6 +138,7 @@
     mHud.labelText = @"请稍等...";
     [mHud show:YES];
     NSMutableDictionary *pram = [NSMutableDictionary dictionaryWithDictionary:@{@"yuangongid":user_id}];
+    _dataArray = nil;
     [HTTPTool getWithUrl:@"enterShop.action" params:pram success:^(id json){
         [mHud hide:YES];
         NSLog(@"店铺信息 %@",json);
@@ -161,7 +171,7 @@
     NSMutableDictionary *pram = [NSMutableDictionary dictionaryWithDictionary:@{@"dianpuid":user_dianpuID}];
     
     
-    [HTTPTool getWithUrl:@"getDianpuLeibie.action" params:pram success:^(id json){
+    [HTTPTool getWithUrl:@"dianpuLeibie.action" params:pram success:^(id json){
         [mHud hide:YES];
         NSLog(@"店铺类别 %@",json);
         if ([[json valueForKey:@"message"]integerValue]== 3){
@@ -319,10 +329,30 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identifier = @"TypeSelectedCell";
+    
     TypeSelectedCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    cell.indexPath=indexPath;
+  
+    
+    
+    
     if (cell == nil) {
         cell = [[TypeSelectedCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
+    
+    for (int i = 0; i < cell.gestureRecognizers.count; i ++) {
+        UIGestureRecognizer * ges = cell.gestureRecognizers[i];
+        [cell removeGestureRecognizer:ges];
+    }
+    
+//    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap:)];
+//    [cell addGestureRecognizer:tap];
+
+    
+    
+    
+    
+    
     if (viewTag == 1)
     {
         [cell reloadDataForShopWithIndexPath:indexPath AndArray:self.dataArray];
@@ -346,19 +376,18 @@
     }
     return cell;
 }
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+-(void)tap:(UITapGestureRecognizer *)tap{
+    CGPoint p = [tap locationInView:tap.view];
+    NSIndexPath * indexPath = [self.mainTableview indexPathForRowAtPoint:p];
     
     __block ReviewSelectedView * weakSelf = self;
     if (_block) {
         [weakSelf dissAppear];
-        id data = self.dataArray[indexPath.row];
+        NSMutableDictionary * dic = [NSMutableDictionary dictionaryWithDictionary:self.dataArray[indexPath.row]];
+        [dic setValue:@"0" forKey:@"isLongPress"];
+        
+        id data = dic;
         _block(data);
-        
-        
-        
     }
     
     if (viewTag == 1) {
@@ -404,6 +433,35 @@
             [self.selectedDelegate selectedHangyeWithString:dict[@"name"] AndId:dict[@"id"]];
         }
     }
+
+    
+}
+-(void)longPress:(UILongPressGestureRecognizer *)longPress{
+    if (longPress.state==UIGestureRecognizerStateEnded) {
+        if (_block) {
+            
+            CGPoint p = [longPress locationInView:longPress.view];
+            NSIndexPath * indexPath = [self.mainTableview indexPathForRowAtPoint:p];
+
+            NSMutableDictionary * dic = [NSMutableDictionary dictionaryWithDictionary:self.dataArray[indexPath.row]];
+            
+            [dic setValue:@"1" forKey:@"isLongPress"];
+            id data = dic;
+            
+            _block(data);
+        }
+
+    }
+    
+    
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    
+   
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -413,6 +471,9 @@
 -(void)layoutSubviews
 {
     [super layoutSubviews];
+    if (_notLayout) {
+        return;
+    }
     self.mainTableview.frame = CGRectMake(0, 15*MCscale, self.width, self.height - 30*MCscale);
 }
 

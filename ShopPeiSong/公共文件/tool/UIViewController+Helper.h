@@ -11,5 +11,5 @@
 @interface UIViewController (Helper)
 -(BOOL)isFirstLoad;
 -(UIImageView *)showGuideImageWithUrl:(NSString *)imgUrl;
-
++ (UIViewController *)presentingVC;
 @end

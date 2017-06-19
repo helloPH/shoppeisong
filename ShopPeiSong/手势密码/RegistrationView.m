@@ -12,8 +12,12 @@
 #import "ShouShiMiMaView.h"
 #import "findPasViewController.h"
 #import "PHAlertView.h"
+#import "PHMap.h"
+
 
 @interface RegistrationView()<MBProgressHUDDelegate,UITextFieldDelegate>
+@property (nonatomic,strong)NSMutableDictionary * dataDic;
+
 @property (nonatomic,strong)UILabel * naviView;
 
 @property (nonatomic,strong)UIButton * openBtn;
@@ -23,13 +27,17 @@
 @property (nonatomic,strong)UIView *line1,*line2,*line3,*line4;
 @property (nonatomic,strong)UIButton * findPass;
 
+@property (nonatomic,strong)PHMapHelper * mapHelper;
 @end
 @implementation RegistrationView
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
+         [self initData];
         self.backgroundColor = [UIColor whiteColor];
+       
+        
 //        self.layer.cornerRadius = 15.0;
 //        self.layer.shadowRadius = 5.0;
 //        self.layer.shadowOpacity = 0.5;
@@ -37,6 +45,9 @@
 //        self.layer.shadowOffset = CGSizeMake(0, 0);
     }
     return self;
+}
+-(void)initData{
+    _dataDic = [NSMutableDictionary dictionary];
 }
 -(UILabel *)naviView{
     if (!_naviView) {
@@ -312,11 +323,17 @@
         [HTTPTool getWithUrl:@"getYuangongInfo.action" params:pram success:^(id json) {
             [MBProgressHUD stop];
             NSLog(@"json%@",json);
+            
+            
             if ([[json valueForKey:@"message"]integerValue] == 0) {
                 [self promptMessageWithString:@"无此员工信息"];
             }
             else if ([[json valueForKey:@"message"]integerValue] == 1)
             {
+                if (_dataDic) {
+                    [_dataDic removeAllObjects];
+                }
+                [_dataDic addEntriesFromDictionary:[NSDictionary dictionaryWithDictionary:(NSDictionary *)json]];
                 self.dianpuNameLabel.hidden = NO;
                 self.line1.hidden = NO;
                 self.nameLabel.hidden = NO;
@@ -326,6 +343,7 @@
                 BOOL hasMima;
                 hasMima= [[NSString stringWithFormat:@"%@",[json valueForKey:@"pwd"]] isEqualToString:@"1"];
             
+         
                 if (hasMima) {
                     self.passWordTextfield.hidden=NO;
                     self.line4.hidden=NO;
@@ -337,11 +355,7 @@
 //                    self.registraBtn.hidden=YES;
                     self.findPass.hidden = YES;
                     [self shezhimima];
-                    
-                    
                 }
-                
-                
                 
                 self.dianpuNameLabel.text = [json valueForKey:@"dianpuname"];
                 self.nameLabel.text =[NSString stringWithFormat:@"%@ %@ %@",[json valueForKey:@"bumen"],[json valueForKey:@"zhiwu"],[json valueForKey:@"name"]];
@@ -368,9 +382,6 @@
     
     __block  NSString * setPassWord;
     __block NSInteger count = 0;
-    
-    
- 
     
     ShouShiMiMaView* shoushimima= [ShouShiMiMaView new];
     [shoushimima setTitle:@"请设置初始密码"];
@@ -422,12 +433,20 @@
             set_User_Tel(phone);
             set_LoginPass(password);
             
+            if ([user_BuMen isEqualToString:@"管理"]) {
+                self.controller.willUpdateLocation=YES;
+            }else{
+                self.controller.willUpdateLocation=NO;
+            }
+            
+           
             
             PHAlertView * alert = [[PHAlertView alloc]initWithTitle:nil message:[NSString stringWithFormat:@"登录密码设置，商铺管理后台登录密码为“%@”。",user_loginPass] delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil];
             [alert show];
-            
             alert.block=^(NSInteger index){
-                [self mianMiLogin];  
+                
+                [self mianMiLogin];
+                [self.controller  surePersonState];
             };
             
       
@@ -572,9 +591,6 @@
         }
     } failure:^(NSError *error) {
     }];
-
-    
-    
 }
 -(void)reshBanben{
     [Request getAppStatusSuccess:^(id json) {

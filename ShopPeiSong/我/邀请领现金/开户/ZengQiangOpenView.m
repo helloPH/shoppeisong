@@ -1113,7 +1113,7 @@
     //    }
     //    else
     //    {
-    agr.pageUrl = [NSString stringWithFormat:@"%@useXieyi.action",HTTPImage];
+    agr.pageUrl = [NSString stringWithFormat:@"%@shiyongxieyi.jsp",HTTPWeb];
     //    }
     agr.titStr = @"妙店佳系统使用协议";
     agr.hidesBottomBarWhenPushed = YES;
