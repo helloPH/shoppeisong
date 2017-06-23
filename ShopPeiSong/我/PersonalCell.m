@@ -130,7 +130,6 @@
             case 8:
                 self.rightLabel.text=@"第四时段 离岗";
                 break;
-                
             default:
                 break;
         }

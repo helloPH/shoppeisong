@@ -424,6 +424,160 @@
     }];
 
 }
+/*
+ * 获取二维码
+ */
++(void)getQRcodeWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure{
+    [MBProgressHUD start];
+    [HTTPTool  getWithBaseUrl:@"http://www.shp360.com/MshcShop/" url:@"findbyxianshi.action" params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json) {
+        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD stop];
+        [MBProgressHUD promptWithString:@"网络连接错误"];
+        failure(error);
+    }];
+}
+/*
+ * 获取店铺信息
+ */
++(void)getDianPuInfoWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure{
+    [MBProgressHUD start];
+    [HTTPTool  postWithBaseUrl:HTTPHEADER url:@"Zonghe_findupdatedianpu.action" params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json) {
+        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD stop];
+        
+        [MBProgressHUD promptWithString:@"网络连接错误"];
+        failure(error);
+    }];
+}
+/*
+ * 修改店铺信息
+ */
++(void)alterDianPuInfoWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure{
+    [MBProgressHUD start];
+    [HTTPTool  postWithBaseUrl:HTTPHEADER url:@"Zonghe_savedianpu.action" params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json) {
+        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD stop];
+        [MBProgressHUD promptWithString:@"网络连接错误"];
+        failure(error);
+    }];
+}
+/*
+ * 店铺营业时间显示
+ */
++(void)getDianPuYingYeShiJianWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure{
+    [MBProgressHUD start];
+    [HTTPTool  getWithBaseUrl:HTTPHEADER url:@"Zonghe_findbytime.action" params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json) {
+        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD stop];
+        [MBProgressHUD promptWithString:@"网络连接错误"];
+        failure(error);
+    }];
+}
+/*
+ * 修改店铺时间
+ */
++(void)alterDianPuYingYeShiJianWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure{
+    [MBProgressHUD start];
+    [HTTPTool  getWithBaseUrl:HTTPHEADER url:@"Zonghe_savetime.action" params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json) {
+        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD stop];
+        [MBProgressHUD promptWithString:@"网络连接错误"];
+        failure(error);
+    }];
+}
+/*
+ * 获取收款二维码
+ */
++(void)getDianPuSKerWeiMaWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure{
+    [MBProgressHUD start];
+    [HTTPTool  getWithBaseUrl:HTTPHEADER url:@"Zonghe_finderweima.action" params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json) {
+        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD stop];
+        [MBProgressHUD promptWithString:@"网络连接错误"];
+        failure(error);
+    }];
+}
+/*
+ * 上传图片
+ */
++(void)upLoadImageWithUrl:(NSString *)url Dic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure{
+    
+    NSString * name = [dic valueForKey:@"name"];
+    UIImage * image = [dic valueForKey:@"file"];
+    NSMutableDictionary *pram = [[NSMutableDictionary alloc]initWithDictionary:@{@"dianpuid":user_dianpuID
+                            }];
+    AFHTTPRequestOperationManager *manger = [AFHTTPRequestOperationManager manager];
+    //网络延时设置15秒
+    manger.requestSerializer.timeoutInterval = 15;
+
+    NSString * urlPath = [NSString stringWithFormat:@"%@%@",HTTPImage,url];
+    [manger POST:urlPath parameters:pram constructingBodyWithBlock:^(id<AFMultipartFormData> formData){
+        
+        NSData *imageData = UIImageJPEGRepresentation(image, 0.9);
+        NSString *fileName = [NSString stringWithFormat:@"%@.png",name];
+        [formData appendPartWithFileData:imageData name:@"file" fileName:fileName mimeType:@"image/jpeg"];
+    }success:^(AFHTTPRequestOperation *operation, id responseObject) {
+
+        success(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+
+        [MBProgressHUD promptWithString:@"上传图片失败"];
+        failure(error);
+    }];
+    
+    
+    
+    
+//    [MBProgressHUD start];
+//    [HTTPTool  postWithBaseUrl:HTTPImage url:@"zhifuimg.action" params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json) {
+//        [MBProgressHUD stop];
+//        success(json);
+//    } failure:^(NSError *error) {
+//        [MBProgressHUD stop];
+//        [MBProgressHUD promptWithString:@"图片上传网络失败"];
+//        failure(error);
+//    }];
+}
+/*
+* 订单评价
+*/
++(void)orderPingJiaWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure{
+    [MBProgressHUD start];
+    [HTTPTool  postWithBaseUrl:HTTPHEADER url:@"findupdatepingjia.action" params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json) {
+        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD stop];
+        [MBProgressHUD promptWithString:@"网络连接错误"];
+        failure(error);
+    }];
+}
+/*
+ * 店铺审核
+ */
++(void)getShenHeStatusWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure{
+    [MBProgressHUD start];
+    [HTTPTool  getWithBaseUrl:HTTPImage url:@"shenheanderweima.action" params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json) {
+        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD stop];
+        [MBProgressHUD promptWithString:@"网络连接错误"];
+        failure(error);
+    }];
+}
 #pragma mark --- 登录注册
 /*
  *登录

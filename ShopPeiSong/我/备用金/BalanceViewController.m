@@ -70,8 +70,8 @@
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:self.leftButton];
     self.navigationItem.leftBarButtonItem = leftItem;
     
-    UIBarButtonItem * rightItem = [[UIBarButtonItem alloc]initWithTitle:@"续费" style:UIBarButtonItemStyleDone target:self action:@selector(xufei)];
-    self.navigationItem.rightBarButtonItem= rightItem;
+//    UIBarButtonItem * rightItem = [[UIBarButtonItem alloc]initWithTitle:@"续费" style:UIBarButtonItemStyleDone target:self action:@selector(xufei)];
+//    self.navigationItem.rightBarButtonItem= rightItem;
 }
 -(void)xufei{
     [self.navigationController pushViewController:[XuFeiViewController new] animated:YES];
@@ -107,7 +107,7 @@
             [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
             button.tag = 1200+i;
             if (i == 1) {
-                button.backgroundColor = txtColors(25, 183, 133, 1);
+                button.backgroundColor = mainColor;
             }
             [_headView addSubview:button];
         }
@@ -202,9 +202,9 @@
         [self.recordArray removeAllObjects];
         
         
-        if (![[NSString stringWithFormat:@"%@",[json valueForKey:@"xufei"]] isEqualToString:@"1"]) {
-            self.navigationItem.rightBarButtonItem=nil;
-        }
+//        if (![[NSString stringWithFormat:@"%@",[json valueForKey:@"xufei"]] isEqualToString:@"1"]) {
+//            self.navigationItem.rightBarButtonItem=nil;
+//        }
         
         
         if ([[json valueForKey:@"message"]integerValue]== 1){

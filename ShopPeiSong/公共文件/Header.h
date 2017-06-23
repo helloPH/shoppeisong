@@ -23,6 +23,10 @@
 #import "Request.h"
 #import "tool/NSString+Helper.h"
 #import "UIViewController+Helper.h"
+#import "SuperNavigationView.h"
+
+#import "CellView.h"
+#import "UIImage+Helper.h"
 
 //#import <CoreLocation/CoreLocation.h>
 //#import <ShareSDK/ShareSDK.h>
@@ -116,7 +120,9 @@
 #define banben_IsAfter [[NSUserDefaults standardUserDefaults]boolForKey:@"banBen_isAfter"]
 #define set_Banben_IsAfter(isAfter) [[NSUserDefaults standardUserDefaults] setBool:isAfter forKey:@"banBen_isAfter"]
 
-
+//店铺id
+#define set_dianpu_banben(dianpu_banben) [[NSUserDefaults standardUserDefaults] setValue:dianpu_banben forKey:@"dianpu_banben"]
+#define user_dianpu_banben [[NSUserDefaults standardUserDefaults]valueForKey:@"dianpu_banben"]//店铺ID
 
 
 
@@ -148,8 +154,6 @@
 #define stor_url @"https://itunes.apple.com/cn/app/miao-dian-jia-pei-song/id1163948137?mt=8"
 
 
-
-
 #define HTTPHEADER @"http://www.shp360.com/MshcShopGuanjia/"
 #define HTTPImage @"http://www.shp360.com/Store/"
 #define HTTPWeb @"http://www.shp360.com/"
@@ -159,6 +163,9 @@
 //#define HTTPImage @"http://192.168.1.250:8080/Store/"
 //#define HTTPWeb @"http://192.168.1.250:8080/"
 
+//#define HTTPHEADER @"http://192.168.1.99:8080/MshcShopGuanjia/"
+//#define HTTPImage @"http://192.168.1.99:8080/Store/"
+//#define HTTPWeb @"http://192.168.1.99:8080/"
 
 
 
@@ -199,8 +206,9 @@
 #define MCscale (iPhone?(IPHONE_5 ? 0.85 : 1):(1.25))
 
 //颜色
-#define mainColor  [UIColor colorWithRed:4/255.0 green:196/255.0 blue:153/255.0 alpha:1]
-#define naviBarTintColor  [UIColor colorWithRed:4/255.0 green:196/255.0 blue:153/255.0 alpha:1]
+// [UIColor colorWithRed:4/255.0 green:196/255.0 blue:153/255.0 alpha:1]
+#define mainColor         [UIColor colorWithRed:67/255.0 green:208/255.0 blue:212/255.0 alpha:1]
+#define naviBarTintColor  [UIColor colorWithRed:67/255.0 green:208/255.0 blue:212/255.0 alpha:1]
 
 
 

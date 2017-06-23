@@ -52,7 +52,7 @@
 -(UILabel *)promptLabel
 {
     if (!_promptLabel) {
-        _promptLabel = [BaseCostomer labelWithFrame:CGRectMake(self.width/2-75*MCscale, 10*MCscale, 150*MCscale, 30*MCscale) font:[UIFont systemFontOfSize:MLwordFont_4] textColor:txtColors(0, 174, 119, 1) backgroundColor:[UIColor clearColor] textAlignment:NSTextAlignmentCenter numOfLines:1 text:@""];
+        _promptLabel = [BaseCostomer labelWithFrame:CGRectMake(self.width/2-75*MCscale, 10*MCscale, 150*MCscale, 30*MCscale) font:[UIFont systemFontOfSize:MLwordFont_4] textColor:mainColor backgroundColor:[UIColor clearColor] textAlignment:NSTextAlignmentCenter numOfLines:1 text:@""];
         [self addSubview:_promptLabel];
     }
     return _promptLabel;

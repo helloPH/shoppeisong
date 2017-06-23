@@ -59,14 +59,14 @@
 -(NSArray *)titleArray1
 {
     if (!_titleArray1) {
-        _titleArray1 = @[@"名称:",@"类别",@"库存量",@"原价",@"现价",@"采购价",@"附加费",@"标签",@"排序"];
+        _titleArray1 = @[@"名称:",@"类别",@"库存量",@"原价",@"现价",@"成本价",@"附加费",@"标签",@"排序"];
     }
     return _titleArray1;
 }
 -(NSArray *)placeoderArray
 {
     if (!_placeoderArray) {
-        _placeoderArray = @[@"请输入名称",@"",@"请输入库存量",@"请输入原价",@"请输入现价",@"请输入采购价",@"",@"",@"请输入排序"];
+        _placeoderArray = @[@"请输入名称",@"",@"请输入库存量",@"请输入原价",@"请输入现价",@"请输入成本价",@"",@"",@"请输入排序"];
     }
     return _placeoderArray;
 }

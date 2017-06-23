@@ -389,7 +389,7 @@
     NSString * urlPath = [NSString stringWithFormat:@"%@fileuploadgj.action",HTTPImage];
     
     [manger POST:urlPath parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData){
-        NSData *imageData = UIImageJPEGRepresentation(self.imageDict[@"image"], 0.9);
+        NSData *imageData = UIImageJPEGRepresentation([((UIImage *)(self.imageDict[@"image"])) imageByScalingToSize:CGSizeMake(360, 360)], 0.9);
         NSString *fileName = [NSString stringWithFormat:@"%@",self.imageNameStr];
         [formData appendPartWithFileData:imageData name:@"file" fileName:fileName mimeType:@"image/jpeg"];
     }

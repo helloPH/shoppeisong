@@ -11,5 +11,7 @@
 
 
 @interface SuperViewController : UIViewController
+@property (nonatomic,strong)SuperNavigationView * navi;
+
 -(void)setNavigationItem;
 @end

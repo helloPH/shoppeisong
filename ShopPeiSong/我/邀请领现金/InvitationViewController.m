@@ -9,14 +9,26 @@
 #import "InvitationViewController.h"
 #import "OpenAccountViewController.h"
 #import "Header.h"
+#import "SuperNavigationView.h"
+
 @interface InvitationViewController ()<UIGestureRecognizerDelegate>
+@property (nonatomic,strong)SuperNavigationView * navi;
 
 @property(nonatomic,strong)UIImageView *yaoqingImageView;
 @property(nonatomic,strong)UIButton *leftButton,*invitationBtn;
+
 @end
 
 @implementation InvitationViewController
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden=YES;
+    
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBar.hidden=NO;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -39,8 +51,11 @@
 -(UIImageView *)yaoqingImageView
 {
     if (!_yaoqingImageView) {
-        _yaoqingImageView = [BaseCostomer imageViewWithFrame:CGRectMake(0, 64 , kDeviceWidth, kDeviceHeight - 64 - 50*MCscale) backGroundColor:[UIColor clearColor] image:@""];
+        _yaoqingImageView = [BaseCostomer imageViewWithFrame:CGRectMake(0, 0 , kDeviceWidth, kDeviceHeight  - 50*MCscale) backGroundColor:[UIColor clearColor] image:@""];
         [self.view addSubview:_yaoqingImageView];
+        [self.view bringSubviewToFront:_navi];
+        
+        
     }
     return _yaoqingImageView;
 }
@@ -58,22 +73,39 @@
 -(UIButton *)invitationBtn
 {
     if (!_invitationBtn) {
-        _invitationBtn = [BaseCostomer buttonWithFrame:CGRectMake(0, self.yaoqingImageView.bottom, kDeviceWidth, 50*MCscale) font:[UIFont systemFontOfSize:MLwordFont_2] textColor:[UIColor whiteColor] backGroundColor:txtColors(25, 179, 130, 1) cornerRadius:0 text:@"开户" image:@""];
+        _invitationBtn = [BaseCostomer buttonWithFrame:CGRectMake(0, self.yaoqingImageView.bottom, kDeviceWidth, 50*MCscale) font:[UIFont systemFontOfSize:MLwordFont_2] textColor:[UIColor whiteColor] backGroundColor:naviBarTintColor cornerRadius:0 text:@"邀请注册" image:@""];
         [_invitationBtn addTarget:self action:@selector(invitationBtnClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _invitationBtn;
 }
 -(void)setNavigationItem
 {
-    [self.navigationItem setTitle:@"邀请领现金"];
-    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:MLwordFont_2],NSFontAttributeName, nil]];
-    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:self.leftButton];
-    self.navigationItem.leftBarButtonItem = leftItem;
+    
+    _navi = [SuperNavigationView new];
+    [_navi.leftBtn setBackgroundImage:[UIImage imageNamed:@"返回按钮"] forState:UIControlStateNormal];
+    [self.view addSubview:_navi];
+    
+    __weak InvitationViewController * weakSelf = self;
+    _navi.block=^(NSInteger index){
+        if (index==0) {
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        }
+    };
+//    [self.navigationItem setTitle:@"邀请领现金"];
+//    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:MLwordFont_2],NSFontAttributeName, nil]];
+//    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:self.leftButton];
+//    self.navigationItem.leftBarButtonItem = leftItem;
 }
 
 -(void)invitationBtnClick
 {
 //开户
+    if ([user_dianpu_banben isEqualToString:@"0"] || [user_dianpu_banben isEqualToString:@"1"]) {
+        UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"" message:@"商铺权限暂不能为好友注册" delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
     OpenAccountViewController *openAccountVC = [[OpenAccountViewController alloc]init];
     openAccountVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:openAccountVC animated:YES];

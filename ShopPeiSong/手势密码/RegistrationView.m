@@ -459,6 +459,10 @@
 }
 -(void)registraBtnClick:(UIButton *)button
 {
+    [self.accountTextfield resignFirstResponder];
+    [self.passWordTextfield resignFirstResponder];
+    
+    
     if (!self.accountTextfield.text || self.accountTextfield.text.length==0) {
         [MBProgressHUD promptWithString:@"请输入手机号"];
         return;
@@ -513,6 +517,7 @@
         }];
     }
 }
+
 //键盘收回
 -(void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {

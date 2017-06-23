@@ -114,10 +114,24 @@
             NSString * message = [NSString stringWithFormat:@"%@",[json valueForKey:@"message"]];
             switch ([message integerValue]) {
                 case 0:
-                    
+                    [self denglujiemian];
                     break;
                 case 1:
+                {
+                    set_User_Id([json valueForKey:@"yuangongid"]);
+                    set_DianPuName([json valueForKey:@"shequname"]);
+                    set_User_dianpuID([json valueForKey:@"shequid"]);
                     
+                    if (_willUpdateLocation) {
+                        [self updateLocation];
+                    }
+                    self.registraView.hidden = YES;
+                    self.label.hidden = NO;
+                    self.label.text = @"请输入手势密码";
+                    self.backImge.hidden = NO;
+                    self.gesView.hidden = NO;
+                    self.forgetBtn.hidden = NO;
+                }
                     break;
                 case 2:
                     [MBProgressHUD promptWithString:@"参数为空"];
@@ -126,54 +140,30 @@
                 default:
                     break;
             }
-            set_User_Id([json valueForKey:@"yuangongid"]);
-            set_DianPuName([json valueForKey:@"shequname"]);
-            set_User_dianpuID([json valueForKey:@"shequid"]);
-   
-            if (_willUpdateLocation) {
-                [self updateLocation];
-            }
+  
         } failure:^(NSError *error) {
             
         }];
-        
-        
-        //        self.view.backgroundColor = txtColors(231, 231, 231, 1);
-        self.registraView.hidden = YES;
-        self.label.hidden = NO;
-        self.label.text = @"请输入手势密码";
-        self.backImge.hidden = NO;
-        self.gesView.hidden = NO;
-        self.forgetBtn.hidden = NO;
-        [self showGuideImageWithUrl:@"images/caozuotishi/shoushi.png"];
-        
-//        [self judgeTheFirst];
-        
-        
-        /**
-         *  在此判断是否免密登录
-         */
-//        if (user_IsMianMiLogin) {
-//            [self GestureLockPasswordRight:self.gesView];
-//        }
-//        set_User_IsMianMiLogin(NO);
-        
-        
+
     }else{
-        [UIView animateWithDuration:0.3 animations:^{
-            self.registraView.alpha = 0.95;
-            self.registraView.hidden = NO;
-            self.gesView.hidden = YES;
-            self.forgetBtn.hidden = YES;
-            self.backImge.hidden = YES;
-            self.label.hidden = YES;
-        } completion:^(BOOL finished) {
-            //            self.view.backgroundColor=[UIColor whiteColor];
-        }];
+        [self denglujiemian];
     }
     
 
 }
+-(void)denglujiemian{
+    [UIView animateWithDuration:0.3 animations:^{
+        self.registraView.alpha = 0.95;
+        self.registraView.hidden = NO;
+        self.gesView.hidden = YES;
+        self.forgetBtn.hidden = YES;
+        self.backImge.hidden = YES;
+        self.label.hidden = YES;
+    } completion:^(BOOL finished) {
+        //            self.view.backgroundColor=[UIColor whiteColor];
+    }];
+}
+
 -(void)updateLocation{
     _mapHelper = [PHMapHelper new];
     [_mapHelper configBaiduMap];
@@ -224,6 +214,9 @@
 {
     NSLog(@"密码正确");
     self.label.text = @"密码正确";
+    
+    
+    
     [self addMainViewController];
 }
 -(void)addMainViewController
@@ -243,7 +236,7 @@
 -(UILabel *)label
 {
     if (!_label) {
-        _label = [BaseCostomer labelWithFrame:CGRectZero font:[UIFont systemFontOfSize:MLwordFont_4] textColor:txtColors(0, 174, 119, 1) backgroundColor:[UIColor clearColor] textAlignment:NSTextAlignmentCenter numOfLines:1 text:@"请输入手势密码"];
+        _label = [BaseCostomer labelWithFrame:CGRectZero font:[UIFont systemFontOfSize:MLwordFont_4] textColor:mainColor backgroundColor:[UIColor clearColor] textAlignment:NSTextAlignmentCenter numOfLines:1 text:@"请输入手势密码"];
         [self.view addSubview:_label];
         [_label mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.backImge.mas_bottom).offset(10*MCscale);
@@ -259,7 +252,7 @@
 -(UIButton *)forgetBtn
 {
     if (!_forgetBtn) {
-        _forgetBtn = [BaseCostomer buttonWithFrame:CGRectZero font:[UIFont systemFontOfSize:MLwordFont_4] textColor:txtColors(0, 174, 119, 1) backGroundColor:[UIColor clearColor] cornerRadius:0 text:@"忘记密码" image:@""];
+        _forgetBtn = [BaseCostomer buttonWithFrame:CGRectZero font:[UIFont systemFontOfSize:MLwordFont_4] textColor:mainColor backGroundColor:[UIColor clearColor] cornerRadius:0 text:@"忘记密码" image:@""];
         [_forgetBtn addTarget:self action:@selector(forgetBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:_forgetBtn];
         [_forgetBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -291,17 +284,21 @@
 #pragma mark RegistrationViewDelegate
 -(void)completeRegistration
 {
-    [UIView animateWithDuration:0.3 animations:^{
-        self.registraView.alpha = 0;
-        [self.view endEditing:YES];
-        [self.registraView removeFromSuperview];
-        self.gesView.hidden = NO;
-        self.label.hidden = NO;
-        self.forgetBtn.hidden = NO;
-        self.backImge.hidden = NO;
-    }];
-    self.label.text = @"请输入手势密码";
-    [self showGuideImageWithUrl:@"images/caozuotishi/shoushi.png"];
+
+    [self surePersonState];
+    
+    
+//    [UIView animateWithDuration:0.3 animations:^{
+//        self.registraView.alpha = 0;
+//        [self.view endEditing:YES];
+//        [self.registraView removeFromSuperview];
+//        self.gesView.hidden = NO;
+//        self.label.hidden = NO;
+//        self.forgetBtn.hidden = NO;
+//        self.backImge.hidden = NO;
+//    }];
+//    self.label.text = @"请输入手势密码";
+//    [self showGuideImageWithUrl:@"images/caozuotishi/shoushi.png"];
 
 //    [self judgeTheFirst];
 }

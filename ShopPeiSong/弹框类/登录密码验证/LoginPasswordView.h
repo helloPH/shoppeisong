@@ -20,6 +20,8 @@
 -(void)reloadDataWithViewTag:(NSInteger)viewtag;
 
 @property (nonatomic,strong)void(^block)(BOOL isSuccess);
+
+
 -(void)appear;
 -(void)disAppear;
 @end

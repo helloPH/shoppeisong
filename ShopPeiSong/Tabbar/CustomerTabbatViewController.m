@@ -10,6 +10,7 @@
 #import "PlatformViewController.h"
 #import "OrdersViewController.h"
 #import "MeViewController.h"
+#import "PersonViewController.h"
 #import "Header.h"
 
 
@@ -108,7 +109,7 @@
 -(NSArray *)titleArray
 {
     if (!_titleArray) {
-        _titleArray = @[@"平台",@"接单",@" 我 "];
+        _titleArray = @[@"接单",@"配送",@" 我 "];
     }
     return _titleArray;
 }
@@ -116,7 +117,7 @@
 -(NSArray *)classArray
 {
     if (!_classArray) {
-        _classArray = @[@"PlatformViewController",@"OrdersViewController",@"MeViewController"];
+        _classArray = @[@"PlatformViewController",@"OrdersViewController",@"PersonViewController"];
     }
     return _classArray;
 }
@@ -139,14 +140,14 @@
         
         UINavigationBar *bar = navi.navigationBar;
         bar.translucent = YES;
-        [bar setBarTintColor:txtColors(25, 182, 132, 1)];
+        [bar setBarTintColor:naviBarTintColor];
         bar.tintColor = [UIColor whiteColor];
         [bar setTitleTextAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:17],NSForegroundColorAttributeName:[UIColor whiteColor]}];
         [controllers addObject:navi];
     }
     self.viewControllers = controllers;
     
-    UIImageView *tabImageView = [BaseCostomer imageViewWithFrame:CGRectMake(0, 0, kDeviceWidth, 49) backGroundColor:txtColors(49, 197, 155, 1) cornerRadius:0 userInteractionEnabled:YES image:@""];
+    UIImageView *tabImageView = [BaseCostomer imageViewWithFrame:CGRectMake(0, 0, kDeviceWidth, 49) backGroundColor:txtColors(241, 244, 244, 1) cornerRadius:0 userInteractionEnabled:YES image:@""];
     tabImageView.tag = 10;
     self.tabBar.frame = CGRectMake(0, kDeviceHeight-49, kDeviceWidth, 49);
     [self.tabBar addSubview:tabImageView];
@@ -181,7 +182,7 @@
 //    button.imageView.contentMode=UIViewContentModeScaleAspectFit;
     
     
-    [button setTitleColor:txtColors(34, 253, 189, 1) forState:UIControlStateSelected];
+    [button setTitleColor:txtColors(0, 174, 119, 1) forState:UIControlStateSelected];
     [button setTitleColor:textBlackColor forState:UIControlStateNormal];
     NSInteger index = button.tag - 99;
     

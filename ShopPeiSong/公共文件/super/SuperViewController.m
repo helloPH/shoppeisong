@@ -8,6 +8,7 @@
 
 #import "SuperViewController.h"
 
+
 @interface SuperViewController ()
 
 @end
@@ -18,21 +19,49 @@
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor whiteColor];
     [self setNavigationItem];
-
+ 
     // Do any additional setup after loading the view.
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.hidesBottomBarWhenPushed=YES;
+//    self.navigationController.navigationBar.hidden=YES;
+    
+}
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+//    self.navigationController.navigationBar.hidden=NO;
 }
 -(void)setNavigationItem
 {
-    self.navigationController.navigationBar.tintColor=naviBarTintColor;
-    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:MLwordFont_2],NSFontAttributeName, nil]];
-    
+    self.hidesBottomBarWhenPushed=YES;
     
     UIButton * leftBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, NVbtnWight, NVbtnWight)];
+    leftBtn.backgroundColor=[UIColor clearColor];
     [leftBtn setImage:[UIImage imageNamed:@"返回按钮"] forState:UIControlStateNormal];
-    UIBarButtonItem * leftItem = [[UIBarButtonItem alloc]initWithCustomView:leftBtn];
-    [leftBtn addTarget:self action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
-    
+    [leftBtn addTarget:self.navigationController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
+    
+//    _navi = [SuperNavigationView new];
+//    _navi.backgroundColor=naviBarTintColor;
+//    [self.view addSubview:_navi];
+//    __block SuperViewController * weakSelf = self;
+//    _navi.backBlock=^(){
+//        [weakSelf.navigationController popViewControllerAnimated:YES];
+//    };
+    
+    
+//    self.navigationController.navigationBar.tintColor=naviBarTintColor;
+//    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:MLwordFont_2],NSFontAttributeName, nil]];
+//    
+//    
+//    UIButton * leftBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, NVbtnWight, NVbtnWight)];
+//    [leftBtn setImage:[UIImage imageNamed:@"返回按钮"] forState:UIControlStateNormal];
+//    UIBarButtonItem * leftItem = [[UIBarButtonItem alloc]initWithCustomView:leftBtn];
+//    [leftBtn addTarget:self action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    self.navigationItem.leftBarButtonItem = leftItem;
 
 }
 -(void)pop{

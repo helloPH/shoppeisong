@@ -19,13 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ShopPeiSong/&#x624b;&#x52bf;&#x5bc6;&#x7801;/GestureViewController.m"
-            timestampString = "518930760.290046"
+            filePath = "ShopPeiSong/&#x6211;/&#x4e92;&#x52a8;/ShopDetailViewController.m"
+            timestampString = "519892428.518257"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "188"
-            endingLineNumber = "188"
-            landmarkName = "-updateLocation"
+            startingLineNumber = "506"
+            endingLineNumber = "506"
+            landmarkName = "-tableView:heightForRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -35,29 +35,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ShopPeiSong/&#x5f39;&#x6846;&#x7c7b;/&#x5546;&#x54c1;&#x7ba1;&#x7406;&#x65b0;&#x589e;&#x548c;&#x4fee;&#x6539;/ShopManagerAddAddAlter.m"
-            timestampString = "518955307.486073"
+            filePath = "ShopPeiSong/&#x6211;/&#x4e92;&#x52a8;/ShopDetailViewController.m"
+            timestampString = "519892428.518257"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
-            landmarkName = "-appear"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ShopPeiSong/&#x516c;&#x5171;&#x6587;&#x4ef6;/tool/UIViewController+Helper.m"
-            timestampString = "518955363.175646"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "+presentingVC"
+            startingLineNumber = "500"
+            endingLineNumber = "500"
+            landmarkName = "-tableView:heightForRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -67,13 +51,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ShopPeiSong/&#x6211;/&#x9080;&#x8bf7;&#x9886;&#x73b0;&#x91d1;/&#x5f00;&#x6237;/OpenAccountViewController.m"
-            timestampString = "519040692.065238"
+            filePath = "ShopPeiSong/&#x6211;/&#x4e92;&#x52a8;/ShopDetailViewController.m"
+            timestampString = "519892428.518257"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "656"
-            endingLineNumber = "656"
-            landmarkName = "-modifyKaihufeiWithString:"
+            startingLineNumber = "509"
+            endingLineNumber = "509"
+            landmarkName = "-tableView:heightForRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -28,7 +28,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title=@"续费";
+    self.navigationItem.title=@"配置延期";
     [self initData];
     [self reshData];
 //    SelectFuWuFeiBanBen * sele = [SelectFuWuFeiBanBen new];

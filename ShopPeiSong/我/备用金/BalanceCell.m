@@ -68,7 +68,7 @@
 -(UILabel *)yueLabel
 {
     if (!_yueLabel) {
-        _yueLabel = [BaseCostomer labelWithFrame:CGRectZero font:[UIFont systemFontOfSize:MLwordFont_7] textColor:txtColors(0, 182, 129, 1) backgroundColor:[UIColor clearColor] textAlignment:0 numOfLines:1 text:@""];
+        _yueLabel = [BaseCostomer labelWithFrame:CGRectZero font:[UIFont systemFontOfSize:MLwordFont_7] textColor:mainColor backgroundColor:[UIColor clearColor] textAlignment:0 numOfLines:1 text:@""];
         [self.contentView addSubview:_yueLabel];
     }
     return _yueLabel;

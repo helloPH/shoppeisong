@@ -10,6 +10,7 @@
 #import "Header.h"
 
 @interface QianDaoView()<MBProgressHUDDelegate>
+@property(nonatomic,strong)UIButton * backView;
 
 @property(nonatomic,strong)UILabel *titleLabel2;//提示信息
 @property(nonatomic,strong)UIView *lineView,*lineView2;//
@@ -21,12 +22,15 @@
 {
     self = [super init];
     if (self) {
-     
+        [self newView];
     }
     return self;
 }
 -(instancetype)initWithFrame:(CGRect)frame{
     if (self=[super initWithFrame:frame]) {
+        
+        
+        
         self.backgroundColor = [UIColor whiteColor];
         self.layer.cornerRadius = 15.0;
         self.layer.shadowRadius = 5.0;
@@ -35,6 +39,20 @@
         self.layer.shadowOffset = CGSizeMake(0, 0);
     }
     return self;
+}
+-(void)newView{
+    _backView = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+    [_backView addTarget:self action:@selector(disAppear) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    self.frame=CGRectMake(30*MCscale,230*MCscale, kDeviceWidth - 60*MCscale, 110*MCscale);
+    [_backView addSubview:self];
+    self.backgroundColor = [UIColor whiteColor];
+    self.layer.cornerRadius = 15.0;
+    self.layer.shadowRadius = 5.0;
+    self.layer.shadowOpacity = 0.5;
+    self.alpha = 0.95;
+    self.layer.shadowOffset = CGSizeMake(0, 0);
 }
 -(UILabel *)titleLabel2
 {
@@ -179,6 +197,19 @@
 
 
 
-
+-(void)appear{
+    [[UIApplication sharedApplication].delegate.window addSubview:_backView];
+    _backView.alpha=0;
+    [UIView animateWithDuration:0.3 animations:^{
+        _backView.alpha=0.95;
+    }];
+}
+-(void)disAppear{
+    [UIView animateWithDuration:0.3 animations:^{
+        _backView.alpha=0;
+    }completion:^(BOOL finished) {
+        [_backView removeFromSuperview];
+    }];
+}
 
 @end

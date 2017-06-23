@@ -18,7 +18,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.navigationController.navigationBar setBarTintColor:txtColors(4, 196, 153, 1)];
+
 }
 - (void)viewDidLoad {
     [super viewDidLoad];

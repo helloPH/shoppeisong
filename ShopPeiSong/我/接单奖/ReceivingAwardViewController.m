@@ -38,6 +38,7 @@
     [self getRecentRecordData];
     [self getRecentRecordDataAggregate];
 }
+
 #pragma mark 设置导航栏
 -(UIButton *)leftButton
 {

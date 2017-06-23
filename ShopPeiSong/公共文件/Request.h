@@ -126,6 +126,42 @@
  * 删除分类
  */
 +(void)deleFenLeiWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure;
+/*
+ * 获取二维码
+ */
++(void)getQRcodeWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure;
+/*
+ * 获取店铺信息
+ */
++(void)getDianPuInfoWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure;
+/*
+ * 修改店铺信息
+ */
++(void)alterDianPuInfoWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure;
+/*
+ * 店铺营业时间显示
+ */
++(void)getDianPuYingYeShiJianWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure;
+/*
+ * 修改店铺时间
+ */
++(void)alterDianPuYingYeShiJianWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure;
+/*
+ * 获取收款二维码
+ */
++(void)getDianPuSKerWeiMaWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure;
+/*
+ * 上传收款二维码
+ */
++(void)upLoadImageWithUrl:(NSString *)url Dic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure;
+/*
+ * 订单评价
+ */
++(void)orderPingJiaWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure;
+/*
+ * 店铺审核
+ */
++(void)getShenHeStatusWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure;
 #pragma mark --- 登录注册
 /*
  *登录

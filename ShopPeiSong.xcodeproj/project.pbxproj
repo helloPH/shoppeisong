@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A020EFA1EFA085700395962 /* UIImage+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A020EF91EFA085700395962 /* UIImage+Helper.m */; };
 		0A076D2A1E823B450040FCFC /* CheckShangpinView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A076D291E823B450040FCFC /* CheckShangpinView.m */; };
 		0A07E5D41ED80F2E00E3FA91 /* OrderDetailChangeMoneyAndShuLiangView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A07E5D31ED80F2E00E3FA91 /* OrderDetailChangeMoneyAndShuLiangView.m */; };
 		0A0A63471E80BD1D00A75731 /* ShangpinManageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A63461E80BD1D00A75731 /* ShangpinManageCell.m */; };
 		0A0A634A1E80EE2F00A75731 /* ShangpinMessagesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A63491E80EE2F00A75731 /* ShangpinMessagesModel.m */; };
 		0A0A634E1E81082100A75731 /* AddShangpinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A634D1E81082100A75731 /* AddShangpinViewController.m */; };
 		0A0A63511E812F6E00A75731 /* AddShangpingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A63501E812F6E00A75731 /* AddShangpingView.m */; };
+		0A0AC0CD1EFCE64C00433A68 /* ReplyEvaluateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0AC0CC1EFCE64C00433A68 /* ReplyEvaluateView.m */; };
 		0A0B3A581E6D2FD6000FBAB6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0B3A571E6D2FD6000FBAB6 /* main.m */; };
 		0A0B3A5B1E6D2FD6000FBAB6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0B3A5A1E6D2FD6000FBAB6 /* AppDelegate.m */; };
 		0A0B3A611E6D2FD6000FBAB6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A0B3A5F1E6D2FD6000FBAB6 /* Main.storyboard */; };
@@ -120,7 +122,24 @@
 		0A89449E1ED143D2000276D1 /* FenXiangWithLoginAfter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A89449D1ED143D2000276D1 /* FenXiangWithLoginAfter.m */; };
 		0A912CD21ED27BEA00E0BE04 /* OnLinePayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A912CD11ED27BEA00E0BE04 /* OnLinePayView.m */; };
 		0A912CD61ED27C5400E0BE04 /* TopUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A912CD51ED27C5400E0BE04 /* TopUpView.m */; };
+		0A9870E51EF79B3400135EAF /* PersonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9870E41EF79B3400135EAF /* PersonViewController.m */; };
+		0A9870EB1EF7A40200135EAF /* SuperTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9870EA1EF7A40200135EAF /* SuperTableViewCell.m */; };
+		0A9870F11EF7A75D00135EAF /* PersonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9870F01EF7A75D00135EAF /* PersonTableViewCell.m */; };
+		0A9870F51EF7AE7200135EAF /* ShopManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9870F41EF7AE7200135EAF /* ShopManagerViewController.m */; };
+		0A9870F81EF7BDD000135EAF /* SuperNavigationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9870F71EF7BDD000135EAF /* SuperNavigationView.m */; };
 		0AA943861EBAFB81001E4E55 /* PHPush.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AA943851EBAFB81001E4E55 /* PHPush.m */; };
+		0AAE95231EF8B30800FE0E15 /* CellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE95221EF8B30800FE0E15 /* CellView.m */; };
+		0AAE95271EF8BFB300FE0E15 /* DianPuErWeiMaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE95261EF8BFB300FE0E15 /* DianPuErWeiMaViewController.m */; };
+		0AAE952C1EF8C73200FE0E15 /* ShouKuanErWeiMaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE952B1EF8C73200FE0E15 /* ShouKuanErWeiMaViewController.m */; };
+		0AAE952F1EF8CAD900FE0E15 /* DianPuXinXiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE952E1EF8CAD900FE0E15 /* DianPuXinXiViewController.m */; };
+		0AAE953B1EF8D63B00FE0E15 /* RatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE95321EF8D63B00FE0E15 /* RatingView.m */; };
+		0AAE953C1EF8D63B00FE0E15 /* shopDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE95341EF8D63B00FE0E15 /* shopDetailModel.m */; };
+		0AAE953D1EF8D63B00FE0E15 /* ShopDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE95361EF8D63B00FE0E15 /* ShopDetailViewController.m */; };
+		0AAE953E1EF8D63B00FE0E15 /* ShopEvaluateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE95381EF8D63B00FE0E15 /* ShopEvaluateCell.m */; };
+		0AAE953F1EF8D63B00FE0E15 /* ShopEvaluateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE953A1EF8D63B00FE0E15 /* ShopEvaluateModel.m */; };
+		0AAE95431EF8F79F00FE0E15 /* DatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE95421EF8F79F00FE0E15 /* DatePickerView.m */; };
+		0AAE95461EF9133F00FE0E15 /* YingYeTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE95451EF9133F00FE0E15 /* YingYeTimeViewController.m */; };
+		0AAE95491EF92CD600FE0E15 /* PHPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE95481EF92CD600FE0E15 /* PHPhoto.m */; };
 		0AB2028D1E72432A0020485E /* OrdersModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB2028C1E72432A0020485E /* OrdersModel.m */; };
 		0AB202911E7278960020485E /* InvitationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB202901E7278960020485E /* InvitationViewController.m */; };
 		0AB202B01E7285280020485E /* UseDirectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB202AF1E7285280020485E /* UseDirectionViewController.m */; };
@@ -525,6 +544,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A020EF81EFA085700395962 /* UIImage+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Helper.h"; sourceTree = "<group>"; };
+		0A020EF91EFA085700395962 /* UIImage+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Helper.m"; sourceTree = "<group>"; };
 		0A076D281E823B450040FCFC /* CheckShangpinView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckShangpinView.h; sourceTree = "<group>"; };
 		0A076D291E823B450040FCFC /* CheckShangpinView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckShangpinView.m; sourceTree = "<group>"; };
 		0A07E5D21ED80F2E00E3FA91 /* OrderDetailChangeMoneyAndShuLiangView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailChangeMoneyAndShuLiangView.h; sourceTree = "<group>"; };
@@ -537,6 +558,8 @@
 		0A0A634D1E81082100A75731 /* AddShangpinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddShangpinViewController.m; sourceTree = "<group>"; };
 		0A0A634F1E812F6E00A75731 /* AddShangpingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddShangpingView.h; sourceTree = "<group>"; };
 		0A0A63501E812F6E00A75731 /* AddShangpingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddShangpingView.m; sourceTree = "<group>"; };
+		0A0AC0CB1EFCE64C00433A68 /* ReplyEvaluateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplyEvaluateView.h; sourceTree = "<group>"; };
+		0A0AC0CC1EFCE64C00433A68 /* ReplyEvaluateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReplyEvaluateView.m; sourceTree = "<group>"; };
 		0A0B3A531E6D2FD6000FBAB6 /* ShopPeiSong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShopPeiSong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A0B3A571E6D2FD6000FBAB6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0A0B3A591E6D2FD6000FBAB6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -737,6 +760,16 @@
 		0A912CD11ED27BEA00E0BE04 /* OnLinePayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnLinePayView.m; sourceTree = "<group>"; };
 		0A912CD41ED27C5400E0BE04 /* TopUpView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopUpView.h; sourceTree = "<group>"; };
 		0A912CD51ED27C5400E0BE04 /* TopUpView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopUpView.m; sourceTree = "<group>"; };
+		0A9870E31EF79B3400135EAF /* PersonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonViewController.h; sourceTree = "<group>"; };
+		0A9870E41EF79B3400135EAF /* PersonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonViewController.m; sourceTree = "<group>"; };
+		0A9870E91EF7A40200135EAF /* SuperTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperTableViewCell.h; sourceTree = "<group>"; };
+		0A9870EA1EF7A40200135EAF /* SuperTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperTableViewCell.m; sourceTree = "<group>"; };
+		0A9870EF1EF7A75D00135EAF /* PersonTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonTableViewCell.h; sourceTree = "<group>"; };
+		0A9870F01EF7A75D00135EAF /* PersonTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonTableViewCell.m; sourceTree = "<group>"; };
+		0A9870F31EF7AE7200135EAF /* ShopManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopManagerViewController.h; sourceTree = "<group>"; };
+		0A9870F41EF7AE7200135EAF /* ShopManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopManagerViewController.m; sourceTree = "<group>"; };
+		0A9870F61EF7BDD000135EAF /* SuperNavigationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperNavigationView.h; sourceTree = "<group>"; };
+		0A9870F71EF7BDD000135EAF /* SuperNavigationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperNavigationView.m; sourceTree = "<group>"; };
 		0AA9437E1EBAC933001E4E55 /* ShopPeiSong.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShopPeiSong.entitlements; sourceTree = "<group>"; };
 		0AA943841EBAFB81001E4E55 /* PHPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPush.h; sourceTree = "<group>"; };
 		0AA943851EBAFB81001E4E55 /* PHPush.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPush.m; sourceTree = "<group>"; };
@@ -815,6 +848,30 @@
 		0AAC5D6F1ECD32E200EE1314 /* x509.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = x509.h; sourceTree = "<group>"; };
 		0AAC5D701ECD32E200EE1314 /* x509_vfy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = x509_vfy.h; sourceTree = "<group>"; };
 		0AAC5D711ECD32E200EE1314 /* x509v3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = x509v3.h; sourceTree = "<group>"; };
+		0AAE95211EF8B30800FE0E15 /* CellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellView.h; sourceTree = "<group>"; };
+		0AAE95221EF8B30800FE0E15 /* CellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellView.m; sourceTree = "<group>"; };
+		0AAE95251EF8BFB300FE0E15 /* DianPuErWeiMaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DianPuErWeiMaViewController.h; sourceTree = "<group>"; };
+		0AAE95261EF8BFB300FE0E15 /* DianPuErWeiMaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DianPuErWeiMaViewController.m; sourceTree = "<group>"; };
+		0AAE952A1EF8C73200FE0E15 /* ShouKuanErWeiMaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShouKuanErWeiMaViewController.h; sourceTree = "<group>"; };
+		0AAE952B1EF8C73200FE0E15 /* ShouKuanErWeiMaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShouKuanErWeiMaViewController.m; sourceTree = "<group>"; };
+		0AAE952D1EF8CAD900FE0E15 /* DianPuXinXiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DianPuXinXiViewController.h; sourceTree = "<group>"; };
+		0AAE952E1EF8CAD900FE0E15 /* DianPuXinXiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DianPuXinXiViewController.m; sourceTree = "<group>"; };
+		0AAE95311EF8D63B00FE0E15 /* RatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatingView.h; sourceTree = "<group>"; };
+		0AAE95321EF8D63B00FE0E15 /* RatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RatingView.m; sourceTree = "<group>"; };
+		0AAE95331EF8D63B00FE0E15 /* shopDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = shopDetailModel.h; sourceTree = "<group>"; };
+		0AAE95341EF8D63B00FE0E15 /* shopDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = shopDetailModel.m; sourceTree = "<group>"; };
+		0AAE95351EF8D63B00FE0E15 /* ShopDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopDetailViewController.h; sourceTree = "<group>"; };
+		0AAE95361EF8D63B00FE0E15 /* ShopDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopDetailViewController.m; sourceTree = "<group>"; };
+		0AAE95371EF8D63B00FE0E15 /* ShopEvaluateCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopEvaluateCell.h; sourceTree = "<group>"; };
+		0AAE95381EF8D63B00FE0E15 /* ShopEvaluateCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopEvaluateCell.m; sourceTree = "<group>"; };
+		0AAE95391EF8D63B00FE0E15 /* ShopEvaluateModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopEvaluateModel.h; sourceTree = "<group>"; };
+		0AAE953A1EF8D63B00FE0E15 /* ShopEvaluateModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopEvaluateModel.m; sourceTree = "<group>"; };
+		0AAE95411EF8F79F00FE0E15 /* DatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerView.h; sourceTree = "<group>"; };
+		0AAE95421EF8F79F00FE0E15 /* DatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerView.m; sourceTree = "<group>"; };
+		0AAE95441EF9133F00FE0E15 /* YingYeTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YingYeTimeViewController.h; sourceTree = "<group>"; };
+		0AAE95451EF9133F00FE0E15 /* YingYeTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YingYeTimeViewController.m; sourceTree = "<group>"; };
+		0AAE95471EF92CD600FE0E15 /* PHPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPhoto.h; sourceTree = "<group>"; };
+		0AAE95481EF92CD600FE0E15 /* PHPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPhoto.m; sourceTree = "<group>"; };
 		0AB2028B1E72432A0020485E /* OrdersModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrdersModel.h; sourceTree = "<group>"; };
 		0AB2028C1E72432A0020485E /* OrdersModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrdersModel.m; sourceTree = "<group>"; };
 		0AB2028F1E7278960020485E /* InvitationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvitationViewController.h; sourceTree = "<group>"; };
@@ -1658,6 +1715,15 @@
 			path = "新增或修改商品";
 			sourceTree = "<group>";
 		};
+		0A0AC0CA1EFCE5EE00433A68 /* 回复评价 */ = {
+			isa = PBXGroup;
+			children = (
+				0A0AC0CB1EFCE64C00433A68 /* ReplyEvaluateView.h */,
+				0A0AC0CC1EFCE64C00433A68 /* ReplyEvaluateView.m */,
+			);
+			path = "回复评价";
+			sourceTree = "<group>";
+		};
 		0A0B3A4A1E6D2FD6000FBAB6 = {
 			isa = PBXGroup;
 			children = (
@@ -1766,6 +1832,8 @@
 				0AC21A781EB33D1000DBDBF1 /* Request.m */,
 				0A1B32C21EEE88AC00BAA8D3 /* PHButton.h */,
 				0A1B32C31EEE88AC00BAA8D3 /* PHButton.m */,
+				0AAE95471EF92CD600FE0E15 /* PHPhoto.h */,
+				0AAE95481EF92CD600FE0E15 /* PHPhoto.m */,
 			);
 			path = "公共文件";
 			sourceTree = "<group>";
@@ -1885,6 +1953,12 @@
 		0A0B3AEB1E6D337E000FBAB6 /* 我 */ = {
 			isa = PBXGroup;
 			children = (
+				0AAE95301EF8D63B00FE0E15 /* 互动 */,
+				0A9870F21EF7AE5600135EAF /* 商铺管理 */,
+				0A9870E31EF79B3400135EAF /* PersonViewController.h */,
+				0A9870E41EF79B3400135EAF /* PersonViewController.m */,
+				0A9870EF1EF7A75D00135EAF /* PersonTableViewCell.h */,
+				0A9870F01EF7A75D00135EAF /* PersonTableViewCell.m */,
 				0A0B3AF61E6D36EC000FBAB6 /* MeViewController.h */,
 				0A0B3AF71E6D36EC000FBAB6 /* MeViewController.m */,
 				0AB2EE0D1E6E75D600BF4D84 /* PersonalCell.h */,
@@ -2142,6 +2216,19 @@
 			path = "充值界面";
 			sourceTree = "<group>";
 		};
+		0A9870F21EF7AE5600135EAF /* 商铺管理 */ = {
+			isa = PBXGroup;
+			children = (
+				0AAE95281EF8C71C00FE0E15 /* 店铺信息 */,
+				0AAE95291EF8C71C00FE0E15 /* 收款二维码 */,
+				0AAE95241EF8BF8D00FE0E15 /* 店铺二维码 */,
+				0AAE951D1EF8B0D500FE0E15 /* 营业时间 */,
+				0A9870F31EF7AE7200135EAF /* ShopManagerViewController.h */,
+				0A9870F41EF7AE7200135EAF /* ShopManagerViewController.m */,
+			);
+			path = "商铺管理";
+			sourceTree = "<group>";
+		};
 		0AA943831EBAFB81001E4E55 /* PHPush */ = {
 			isa = PBXGroup;
 			children = (
@@ -2233,6 +2320,68 @@
 			path = openssl;
 			sourceTree = "<group>";
 		};
+		0AAE951D1EF8B0D500FE0E15 /* 营业时间 */ = {
+			isa = PBXGroup;
+			children = (
+				0AAE95441EF9133F00FE0E15 /* YingYeTimeViewController.h */,
+				0AAE95451EF9133F00FE0E15 /* YingYeTimeViewController.m */,
+			);
+			path = "营业时间";
+			sourceTree = "<group>";
+		};
+		0AAE95241EF8BF8D00FE0E15 /* 店铺二维码 */ = {
+			isa = PBXGroup;
+			children = (
+				0AAE95251EF8BFB300FE0E15 /* DianPuErWeiMaViewController.h */,
+				0AAE95261EF8BFB300FE0E15 /* DianPuErWeiMaViewController.m */,
+			);
+			path = "店铺二维码";
+			sourceTree = "<group>";
+		};
+		0AAE95281EF8C71C00FE0E15 /* 店铺信息 */ = {
+			isa = PBXGroup;
+			children = (
+				0AAE952D1EF8CAD900FE0E15 /* DianPuXinXiViewController.h */,
+				0AAE952E1EF8CAD900FE0E15 /* DianPuXinXiViewController.m */,
+			);
+			path = "店铺信息";
+			sourceTree = "<group>";
+		};
+		0AAE95291EF8C71C00FE0E15 /* 收款二维码 */ = {
+			isa = PBXGroup;
+			children = (
+				0AAE952A1EF8C73200FE0E15 /* ShouKuanErWeiMaViewController.h */,
+				0AAE952B1EF8C73200FE0E15 /* ShouKuanErWeiMaViewController.m */,
+			);
+			path = "收款二维码";
+			sourceTree = "<group>";
+		};
+		0AAE95301EF8D63B00FE0E15 /* 互动 */ = {
+			isa = PBXGroup;
+			children = (
+				0AAE95311EF8D63B00FE0E15 /* RatingView.h */,
+				0AAE95321EF8D63B00FE0E15 /* RatingView.m */,
+				0AAE95331EF8D63B00FE0E15 /* shopDetailModel.h */,
+				0AAE95341EF8D63B00FE0E15 /* shopDetailModel.m */,
+				0AAE95351EF8D63B00FE0E15 /* ShopDetailViewController.h */,
+				0AAE95361EF8D63B00FE0E15 /* ShopDetailViewController.m */,
+				0AAE95371EF8D63B00FE0E15 /* ShopEvaluateCell.h */,
+				0AAE95381EF8D63B00FE0E15 /* ShopEvaluateCell.m */,
+				0AAE95391EF8D63B00FE0E15 /* ShopEvaluateModel.h */,
+				0AAE953A1EF8D63B00FE0E15 /* ShopEvaluateModel.m */,
+			);
+			path = "互动";
+			sourceTree = "<group>";
+		};
+		0AAE95401EF8F78400FE0E15 /* 时间选取 */ = {
+			isa = PBXGroup;
+			children = (
+				0AAE95411EF8F79F00FE0E15 /* DatePickerView.h */,
+				0AAE95421EF8F79F00FE0E15 /* DatePickerView.m */,
+			);
+			path = "时间选取";
+			sourceTree = "<group>";
+		};
 		0AB2028E1E7278560020485E /* 邀请领现金 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2296,6 +2445,8 @@
 		0AC21A821EB88A4600DBDBF1 /* tool */ = {
 			isa = PBXGroup;
 			children = (
+				0A020EF81EFA085700395962 /* UIImage+Helper.h */,
+				0A020EF91EFA085700395962 /* UIImage+Helper.m */,
 				0AC21A831EB88A4600DBDBF1 /* NSString+Helper.h */,
 				0AC21A841EB88A4600DBDBF1 /* NSString+Helper.m */,
 				0AEA89BE1EE93016003842FC /* UIViewController+Helper.h */,
@@ -2325,6 +2476,8 @@
 		0AC980511EB9B9140068BDC8 /* 弹框类 */ = {
 			isa = PBXGroup;
 			children = (
+				0A0AC0CA1EFCE5EE00433A68 /* 回复评价 */,
+				0AAE95401EF8F78400FE0E15 /* 时间选取 */,
 				0A1B32B81EEE5EF300BAA8D3 /* 商品管理新增和修改 */,
 				0A55BBBD1EE142F700B1C23E /* 系统弹窗 */,
 				0A07E5D11ED80EF900E3FA91 /* 订单详情修改金额改变数量 */,
@@ -3752,6 +3905,12 @@
 			children = (
 				0AF966CB1EC5D03B00043BE0 /* SuperViewController.h */,
 				0AF966CC1EC5D03B00043BE0 /* SuperViewController.m */,
+				0A9870E91EF7A40200135EAF /* SuperTableViewCell.h */,
+				0A9870EA1EF7A40200135EAF /* SuperTableViewCell.m */,
+				0A9870F61EF7BDD000135EAF /* SuperNavigationView.h */,
+				0A9870F71EF7BDD000135EAF /* SuperNavigationView.m */,
+				0AAE95211EF8B30800FE0E15 /* CellView.h */,
+				0AAE95221EF8B30800FE0E15 /* CellView.m */,
 			);
 			path = super;
 			sourceTree = "<group>";
@@ -3951,6 +4110,7 @@
 				0A0B3ACF1E6D3306000FBAB6 /* AFURLRequestSerialization.m in Sources */,
 				0AF966601EC5BC7B00043BE0 /* ZXAI01393xDecoder.m in Sources */,
 				0AF9664F1EC5BC7B00043BE0 /* ZXDataMatrixHighLevelEncoder.m in Sources */,
+				0AAE95461EF9133F00FE0E15 /* YingYeTimeViewController.m in Sources */,
 				0AF965E71EC5BC7B00043BE0 /* LBXScanViewStyle.m in Sources */,
 				0A0B3AE01E6D3306000FBAB6 /* UIImage+WebP.m in Sources */,
 				0AF95AAF1EC54FF900043BE0 /* IQUIView+IQKeyboardToolbar.m in Sources */,
@@ -3966,6 +4126,7 @@
 				0AF9668B1EC5BC7B00043BE0 /* ZXUPCAReader.m in Sources */,
 				0AF966731EC5BC7B00043BE0 /* ZXAbstractRSSReader.m in Sources */,
 				0AF966461EC5BC7B00043BE0 /* ZXDataMatrixVersion.m in Sources */,
+				0AAE953D1EF8D63B00FE0E15 /* ShopDetailViewController.m in Sources */,
 				0AE8ED5A1E70FD0C00CB65DF /* ReceivingCellOne.m in Sources */,
 				0AF9668A1EC5BC7B00043BE0 /* ZXOneDReader.m in Sources */,
 				0AF966081EC5BC7B00043BE0 /* ZXParsedResult.m in Sources */,
@@ -3992,6 +4153,7 @@
 				0AF965E01EC5BC7B00043BE0 /* LBXScanLineAnimation.m in Sources */,
 				0AF9666F1EC5BC7B00043BE0 /* ZXBitArrayBuilder.m in Sources */,
 				0A1B32BB1EEE5F1400BAA8D3 /* ShopManagerAddAddAlter.m in Sources */,
+				0A020EFA1EFA085700395962 /* UIImage+Helper.m in Sources */,
 				0AF966A21EC5BC7B00043BE0 /* ZXPDF417.m in Sources */,
 				0A1AC62D1E84EA8100A12658 /* BalanceRecordCell.m in Sources */,
 				0AF966A91EC5BC7B00043BE0 /* ZXPDF417Reader.m in Sources */,
@@ -4034,11 +4196,13 @@
 				0AF9662D1EC5BC7B00043BE0 /* ZXDefaultGridSampler.m in Sources */,
 				0A3247261E8C9E5B0013D7AE /* getBalanceViewController.m in Sources */,
 				0AC9808A1EB9B9140068BDC8 /* ChangePhoneNumber.m in Sources */,
+				0A9870EB1EF7A40200135EAF /* SuperTableViewCell.m in Sources */,
 				0AF965F51EC5BC7B00043BE0 /* ZXAztecDetectorResult.m in Sources */,
 				0AF46F4D1E6F979500111C3D /* SecurityViewController.m in Sources */,
 				0AEA89C01EE93016003842FC /* UIViewController+Helper.m in Sources */,
 				0A32472A1E8CD3FB0013D7AE /* DataAggregateViewController.m in Sources */,
 				0AF9664A1EC5BC7B00043BE0 /* ZXDataMatrixC40Encoder.m in Sources */,
+				0AAE95431EF8F79F00FE0E15 /* DatePickerView.m in Sources */,
 				0AF966AC1EC5BC7B00043BE0 /* ZXQRCodeBitMatrixParser.m in Sources */,
 				0AF966311EC5BC7B00043BE0 /* ZXHybridBinarizer.m in Sources */,
 				0AF46F5A1E6FEA0300111C3D /* OrderDetailCellTwo.m in Sources */,
@@ -4061,6 +4225,7 @@
 				0AEA2F7C1ED924730051ABCF /* ShangpinModel.m in Sources */,
 				0AF966161EC5BC7B00043BE0 /* ZXVCardResultParser.m in Sources */,
 				0A3C5D061E7FD57800F94CC9 /* ShangpinManageViewController.m in Sources */,
+				0AAE95491EF92CD600FE0E15 /* PHPhoto.m in Sources */,
 				0AF8EA3E1EB0AAA000846DE6 /* AutographView.m in Sources */,
 				0AF966011EC5BC7B00043BE0 /* ZXEmailDoCoMoResultParser.m in Sources */,
 				0AF966C51EC5BC7B00043BE0 /* ZXQRCodeWriter.m in Sources */,
@@ -4086,6 +4251,7 @@
 				0AF966A11EC5BC7B00043BE0 /* ZXPDF417DetectorResult.m in Sources */,
 				0A55BBC01EE1432900B1C23E /* PHAlertView.m in Sources */,
 				0AE8ED731E712D4E00CB65DF /* NSString+MD5Addition.m in Sources */,
+				0AAE952F1EF8CAD900FE0E15 /* DianPuXinXiViewController.m in Sources */,
 				0AF965F91EC5BC7B00043BE0 /* ZXAddressBookAUResultParser.m in Sources */,
 				0AF95AA51EC54FF900043BE0 /* IQUIView+Hierarchy.m in Sources */,
 				0AF966C71EC5BC7B00043BE0 /* ZXMultiFormatWriter.m in Sources */,
@@ -4093,6 +4259,7 @@
 				0AF9667C1EC5BC7B00043BE0 /* ZXCode128Writer.m in Sources */,
 				0AF966481EC5BC7B00043BE0 /* ZXDataMatrixASCIIEncoder.m in Sources */,
 				0AF966921EC5BC7B00043BE0 /* ZXUPCEReader.m in Sources */,
+				0A9870F81EF7BDD000135EAF /* SuperNavigationView.m in Sources */,
 				0A0B3AFB1E6D5645000FBAB6 /* PlatformCell.m in Sources */,
 				0AF966331EC5BC7B00043BE0 /* ZXPerspectiveTransform.m in Sources */,
 				0AF9664C1EC5BC7B00043BE0 /* ZXDataMatrixEdifactEncoder.m in Sources */,
@@ -4135,6 +4302,7 @@
 				0A0B3ADB1E6D3306000FBAB6 /* SDWebImageManager.m in Sources */,
 				0A0A634E1E81082100A75731 /* AddShangpinViewController.m in Sources */,
 				0AF965F21EC5BC7B00043BE0 /* ZXAztecSimpleToken.m in Sources */,
+				0AAE95271EF8BFB300FE0E15 /* DianPuErWeiMaViewController.m in Sources */,
 				0AF9663E1EC5BC7B00043BE0 /* ZXPlanarYUVLuminanceSource.m in Sources */,
 				0AF95AAC1EC54FF900043BE0 /* IQPreviousNextView.m in Sources */,
 				0AF965F41EC5BC7B00043BE0 /* ZXAztecToken.m in Sources */,
@@ -4152,6 +4320,7 @@
 				0AF966981EC5BC7B00043BE0 /* ZXPDF417BoundingBox.m in Sources */,
 				0AF966A61EC5BC7B00043BE0 /* ZXPDF417ErrorCorrection.m in Sources */,
 				0AF9664E1EC5BC7B00043BE0 /* ZXDataMatrixErrorCorrection.m in Sources */,
+				0A9870F11EF7A75D00135EAF /* PersonTableViewCell.m in Sources */,
 				0AF966641EC5BC7B00043BE0 /* ZXAI01decoder.m in Sources */,
 				0AF95AA41EC54FF900043BE0 /* IQUITextFieldView+Additions.m in Sources */,
 				0AC980941EB9B9140068BDC8 /* SetPaymentPasswordView.m in Sources */,
@@ -4179,6 +4348,7 @@
 				0AF9661D1EC5BC7B00043BE0 /* ZXCGImageLuminanceSource.m in Sources */,
 				0AD436671EC45CD1007948A2 /* PHPay.m in Sources */,
 				0AF966C21EC5BC7B00043BE0 /* ZXMultiFinderPatternFinder.m in Sources */,
+				0A9870F51EF7AE7200135EAF /* ShopManagerViewController.m in Sources */,
 				0A0EF2FE1E836B11001D7A3A /* UIScrollView+MJExtension.m in Sources */,
 				0AC426451ED3CD4F00AB129A /* SelectFuWuFeiBanBen.m in Sources */,
 				0AF9666E1EC5BC7B00043BE0 /* ZXRSSExpandedGeneralAppIdDecoder.m in Sources */,
@@ -4205,6 +4375,7 @@
 				0AC21A851EB88A4600DBDBF1 /* NSString+Helper.m in Sources */,
 				0AF9669B1EC5BC7B00043BE0 /* ZXPDF417DecodedBitStreamParser.m in Sources */,
 				0AF9660B1EC5BC7B00043BE0 /* ZXResultParser.m in Sources */,
+				0AAE952C1EF8C73200FE0E15 /* ShouKuanErWeiMaViewController.m in Sources */,
 				0A912CD61ED27C5400E0BE04 /* TopUpView.m in Sources */,
 				0AF9662F1EC5BC7B00043BE0 /* ZXGlobalHistogramBinarizer.m in Sources */,
 				0AF9667E1EC5BC7B00043BE0 /* ZXCode39Writer.m in Sources */,
@@ -4212,6 +4383,7 @@
 				0AF966B81EC5BC7B00043BE0 /* ZXQRCodeDetector.m in Sources */,
 				0A25D7D11ECAE30E00B9D269 /* UIImage+Rotate.m in Sources */,
 				0AF966181EC5BC7B00043BE0 /* ZXVINParsedResult.m in Sources */,
+				0AAE953F1EF8D63B00FE0E15 /* ShopEvaluateModel.m in Sources */,
 				0AF966711EC5BC7B00043BE0 /* ZXRSSExpandedReader.m in Sources */,
 				0AF966851EC5BC7B00043BE0 /* ZXITFReader.m in Sources */,
 				0AF9662A1EC5BC7B00043BE0 /* ZXByteArray.m in Sources */,
@@ -4250,6 +4422,7 @@
 				0AD436641EC45ACB007948A2 /* RSADataVerifier.m in Sources */,
 				0A912CD21ED27BEA00E0BE04 /* OnLinePayView.m in Sources */,
 				0AD4365C1EC45ACB007948A2 /* Order.mm in Sources */,
+				0AAE953C1EF8D63B00FE0E15 /* shopDetailModel.m in Sources */,
 				0AD435EF1EC45699007948A2 /* GetLocationView.m in Sources */,
 				0A0B3AE41E6D3306000FBAB6 /* UIViewExt.m in Sources */,
 				0A0B3AEF1E6D364F000FBAB6 /* CustomerTabbatViewController.m in Sources */,
@@ -4257,6 +4430,7 @@
 				0AF966861EC5BC7B00043BE0 /* ZXITFWriter.m in Sources */,
 				0AF965DF1EC5BC7B00043BE0 /* LBXAlertAction.m in Sources */,
 				0AC980971EB9B9140068BDC8 /* ShuomingView.m in Sources */,
+				0A9870E51EF79B3400135EAF /* PersonViewController.m in Sources */,
 				0AF966AD1EC5BC7B00043BE0 /* ZXQRCodeDataBlock.m in Sources */,
 				0AF9666B1EC5BC7B00043BE0 /* ZXRSSExpandedDecodedNumeric.m in Sources */,
 				0AF966B31EC5BC7B00043BE0 /* ZXQRCodeFormatInformation.m in Sources */,
@@ -4267,6 +4441,7 @@
 				0AF9661C1EC5BC7B00043BE0 /* ZXCapture.m in Sources */,
 				0A0B3AD31E6D3306000FBAB6 /* HTTPTool.m in Sources */,
 				0AF95AA71EC54FF900043BE0 /* IQUIWindow+Hierarchy.m in Sources */,
+				0AAE953B1EF8D63B00FE0E15 /* RatingView.m in Sources */,
 				0AF46F501E6F9F8700111C3D /* SecurityCell.m in Sources */,
 				0AF965E81EC5BC7B00043BE0 /* LBXScanWrapper.m in Sources */,
 				0AC9809C1EB9B9140068BDC8 /* YanzhengShenfenzhengView.m in Sources */,
@@ -4308,7 +4483,9 @@
 				0AB202B01E7285280020485E /* UseDirectionViewController.m in Sources */,
 				0AF965E61EC5BC7B00043BE0 /* LBXScanViewController.m in Sources */,
 				0AF9669A1EC5BC7B00043BE0 /* ZXPDF417CodewordDecoder.m in Sources */,
+				0AAE95231EF8B30800FE0E15 /* CellView.m in Sources */,
 				0A0A634A1E80EE2F00A75731 /* ShangpinMessagesModel.m in Sources */,
+				0AAE953E1EF8D63B00FE0E15 /* ShopEvaluateCell.m in Sources */,
 				0AF9662B1EC5BC7B00043BE0 /* ZXCharacterSetECI.m in Sources */,
 				0A0A63471E80BD1D00A75731 /* ShangpinManageCell.m in Sources */,
 				0AF966971EC5BC7B00043BE0 /* ZXPDF417BarcodeValue.m in Sources */,
@@ -4318,6 +4495,7 @@
 				0A0B3ADF1E6D3306000FBAB6 /* UIImage+MultiFormat.m in Sources */,
 				0AF965ED1EC5BC7B00043BE0 /* ZXAztecDetector.m in Sources */,
 				0A80A49F1E8B44AD0073921A /* MASViewConstraint.m in Sources */,
+				0A0AC0CD1EFCE64C00433A68 /* ReplyEvaluateView.m in Sources */,
 				0AF966511EC5BC7B00043BE0 /* ZXDataMatrixSymbolInfo144.m in Sources */,
 				0AF965F61EC5BC7B00043BE0 /* ZXAztecReader.m in Sources */,
 				0AF966221EC5BC7B00043BE0 /* ZXGenericGF.m in Sources */,

@@ -54,7 +54,7 @@
 -(UILabel *)infoLabel
 {
     if (!_infoLabel) {
-        _infoLabel = [BaseCostomer labelWithFrame:CGRectZero font:[UIFont systemFontOfSize:MLwordFont_4] textColor:txtColors(51, 181, 131, 1) backgroundColor:[UIColor clearColor] textAlignment:0 numOfLines:1 text:@""];
+        _infoLabel = [BaseCostomer labelWithFrame:CGRectZero font:[UIFont systemFontOfSize:MLwordFont_4] textColor:mainColor backgroundColor:[UIColor clearColor] textAlignment:0 numOfLines:1 text:@""];
         [self.contentView addSubview:_infoLabel];
     }
     return _infoLabel;

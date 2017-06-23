@@ -19,7 +19,7 @@
     manger.requestSerializer.timeoutInterval = outTimes;
     NSString * urlPath = [NSString stringWithFormat:@"%@%@",baseUrl,url];
     // 3.发送请求
-    [manger POST:urlPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manger GET:urlPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (success) {
             success(responseObject);
         }
@@ -40,7 +40,7 @@
     manger.requestSerializer.timeoutInterval = outTimes;
     NSString * urlPath = [NSString stringWithFormat:@"%@%@",HTTPHEADER,url];
     // 3.发送请求
-    [manger POST:urlPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manger GET:urlPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (success) {
             success(responseObject);
         }

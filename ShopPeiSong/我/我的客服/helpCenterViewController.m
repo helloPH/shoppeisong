@@ -21,7 +21,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.navigationController.navigationBar setBarTintColor:txtColors(4, 196, 153, 1)];
+
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -67,7 +67,7 @@
 -(UIButton *)bottomButton
 {
     if (!_bottomButton) {
-        _bottomButton = [BaseCostomer buttonWithFrame:CGRectMake(0, kDeviceHeight-49, kDeviceWidth, 49) font:[UIFont systemFontOfSize:MLwordFont_15] textColor:[UIColor whiteColor] backGroundColor:txtColors(4, 196, 153, 1) cornerRadius:0 text:@"在线客服" image:@""];
+        _bottomButton = [BaseCostomer buttonWithFrame:CGRectMake(0, kDeviceHeight-49, kDeviceWidth, 49) font:[UIFont systemFontOfSize:MLwordFont_15] textColor:[UIColor whiteColor] backGroundColor:naviBarTintColor cornerRadius:0 text:@"在线客服" image:@""];
         _bottomButton.alpha = 0.95;
         [_bottomButton addTarget:self action:@selector(bottomBtnClick) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -77,6 +77,7 @@
 -(void)initNavigation
 {
     [self.navigationItem setTitle:@"我的客服"];
+    self.navigationController.navigationBar.tintColor=naviBarTintColor;
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:MLwordFont_2],NSFontAttributeName,nil]];
     UIBarButtonItem *leftbarBtn = [[UIBarButtonItem alloc]initWithCustomView:self.leftButton];
     self.navigationItem.leftBarButtonItem =leftbarBtn;
@@ -86,7 +87,7 @@
 }
 -(void)initWebView
 {
-    NSString *helpStr =[NSString stringWithFormat:@"%@MshcShopYewu/yewuwenti.jsp",HTTPWeb];
+    NSString *helpStr =[NSString stringWithFormat:@"%@guanjiawenti.jsp",HTTPHEADER];
     NSURL *url =[NSURL URLWithString:helpStr];
     NSURLRequest *request =[NSURLRequest requestWithURL:url];
     [self.mainWebView loadRequest:request];

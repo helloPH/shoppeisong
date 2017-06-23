@@ -72,7 +72,7 @@
 
 }
 -(void)saveBtnClick:(UIButton *)sender{
-    [self disAppear];
+
     if ([_textField.text isEmptyString]) {
         [MBProgressHUD promptWithString:@"请输入内容"];
         return;
