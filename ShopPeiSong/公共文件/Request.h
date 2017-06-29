@@ -162,6 +162,10 @@
  * 店铺审核
  */
 +(void)getShenHeStatusWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure;
+/*
+ * 退出登录
+ */
++(void)logoutSuccess:(successBlock)success failure:(failureBlock)failure;
 #pragma mark --- 登录注册
 /*
  *登录
@@ -219,5 +223,9 @@
  * 推送
  */
 +(void)getPushSuccess:(successBlock)success failure:(failureBlock)failure;
+/*
+ *验证身份
+ */
++(void)yanZhengShengFenWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure;
 @end
 

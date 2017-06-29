@@ -167,8 +167,6 @@
         NSString *pass_md5 = [pass stringFromMD5];
         NSString * userid = [NSString stringWithFormat:@"%@",user_Id];
         
-        
-        
         NSMutableDictionary *pram = [NSMutableDictionary dictionaryWithDictionary:@{@"yuangong.id":userid,@"yuangong.chushimima":pass_md5}];
         NSLog(@"%@",pram);
         [MBProgressHUD start];

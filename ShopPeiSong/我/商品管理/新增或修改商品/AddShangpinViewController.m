@@ -204,7 +204,7 @@
 -(UIView *)bottomView
 {
     if (!_bottomView) {
-        _bottomView = [BaseCostomer viewWithFrame:CGRectMake(0, kDeviceHeight-50*MCscale, kDeviceWidth, 50*MCscale) backgroundColor:txtColors(48, 195, 155, 1)];
+        _bottomView = [BaseCostomer viewWithFrame:CGRectMake(0, kDeviceHeight-50*MCscale, kDeviceWidth, 50*MCscale) backgroundColor:naviBarTintColor];
         [_bottomView addSubview:self.saveBtn];
     }
     return _bottomView;

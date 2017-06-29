@@ -8,7 +8,6 @@
 
 #import "FreeOpenView.h"
 #import "Header.h"
-#import "YanButton.h"
 #import "AutographView.h"
 #import "ReviewSelectedView.h"
 #import "AFHTTPRequestOperationManager.h"
@@ -17,6 +16,10 @@
 #import "PaymentPasswordView.h"
 //#import "PHPay.h"
 #import "OnLinePayView.h"
+
+#import "YanZhengMaViewController.h"
+
+
 
 @interface FreeOpenView()
 @property (nonatomic,strong)NSDictionary * dataDic;
@@ -33,6 +36,9 @@
 @property (nonatomic,assign)BOOL isAgree;
 
 @property (nonatomic,strong)UIButton * submitBtn;
+
+
+@property (nonatomic,strong)YanZhengMaViewController * yanZheng;
 @end
 @implementation FreeOpenView
 -(instancetype)initWithFrame:(CGRect)frame{
@@ -54,40 +60,46 @@
 }
 -(void)newView{
     self.backgroundColor=[UIColor whiteColor];
-    _mainScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, self.width, self.height)];
+    _mainScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, self.width, kDeviceHeight)];
     [self addSubview:_mainScrollView];
-    CGFloat setY = 0;
+    CGFloat setY = 100;
  
     
     
 
-     NSArray *   titleArray = @[@"店铺名",@"行业",@"法人/联系人",@"联系/注册手机号",@""];
-     NSArray *   placeHoldArray = @[@"请输入店铺名",@"请选择行业",@"请输入法人/联系人",@"请输入联系/注册手机号",@"请输入验证码"];
+     NSArray *   titleArray = @[@"店铺名",@"行业",@"法人/联系人",@"联系/注册手机号"];
+     NSArray *   placeHoldArray = @[@"店铺名",@"行业",@"店主/联系人",@"绑定/注册手机号"];
 
 
     for (int i = 0; i<titleArray.count; i++) {
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(20*MCscale,40*MCscale*i+0, 140*MCscale, 30*MCscale)];
-        label.text=titleArray[i];
+        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(20*MCscale,setY, 140*MCscale, 40*MCscale)];
+//        label.text=titleArray[i];
         label.textColor=textColors;
         label.tag = 10000+i;
         label.userInteractionEnabled = YES;
         [_mainScrollView addSubview:label];
         
-        UIView *lineView = [[UIView alloc]initWithFrame:CGRectMake(10*MCscale, label.bottom +5*MCscale, kDeviceWidth - 20*MCscale, 1)];
-        lineView.backgroundColor = lineColor;
-        [_mainScrollView addSubview:lineView];
+
         
 
         UITextField *textField = [[UITextField alloc]initWithFrame:CGRectMake(label.right,label.top, kDeviceWidth - 40*MCscale - 140*MCscale, 30*MCscale)];
+        textField.font=[UIFont systemFontOfSize:MLwordFont_2];
+        textField.left = 20*MCscale;
+        textField.width = _mainScrollView.width-30*MCscale;
+        textField.textAlignment=NSTextAlignmentLeft;
+        
+        UIView *lineView = [[UIView alloc]initWithFrame:CGRectMake(10*MCscale, textField.bottom +0*MCscale, kDeviceWidth - 20*MCscale, 1)];
+        lineView.backgroundColor = lineColor;
+        [_mainScrollView addSubview:lineView];
+        
         textField.placeholder=placeHoldArray[i];
         [_mainScrollView addSubview:textField];
         if (i == 1) {
-            textField.text=placeHoldArray[i];
-            textField.textAlignment=NSTextAlignmentRight;
+//            textField.text=placeHoldArray[i];
             textField.rightView= [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"right_jian_icon"]];
             textField.rightViewMode=UITextFieldViewModeAlways;
 
-            textField.rightView.size=CGSizeMake(30, 30);
+            textField.rightView.size=CGSizeMake(25, 25);
             textField.userInteractionEnabled=YES;
             
             UIButton * btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, textField.width, textField.height)];
@@ -102,25 +114,25 @@
 //                [textField setValue:@11 forKey:@"limit"];
             }
             
-            if (i == 4) {
-                YanButton  * yanBtn= [YanButton insButtonWithFrame:CGRectMake(0, 0, 100, 30) title:@"发送验证码" time:120];
-                yanBtn.tag=2100;
-                [_mainScrollView addSubview:yanBtn];
-                [yanBtn addTarget:self action:@selector(yanBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-                yanBtn.right=kDeviceWidth-20;
-                yanBtn.centerY=textField.centerY;
-                [yanBtn setBackgroundColor:redTextColor];
-                
-                textField.right=yanBtn.left-10*MCscale;
-                
-                
-            }
+//            if (i == 4) {
+//                YanButton  * yanBtn= [YanButton insButtonWithFrame:CGRectMake(0, 0, 100, 30) title:@"发送验证码" time:120];
+//                yanBtn.tag=2100;
+//                [_mainScrollView addSubview:yanBtn];
+//                [yanBtn addTarget:self action:@selector(yanBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+//                yanBtn.right=kDeviceWidth-20;
+//                yanBtn.centerY=textField.centerY;
+//                [yanBtn setBackgroundColor:redTextColor];
+//                
+//                textField.right=yanBtn.left-10*MCscale;
+//                
+//                
+//            }
    
         }
         
         
   
-        setY=lineView.bottom;
+        setY=lineView.bottom+20*MCscale;
     }
 
 
@@ -129,41 +141,40 @@
      *   签名
      */
     
-    UIView * signV ;
-    signV = [[UIView alloc]initWithFrame:CGRectMake(20*MCscale, setY+10*MCscale, kDeviceWidth - 40*MCscale, 40*MCscale)];
-    signV.backgroundColor = [UIColor clearColor];
-    [_mainScrollView addSubview:signV];
-    
-    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(signTap:)];
-    [signV addGestureRecognizer:tap];
-    
-    
-    UILabel * signLabel = [[UILabel alloc]initWithFrame:CGRectMake(5*MCscale, 5*MCscale, 100*MCscale, 30*MCscale)];
-    signLabel.textColor = redTextColor;
-    signLabel.font = [UIFont systemFontOfSize:MLwordFont_2];
-    signLabel.text = @"签名:";
-    [signV addSubview:signLabel];
-    
-    _signImageView = [[UIImageView alloc]initWithFrame:CGRectMake(signLabel.right +5*MCscale,0,80*MCscale,40*MCscale)];
-    _signImageView.backgroundColor = [UIColor clearColor];
-    [signV addSubview:_signImageView];
-  
-    
-    setY =signV.bottom;
+//    UIView * signV ;
+//    signV = [[UIView alloc]initWithFrame:CGRectMake(20*MCscale, setY+10*MCscale, kDeviceWidth - 40*MCscale, 40*MCscale)];
+//    signV.backgroundColor = [UIColor clearColor];
+//    [_mainScrollView addSubview:signV];
+//    
+//    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(signTap:)];
+//    [signV addGestureRecognizer:tap];
+//    
+//    
+//    UILabel * signLabel = [[UILabel alloc]initWithFrame:CGRectMake(5*MCscale, 5*MCscale, 100*MCscale, 30*MCscale)];
+//    signLabel.textColor = redTextColor;
+//    signLabel.font = [UIFont systemFontOfSize:MLwordFont_2];
+//    signLabel.text = @"签名:";
+//    [signV addSubview:signLabel];
+//    
+//    _signImageView = [[UIImageView alloc]initWithFrame:CGRectMake(signLabel.right +5*MCscale,0,80*MCscale,40*MCscale)];
+//    _signImageView.backgroundColor = [UIColor clearColor];
+//    [signV addSubview:_signImageView];
+//  
+//    
+//    setY =signV.bottom;
     /**
      *  提交按钮
      */
     UIButton * submit ;
-    submit = [[UIButton alloc]initWithFrame:CGRectMake(20*MCscale,setY+20*MCscale, kDeviceWidth-40, 40*MCscale)];
+    submit = [[UIButton alloc]initWithFrame:CGRectMake(20*MCscale,setY+40*MCscale, kDeviceWidth-40, 40*MCscale)];
     _submitBtn=submit;
-    [submit setTitle:@"创建开户" forState:UIControlStateNormal];
+    [submit setTitle:@"注册" forState:UIControlStateNormal];
     [submit setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     submit.titleLabel.font = [UIFont boldSystemFontOfSize:MLwordFont_2];
     submit.titleLabel.textAlignment = NSTextAlignmentCenter;
     submit.layer.cornerRadius = 5;
     submit.layer.masksToBounds = YES;
-    submit.backgroundColor = txtColors(213, 213, 213, 1);
-    submit.enabled = NO;
+    submit.backgroundColor = redTextColor;
     [_mainScrollView addSubview:submit];
     setY = submit.bottom;
         [submit addTarget:self action:@selector(submitClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -176,38 +187,43 @@
      */
     
     //    UIImageView *imageView = [self.view viewWithTag:1000];
-    UIView * proView = [[UIView alloc]initWithFrame:CGRectMake(20*MCscale,setY, kDeviceWidth - 40*MCscale, 30*MCscale)];
+    UIView * proView = [[UIView alloc]initWithFrame:CGRectMake(40*MCscale,_mainScrollView.height-100*MCscale, kDeviceWidth - 80*MCscale, 30*MCscale)];
     proView.backgroundColor = [UIColor clearColor];
     [_mainScrollView addSubview:proView];
     
     
     UIButton * protocolBtn = [[UIButton alloc]initWithFrame:CGRectMake(5*MCscale, 5*MCscale, 135*MCscale, 20*MCscale)];
     protocolBtn.imageView.contentMode=UIViewContentModeScaleAspectFit;
-    [protocolBtn setImage:[UIImage imageNamed:@"选中"] forState:UIControlStateSelected];
-    [protocolBtn setImage:[UIImage imageNamed:@"选择"] forState:UIControlStateNormal];
-    [protocolBtn setTitle:@"我已阅读并同意" forState:UIControlStateNormal];
+//    [protocolBtn setImage:[UIImage imageNamed:@"选中"] forState:UIControlStateSelected];
+//    [protocolBtn setImage:[UIImage imageNamed:@"选择"] forState:UIControlStateNormal];
+    [protocolBtn setTitle:@"点击\"注册\"代表同意" forState:UIControlStateNormal];
     [protocolBtn setTitleColor:textBlackColor forState:UIControlStateNormal];
     protocolBtn.titleLabel.font=[UIFont systemFontOfSize:MLwordFont_7];
     [proView addSubview:protocolBtn];
     protocolBtn.selected=_isAgree;
-    [protocolBtn addTarget:self action:@selector(changeIsAgree:) forControlEvents:UIControlEventTouchUpInside];
+
+    
+//    [protocolBtn addTarget:self action:@selector(changeIsAgree:) forControlEvents:UIControlEventTouchUpInside];
     
     
     
-    UILabel * xieyiLabel = [[UILabel alloc]initWithFrame:CGRectMake(protocolBtn.right,5*MCscale,188*MCscale, 20*MCscale)];
-    xieyiLabel.text=@"《妙店佳系统使用协议》";
-    xieyiLabel.textColor = txtColors(78, 194, 151, 1);
+    UILabel * xieyiLabel = [[UILabel alloc]initWithFrame:CGRectMake(protocolBtn.right,5*MCscale,110*MCscale, 20*MCscale)];
+    xieyiLabel.text=@"系统使用协议";
+    xieyiLabel.textColor = mainColor;
     xieyiLabel.font = [UIFont systemFontOfSize:MLwordFont_7];
     xieyiLabel.userInteractionEnabled = YES;
     [proView addSubview:xieyiLabel];
     UITapGestureRecognizer *xieyiTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(xieyiBtnClick:)];
     [xieyiLabel addGestureRecognizer:xieyiTap];
-    [xieyiLabel sizeToFit];
+    proView.width = xieyiLabel.right;
+    proView.centerX=_mainScrollView.width/2;
     
-    UIView *xieyiView = [[UIView alloc]initWithFrame:CGRectMake(xieyiLabel.left, xieyiLabel.bottom, xieyiLabel.width, 1)];
-    xieyiView.backgroundColor = txtColors(78, 194, 151, 1);
-    [proView addSubview:xieyiView];
-    xieyiView.width=xieyiLabel.width;
+    
+    
+//    UIView *xieyiView = [[UIView alloc]initWithFrame:CGRectMake(xieyiLabel.left, xieyiLabel.bottom, xieyiLabel.width, 1)];
+//    xieyiView.backgroundColor = txtColors(78, 194, 151, 1);
+//    [proView addSubview:xieyiView];
+//    xieyiView.width=xieyiLabel.width;
     
     setY = proView.bottom;
     
@@ -273,11 +289,12 @@
     UILabel * hangYe=[_mainScrollView viewWithTag:11001];
     UITextField * person=[_mainScrollView viewWithTag:11002];
     UITextField * phone =[_mainScrollView viewWithTag:11003];
-    UITextField * code  =[_mainScrollView viewWithTag:11004];
+//    UITextField * code  =[_mainScrollView viewWithTag:11004];
     if ([dianPu.text isEmptyString] ||
         [person.text isEmptyString] ||
-        [phone.text  isEmptyString] ||
-        [code.text   isEmptyString]) {
+        [phone.text  isEmptyString]
+//        ||[code.text   isEmptyString]
+        ) {
         [MBProgressHUD promptWithString:@"请完整填写以上内容"];
         return;
     }
@@ -286,19 +303,52 @@
         [MBProgressHUD promptWithString:@"请选择行业"];
         return;
     }
+    if ([hangYe.text isEmptyString]) {
+        [MBProgressHUD promptWithString:@"请选择行业"];
+        return;
+    }
+    
+    NSDictionary * dic = @{@"dianpu.yidongtel":phone.text};
+    [Request judgePhoneWithDic:dic success:^(id json) {
+        NSString * message = [NSString stringWithFormat:@"%@",[json valueForKey:@"message"]];
+        if ([message isEqualToString:@"0"]) {
+            
+            _yanZheng = [YanZhengMaViewController new];
+            _yanZheng.phone=phone.text;
+            [self.controller.navigationController pushViewController:_yanZheng animated:YES];
+            
+            __block FreeOpenView * weakSelf = self;
+            _yanZheng.block=^(NSString *yanzhengma){
+                NSDictionary * dic = @{@"dianpu.dianpuname":dianPu.text,
+                                       @"dianpu.suozaihangyi":[NSString stringWithFormat:@"%@",weakSelf.hangYeDic[@"id"]],
+                                       @"dianpu.lianxiren":person.text,
+                                       @"dianpu.yidongtel":phone.text,
+                                       @"code":yanzhengma};
+                [weakSelf kaihuWithDic:dic];
+                
+                
+                
+            };
+        }else{
+            [MBProgressHUD promptWithString:@"该手机号已经开过户"];
+        }
+    } failure:^(NSError *error) {
+        
+    }];
 
-    NSDictionary * dic = @{@"dianpu.dianpuname":dianPu.text,
-                           @"dianpu.suozaihangyi":[NSString stringWithFormat:@"%@",_hangYeDic[@"id"]],
-                           @"dianpu.lianxiren":person.text,
-                           @"dianpu.yidongtel":phone.text,
-                           @"code":code.text};
+    
+}
+-(void)kaihuWithDic:(NSDictionary *)dic{
+    
     [Request openAccountFreeWithDic:dic success:^(id json) {
         NSString * message = [NSString stringWithFormat:@"%@",[json valueForKey:@"message"]];
         
         if ([message isEqualToString:@"1"]) {
             
-            NSString * dianpuid = [NSString stringWithFormat:@"%@",json[@"dianpuid"]];
-            [self upLoadImagesWithDianPuId:dianpuid];
+
+            [MBProgressHUD promptWithString:@"开户成功"];
+            
+//            [self upLoadImagesWithDianPuId:dianpuid];
             _dataDic = (NSDictionary *)json;
             [self login];
             
@@ -306,14 +356,18 @@
             [MBProgressHUD promptWithString:@"参数有空请检查"];
         }else{
             [MBProgressHUD promptWithString:@"验证码有误"];
+            if (_yanZheng) {
+                [_yanZheng clear];
+            }
+
         }
     } failure:^(NSError *error) {
         
     }];
+
+    
 }
 -(void)login{
-    
-    
     
     UITextField * phone =[_mainScrollView viewWithTag:11003];
     NSString * loginPass = [NSString stringWithFormat:@"%@",_dataDic[@"password"]];
@@ -332,10 +386,14 @@
     if (self.controller.successBlock) {
         self.controller.successBlock(YES);
     }
+    [self.controller.navigationController popToRootViewControllerAnimated:NO];
     [self.controller dismissViewControllerAnimated:YES completion:^{
     }];
-    [self.controller.navigationController popViewControllerAnimated:YES];
-    return;
+
+   
+    
+    
+
 //    NSDictionary * dic = _dataDic;
 //    
 //    NSString * dianpuID = [NSString stringWithFormat:@"%@",dic[@"dianpuid"]];
@@ -378,41 +436,41 @@
  *
  *  @param sender 验证码
  */
--(void)yanBtnClick:(YanButton *)sender{
-    UITextField * tel = [_mainScrollView viewWithTag:11003];
-    if (![tel.text isValidateMobile]) {
-        [MBProgressHUD promptWithString:@"请输入有效的手机号"];
-        return;
-    }
-    NSDictionary * dic = @{@"dianpu.yidongtel":tel.text};
-    [Request judgePhoneWithDic:dic success:^(id json) {
-        NSString * message = [NSString stringWithFormat:@"%@",[json valueForKey:@"message"]];
-        if ([message isEqualToString:@"0"]) {
-            sender.code=@"   ";
-            [Request getYanMaWithDic:@{@"dianpu.yidongtel":tel.text} success:^(id json) {
-                sender.code= [json valueForKey:@"code"];
-                NSLog(@"----验证码:%@",sender.code);
-                [sender startTimer];
-            } failure:^(NSError *error) {
-                sender.code=@"   ";
-            }];
-        }else{
-            [MBProgressHUD promptWithString:@"该手机号已经开过户"];
-        }
-    } failure:^(NSError *error) {
-        
-    }];
-
-}
+//-(void)yanBtnClick:(YanButton *)sender{
+//    UITextField * tel = [_mainScrollView viewWithTag:11003];
+//    if (![tel.text isValidateMobile]) {
+//        [MBProgressHUD promptWithString:@"请输入有效的手机号"];
+//        return;
+//    }
+//    NSDictionary * dic = @{@"dianpu.yidongtel":tel.text};
+//    [Request judgePhoneWithDic:dic success:^(id json) {
+//        NSString * message = [NSString stringWithFormat:@"%@",[json valueForKey:@"message"]];
+//        if ([message isEqualToString:@"0"]) {
+//            sender.code=@"   ";
+//            [Request getYanMaWithDic:@{@"dianpu.yidongtel":tel.text} success:^(id json) {
+//                sender.code= [json valueForKey:@"code"];
+//                NSLog(@"----验证码:%@",sender.code);
+//                [sender startTimer];
+//            } failure:^(NSError *error) {
+//                sender.code=@"   ";
+//            }];
+//        }else{
+//            [MBProgressHUD promptWithString:@"该手机号已经开过户"];
+//        }
+//    } failure:^(NSError *error) {
+//        
+//    }];
+//
+//}
 /**
  *  是否同意协议
  *
  *  @param sender 是否同意协议的点击事件
  */
--(void)changeIsAgree:(UIButton *)sender{
-    _isAgree=!_isAgree;
-    sender.selected=_isAgree;
-}
+//-(void)changeIsAgree:(UIButton *)sender{
+//    _isAgree=!_isAgree;
+//    sender.selected=_isAgree;
+//}
 
 /**
  *  选择行业
@@ -437,34 +495,29 @@
 /**
  *  上传图片
  */
--(void)upLoadImagesWithDianPuId:(NSString * )ID{
-        UIImage *image = _signImageView.image;
-
-        NSMutableDictionary *pram = [[NSMutableDictionary alloc]initWithDictionary:@{@"dianpuid":[NSString stringWithFormat:@"%@",ID]}];
-        AFHTTPRequestOperationManager *manger = [AFHTTPRequestOperationManager manager];
-        //网络延时设置15秒
-        manger.requestSerializer.timeoutInterval = 15;
-        NSString *url = @"fileuploadDianpuInfo.action";
-        NSString * urlPath = [NSString stringWithFormat:@"%@%@",HTTPImage,url];
-        [manger POST:urlPath parameters:pram constructingBodyWithBlock:^(id<AFMultipartFormData> formData){
-            NSData *imageData = UIImageJPEGRepresentation(image, 0.9);
-            NSString *fileName = [NSString stringWithFormat:@"%@",@"qianming"];
-            [formData appendPartWithFileData:imageData name:@"file" fileName:fileName mimeType:@"image/jpeg"];
-        }success:^(AFHTTPRequestOperation *operation, id responseObject) {
-             [MBProgressHUD promptWithString:@"开户成功"];      
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        }];
-    
-}
+//-(void)upLoadImagesWithDianPuId:(NSString * )ID{
+//        UIImage *image = _signImageView.image;
+//
+//        NSMutableDictionary *pram = [[NSMutableDictionary alloc]initWithDictionary:@{@"dianpuid":[NSString stringWithFormat:@"%@",ID]}];
+//        AFHTTPRequestOperationManager *manger = [AFHTTPRequestOperationManager manager];
+//        //网络延时设置15秒
+//        manger.requestSerializer.timeoutInterval = 15;
+//        NSString *url = @"fileuploadDianpuInfo.action";
+//        NSString * urlPath = [NSString stringWithFormat:@"%@%@",HTTPImage,url];
+//        [manger POST:urlPath parameters:pram constructingBodyWithBlock:^(id<AFMultipartFormData> formData){
+//            NSData *imageData = UIImageJPEGRepresentation(image, 0.9);
+//            NSString *fileName = [NSString stringWithFormat:@"%@",@"qianming"];
+//            [formData appendPartWithFileData:imageData name:@"file" fileName:fileName mimeType:@"image/jpeg"];
+//        }success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//             [MBProgressHUD promptWithString:@"开户成功"];      
+//        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        }];
+//    
+//}
 -(void)xieyiBtnClick:(UIButton *)sender{
     UseDirectionViewController *agr = [[UseDirectionViewController alloc]init];
-//    if (isModify) {
-//        agr.pageUrl = [NSString stringWithFormat:@"%@/useXieyi.action?dianpuid=%@",HTTPImage,dianpuID];
-//    }
-//    else
-//    {
-        agr.pageUrl = [NSString stringWithFormat:@"%@shiyongxieyi.jsp",HTTPWeb];
-//    }
+    agr.pageUrl = [NSString stringWithFormat:@"%@shiyongxieyi.jsp",HTTPWeb];
+
     agr.titStr = @"妙店佳系统使用协议";
     agr.hidesBottomBarWhenPushed = YES;
     UIBarButtonItem *bar=[[UIBarButtonItem alloc]init];

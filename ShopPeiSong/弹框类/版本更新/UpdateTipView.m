@@ -8,22 +8,58 @@
 
 #import "UpdateTipView.h"
 #import "Header.h"
+@interface UpdateTipView()
+@property (nonatomic,strong)UIScrollView * backView;
+
+@property (nonatomic,strong)UITextView * txtView;
+
+@property (nonatomic,retain)UIButton *updateBtn;//更新btn
+@property (nonatomic,retain)UIButton *rejectBtn;//拒绝更新btn
+
+@end
 @implementation UpdateTipView
+-(instancetype)init{
+    if (self=[super init]) {
+        [self newView];
+    }
+    return self;
+}
 -(id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
-        self.layer.cornerRadius = 15.0;
-        self.layer.shadowRadius = 10.0;
-        self.layer.shadowOpacity = 0.5;
-        self.layer.shadowOffset = CGSizeMake(0, 0);
-        [self initSubViews];
+  
+        [self newView];
     }
     return self;
 }
--(void)initSubViews
+-(void)setContent:(NSString *)content{
+    _content = content;
+    _txtView.text = content;
+    
+}
+-(void)newView
 {
+    
+    _backView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0,[UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(disAppear)];
+    [_backView addGestureRecognizer:tap];
+    
+    
+    
+    //    [_backView addTarget:self action:@selector(disAppear) forControlEvents:UIControlEventTouchUpInside];
+    self.frame=CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width*0.8, [UIScreen mainScreen].bounds.size.width*0.6);
+    self.backgroundColor=[UIColor whiteColor];
+    self.layer.cornerRadius = 15.0;
+    self.layer.shadowRadius = 5.0;
+    self.layer.shadowOpacity = 0.5;
+    self.alpha = 0.95;
+    self.layer.shadowOffset = CGSizeMake(0, 0);
+    //    self.clipsToBounds=YES;
+    self.center=CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/2);
+    [_backView addSubview:self];
+    
+    
     //更新内容
     _txtView = [[UITextView alloc]initWithFrame:CGRectZero];
     _txtView.backgroundColor = [UIColor clearColor];
@@ -31,6 +67,7 @@
     _txtView.textColor = textBlackColor;
     _txtView.font = [UIFont systemFontOfSize:MLwordFont_3];
     _txtView.editable = NO;
+    _txtView.frame=CGRectMake(15*MCscale, 20*MCscale, self.width-30*MCscale, self.height-85*MCscale);
     [self addSubview:_txtView];
     
     //升级btn
@@ -43,6 +80,10 @@
     _updateBtn.titleLabel.font = [UIFont systemFontOfSize:MLwordFont_2];
     [_updateBtn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_updateBtn];
+    _updateBtn.frame = CGRectMake(8, self.height-56*MCscale, self.width/2.0-8, 50*MCscale);
+
+    
+    
     
     //拒绝升级
     _rejectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -54,6 +95,7 @@
     _rejectBtn.titleLabel.font = [UIFont systemFontOfSize:MLwordFont_2];
     [_rejectBtn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_rejectBtn];
+    _rejectBtn.frame = CGRectMake(self.width/2.0+1, self.height-56*MCscale, self.width/2.0-9, 50*MCscale);
     
     UIView *line1 = [[UIView alloc]initWithFrame:CGRectMake(0,self.height-60*MCscale, self.width, 1)];
     line1.backgroundColor = lineColor;
@@ -63,17 +105,35 @@
     line2.backgroundColor = lineColor;
     [self addSubview:line2];
 }
--(void)layoutSubviews
-{
-    _txtView.frame = CGRectMake(15*MCscale, 20*MCscale, self.width-30*MCscale, self.height-85*MCscale);
-    _updateBtn.frame = CGRectMake(8, self.height-56*MCscale, self.width/2.0-8, 50*MCscale);
-    _rejectBtn.frame = CGRectMake(self.width/2.0+1, self.height-56*MCscale, self.width/2.0-9, 50*MCscale);
-}
+
 -(void)btnAction:(UIButton *)btn
 {
-    if ([self.delegate respondsToSelector:@selector(updateTip:tapIndex:)]) {
-        [self.delegate updateTip:self tapIndex:btn.tag];
+    if (_block) {
+        if ([btn isEqual:_updateBtn]) {
+            _block(0);
+        }
+        if ([btn isEqual:_rejectBtn]) {
+            _block(1);
+        }
     }
+    
+
+    
+    
+}
+-(void)appear{
+    [[UIApplication sharedApplication].delegate.window addSubview:_backView];
+    _backView.alpha=0;
+    [UIView animateWithDuration:0.3 animations:^{
+        _backView.alpha=0.95;
+    }];
+}
+-(void)disAppear{
+    [UIView animateWithDuration:0.3 animations:^{
+        _backView.alpha=0;
+    }completion:^(BOOL finished) {
+        [_backView removeFromSuperview];
+    }];
 }
 
 @end

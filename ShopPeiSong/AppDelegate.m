@@ -36,6 +36,8 @@
 #import "PHJavaScriptHelper.h"
 #import "IQKeyboardManager.h"
 
+#import "GuideViewController.h"
+
 @interface AppDelegate ()
 @property (nonatomic,assign)UIBackgroundTaskIdentifier bgTask;
 @end
@@ -87,9 +89,10 @@
     return YES;
 }
 -(void)switchRootController{
-    GestureViewController *gestureVC = [[GestureViewController alloc]init];
+    GuideViewController * guide = [GuideViewController new];
+    
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.rootViewController = gestureVC;
+    self.window.rootViewController = guide;
     [self.window makeKeyAndVisible];
 }
 -(void)configShareSdk{
@@ -230,10 +233,6 @@
         sharePush.remoteBlock(userInfo);
     }
 }
-
-
-
-
 #pragma mark -- tuisong
 -(void)endBgTask{
     if (_bgTask) {

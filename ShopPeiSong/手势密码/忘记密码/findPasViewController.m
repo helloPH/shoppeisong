@@ -10,6 +10,8 @@
 #import "Header.h"
 #import "ShouShiMiMaView.h"
 
+#import "MoNiSystemAlert.h"
+
 
 @interface findPasViewController ()<UIAlertViewDelegate,MBProgressHUDDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate>
 {
@@ -42,7 +44,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.navigationController.navigationBar setBarTintColor:txtColors(4, 196, 153, 1)];
+//    [self.navigationController.navigationBar setBarTintColor:txtColors(4, 196, 153, 1)];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -79,7 +81,7 @@
 }
 -(void)initNavigation
 {
-    self.navigationItem.title = @"找回密码";
+    self.navigationItem.title = @"重置密码";
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:20],NSFontAttributeName,nil]];
     
     UIButton *leftbutton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -114,7 +116,7 @@
     [findNumView addSubview:telview];
     
     UITextField *telFiled = [[UITextField alloc]initWithFrame:telview.bounds];
-    telFiled.placeholder = @"请输入账号";
+    telFiled.placeholder = @"请输入绑定手机号";
     telFiled.keyboardType = UIKeyboardTypeNumberPad;
     telFiled.textAlignment = NSTextAlignmentCenter;
     telFiled.textColor = [UIColor blackColor];
@@ -127,7 +129,7 @@
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = CGRectMake(telview.right+10, 0, 130*MCscale, 40*MCscale);
     btn.backgroundColor = txtColors(248, 53, 74, 1);
-    [btn setTitle:@"确定" forState:UIControlStateNormal];
+    [btn setTitle:@"验证" forState:UIControlStateNormal];
     btn.titleLabel.font = [UIFont systemFontOfSize:18];
     btn.layer.cornerRadius = 3.0;
     btn.layer.masksToBounds = YES;
@@ -185,12 +187,39 @@
                 }
             }
             else{
+                
+                NSDictionary * pram = @{@"canshu":@"2",// 1 用户 2 员工
+                                        @"tel":tel.text,
+                                        @"content":user_shebeiId};
+                [Request yanZhengShengFenWithDic:pram success:^(id json) {
+                    NSString * message = [NSString stringWithFormat:@"%@",[json valueForKey:@"messages"]];
+                    message = @"345";
+                    
+                    if ([message isEqualToString:@"0"]) {//
+                        [MBProgressHUD promptWithString:@"验证码已发送至您的手机"];
+                    }else{// 发送手机验证码
+                        MoNiSystemAlert * alert = [MoNiSystemAlert new];
+                        alert.content=message;
+                        [alert appear];
+                    }
+           
+                    
+                } failure:^(NSError *error) {
+                    MoNiSystemAlert * alert = [MoNiSystemAlert new];
+                    alert.content=@"验证码获取失败";
+                    [alert appear];
+
+                }];
+                
+                
                 userTel = [NSString stringWithFormat:@"%@",[dic valueForKey:@"tel"]];
                 userEmail = [NSString stringWithFormat:@"%@",[dic valueForKey:@"email"]];
                 userDevId = [NSString stringWithFormat:@"%@",[dic valueForKey:@"shebeiId"]];
                 [findWayView removeFromSuperview];
                 isTan = 1;
                 [self initAryData];
+                
+
             }
         } failure:^(NSError *error) {
             [MBProgressHUD stop];
@@ -202,18 +231,18 @@
 -(void)initAryData
 {
     [findWayNameAry removeAllObjects];
-    if ([userDevId isEmptyString]) {
-        [findWayNameAry addObject:@"系统找回"];
-        [findWayTagAry addObject:@"1"];
-    }
-    if (![userEmail isEmptyString]) {
-        [findWayNameAry addObject:@"邮箱找回"];
-        [findWayTagAry addObject:@"2"];
-    }
-    if(![userTel isEmptyString]){
+//    if ([userDevId isEmptyString]) {
+//        [findWayNameAry addObject:@"系统找回"];
+//        [findWayTagAry addObject:@"1"];
+//    }
+//    if (![userEmail isEmptyString]) {
+//        [findWayNameAry addObject:@"邮箱找回"];
+//        [findWayTagAry addObject:@"2"];
+//    }
+//    if(![userTel isEmptyString]){
         [findWayNameAry addObject:@"短信找回"];
         [findWayTagAry addObject:@"3"];
-    }
+//    }
     [self dismPopView];
     [self initfindWayView];
     if (findWayNameAry.count == 1) {
@@ -263,7 +292,7 @@
         label.textAlignment = NSTextAlignmentLeft;
         label.textColor = txtColors(253, 42, 59, 1);
         label.font = [UIFont systemFontOfSize:MLwordFont_2];
-        label.text = findWayNameAry[i];
+//        label.text = findWayNameAry[i];
         [chooseView addSubview:label];
         
         UIImageView *image = [[UIImageView alloc]initWithFrame:CGRectMake(kDeviceWidth-45*MCscale, 15*MCscale, 22*MCscale, 22*MCscale)];
@@ -285,6 +314,9 @@
         line.backgroundColor = lineColor;
         if (i<findWayNameAry.count-1) {
             [chooseView addSubview:line];
+        }
+        if (i == 2) {
+            [self findWayTapAction:tap];
         }
     }
     UIView *lines = [[UIView alloc]initWithFrame:CGRectMake(0, findWayView.height-1, kDeviceWidth, 1)];

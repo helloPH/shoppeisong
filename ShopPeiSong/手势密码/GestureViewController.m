@@ -16,6 +16,7 @@
 #import "OpenAccViewController.h"
 #import "PHAlertView.h"
 #import "PHMap.H"
+#import "FindPassWordViewController.h"
 
 @interface GestureViewController ()<GestureLockDelegate,MBProgressHUDDelegate,RegistrationViewDelegate>
 @property (strong, nonatomic) UILabel *label;
@@ -95,6 +96,7 @@
 {
     if (!_backImge) {
         _backImge  = [BaseCostomer imageViewWithFrame:CGRectZero backGroundColor:[UIColor clearColor] cornerRadius:35*MCscale userInteractionEnabled:NO image:@""];
+        _backImge.hidden=YES;
         NSString *imageUrl =   [[NSUserDefaults standardUserDefaults]valueForKey:@"touxiangImage"];
         [_backImge sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"yonghutouxiang"] options:SDWebImageRefreshCached];
         [self.view addSubview:_backImge];
@@ -128,7 +130,7 @@
                     self.registraView.hidden = YES;
                     self.label.hidden = NO;
                     self.label.text = @"请输入手势密码";
-                    self.backImge.hidden = NO;
+//                    self.backImge.hidden = NO;
                     self.gesView.hidden = NO;
                     self.forgetBtn.hidden = NO;
                 }
@@ -157,7 +159,7 @@
         self.registraView.hidden = NO;
         self.gesView.hidden = YES;
         self.forgetBtn.hidden = YES;
-        self.backImge.hidden = YES;
+//        self.backImge.hidden = YES;
         self.label.hidden = YES;
     } completion:^(BOOL finished) {
         //            self.view.backgroundColor=[UIColor whiteColor];
@@ -268,12 +270,21 @@
 #pragma mark 忘记密码
 -(void)forgetBtnClick:(UIButton *)button
 {
-    findPasViewController *findPasVC = [[findPasViewController alloc]init];
+//    findPasViewController *findPasVC = [[findPasViewController alloc]init];
+    FindPassWordViewController * findPasVC = [FindPassWordViewController new];
+    if (button.tag==100) {
+        findPasVC.beforeTel=self.registraView.accountTextfield.text;
+        findPasVC.backPhone=^(NSString *tel){
+            self.registraView.accountTextfield.text=tel;
+        };
+    }
+    
+    
     findPasVC.hidesBottomBarWhenPushed = YES;
     UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:findPasVC];
     UINavigationBar *bar = navi.navigationBar;
     bar.translucent = YES;
-    [bar setBarTintColor:txtColors(25, 182, 132, 1)];
+    [bar setBarTintColor:naviBarTintColor];
     bar.tintColor = [UIColor whiteColor];
     [bar setTitleTextAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:17],NSForegroundColorAttributeName:[UIColor whiteColor]}];
     [self presentViewController:navi animated:YES completion:^{

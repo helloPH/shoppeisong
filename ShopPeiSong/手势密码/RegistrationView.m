@@ -13,13 +13,17 @@
 #import "findPasViewController.h"
 #import "PHAlertView.h"
 #import "PHMap.h"
+#import "PHButton.h"
 
+#import "ChangeAccountView.h"
+#import "OpenAccViewController.h"
+#import "FindPassWordViewController.h"
 
 @interface RegistrationView()<MBProgressHUDDelegate,UITextFieldDelegate>
 @property (nonatomic,strong)NSMutableDictionary * dataDic;
 
 @property (nonatomic,strong)UILabel * naviView;
-
+@property (nonatomic,strong)UIImageView * headImg;
 @property (nonatomic,strong)UIButton * openBtn;
 @property (nonatomic,strong)UIButton *registraBtn;//注册按钮
 @property (nonatomic,strong)NSMutableArray *yingyongArr ;//应用数组
@@ -28,6 +32,8 @@
 @property (nonatomic,strong)UIButton * findPass;
 
 @property (nonatomic,strong)PHMapHelper * mapHelper;
+
+@property (nonatomic,strong)PHButton * moreBtn;
 @end
 @implementation RegistrationView
 - (instancetype)initWithFrame:(CGRect)frame
@@ -36,13 +42,13 @@
     if (self) {
          [self initData];
         self.backgroundColor = [UIColor whiteColor];
-       
         
-//        self.layer.cornerRadius = 15.0;
-//        self.layer.shadowRadius = 5.0;
-//        self.layer.shadowOpacity = 0.5;
-//        self.alpha = 0.95;
-//        self.layer.shadowOffset = CGSizeMake(0, 0);
+        NSString * account = [self getAccount];
+        if (account) {
+            self.accountTextfield.text=account;
+            [self getUserInfoWithPhone:self.accountTextfield.text];
+        }
+        
     }
     return self;
 }
@@ -52,7 +58,7 @@
 -(UILabel *)naviView{
     if (!_naviView) {
         _naviView = [BaseCostomer labelWithFrame:CGRectZero font:[UIFont systemFontOfSize:MLwordFont_4] textColor:textBlackColor text:@""];
-        
+        _naviView.hidden=YES;
       
         _naviView.textAlignment=NSTextAlignmentCenter;
         _naviView.backgroundColor=naviBarTintColor;
@@ -75,17 +81,25 @@
             make.centerY.mas_equalTo(_naviView).offset(10*MCscale);
             make.width.mas_equalTo(40*MCscale);
             make.height.mas_equalTo(20*MCscale);
-            
         }];
 
     }
     return _naviView;
 }
+#pragma mark 店铺logo
+-(UIImageView *)headImg{
+    if (!_headImg) {
+        _headImg = [[UIImageView alloc]init];
+        _headImg.hidden=YES;
+        [self addSubview:_headImg];
+    }
+    return _headImg;
+}
 #pragma mark 公司名
 -(UILabel *)dianpuNameLabel
 {
     if (_dianpuNameLabel == nil) {
-        _dianpuNameLabel = [BaseCostomer labelWithFrame:CGRectZero font:[UIFont systemFontOfSize:MLwordFont_5] textColor:redTextColor backgroundColor:[UIColor clearColor] textAlignment:NSTextAlignmentCenter numOfLines:1 text:@""];
+        _dianpuNameLabel = [BaseCostomer labelWithFrame:CGRectZero font:[UIFont systemFontOfSize:MLwordFont_5] textColor:textBlackColor backgroundColor:[UIColor clearColor] textAlignment:NSTextAlignmentCenter numOfLines:1 text:@""];
         _dianpuNameLabel.hidden = YES;
         [self addSubview:_dianpuNameLabel];
     
@@ -104,7 +118,7 @@
 -(UILabel *)nameLabel
 {
     if (!_nameLabel) {
-        _nameLabel = [BaseCostomer labelWithFrame:CGRectZero font:[UIFont systemFontOfSize:MLwordFont_5] textColor:redTextColor backgroundColor:[UIColor clearColor] textAlignment:NSTextAlignmentCenter numOfLines:1 text:@""];
+        _nameLabel = [BaseCostomer labelWithFrame:CGRectZero font:[UIFont systemFontOfSize:MLwordFont_5] textColor:textBlackColor backgroundColor:[UIColor clearColor] textAlignment:NSTextAlignmentCenter numOfLines:1 text:@""];
         _nameLabel.hidden = YES;
         [self addSubview:_nameLabel];
     }
@@ -124,14 +138,14 @@
 -(UITextField *)accountTextfield
 {
     if (_accountTextfield == nil) {
-        _accountTextfield = [BaseCostomer textfieldWithFrame:CGRectZero font:[UIFont systemFontOfSize:MLwordFont_2] textColor:textColors textAlignment:NSTextAlignmentLeft keyboardType:UIKeyboardTypeNumberPad borderStyle:UITextBorderStyleNone placeholder:@"请输入登录手机号"];
+        _accountTextfield = [BaseCostomer textfieldWithFrame:CGRectZero font:[UIFont systemFontOfSize:MLwordFont_1] textColor:textColors textAlignment:NSTextAlignmentCenter keyboardType:UIKeyboardTypeNumberPad borderStyle:UITextBorderStyleNone placeholder:@"请输入登录手机号"];
         _accountTextfield.delegate = self;
         [self addSubview:self.accountTextfield];
         
         _accountTextfield.clearButtonMode=UITextFieldViewModeAlways;
-        _accountTextfield.leftView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"输入账号"]];
-        _accountTextfield.leftView.width=_accountTextfield.leftView.height=25*MCscale;
-        _accountTextfield.leftViewMode=UITextFieldViewModeAlways;
+//        _accountTextfield.leftView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"输入账号"]];
+//        _accountTextfield.leftView.width=_accountTextfield.leftView.height=25*MCscale;
+//        _accountTextfield.leftViewMode=UITextFieldViewModeAlways;
         
     }
     return _accountTextfield;
@@ -149,15 +163,15 @@
 {
     if (_passWordTextfield == nil) {
         //密码
-        _passWordTextfield = [BaseCostomer textfieldWithFrame:CGRectZero font:[UIFont systemFontOfSize:MLwordFont_2] textColor:textColors textAlignment:NSTextAlignmentLeft keyboardType:UIKeyboardTypeNumberPad borderStyle:UITextBorderStyleNone placeholder:@"请输入密码"];
+        _passWordTextfield = [BaseCostomer textfieldWithFrame:CGRectZero font:[UIFont systemFontOfSize:MLwordFont_1] textColor:textColors textAlignment:NSTextAlignmentCenter keyboardType:UIKeyboardTypeNumberPad borderStyle:UITextBorderStyleNone placeholder:@"请输入密码"];
         _passWordTextfield.delegate = self;
         [self addSubview:self.passWordTextfield];
 
         
         _passWordTextfield.secureTextEntry=YES;
-        _passWordTextfield.leftView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"输入密码"]];
-        _passWordTextfield.leftView.width=_passWordTextfield.leftView.height=25*MCscale;
-        _passWordTextfield.leftViewMode=UITextFieldViewModeAlways;
+//        _passWordTextfield.leftView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"输入密码"]];
+//        _passWordTextfield.leftView.width=_passWordTextfield.leftView.height=25*MCscale;
+//        _passWordTextfield.leftViewMode=UITextFieldViewModeAlways;
         _passWordTextfield.hidden=YES;
     }
     return _passWordTextfield;
@@ -192,14 +206,36 @@
 -(UIButton *)openBtn{
     if (!_openBtn) {
        _openBtn = [BaseCostomer buttonWithFrame:CGRectZero font:[UIFont boldSystemFontOfSize:MLwordFont_3] textColor:[UIColor blackColor] backGroundColor:[UIColor clearColor] cornerRadius:0 text:@"注册" image:@""];
+        _openBtn.hidden=YES;
         [_openBtn addTarget:self action:@selector(openClick:) forControlEvents:UIControlEventTouchUpInside];
         
+        set_Banben_IsAfter(NO);
         if (!banben_IsAfter) {
-            [self reshBanben];
+            [self reshBanbenBlock:^(BOOL isAfter) {
+//                _openBtn.hidden=!isAfter;
+            }];
         }
         [self addSubview:_openBtn];
     }
     return _openBtn;
+}
+-(PHButton *)moreBtn{
+    if (!_moreBtn) {
+        _moreBtn = [PHButton new];
+        [_moreBtn setTitle:@"更多" forState:UIControlStateNormal];
+        [_moreBtn setTitleColor:textBlackColor forState:UIControlStateNormal];
+        _moreBtn.titleLabel.font=[UIFont systemFontOfSize:MLwordFont_4];
+        [self addSubview:_moreBtn];
+        
+        __block RegistrationView * weakSelf = self;
+        [_moreBtn addAction:^{
+            
+        }];
+        _moreBtn.block=^(){
+            [weakSelf showShell];
+        };
+    }
+    return _moreBtn;
 }
 -(void)openClick:(UIButton *)sender{
     if (_openBlock) {
@@ -212,7 +248,7 @@
     if (_registraBtn == nil) {
         _registraBtn = [BaseCostomer buttonWithFrame:CGRectZero font:[UIFont boldSystemFontOfSize:MLwordFont_2] textColor:[UIColor whiteColor] backGroundColor:txtColors(250, 54, 71, 1) cornerRadius:5*MCscale text:@"登录" image:@""];
         [_registraBtn addTarget:self action:@selector(registraBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-//        _registraBtn.hidden=YES;
+
         [self addSubview:_registraBtn];
     }
     return _registraBtn;
@@ -235,60 +271,69 @@
         make.height.mas_equalTo(20*MCscale);
     }];
     
+    [self.headImg mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.openBtn.mas_bottom).offset(20*MCscale);
+        
+        make.centerX.equalTo(self);
+        make.width.equalTo(@(90*MCscale));
+        make.height.equalTo(@(90*MCscale));
+    }];
+    
+    
     
     [self.dianpuNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.openBtn.mas_bottom).offset(100*MCscale);
+        make.top.equalTo(self.headImg.mas_bottom).offset(10*MCscale);
         make.left.equalTo(self).offset(20*MCscale);
         make.right.equalTo(self).offset(-20*MCscale);
-        make.height.equalTo(@(30*MCscale));
+        make.height.equalTo(@(25*MCscale));
     }];
     
     [self.line1 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self).offset(30*MCscale);
         make.right.equalTo(self).offset(-30*MCscale);
         make.top.equalTo(self.dianpuNameLabel.mas_bottom).offset(0);
-        make.height.equalTo(@(1*MCscale));
+        make.height.equalTo(@(0*MCscale));
     }];
     
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.line1.mas_bottom).offset(10*MCscale);
+        make.top.equalTo(self.line1.mas_bottom).offset(0*MCscale);
         make.left.equalTo(self).offset(20*MCscale);
         make.right.equalTo(self).offset(-20*MCscale);
-        make.height.equalTo(@(30*MCscale));
+        make.height.equalTo(@(25*MCscale));
     }];
     
     [self.line2 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self).offset(30*MCscale);
         make.right.equalTo(self).offset(-30*MCscale);
         make.top.equalTo(self.nameLabel.mas_bottom).offset(0);
-        make.height.equalTo(@(1*MCscale));
+        make.height.equalTo(@(0*MCscale));
     }];
     
     [self.accountTextfield mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.line2.mas_bottom).offset(30*MCscale);
-        make.left.equalTo(self).offset(20*MCscale);
-        make.right.equalTo(self).offset(-20*MCscale);
+        make.top.equalTo(self.line2.mas_bottom).offset(50*MCscale);
+        make.left.equalTo(self).offset(60*MCscale);
+        make.right.equalTo(self).offset(-60*MCscale);
         make.height.equalTo(@(30*MCscale));
     }];
     
     [self.line3 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self).offset(30*MCscale);
-        make.right.equalTo(self).offset(-30*MCscale);
+        make.left.equalTo(self).offset(60*MCscale);
+        make.right.equalTo(self).offset(-60*MCscale);
         make.top.equalTo(self.accountTextfield.mas_bottom).offset(5*MCscale);
         make.height.equalTo(@(1*MCscale));
     }];
     
     [self.passWordTextfield mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.line3.mas_bottom).offset(20*MCscale);
-        make.left.equalTo(self).offset(20*MCscale);
-        make.right.equalTo(self).offset(-20*MCscale);
+        make.left.equalTo(self).offset(60*MCscale);
+        make.right.equalTo(self).offset(-60*MCscale);
         make.height.equalTo(@(30*MCscale));
     }];
 
     [self.line4 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.passWordTextfield.mas_bottom).offset(5*MCscale);
-        make.left.equalTo(self).offset(30*MCscale);
-        make.right.equalTo(self).offset(-30*MCscale);
+        make.left.equalTo(self).offset(60*MCscale);
+        make.right.equalTo(self).offset(-60*MCscale);
         make.height.equalTo(@(1*MCscale));
     }];
     [self.findPass mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -299,10 +344,17 @@
     }];
     
     [self.registraBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.line4.mas_bottom).offset(60*MCscale);
+        make.top.equalTo(self.line4.mas_bottom).offset(40*MCscale);
         make.left.equalTo(self).offset(20*MCscale);
         make.right.equalTo(self).offset(-20*MCscale);
         make.height.equalTo(@(40*MCscale));
+    }];
+    
+    [self.moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.equalTo(@(100));
+        make.height.equalTo(@(20));
+        make.bottom.equalTo(self).offset(-20);
+        make.centerX.equalTo(self.registraBtn.mas_centerX);
     }];
 }
 -(void)textFieldDidBeginEditing:(UITextField *)textField
@@ -341,24 +393,31 @@
                 
                 
                 BOOL hasMima;
-                hasMima= [[NSString stringWithFormat:@"%@",[json valueForKey:@"pwd"]] isEqualToString:@"1"];
+                hasMima= [[NSString stringWithFormat:@"%@",[json valueForKey:@"pwd"]] isEqualToString:@"1"];// 判断该账号是否设置密码
             
          
                 if (hasMima) {
+                    self.headImg.hidden=NO;
                     self.passWordTextfield.hidden=NO;
                     self.line4.hidden=NO;
-//                    self.registraBtn.hidden=NO;
-                    self.findPass.hidden = NO;
+            
                 }else{
+                    self.headImg.hidden=YES;
                     self.passWordTextfield.hidden=YES;
                     self.line4.hidden=YES;
-//                    self.registraBtn.hidden=YES;
-                    self.findPass.hidden = YES;
+              
+//                    self.findPass.hidden = YES;
                     [self shezhimima];
                 }
                 
+                NSString * headLink = [NSString stringWithFormat:@"%@",[json valueForKey:@"image"]];
+
+                [self.headImg sd_setImageWithURL:[NSURL URLWithString:headLink] placeholderImage:[UIImage imageNamed:@""] options:SDWebImageRefreshCached];
+                
+                
+                
                 self.dianpuNameLabel.text = [json valueForKey:@"dianpuname"];
-                self.nameLabel.text =[NSString stringWithFormat:@"%@ %@ %@",[json valueForKey:@"bumen"],[json valueForKey:@"zhiwu"],[json valueForKey:@"name"]];
+                self.nameLabel.text =[NSString stringWithFormat:@"%@     %@",[json valueForKey:@"bumen"],[json valueForKey:@"name"]];
                 
                 NSString * bumen = [NSString stringWithFormat:@"%@",[json valueForKey:@"bumen"]];
                 
@@ -445,8 +504,9 @@
             [alert show];
             alert.block=^(NSInteger index){
                 
-                [self mianMiLogin];
                 [self.controller  surePersonState];
+                [self mianMiLogin];
+                
             };
             
       
@@ -474,7 +534,6 @@
     }
     else{
         
-        
         NSString *passStr = [self.passWordTextfield.text stringFromMD5];
         NSString *accont = [NSString stringWithFormat:@"%@",self.accountTextfield.text];
         NSString *pa = [NSString stringWithFormat:@"%@%@",accont,passStr];
@@ -485,9 +544,10 @@
         [pram setObject:user_shebeiId forKey:@"yuangong.shebeishenfen"];
         [pram setObject:passString forKey:@"yuangong.chushimima"];
         
-        [Request loginWithDic:pram Success:^(id json) {
-            
         
+        [Request loginWithDic:pram Success:^(id json) {
+            [self saveAccount:self.accountTextfield.text];
+            
             set_User_Tel(self.accountTextfield.text);
             set_User_Id([json valueForKey:@"yuangongid"]);
             
@@ -499,17 +559,14 @@
             
             
             NSString * shareContent = [NSString stringWithFormat:@"%@",[json valueForKey:@"kaihufenxiang"]];
+            
             set_LoginShareContent(shareContent);
+            set_LoginPass(self.passWordTextfield.text);
             
-            
-            if ([button isEqual:_registraBtn]) {// 手动点击 登录按钮
-            }else{                            //  自动点击 登录按钮
-                [self.controller mianmilogin];// 手势密码的 自动点击事件
-            }
-
             
             if ([self.registraDeleagte respondsToSelector:@selector(completeRegistration)]) {
                 [self.registraDeleagte completeRegistration];
+                [self.controller mianmilogin];// 手势密码的 自动点击事件
             }
         } failure:^(NSError *error) {
             [MBProgressHUD promptWithString:@"网络连接失败"];
@@ -539,8 +596,9 @@
                 self.line1.hidden = YES;
                 self.nameLabel.hidden = YES;
                 self.line2.hidden = YES;
-//                self.registraBtn.hidden=YES;
+       
                 self.findPass.hidden=YES;
+                self.headImg.hidden=YES;
             }else{//
                 [self getUserInfoWithPhone:newString];
             }
@@ -551,6 +609,18 @@
             
             return NO;
     }
+    return YES;
+}
+-(BOOL)textFieldShouldClear:(UITextField *)textField{
+    self.passWordTextfield.hidden=YES;
+    self.line4.hidden=YES;
+    self.dianpuNameLabel.hidden = YES;
+    self.line1.hidden = YES;
+    self.nameLabel.hidden = YES;
+    self.line2.hidden = YES;
+  
+    self.findPass.hidden=YES;
+    self.headImg.hidden=YES;
     return YES;
 }
 -(void)promptMessageWithString:(NSString *)string
@@ -597,16 +667,111 @@
     } failure:^(NSError *error) {
     }];
 }
--(void)reshBanben{
+-(void)reshBanbenBlock:(void(^)(BOOL isAfter))block{
     [Request getAppStatusSuccess:^(id json) {
         NSString * status = [NSString stringWithFormat:@"%@",json];
-        if ([status isEqualToString:@"1"]) {
+        if ([status isEqualToString:@"0"] || [status isEqualToString:@"1"]) {
             set_Banben_IsAfter(YES);
+            block(YES);
             return ;
         }
         set_Banben_IsAfter(NO);
+        block(NO);
     } failure:^(NSError *error) {
         set_Banben_IsAfter(NO);
+        block(NO);
     }];
+}
+
+-(void)showShell{
+    __block RegistrationView * weakSelf = self;
+    
+    
+    UIAlertController * alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    
+    UIAlertAction * action1 = [UIAlertAction actionWithTitle:@"更换账号" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSMutableArray * accounts = local_Accounts;
+        if (!accounts || ![accounts isKindOfClass:[NSMutableArray class]]) {
+            [MBProgressHUD promptWithString:@"应用还未登陆过任何账号"];
+            return ;
+        }
+       
+      
+      ChangeAccountView * change = [[ChangeAccountView alloc]init];
+        __block ChangeAccountView * weakChange = change;
+        change.block=^(NSString * account){
+            [weakChange disAppear];
+            
+            weakSelf.accountTextfield.text=account;
+            [weakSelf getUserInfoWithPhone:weakSelf.accountTextfield.text];
+        };
+      [change appear];
+    }];
+    UIAlertAction * action2 = [UIAlertAction actionWithTitle:@"注册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        
+        OpenAccViewController * openAcc = [OpenAccViewController new];
+        UINavigationController * openNavi = [[UINavigationController alloc]initWithRootViewController:openAcc];
+        [openNavi.navigationBar setBarTintColor:naviBarTintColor];
+        [self.controller presentViewController:openNavi animated:YES completion:^{
+        }];
+        openAcc.successBlock=^(BOOL isLoginSuc){///开户成功 的 回调
+        
+        };
+
+        
+        
+        
+    }];
+    UIAlertAction * action3 = [UIAlertAction actionWithTitle:@"忘记密码" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        UIButton * btn = [UIButton new];
+        btn.tag=100;
+        [self.controller forgetBtnClick:btn];
+        
+        
+    }];
+    UIAlertAction * action4 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+
+    
+    [alert addAction:action1];
+    [alert addAction:action2];
+    [alert addAction:action3];
+    [alert addAction:action4];
+
+    [self.controller presentViewController:alert animated:YES completion:^{
+        
+    }];
+}
+-(NSString *)getAccount{
+     NSMutableArray * accounts = local_Accounts;
+    if (accounts && [accounts isKindOfClass:[NSMutableArray class]] && [accounts count]>0) {
+        NSString * account = [accounts lastObject];
+        if ([account isKindOfClass:[NSString class]] && [account isValidateMobile]) {
+            return account;
+        }
+    }
+    return nil;
+}
+-(void)saveAccount:(NSString *)account{
+    
+    NSMutableArray * accounts = [NSMutableArray arrayWithArray:local_Accounts];
+    
+    if (!accounts || ![accounts isKindOfClass:[NSMutableArray class]]) {
+        accounts = [NSMutableArray array];
+    }
+    if (![accounts containsObject:account]) {
+        [accounts addObject:account];
+        if ([accounts count]>4) {
+            [accounts removeObjectAtIndex:0];
+        }
+    }else{
+        [accounts removeObject:account];
+        [accounts addObject:account];
+    }
+    set_Local_Accounts(accounts);
 }
 @end

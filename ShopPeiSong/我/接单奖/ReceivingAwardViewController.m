@@ -131,7 +131,7 @@
         }
         else if([[json valueForKey:@"message"]integerValue]== 3)
         {
-            [self promptMessageWithString:@"无可显示订单"];
+//            [self promptMessageWithString:@"无可显示订单"];
         }
         else
         {
@@ -173,7 +173,7 @@
         }
         else if([[json valueForKey:@"message"]integerValue]== 3)
         {
-            [self promptMessageWithString:@"无可显示订单"];
+//            [self promptMessageWithString:@"无可显示订单"];
         }
         else
         {

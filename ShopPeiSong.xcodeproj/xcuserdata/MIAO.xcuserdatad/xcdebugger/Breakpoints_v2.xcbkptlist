@@ -19,13 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ShopPeiSong/&#x6211;/&#x4e92;&#x52a8;/ShopDetailViewController.m"
-            timestampString = "519892428.518257"
+            filePath = "ShopPeiSong/&#x5e73;&#x53f0;/PlatformViewController.m"
+            timestampString = "520396581.040457"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "506"
-            endingLineNumber = "506"
-            landmarkName = "-tableView:heightForRowAtIndexPath:"
+            startingLineNumber = "689"
+            endingLineNumber = "689"
+            landmarkName = "-getUpdateData"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -35,13 +35,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ShopPeiSong/&#x6211;/&#x4e92;&#x52a8;/ShopDetailViewController.m"
-            timestampString = "519892428.518257"
+            filePath = "ShopPeiSong/&#x6211;/&#x9080;&#x8bf7;&#x9886;&#x73b0;&#x91d1;/&#x5f00;&#x6237;/ShengJiViewController.m"
+            timestampString = "520253452.452909"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "500"
-            endingLineNumber = "500"
-            landmarkName = "-tableView:heightForRowAtIndexPath:"
+            startingLineNumber = "1042"
+            endingLineNumber = "1042"
+            landmarkName = "-shengji"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -51,14 +51,62 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ShopPeiSong/&#x6211;/&#x4e92;&#x52a8;/ShopDetailViewController.m"
-            timestampString = "519892428.518257"
+            filePath = "ShopPeiSong/&#x6211;/&#x9080;&#x8bf7;&#x9886;&#x73b0;&#x91d1;/&#x5f00;&#x6237;/ShengJiViewController.m"
+            timestampString = "520253452.452909"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "509"
-            endingLineNumber = "509"
-            landmarkName = "-tableView:heightForRowAtIndexPath:"
+            startingLineNumber = "1053"
+            endingLineNumber = "1053"
+            landmarkName = "-shengji"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShopPeiSong/&#x624b;&#x52bf;&#x5bc6;&#x7801;/&#x5fd8;&#x8bb0;&#x5bc6;&#x7801;/findPasViewController.m"
+            timestampString = "520326458.871773"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "205"
+            endingLineNumber = "205"
+            landmarkName = "-telSureBtnAction"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__41-[findPasViewController telSureBtnAction]_block_invoke_5"
+                  moduleName = "ShopPeiSong"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shiyuanshangpin/Desktop/%E9%A1%B9%E7%9B%AE/%E5%A6%99%E5%BA%97%E4%BD%B3%E9%85%8D%E9%80%81/shoppeisong/ShopPeiSong/%E6%89%8B%E5%8A%BF%E5%AF%86%E7%A0%81/%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81/findPasViewController.m"
+                  timestampString = "520416224.179006"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "207"
+                  endingLineNumber = "207"
+                  offsetFromSymbolStart = "344">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__41-[findPasViewController telSureBtnAction]_block_invoke_6"
+                  moduleName = "ShopPeiSong"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shiyuanshangpin/Desktop/%E9%A1%B9%E7%9B%AE/%E5%A6%99%E5%BA%97%E4%BD%B3%E9%85%8D%E9%80%81/shoppeisong/ShopPeiSong/%E6%89%8B%E5%8A%BF%E5%AF%86%E7%A0%81/%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81/findPasViewController.m"
+                  timestampString = "520416224.18225"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "208"
+                  endingLineNumber = "208"
+                  offsetFromSymbolStart = "44">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -43,8 +43,11 @@
 
     
     NSString *imageStr = [NSString stringWithFormat:@"%@images/xitong/kaihu.png",HTTPHEADER];
-    NSURL *url = [NSURL URLWithString:imageStr];
-    [self.yaoqingImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@""] options:SDWebImageRefreshCached];
+    
+
+    
+    self.yaoqingImageView.image=[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageStr]]];
+    
     [self.view addSubview:self.invitationBtn];
 }
 

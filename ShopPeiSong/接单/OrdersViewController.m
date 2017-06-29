@@ -38,7 +38,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    [self.navigationItem setTitle:@"已接订单"];
+    [self.navigationItem setTitle:@"配送"];
     [self refresh];
 }
 -(BOOL)isRefresh

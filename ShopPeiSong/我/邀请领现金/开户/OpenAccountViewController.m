@@ -12,13 +12,13 @@
 #import "ModifyKaihufeiView.h"
 #import "Header.h"
 #import "AutographView.h"
-#import "UpdateTipView.h"
+//#import "UpdateTipView.h"
 #import "PaymentPasswordView.h"
 #import "UseDirectionViewController.h"
 #import "GetLocationView.h"
 #import "PHMap.h"
 
-@interface OpenAccountViewController ()<updateTipDelegate,MBProgressHUDDelegate,UIImagePickerControllerDelegate,UIActionSheetDelegate,UINavigationControllerDelegate,ModifyKaihufeiViewDelegate,AutographViewDelegate,UITextFieldDelegate,PaymentPasswordViewDelegate>
+@interface OpenAccountViewController ()<MBProgressHUDDelegate,UIImagePickerControllerDelegate,UIActionSheetDelegate,UINavigationControllerDelegate,ModifyKaihufeiViewDelegate,AutographViewDelegate,UITextFieldDelegate,PaymentPasswordViewDelegate>
 @end
 
 
@@ -61,7 +61,7 @@
     
     NSString *latitudeStr,*longitudeStr;
     
-    UpdateTipView *updatePop;//更新提示弹框
+//    UpdateTipView *updatePop;//更新提示弹框
     UIView *updateBackgroundView;//更新背景
     NSString *sysLevel,*descripton;//更新等级 更新说明
     NSString *city;
@@ -73,6 +73,23 @@
     [self maskViewDisMiss];
 //    [self.mapView viewWillDisappear];
 
+}
+-(void)newNavi{
+    UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    rightButton.frame = CGRectMake(0, 0, NVbtnWight, NVbtnWight);
+    [rightButton setImage:[UIImage imageNamed:@"加号按钮"] forState:UIControlStateNormal];
+    rightButton.tag = 1002;
+    [rightButton addTarget:self action:@selector(tightItemClick) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightButtonItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
+    self.navigationItem.rightBarButtonItem = rightButtonItem;
+    
+    
+    UIButton * leftBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, NVbtnWight, NVbtnWight)];
+    [leftBtn setImage:[UIImage imageNamed:@"返回按钮"] forState:UIControlStateNormal];
+    [leftBtn addTarget:self.navigationController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:leftBtn];
+    
+    self.navigationItem.title=@"邀请注册";
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -92,18 +109,9 @@
     ISImage = 0;
     selectedImageArray = [NSMutableArray arrayWithObjects:@{},@{},@{},@{}, nil];
    
-    
-    
-    UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    rightButton.frame = CGRectMake(0, 0, NVbtnWight, NVbtnWight);
-    [rightButton setImage:[UIImage imageNamed:@"加号按钮"] forState:UIControlStateNormal];
-    rightButton.tag = 1002;
-    [rightButton addTarget:self action:@selector(tightItemClick) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *rightButtonItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
-    self.navigationItem.rightBarButtonItem = rightButtonItem;
-    
 
-    [self getUpdateData];
+    [self newNavi];
+
     [self createUI];
     [self initMaskView];
     [self initMask];
@@ -111,64 +119,8 @@
 
     [self showGuideImageWithUrl:@"images/caozuotishi/caogao.png"];
 }
-//获取后台版本(版本更新有关)
--(void)getUpdateData
-{
-    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-    NSString *appCurVersionNum = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
-    NSMutableDictionary *pram = [[NSMutableDictionary alloc]initWithDictionary:@{@"banbenhao":appCurVersionNum,@"xitong":@"6"}];
-    [HTTPTool getWithUrl:@"banbenNew.action" params:pram success:^(id json) {
-        NSLog(@"-- message %@",json);
-        NSString *message = [NSString stringWithFormat:@"%@",[json valueForKey:@"message"]];
-        if ([message isEqualToString:@"3"]) {
-            sysLevel = [NSString stringWithFormat:@"%@",[json valueForKey:@"jibie"]];
-            descripton = [NSString stringWithFormat:@"%@",[json valueForKey:@"shuoming"]];
-            [self initUpdateTipView];
-        }
-    } failure:^(NSError *error) {
-    }];
-}
-#pragma mark -- tipView
--(void)initUpdateTipView
-{
-    updateBackgroundView = [[UIView alloc]initWithFrame:self.view.bounds];
-    updateBackgroundView.backgroundColor = [UIColor clearColor];
-    updatePop = [[UpdateTipView alloc]initWithFrame:CGRectMake(40*MCscale, 170*MCscale, kDeviceWidth-80*MCscale, 320*MCscale)];
-    updatePop.delegate = self;
-    NSArray *descripAry = [descripton componentsSeparatedByString:@"#"];
-    updatePop.alpha = 0.95;
-    NSString *decStr = @"";
-    for (int i = 0; i<descripAry.count; i++) {
-        if (i==0) {
-            decStr = [NSString stringWithFormat:@"%@\n",descripAry[i]];
-        }
-        else
-            decStr = [NSString stringWithFormat:@"%@%@\n",decStr,descripAry[i]];
-    }
-    NSString *ss = [NSString stringWithFormat:@"%@",decStr];
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    paragraphStyle.lineSpacing = 5*MCscale;// 字体的行间距
-    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:MLwordFont_3],NSParagraphStyleAttributeName:paragraphStyle};
-    updatePop.txtView.attributedText = [[NSAttributedString alloc]initWithString:ss attributes:attributes];
-    [self.view addSubview:updateBackgroundView];
-    [self.view addSubview:updatePop];
-}
-#pragma mark --更新类代理方法
--(void)updateTip:(UpdateTipView *)updateView tapIndex:(NSInteger)index
-{
-    if (index == 102){
-        if ([sysLevel isEqualToString:@"1"]){
-            exit(0);
-        }
-        else{
-            [updateBackgroundView removeFromSuperview];
-            [updatePop removeFromSuperview];
-        }
-    }
-    else if (index == 101){
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:stor_url]];
-    }
-}
+
+
 
 -(void)tightItemClick
 {

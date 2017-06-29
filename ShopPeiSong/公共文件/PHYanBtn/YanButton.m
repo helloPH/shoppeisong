@@ -32,14 +32,14 @@
 
 -(void)startTimer{
     _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerEnent:) userInfo:nil repeats:YES];
-    NSString * value=[NSString stringWithFormat:@"%ld",(long)_realTime];
+    NSString * value=[NSString stringWithFormat:@"接收短信大概需要%ld秒",(long)_realTime];
     [self setTitle:value forState:UIControlStateNormal];
     self.userInteractionEnabled=NO;
 }
 -(void)timerEnent:(NSTimer *)timer{
     _realTime--;
     if (_realTime >= 0) {
-        NSString * value=[NSString stringWithFormat:@"%ld",(long)_realTime];
+        NSString * value=[NSString stringWithFormat:@"接收短信大概需要%ld秒",(long)_realTime];
         [self setTitle:value forState:UIControlStateNormal];
     }else{
            [self endTimer];

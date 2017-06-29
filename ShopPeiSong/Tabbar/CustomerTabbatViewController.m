@@ -182,7 +182,7 @@
 //    button.imageView.contentMode=UIViewContentModeScaleAspectFit;
     
     
-    [button setTitleColor:txtColors(0, 174, 119, 1) forState:UIControlStateSelected];
+    [button setTitleColor:mainColor forState:UIControlStateSelected];
     [button setTitleColor:textBlackColor forState:UIControlStateNormal];
     NSInteger index = button.tag - 99;
     

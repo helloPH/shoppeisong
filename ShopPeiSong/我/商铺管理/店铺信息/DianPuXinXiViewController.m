@@ -36,7 +36,7 @@
     _dataDic = [NSMutableDictionary dictionary];
 }
 -(void)newView{
-    self.navigationItem.title=@"修改商铺信息";
+    self.navigationItem.title=@"商铺信息";
     
     _mainScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, kDeviceWidth, self.view.height-64)];
     [self.view addSubview:_mainScrollView];
@@ -134,7 +134,6 @@
     gonggaoCell.titleTF.text=[gonggaoSt isEmptyString]?@"":gonggaoSt;
     neirongCell.titleTF.text=[neirongSt isEmptyString]?@"":neirongSt;
 }
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

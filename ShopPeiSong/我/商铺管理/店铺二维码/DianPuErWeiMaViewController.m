@@ -52,8 +52,17 @@
     
     [imgView sd_setImageWithURL:[NSURL URLWithString:erweimaSt] placeholderImage:[UIImage imageNamed:@"yonghutouxiang"] options:SDWebImageRefreshCached];
     titleLabel.text = dpname;
-    saveBtn.userInteractionEnabled=![erweimaSt isEmptyString];
-    saveBtn.selected=[erweimaSt isEmptyString];
+    
+    
+    if ([erweimaSt isEmptyString] || [erweimaSt isEqualToString:@"0"]) {
+        saveBtn.userInteractionEnabled=NO;
+        saveBtn.selected=YES;
+        
+    }else{
+        saveBtn.userInteractionEnabled=YES;
+        saveBtn.selected=NO;
+    }
+
     
 }
 -(void)newView{
@@ -145,6 +154,9 @@
     
     UIImageView * imgView = [self.view viewWithTag:100];
     UIImageWriteToSavedPhotosAlbum(imgView.image, self, nil, nil);
+    
+    UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"" message:@"二维码已保存至本地!" delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil];
+    [alert show];
 }
 /*
 #pragma mark - Navigation

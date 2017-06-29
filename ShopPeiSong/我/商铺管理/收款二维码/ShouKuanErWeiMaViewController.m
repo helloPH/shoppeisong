@@ -12,6 +12,8 @@
 
 @interface ShouKuanErWeiMaViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
+@property (nonatomic,strong)UIScrollView * mainScrollView;
+
 @property (nonatomic,strong)NSMutableDictionary * dataDic;
 
 @property (nonatomic,strong)UIImageView * currentImgView;
@@ -31,6 +33,8 @@
     _dataDic =[NSMutableDictionary dictionary];
 }
 -(void)reshData{
+    
+    
     NSDictionary * pram = @{@"id":user_dianpuID,
                             };
     [_dataDic removeAllObjects];
@@ -44,30 +48,38 @@
 
 }
 -(void)reshView{
+    
+    
+    
     UIImageView * zfbImg = [self.view viewWithTag:100];
     UIImageView * wxImg = [self.view viewWithTag:101];
     
     NSString * zfbSt = [NSString stringWithFormat:@"%@",_dataDic[@"zhifubao"]];
     NSString * wxSt = [NSString stringWithFormat:@"%@",_dataDic[@"weixin"]];
     
-//    [zfbImg sd_setImageWithURL:[NSURL URLWithString:zfbSt] placeholderImage:[UIImage imageNamed:@"yonghutouxiang"]];
-    zfbImg.image=[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:zfbSt]]];
+    [zfbImg sd_setImageWithURL:[NSURL URLWithString:zfbSt] placeholderImage:[UIImage imageNamed:@"商铺_店铺二维码"]];
+//    zfbImg.image=[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:zfbSt]]];
     
     
     
-//    [wxImg sd_setImageWithURL:[NSURL URLWithString:wxSt] placeholderImage:[UIImage imageNamed:@"yonghutouxiang"]];
-    wxImg.image=[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:wxSt]]];
+    [wxImg sd_setImageWithURL:[NSURL URLWithString:wxSt] placeholderImage:[UIImage imageNamed:@"商铺_店铺二维码"]];
+//    wxImg.image=[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:wxSt]]];
 }
 -(void)newView{
+    _mainScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kDeviceWidth, kDeviceHeight)];
+    [self.view addSubview:_mainScrollView];
+    self.automaticallyAdjustsScrollViewInsets=NO;
+    
+    
     self.navigationItem.title=@"收款二维码";
     
-    
+    self.view.backgroundColor=[UIColor colorWithRed:224/255.0 green:224/255.0 blue:224/255.0 alpha:1];
     CGFloat setY = 64;
     for (int i =0; i < 2; i ++) {
         
         
         UIView * backView = [[UIView alloc]initWithFrame:CGRectMake(0, setY+10, kDeviceWidth, 100)];
-        [self.view addSubview:backView];
+        [_mainScrollView addSubview:backView];
         backView.backgroundColor=[UIColor whiteColor];
         
         
@@ -75,7 +87,7 @@
         
         
         CGFloat BsetY = 0;
-        UILabel * titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, BsetY+10, backView.width, 25)];
+        UILabel * titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, BsetY+30, backView.width, 25)];
         [backView addSubview:titleLabel];
         titleLabel.font=[UIFont systemFontOfSize:MLwordFont_3];
         titleLabel.textAlignment=NSTextAlignmentCenter;
@@ -84,7 +96,7 @@
         BsetY =titleLabel.bottom;
         
         
-        UIImageView * img = [[UIImageView alloc]initWithFrame:CGRectMake(0, BsetY, backView.width*0.4, backView.width*0.4)];
+        UIImageView * img = [[UIImageView alloc]initWithFrame:CGRectMake(0, BsetY, backView.width*0.5, backView.width*0.5)];
         img.centerX=backView.width/2;
         img.image=[UIImage imageNamed:@"yonghutouxiang"];
         [backView addSubview:img];
@@ -95,7 +107,7 @@
         [img addGestureRecognizer:tap];
         
         
-        backView.height= BsetY +10;
+        backView.height= BsetY +30;
         setY = backView.bottom;
     }
     
@@ -103,12 +115,16 @@
     
     
     UILabel * bottomLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, setY+20, kDeviceWidth, 25)];
-    [self.view addSubview:bottomLabel];
+    [_mainScrollView addSubview:bottomLabel];
     bottomLabel.font=[UIFont systemFontOfSize:MLwordFont_4];
     bottomLabel.textColor=textBlackColor;
     bottomLabel.textAlignment=NSTextAlignmentCenter;
     bottomLabel.text=@"点击二维码上传第三方收款二维码";
     setY= bottomLabel.bottom;
+    
+    
+    _mainScrollView.contentSize=CGSizeMake(kDeviceWidth, setY+20*MCscale);
+    
 }
 
 - (void)didReceiveMemoryWarning {

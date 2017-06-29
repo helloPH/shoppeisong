@@ -78,7 +78,7 @@
 //初始化导航栏
 -(void)initNavigation
 {
-    self.navigationItem.title = @"商家信息";
+    self.navigationItem.title = @"互动";
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:MLwordFont_2],NSFontAttributeName,nil]];
     
     
@@ -211,15 +211,26 @@
     mbHud.delegate =self;
     [mbHud show:YES];
     NSMutableDictionary *pram = [NSMutableDictionary dictionaryWithDictionary:@{@"dianpuid":user_dianpuID,@"leimu":[NSString stringWithFormat:@"%d",isSelected],@"pagemum":[NSString stringWithFormat:@"%d",pageNum]}];
+    
+    
+    
+    UIImageView * backView = [[UIImageView alloc]initWithFrame:shopDetailTabel.backgroundView.frame];
+    backView.image=[UIImage imageNamed:@""];
+    shopDetailTabel.backgroundView=backView;
+    
+    
+    
     [HTTPTool getWithBaseUrl:@"http://www.shp360.com/MshcShop/" url:@"findbyyonghupingjia.action" params:pram success:^(id json) {
         [mbHud hide:YES];
         NSLog(@"用户评价%@",json);
         
         if (isRefresh) {
             [self endRefresh:loadType];
+               backView.image=[UIImage imageNamed:@"互动为空"];
         }
         if (lastPage == pageNum) {
             [evaluateDataAry removeAllObjects];
+               backView.image=[UIImage imageNamed:@"互动为空"];
         }
         lastPage = pageNum;
         if ([[json valueForKey:@"massages"]integerValue] !=0) {
@@ -234,6 +245,7 @@
 
     } failure:^(NSError *error) {
         [mbHud hide:YES];
+        backView.image=[UIImage imageNamed:@"互动为空"];
         [self promptMessageWithString:@"网络连接错误1"];
 
     }];
@@ -310,7 +322,12 @@
     }
     else
     {
-        return evaluateDataAry.count+1;
+        if (evaluateDataAry.count!=0) {
+             return evaluateDataAry.count+1;
+        }else{
+            return evaluateDataAry.count;
+        }
+       
     }
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

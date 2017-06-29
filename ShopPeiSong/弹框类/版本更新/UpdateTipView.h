@@ -8,15 +8,16 @@
 
 #import <UIKit/UIKit.h>
 @class UpdateTipView;
-@protocol updateTipDelegate <NSObject>
 
-@optional
--(void)updateTip:(UpdateTipView *)updateView tapIndex:(NSInteger)index;
-
-@end
 @interface UpdateTipView : UIView
-@property (nonatomic,retain)UITextView *txtView;//更新内容
-@property (nonatomic,retain)UIButton *updateBtn;//更新btn
-@property (nonatomic,retain)UIButton *rejectBtn;//拒绝更新btn
-@property (nonatomic,weak)id<updateTipDelegate>delegate;
+
+
+
+@property (nonatomic,strong)NSString * content;
+
+@property (nonatomic,strong)void (^block)(NSInteger index);
+
+
+-(void)appear;
+-(void)disAppear;
 @end

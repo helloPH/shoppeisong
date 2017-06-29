@@ -58,6 +58,9 @@
 #import <BaiduMapAPI_Map/BMKMapComponent.h>//引入地图功能所有的头文件
 #import <BaiduMapAPI_Location/BMKLocationComponent.h>//引入定位功能所有的头文件
 #import <BaiduMapAPI_Map/BMKMapView.h>//只引入所需的单个头文件
+
+#define APPVERSION [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
+
 #define user_id [[NSUserDefaults standardUserDefaults]valueForKey:@"user_ID"]//用户ID
 #define user_shebeiId [[UIDevice currentDevice].identifierForVendor UUIDString]//设备ID
 #define user_canshu  [[NSUserDefaults standardUserDefaults]valueForKey:@"canshu"]//公司名
@@ -70,7 +73,8 @@
 #define user_dianpulogo [[NSUserDefaults standardUserDefaults]valueForKey:@"dianpulogo"]//店铺lodo
 #define user_show [[NSUserDefaults standardUserDefaults]valueForKey:@"show"]//员工身份
 
-
+#define    local_Accounts     [[NSUserDefaults standardUserDefaults] objectForKey:@"local_Accounts"]
+#define    set_Local_Accounts(accounts)    [[NSUserDefaults standardUserDefaults]  setObject:accounts forKey:@"local_Accounts"]
 
 //登录分享内容
 #define set_LoginShareContent(loginShareContent) [[NSUserDefaults standardUserDefaults] setValue:loginShareContent forKey:@"loginShareContent"]//登录时的分享内容
@@ -80,8 +84,6 @@
 //店铺名字名字
 #define set_DianPuName(shequname) [[NSUserDefaults standardUserDefaults] setValue:shequname forKey:@"dianpuname"]//店铺名字
 #define dianPuName [[NSUserDefaults standardUserDefaults]valueForKey:@"dianpuname"]//店铺名字
-
-
 
 
 
@@ -151,7 +153,7 @@
 
 #define user_PATH [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES) firstObject] stringByAppendingPathComponent:@"yingyongArrayXML.xml"]
 
-#define stor_url @"https://itunes.apple.com/cn/app/miao-dian-jia-pei-song/id1163948137?mt=8"
+#define stor_url @"https://itunes.apple.com/cn/app/miao-dian-jia-shang-pu/id1213607654?mt=8"
 
 
 #define HTTPHEADER @"http://www.shp360.com/MshcShopGuanjia/"
@@ -207,8 +209,8 @@
 
 //颜色
 // [UIColor colorWithRed:4/255.0 green:196/255.0 blue:153/255.0 alpha:1]
-#define mainColor         [UIColor colorWithRed:67/255.0 green:208/255.0 blue:212/255.0 alpha:1]
-#define naviBarTintColor  [UIColor colorWithRed:67/255.0 green:208/255.0 blue:212/255.0 alpha:1]
+#define mainColor         [UIColor colorWithRed:72/255.0 green:204/255.0 blue:224/255.0 alpha:1]
+#define naviBarTintColor  [UIColor colorWithRed:72/255.0 green:204/255.0 blue:224/255.0 alpha:1]
 
 
 

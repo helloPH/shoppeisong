@@ -35,7 +35,7 @@
     }
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = [UIColor whiteColor];
-    self.view.alpha = 0.95;
+    self.view.alpha = 1;
     //初始化导航栏
     [self initNavigation];
     //获取数据

@@ -212,7 +212,7 @@
         }
         else if([[json valueForKey:@"message"]integerValue]== 1)
         {
-            [self promptMessageWithString:@"无账户记录"];
+//            [self promptMessageWithString:@"无账户记录"];
         }
         else
         {
@@ -256,7 +256,7 @@
         }
         else if([[json valueForKey:@"message"]integerValue]== 3)
         {
-            [self promptMessageWithString:@"无账户记录"];
+//            [self promptMessageWithString:@"无账户记录"];
         }
         else
         {

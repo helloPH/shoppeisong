@@ -99,6 +99,7 @@
     _mainTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, kDeviceWidth, self.view.height-64) style:UITableViewStyleGrouped];
     [self.view addSubview:_mainTableView];
     _mainTableView.tableHeaderView=[self tableHeaderView];
+    _mainTableView.tableFooterView=[self tableViewFooterView];
     [_mainTableView registerClass:[PersonTableViewCell class] forCellReuseIdentifier:@"cell"];
     
     _mainTableView.delegate=self;
@@ -134,14 +135,20 @@
     
     NSString * headLink = [NSString stringWithFormat:@"%@",_dataDic[@"logo"]];
 
+    
+   
     NSString * nameSt = [NSString stringWithFormat:@"%@",_dataDic[@"dinapuname"]];
     nameSt = [nameSt isEmptyString]?@"点击进行编辑":nameSt;
+    
+    
     
     
     NSString * gonggaoSt = [NSString stringWithFormat:@"%@",_dataDic[@"gonggao"]];
     gonggaoSt = [gonggaoSt isEmptyString]?@"点击进行编辑":gonggaoSt;
     
+    
     NSString * teseSt = [NSString stringWithFormat:@"%@",_dataDic[@"tese"]];
+  
     teseSt = [teseSt isEmptyString]?@"点击进行编辑":teseSt;
 
     
@@ -152,8 +159,8 @@
     UILabel * headerLable = [_tableHeaderView viewWithTag:101];
     
     
-//    [headerView sd_setImageWithURL:[NSURL URLWithString:headLink] placeholderImage:[UIImage imageNamed:@"yonghutouxiang"]];
-    headerView.image=[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:headLink]]];
+    [headerView sd_setImageWithURL:[NSURL URLWithString:headLink] placeholderImage:[UIImage imageNamed:@"yonghutouxiang"]];
+//    headerView.image=[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:headLink]]];
     
     
     NSMutableAttributedString * attriHeaderLable = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@\n%@\n%@",nameSt,teseSt,gonggaoSt]];
@@ -172,13 +179,12 @@
 
 #pragma mark -- tableview
 -(UIView*)tableHeaderView{
-    UIButton * backView = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, kDeviceWidth, 100*MCscale)];
+    UIButton * backView = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, kDeviceWidth, 90*MCscale)];
     backView.backgroundColor=naviBarTintColor;
     [backView addTarget:self action:@selector(skipToDianPuXinXi) forControlEvents:UIControlEventTouchUpInside];
     
     
-    
-    UIImageView * headImg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 80, 80)];
+    UIImageView * headImg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 80*MCscale, 80*MCscale)];
     [backView addSubview:headImg];
     headImg.centerY=backView.height/2;
     headImg.centerX=backView.width*0.2;
@@ -193,8 +199,41 @@
     content.numberOfLines=3;
     content.tag=101;
     
+    
+    UIView * rightView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 20, backView.height)];
+    rightView.right=backView.width;
+    rightView.backgroundColor=backView.backgroundColor;
+    [backView addSubview:rightView];
+    
+    
     _tableHeaderView = backView;
     return _tableHeaderView;
+}
+-(UIView *)tableViewFooterView{
+    UIView * backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.width, 120)];
+//    backView.backgroundColor=[UIColor redColor];
+    
+    
+    UILabel * label = [[UILabel alloc]initWithFrame:CGRectMake(kDeviceWidth*0.1 , 10, backView.width*0.8 , 100)];
+    [backView addSubview:label];
+    label.textColor=txtColors(72, 73, 74, 0.5);
+    
+    
+    label.font=[UIFont systemFontOfSize:MLwordFont_3];
+    label.numberOfLines=0;
+    
+    [HTTPTool getWithBaseUrl:HTTPHEADER url:@"Zonghe_xitongcanshu.action" params:[NSMutableDictionary dictionary] success:^(id json) {
+        
+        
+        label.text = [NSString stringWithFormat:@"        %@",[json valueForKey:@"shuoming"]];
+        
+    } failure:^(NSError *error) {
+        
+    }];
+    
+    
+    
+    return backView;
 }
 
 #pragma mark -- tableview delegate
@@ -207,6 +246,7 @@
     return _tableContentArray.count;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+
     return 50;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -225,6 +265,20 @@
     cell.titleLabel.text=[NSString stringWithFormat:@"%@",[cellDic valueForKey:@"title"]];
     cell.rightImg.image=[UIImage imageNamed:@"xialas"];
     
+    cell.bottomLine.hidden=YES;
+    
+    if  (indexPath.section==0 && indexPath.row==0) {
+        if ([user_dianpu_banben isEqualToString:@"0"]) {
+            cell.contentLabel.text = @"基本";
+        }else if ([user_dianpu_banben isEqualToString:@"1"]){
+            cell.contentLabel.text = @"高级";
+        }else if ([user_dianpu_banben isEqualToString:@"2"]){
+            cell.contentLabel.text = @"通用";
+        }
+        cell.contentLabel.textColor=redTextColor;
+    }
+    
+
     //    cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@",[cellDic valueForKey:@"img"]]];
     //    cell.textLabel.text= [NSString stringWithFormat:@"%@",[cellDic valueForKey:@"title"]];
     return cell;
@@ -250,7 +304,7 @@
                 shengji.hidesBottomBarWhenPushed=YES;
                 [self.navigationController pushViewController:shengji animated:YES];
             }
-            
+   
             
         }
         

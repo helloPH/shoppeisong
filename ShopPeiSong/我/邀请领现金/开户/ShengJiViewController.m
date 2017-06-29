@@ -19,7 +19,11 @@
 #import "SelectFuWuFeiBanBen.h"
 #import "TopUpView.h"
 
+#import "CellView.h"
+#import "BaseCostomer.h"
 @interface ShengJiViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+
+
 
 /**
  *  界面
@@ -87,7 +91,13 @@
     // Do any additional setup after loading the view.
 }
 -(void)newNavi{
-    self.navigationItem.title=@"版本升级";
+    self.navigationItem.title=@"权限配置";
+    UIButton * leftButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, NVbtnWight, NVbtnWight)];
+    [leftButton setImage:[UIImage imageNamed:@"返回按钮"] forState:UIControlStateNormal];
+    
+    [leftButton addTarget:self.navigationController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem =[[UIBarButtonItem alloc]initWithCustomView:leftButton];
+    
 
 }
 
@@ -146,30 +156,39 @@
 }
 -(void)reshView{
     //获取所有的值
-    UITextField * dianpu = [_mainScrollView viewWithTag:11000];
-    UITextField * hangye = [_mainScrollView viewWithTag:11001];
-    UITextField * person = [_mainScrollView viewWithTag:11002];
-    UITextField * phone = [_mainScrollView viewWithTag:11003];
-    UITextField * fuwutel = [_mainScrollView viewWithTag:11004];
-    UITextField * address = [_mainScrollView viewWithTag:11006];
-    
+//    UITextField * dianpu = [_mainScrollView viewWithTag:11000];
+//    UITextField * hangye = [_mainScrollView viewWithTag:11001];
+//    UITextField * person = [_mainScrollView viewWithTag:11002];
+//    UITextField * phone = [_mainScrollView viewWithTag:11003];
+//    UITextField * fuwutel = [_mainScrollView viewWithTag:11004];
+//    UITextField * address = [_mainScrollView viewWithTag:11006];
+//    CellView * dianpu = [_mainScrollView viewWithTag:100];
+    CellView * dianpu = [_mainScrollView  viewWithTag:100];
+    CellView * hangye = [_mainScrollView  viewWithTag:101];
+    CellView * person = [_mainScrollView  viewWithTag:102];
+    CellView * phone = [_mainScrollView   viewWithTag:103];
+//    CellView * fuwutel = [_mainScrollView viewWithTag:104];
+//    CellView * address = [_mainScrollView viewWithTag:106];
+//    
     
     dianpu.enabled=YES;
     hangye.enabled=YES;
     person.enabled=YES;
     phone.enabled=YES;
-    fuwutel.enabled=YES;
-    address.enabled=YES;
+//    fuwutel.enabled=YES;
+//    address.enabled=YES;
     
     
     NSString * banben = [NSString stringWithFormat:@"%@",_dataDic[@"banben"]];
+
+    
     if ([banben isEqualToString:@"0"]) {//免费版
-        self.navigationItem.title=@"升级";
+        self.navigationItem.title=@"权限配置";
         
-        dianpu.text=[NSString stringWithFormat:@"%@",_dataDic[@"dianpuname"]];
-        hangye.text = [NSString stringWithFormat:@"%@",_dataDic[@"hangye"]];
-        person.text = [NSString stringWithFormat:@"%@",_dataDic[@"lianxiren"]];
-        phone.text =[NSString stringWithFormat:@"%@",_dataDic[@"shoujihao"]];
+        dianpu.contentLabel.text=[NSString stringWithFormat:@"%@",_dataDic[@"dianpuname"]];
+        hangye.contentLabel.text = [NSString stringWithFormat:@"%@",_dataDic[@"hangye"]];
+        person.contentLabel.text = [NSString stringWithFormat:@"%@",_dataDic[@"lianxiren"]];
+        phone.contentLabel.text =[NSString stringWithFormat:@"%@",_dataDic[@"shoujihao"]];
         
         dianpu.enabled=NO;
         hangye.enabled=NO;
@@ -180,20 +199,20 @@
         _isShangChengBan=YES;
         
         
-        dianpu.text=[NSString stringWithFormat:@"%@",_dataDic[@"dianpuname"]];
-        hangye.text = [NSString stringWithFormat:@"%@",_dataDic[@"hangye"]];
-        person.text = [NSString stringWithFormat:@"%@",_dataDic[@"lianxiren"]];
-        phone.text =[NSString stringWithFormat:@"%@",_dataDic[@"shoujihao"]];
-        fuwutel.text = [NSString stringWithFormat:@"%@",_dataDic[@"fuwudianhua"]];
-        address.text = [NSString stringWithFormat:@"%@",_dataDic[@"dingweidizhi"]];
+        dianpu.contentLabel.text=[NSString stringWithFormat:@"%@",_dataDic[@"dianpuname"]];
+        hangye.contentLabel.text = [NSString stringWithFormat:@"%@",_dataDic[@"hangye"]];
+        person.contentLabel.text = [NSString stringWithFormat:@"%@",_dataDic[@"lianxiren"]];
+        phone.contentLabel.text =[NSString stringWithFormat:@"%@",_dataDic[@"shoujihao"]];
+//        fuwutel.contentLabel.text = [NSString stringWithFormat:@"%@",_dataDic[@"fuwudianhua"]];
+//        address.contentLabel.text = [NSString stringWithFormat:@"%@",_dataDic[@"dingweidizhi"]];
         
         
         dianpu.enabled=NO;
         hangye.enabled=NO;
         person.enabled=NO;
         phone.enabled=NO;
-        fuwutel.enabled=NO;
-        address.enabled=NO;
+//        fuwutel.enabled=NO;
+//        address.enabled=NO;
         
         UILabel * locationLabel = [_mainScrollView viewWithTag:10005];
         UIView * maskForLocation = [[UIView alloc]initWithFrame:CGRectMake(0, locationLabel.top, _mainScrollView.width, locationLabel.height)];
@@ -201,14 +220,14 @@
         [_mainScrollView addSubview:maskForLocation];
         
         
-        UILabel * addressLabel = [_mainScrollView viewWithTag:10006];
-        addressLabel.top=address.top=locationLabel.top;
-        [_mainScrollView bringSubviewToFront:addressLabel];
-        [_mainScrollView bringSubviewToFront:address];
+//        UILabel * addressLabel = [_mainScrollView viewWithTag:10006];
+//        addressLabel.top=address.top=locationLabel.top;
+//        [_mainScrollView bringSubviewToFront:addressLabel];
+//        [_mainScrollView bringSubviewToFront:address];
         
-        _imgBackView.top =addressLabel.bottom+10*MCscale;
-        _feiYongView.top =_imgBackView.bottom+50*MCscale;
-        _faPiaoView.top = _feiYongView.bottom+10*MCscale;
+        _imgBackView.top =phone.bottom+20*MCscale;
+        _feiYongView.top =_imgBackView.bottom+20*MCscale;
+        _faPiaoView.top = _feiYongView.bottom+0*MCscale;
         _protocolView.top=_faPiaoView.bottom+10*MCscale;
         _mainScrollView.contentSize=CGSizeMake(_mainScrollView.width, _protocolView.bottom+10*MCscale);
         
@@ -248,84 +267,66 @@
 
     [self reshBan];
     [self reshFaPiao];
-    [self reshDing];
+//    [self reshDing];
 }
 -(void)newView{
-    self.view.backgroundColor=[UIColor whiteColor];
+    self.view.backgroundColor=[UIColor colorWithRed:224/256.0 green:224/256.0 blue:224/256.0 alpha:1];
     _mainScrollView=[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kDeviceWidth, self.view.height)];
     [self.view addSubview:_mainScrollView];
     
-    NSArray *titleArray = @[@"店铺名",@"行业",@"法人/联系人",@"联系/注册手机号",@"服务电话",@"定位签到点",@"店铺地址"];
-    NSArray *placeHoldArray = @[@"请输入店铺名",@"请选择行业",@"请输入法人/联系人",@"请输入联系/注册手机号",@"请输入服务电话",@"",@"请输入店铺地址"];
-    CGFloat temY = 0;
+    NSArray *titleArray = @[@"店铺名:",@"行业:",@"店主/联系人:",@"绑定手机号:"];
+//    ,@"服务电话",@"定位签到点",@"店铺地址"
+    NSArray *placeHoldArray = @[@"请输入店铺名",@"请选择行业",@"请输入店主/联系人",@"请输入手机号"];
+//    ,@"请输入服务电话",@"",@"请输入店铺地址"
+    CGFloat temY = 20*MCscale;
     for (int i = 0; i<titleArray.count; i++) {
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(20*MCscale,40*MCscale*i+0, 140*MCscale, 30*MCscale)];
-        label.text=titleArray[i];
-        label.tag = 10000+i;
-        label.userInteractionEnabled = YES;
-        [_mainScrollView addSubview:label];
+        CellView * cellView = [[CellView alloc]initWithFrame:CGRectMake(0*MCscale,temY, kDeviceWidth, 40*MCscale)];
+//        [cellView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
         
-        UIView *lineView = [[UIView alloc]initWithFrame:CGRectMake(10*MCscale, label.bottom +5*MCscale, kDeviceWidth - 20*MCscale, 1)];
-        lineView.backgroundColor = lineColor;
-        [_mainScrollView addSubview:lineView];
+        [_mainScrollView addSubview:cellView];
+        cellView.backgroundColor=[UIColor whiteColor];
+        cellView.tag=100+i;
+        cellView.titleTF.text=titleArray[i];
+        cellView.contentLabel.text=placeHoldArray[i];
+        
+        
+        
+
         
         if (i == 0  || i==1 ||i == 2 ||i == 3 ||i == 4||i == 6) {
-            UITextField *textField = [[UITextField alloc]initWithFrame:CGRectMake(label.right,label.top, kDeviceWidth - 40*MCscale - 140*MCscale, 30*MCscale)];
-            textField.placeholder=placeHoldArray[i];
-            [_mainScrollView addSubview:textField];
-            
+
             
             if (i == 1)
             {
-                textField.text=placeHoldArray[i];
-                textField.textAlignment=NSTextAlignmentRight;
-                textField.rightView= [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"right_jian_icon"]];
-                textField.rightViewMode=UITextFieldViewModeAlways;
-                
-                textField.rightView.size=CGSizeMake(30, 30);
-                textField.userInteractionEnabled=YES;
-                
-                UIButton * btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, textField.width, textField.height)];
-                [textField addSubview:btn];
-                [btn addTarget:self action:@selector(selectHangYeClick:) forControlEvents:UIControlEventTouchUpInside];
+
                 
                 
             }
             if (i == 3 || i== 4) {
-                textField.keyboardType = UIKeyboardTypePhonePad;
+//                textField.keyboardType = UIKeyboardTypePhonePad;
             }
             
             
-            textField.tag = 11000+i;
+//            textField.tag = 11000+i;
         }
         else
         {
             for (int j =0  ; j < 2; j ++) {
-                UIButton * locBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, label.top, 100, 20)];
-                [locBtn setImage:[UIImage imageNamed:@"选择"] forState:UIControlStateNormal];
-                [locBtn setImage:[UIImage imageNamed:@"选中"] forState:UIControlStateSelected];
-                locBtn.imageView.contentMode=UIViewContentModeScaleAspectFit;
-                [locBtn setTitle:j==0?@"定位":@"地图选点" forState:UIControlStateNormal];
-                [locBtn setTitleColor:textColors forState:UIControlStateNormal];
-                [_mainScrollView addSubview:locBtn];
-                [locBtn addTarget:self action:@selector(locationBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-                locBtn.centerY=label.centerY;
-                locBtn.tag=320+j;
-                //                [locBtn sizeToFit];
+
                 
                 if (j==0) {
-                    locBtn.width=80;
-                    locBtn.left=label.right;
+//                    locBtn.width=80;
+//                    locBtn.left=label.right;
                 }else{
-                    locBtn.width=120;
-                    locBtn.right=_mainScrollView.width-20*MCscale;
+//                    locBtn.width=120;
+//                    locBtn.right=_mainScrollView.width-20*MCscale;
                 }
             }
             
             
             //            [self getLocationData];
         }
-        temY=lineView.bottom;
+        temY=cellView.bottom;
     }
     
     
@@ -334,20 +335,20 @@
     [_mainScrollView addSubview:_imgBackView];
     temY=_imgBackView.bottom;
     
-    _feiYongView = [self newFeiYongViewWithSetY:temY+30*MCscale];//费用界面
+    _feiYongView = [self newFeiYongViewWithSetY:temY];//费用界面
     [_mainScrollView addSubview:_feiYongView];
     temY=_feiYongView.bottom;
     
     
-    _faPiaoView = [self newFaVWithSetY:temY+10*MCscale];// 发票界面
+    _faPiaoView = [self newFaVWithSetY:temY];// 发票界面
     [_mainScrollView addSubview:_faPiaoView];
     temY = _faPiaoView.bottom;
     
     
     
-    _protocolView = [self setProtocolDataWithSetY:temY+10*MCscale];// 协议界面
-    [_mainScrollView addSubview:_protocolView];
-    temY = _protocolView.bottom;
+//    _protocolView = [self setProtocolDataWithSetY:temY];// 协议界面
+//    [_mainScrollView addSubview:_protocolView];
+//    temY = _protocolView.bottom;
     
     
     _mainScrollView.contentSize=CGSizeMake(kDeviceWidth, temY+20*MCscale);
@@ -356,7 +357,7 @@
 #pragma mark 选择照片
 -(UIView *)newImgBackViewWithSetY:(CGFloat)setY
 {
-    UIView * backView = [[UIView alloc]initWithFrame:CGRectMake(0, setY, kDeviceWidth, 100)];
+    UIView * backView = [[UIView alloc]initWithFrame:CGRectMake(0, setY+20, kDeviceWidth, 100)];
     backView.backgroundColor=[UIColor whiteColor];
     [_mainScrollView addSubview:backView];
     
@@ -375,7 +376,11 @@
         
         UITapGestureRecognizer *imageTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imageTapClick:)];
         [imageView addGestureRecognizer:imageTap];
+        
+        backView.height = imageView.bottom+10*MCscale;
     }
+    
+    
     return backView;
 }
 #pragma mark 上传照片
@@ -440,22 +445,23 @@
 
 -(UIView *)newFeiYongViewWithSetY:(CGFloat)setY{
     UIView * feiYongV = [[UIView alloc]initWithFrame:CGRectMake(0, setY+20*MCscale, kDeviceWidth, 100)];
+    feiYongV.backgroundColor=[UIColor whiteColor];
     
-    _banView = [[UIView alloc]initWithFrame:CGRectMake(20*MCscale, 0, kDeviceWidth - 40*MCscale, 20*MCscale)];
+    _banView = [[UIView alloc]initWithFrame:CGRectMake(20*MCscale, 10, kDeviceWidth - 40*MCscale, 20*MCscale)];
     [feiYongV addSubview:_banView];
     
     
     UILabel * banTitle = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 80*MCscale, 18*MCscale)];
     banTitle.font=[UIFont systemFontOfSize:MLwordFont_3];
     banTitle.textColor=textBlackColor;
-    banTitle.text=@"版本:";
+    banTitle.text=@"配置:";
     [_banView addSubview:banTitle];
     [banTitle sizeToFit];
     
     
     UIButton * banBtn = [[UIButton alloc]initWithFrame:CGRectMake(banTitle.right+10, 3, 120, _banView.height)];
     banBtn.tag=3000;
-    [banBtn setTitle:@"完整版" forState:UIControlStateNormal];
+    [banBtn setTitle:@"高级权限" forState:UIControlStateNormal];
     [banBtn setTitleColor:textBlackColor forState:UIControlStateNormal];
     [banBtn setImage:[UIImage imageNamed:@"选择"] forState:UIControlStateNormal];
     [banBtn setImage:[UIImage imageNamed:@"选中"] forState:UIControlStateSelected];
@@ -467,7 +473,7 @@
     
     UIButton * noBanBtn = [[UIButton alloc]initWithFrame:CGRectMake(banBtn.right+10*MCscale, 3, 110, _banView.height)];
     noBanBtn.tag=3001;
-    [noBanBtn setTitle:@"收益版" forState:UIControlStateNormal];
+    [noBanBtn setTitle:@"通用权限" forState:UIControlStateNormal];
     [noBanBtn setTitleColor:textBlackColor forState:UIControlStateNormal];
     [noBanBtn setImage:[UIImage imageNamed:@"选择"] forState:UIControlStateNormal];
     [noBanBtn setImage:[UIImage imageNamed:@"选中"] forState:UIControlStateSelected];
@@ -476,10 +482,13 @@
     noBanBtn.imageView.contentMode=UIViewContentModeScaleAspectFit;
     //    noBanBtn.right=banBtn.right+10*MCscale;
     
+    UIImageView * banLine = [[UIImageView alloc]initWithFrame:CGRectMake(10, _banView.bottom+10, feiYongV.width-20, 1)];
+    [feiYongV addSubview:banLine];
+    banLine.backgroundColor=lineColor;
     
     
     
-    UIView * backView = [[UIView alloc]initWithFrame:CGRectMake(20, _banView.bottom+20, kDeviceWidth-40, 100)];
+    UIView * backView = [[UIView alloc]initWithFrame:CGRectMake(20, banLine.bottom+20, kDeviceWidth-40, 100)];
     //    backView.layer.borderWidth=1;
     //    backView.layer.borderColor=redTextColor.CGColor;
     [feiYongV addSubview:backView];
@@ -487,23 +496,23 @@
     
     
     
-    UILabel * label = [[UILabel alloc]initWithFrame:CGRectMake(backView.left+10, 0, backView.width-20, 20)];
-    [feiYongV addSubview:label];
-    label.centerX=feiYongV.width/2;
-    label.centerY=backView.top;
-    label.backgroundColor=[UIColor whiteColor];
-    label.textColor=redTextColor;
-    label.text=@"免费赠送店铺宣传物料一套";
-    label.font=[UIFont systemFontOfSize:MLwordFont_2];
-    label.textAlignment=NSTextAlignmentCenter;
+//    UILabel * label = [[UILabel alloc]initWithFrame:CGRectMake(backView.left+10, 0, backView.width-20, 20)];
+//    [feiYongV addSubview:label];
+//    label.centerX=feiYongV.width/2;
+//    label.centerY=backView.top;
+//    label.backgroundColor=[UIColor whiteColor];
+//    label.textColor=redTextColor;
+//    label.text=@"免费赠送店铺宣传物料一套";
+//    label.font=[UIFont systemFontOfSize:MLwordFont_2];
+//    label.textAlignment=NSTextAlignmentCenter;
+//    
+//    
+//    _signView = [self newSignViewWithSetY:20*MCscale];
+//    [backView addSubview:_signView];
     
     
-    _signView = [self newSignViewWithSetY:20*MCscale];
-    [backView addSubview:_signView];
     
-    
-    
-    _feiLable= [[UILabel alloc]initWithFrame:CGRectMake(0, _signView.bottom+10, backView.width, 80)];
+    _feiLable= [[UILabel alloc]initWithFrame:CGRectMake(0, 0, backView.width, 80)];
     [backView addSubview:_feiLable];
     _feiLable.textColor=redTextColor;
     _feiLable.numberOfLines=3;
@@ -551,7 +560,7 @@
     UIButton * submit ;
     
     submit = [[UIButton alloc]initWithFrame:CGRectMake(20*MCscale,setY, kDeviceWidth-40, 40*MCscale)];
-    [submit setTitle:@"创建开户" forState:UIControlStateNormal];
+    [submit setTitle:@"确认支付" forState:UIControlStateNormal];
     [submit setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     submit.titleLabel.font = [UIFont boldSystemFontOfSize:MLwordFont_2];
     submit.titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -570,14 +579,15 @@
 #pragma mark -- 发票
 -(UIView *)newFaVWithSetY:(CGFloat)setY{
     UIView * faV = [[UIView alloc]initWithFrame:CGRectMake(0, setY, kDeviceWidth, 100)];
+    faV.backgroundColor=[UIColor whiteColor];
     
     
-    
-    UIButton * btn = [[UIButton alloc]initWithFrame:CGRectMake(20, 0, 100, 20)];
+    UIButton * btn = [[UIButton alloc]initWithFrame:CGRectMake(20, 0, kDeviceWidth/2, 30)];
     [faV addSubview:btn];
-    [btn setImage:[UIImage imageNamed:@"选择"] forState:UIControlStateNormal];
-    [btn setImage:[UIImage imageNamed:@"选中"] forState:UIControlStateSelected];
-    [btn setTitle:@"发票" forState:UIControlStateNormal];
+    btn.centerX=btn.superview.width/2;
+//    [btn setImage:[UIImage imageNamed:@"选择"] forState:UIControlStateNormal];
+//    [btn setImage:[UIImage imageNamed:@"选中"] forState:UIControlStateSelected];
+    [btn setTitle:@"申请发票" forState:UIControlStateNormal];
     [btn setTitleColor:textBlackColor forState:UIControlStateNormal];
     btn.imageView.contentMode=UIViewContentModeScaleAspectFit;
     [btn addTarget:self action:@selector(faPiaoBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -595,7 +605,6 @@
         CGFloat btnH = 20*MCscale;
         CGFloat btnX = 10*MCscale+i % 2 * btnW;
         CGFloat btnY =   i / 2 * (btnH+10*MCscale) + 10*MCscale;
-        
         
         
         UIButton * btn1 = [[UIButton alloc]initWithFrame:CGRectMake(btnX, btnY, btnW, btnH)];
@@ -617,108 +626,108 @@
     
     return faV;
 }
-#pragma mark 开户协议
--(UIView *)setProtocolDataWithSetY:(CGFloat)setY
-{
-    
-    
-    //    UIImageView *imageView = [self.view viewWithTag:1000];
-    UIView * proView = [[UIView alloc]initWithFrame:CGRectMake(20*MCscale,setY, kDeviceWidth - 40*MCscale, 30*MCscale)];
-    proView.backgroundColor = [UIColor clearColor];
-    
-    
-    
-    
-    UIButton * protocolBtn = [[UIButton alloc]initWithFrame:CGRectMake(5*MCscale, 5*MCscale, 135*MCscale, 20*MCscale)];
-    protocolBtn.imageView.contentMode=UIViewContentModeScaleAspectFit;
-    [protocolBtn setImage:[UIImage imageNamed:@"选中"] forState:UIControlStateSelected];
-    [protocolBtn setImage:[UIImage imageNamed:@"选择"] forState:UIControlStateNormal];
-    [protocolBtn setTitle:@"我已阅读并同意" forState:UIControlStateNormal];
-    [protocolBtn setTitleColor:textBlackColor forState:UIControlStateNormal];
-    protocolBtn.titleLabel.font=[UIFont systemFontOfSize:MLwordFont_7];
-    [proView addSubview:protocolBtn];
-    protocolBtn.selected=_isAgree;
-    [protocolBtn addTarget:self action:@selector(changeIsAgree:) forControlEvents:UIControlEventTouchUpInside];
-    
-    
-    
-    UILabel * xieyiLabel = [[UILabel alloc]initWithFrame:CGRectMake(protocolBtn.right,5*MCscale,188*MCscale, 20*MCscale)];
-    xieyiLabel.text=@"《妙店佳系统使用协议》";
-    xieyiLabel.textColor = txtColors(78, 194, 151, 1);
-    xieyiLabel.font = [UIFont systemFontOfSize:MLwordFont_7];
-    xieyiLabel.userInteractionEnabled = YES;
-    [proView addSubview:xieyiLabel];
-        UITapGestureRecognizer *xieyiTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(xieyiBtnClick:)];
-        [xieyiLabel addGestureRecognizer:xieyiTap];
-    [xieyiLabel sizeToFit];
-    
-    UIView *xieyiView = [[UIView alloc]initWithFrame:CGRectMake(xieyiLabel.left, xieyiLabel.bottom, xieyiLabel.width, 1)];
-    xieyiView.backgroundColor = txtColors(78, 194, 151, 1);
-    [proView addSubview:xieyiView];
-    xieyiView.width=xieyiLabel.width;
-    return proView;
-}
+//#pragma mark 开户协议
+//-(UIView *)setProtocolDataWithSetY:(CGFloat)setY
+//{
+//    
+//    
+//    //    UIImageView *imageView = [self.view viewWithTag:1000];
+//    UIView * proView = [[UIView alloc]initWithFrame:CGRectMake(0*MCscale,setY, kDeviceWidth, 30*MCscale)];
+//    proView.backgroundColor = [UIColor whiteColor];
+//    
+//    
+//    
+//    
+//    UIButton * protocolBtn = [[UIButton alloc]initWithFrame:CGRectMake(5*MCscale, 5*MCscale, 135*MCscale, 20*MCscale)];
+//    protocolBtn.imageView.contentMode=UIViewContentModeScaleAspectFit;
+//    [protocolBtn setImage:[UIImage imageNamed:@"选中"] forState:UIControlStateSelected];
+//    [protocolBtn setImage:[UIImage imageNamed:@"选择"] forState:UIControlStateNormal];
+//    [protocolBtn setTitle:@"我已阅读并同意" forState:UIControlStateNormal];
+//    [protocolBtn setTitleColor:textBlackColor forState:UIControlStateNormal];
+//    protocolBtn.titleLabel.font=[UIFont systemFontOfSize:MLwordFont_7];
+//    [proView addSubview:protocolBtn];
+//    protocolBtn.selected=_isAgree;
+//    [protocolBtn addTarget:self action:@selector(changeIsAgree:) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    
+//    
+//    UILabel * xieyiLabel = [[UILabel alloc]initWithFrame:CGRectMake(protocolBtn.right,5*MCscale,188*MCscale, 20*MCscale)];
+//    xieyiLabel.text=@"《妙店佳系统使用协议》";
+//    xieyiLabel.textColor = txtColors(78, 194, 151, 1);
+//    xieyiLabel.font = [UIFont systemFontOfSize:MLwordFont_7];
+//    xieyiLabel.userInteractionEnabled = YES;
+//    [proView addSubview:xieyiLabel];
+//        UITapGestureRecognizer *xieyiTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(xieyiBtnClick:)];
+//        [xieyiLabel addGestureRecognizer:xieyiTap];
+//    [xieyiLabel sizeToFit];
+//    
+//    UIView *xieyiView = [[UIView alloc]initWithFrame:CGRectMake(xieyiLabel.left, xieyiLabel.bottom, xieyiLabel.width, 1)];
+//    xieyiView.backgroundColor = txtColors(78, 194, 151, 1);
+//    [proView addSubview:xieyiView];
+//    xieyiView.width=xieyiLabel.width;
+//    return proView;
+//}
 #pragma mark -- 按钮事件
 /**
  *   签名的点击事件
  *
  *  @param tap 签名的点击事件
  */
--(void)signTap:(UITapGestureRecognizer *)tap{
-    
-    if (_isAgree) {
-        //签名
-        AutographView * autogra = [[AutographView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
-        [autogra appear];
-        autogra.Block=^(NSInteger index,NSDictionary * dict){
-            if (index == 0) {
-                NSData *imageData = UIImageJPEGRepresentation(dict[@"image"], 0.9);
-                if (![dict isEqual:@{}]) {
-                    _submitBtn.enabled = YES;
-                    _submitBtn.backgroundColor = txtColors(250, 54, 71, 1);
-                    _signImageView.image = [UIImage imageWithData:imageData];
-                    _isSign=YES;
-                }
-                else
-                {
-                    _signImageView.image=[UIImage new];
-                    _submitBtn.enabled = NO;
-                    _submitBtn.backgroundColor = txtColors(213, 213, 213, 1);
-                    _isSign=NO;
-                }
-                
-            }
-            else if (index == 2)
-            {
-                
-            }
-            
-        };
-        
-        
-    }
-    else
-    {
-        [MBProgressHUD promptWithString:@"请阅读并同意开户协议"];
-        
-    }
-}
+//-(void)signTap:(UITapGestureRecognizer *)tap{
+//    
+//    if (_isAgree) {
+//        //签名
+//        AutographView * autogra = [[AutographView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
+//        [autogra appear];
+//        autogra.Block=^(NSInteger index,NSDictionary * dict){
+//            if (index == 0) {
+//                NSData *imageData = UIImageJPEGRepresentation(dict[@"image"], 0.9);
+//                if (![dict isEqual:@{}]) {
+//                    _submitBtn.enabled = YES;
+//                    _submitBtn.backgroundColor = txtColors(250, 54, 71, 1);
+//                    _signImageView.image = [UIImage imageWithData:imageData];
+//                    _isSign=YES;
+//                }
+//                else
+//                {
+//                    _signImageView.image=[UIImage new];
+//                    _submitBtn.enabled = NO;
+//                    _submitBtn.backgroundColor = txtColors(213, 213, 213, 1);
+//                    _isSign=NO;
+//                }
+//                
+//            }
+//            else if (index == 2)
+//            {
+//                
+//            }
+//            
+//        };
+//        
+//        
+//    }
+//    else
+//    {
+//        [MBProgressHUD promptWithString:@"请阅读并同意开户协议"];
+//        
+//    }
+//}
 /**
  *  选择行业
  */
--(void)selectHangYeClick:(UIButton *)sender
-{
-    ReviewSelectedView * sele = [ReviewSelectedView new];
-    [sele appear];
-    [sele reloadDataWithViewTag:7];
-    sele.block=^(id data){
-        _hangYeDic = (NSDictionary *)data;
-        ((UITextField *)(sender.superview)).text=[NSString stringWithFormat:@"%@",_hangYeDic[@"name"]];
-        ((UITextField *)(sender.superview)).rightView=nil;
-        NSLog(@"%@",data);
-    };
-    
-}
+//-(void)selectHangYeClick:(UIButton *)sender
+//{
+//    ReviewSelectedView * sele = [ReviewSelectedView new];
+//    [sele appear];
+//    [sele reloadDataWithViewTag:7];
+//    sele.block=^(id data){
+//        _hangYeDic = (NSDictionary *)data;
+//        ((UITextField *)(sender.superview)).text=[NSString stringWithFormat:@"%@",_hangYeDic[@"name"]];
+//        ((UITextField *)(sender.superview)).rightView=nil;
+//        NSLog(@"%@",data);
+//    };
+//    
+//}
 /**
  *  商城版 商铺版的点击事件
  *
@@ -756,9 +765,6 @@
                     _month = month;
                     
                     
-                    
-                    
-
                         NSDateFormatter * formatter = [[NSDateFormatter alloc]init];
                         formatter.dateFormat=@"yyyy-MM-dd";
 
@@ -776,7 +782,7 @@
                         
                        NSDate * dateEnd = newDate;
                         NSString * dateEndSt = [formatter stringFromDate:dateEnd];
-                        _feiLable.text = [NSString stringWithFormat:@"服务费:%@\n服务有效期:%@",_money,dateEndSt];
+                        _feiLable.text = [NSString stringWithFormat:@"授权费用:%@\n服务有效期:%@",_money,dateEndSt];
 //                    } failure:^(NSError *error) {
 //                        
 //                    }];
@@ -803,7 +809,7 @@
             NSString * shifukuan = [NSString stringWithFormat:@"%@",[_feiYongDic valueForKey:@"shifukuan"]];
             NSString * zhifu = [NSString stringWithFormat:@"%@",[_feiYongDic valueForKey:@"zhifu"]];
             NSString * youhui   = [NSString stringWithFormat:@"%@",[_feiYongDic valueForKey:@"youhui"]];
-            _feiLable.text=[NSString stringWithFormat:@"使用费用:%@元\n优惠:%@元\n实付款:%@元",zhifu,youhui,shifukuan];
+            _feiLable.text=[NSString stringWithFormat:@"授权费用:%@元\n优惠:%@元\n实付款:%@元",zhifu,youhui,shifukuan];
             _money=shifukuan;
 
             if ([youhui isEqualToString:@"0"] && [zhifu isEqualToString:@"0"]) {
@@ -812,7 +818,7 @@
             
         }else{// 升级为 商城版
             NSString * nianfei =[NSString stringWithFormat:@"%@",[_feiYongDic valueForKey:@"nianfei"]];
-            _feiLable.text=[NSString stringWithFormat:@"年费:%@元",nianfei];;
+            _feiLable.text=[NSString stringWithFormat:@"授权费用:%@元",nianfei];;
             _money=nianfei;
         }
     }
@@ -821,55 +827,13 @@
         NSString * shifukuan = [NSString stringWithFormat:@"%@",[_feiYongDic valueForKey:@"shifukuan"]];
         NSString * zhifu = [NSString stringWithFormat:@"%@",[_feiYongDic valueForKey:@"zhifu"]];
         NSString * youhui   = [NSString stringWithFormat:@"%@",[_feiYongDic valueForKey:@"youhui"]];
-        _feiLable.text=[NSString stringWithFormat:@"使用费用:%@元\n优惠:%@元\n实付款:%@元",zhifu,youhui,shifukuan];
+        _feiLable.text=[NSString stringWithFormat:@"授权费用:%@元\n优惠:%@元\n实付款:%@元",zhifu,youhui,shifukuan];
         _money=shifukuan;
 
         if ([youhui isEqualToString:@"0"] && [zhifu isEqualToString:@"0"]) {
             _feiLable.text = [NSString stringWithFormat:@"实付款:%@元",shifukuan];
         }
     }
-    
-    
-
-    
-//    
-//    
-//    NSString * banBen = _isShangChengBan?@"2":@"1";
-//    NSDictionary * dic = @{@"dianpu.banben":banBen};
-//    [Request chooseKaiShengBanbenWithDic:dic success:^(id json) {
-//        NSString * message = [NSString stringWithFormat:@"%@",[json valueForKey:@"message"]];
-//        if ([message isEqualToString:@"1"]) {
-//            NSString * nianfei =[NSString stringWithFormat:@"%@",[json valueForKey:@"nianfei"]];
-//            _feiLable.text=[NSString stringWithFormat:@"年费:%@元",nianfei];
-//            _money=nianfei;
-//        }
-//        if ([message isEqualToString:@"2"]) {
-//            
-//            
-//            NSString * shifukuan = [NSString stringWithFormat:@"%@",[json valueForKey:@"shifukuan"]];
-//            _feiLable.text=[NSString stringWithFormat:@"实付款:%@元",shifukuan];
-//            
-//            _money=shifukuan;
-//        }
-//        if ([message isEqualToString:@"3"]) {
-//            
-//            NSString * shifukuan = [NSString stringWithFormat:@"%@",[json valueForKey:@"shifukuan"]];
-//            NSString * zhifu = [NSString stringWithFormat:@"%@",[json valueForKey:@"zhifu"]];
-//            NSString * youhui   = [NSString stringWithFormat:@"%@",[json valueForKey:@"youhui"]];
-//            _feiLable.text=[NSString stringWithFormat:@"使用费用:%@元\n优惠:%@元\n实付款:%@元",zhifu,youhui,shifukuan];
-//            _money=shifukuan;
-//        }
-//        
-//        
-//    } failure:^(NSError *error) {
-//        
-//    }];
-//    
-    
-    
-    
-    
-    
     
     
 }
@@ -879,77 +843,77 @@
  *
  *  @param sender 是否同意协议的点击事件
  */
--(void)changeIsAgree:(UIButton *)sender{
-    _isAgree=!_isAgree;
-    sender.selected=_isAgree;
-}
+//-(void)changeIsAgree:(UIButton *)sender{
+//    _isAgree=!_isAgree;
+//    sender.selected=_isAgree;
+//}
 /**
  *  定位选点
  *
  *  @param sender 定位选点的点击事件
  */
--(void)locationBtnClick:(UIButton *)sender{
-    
-    
-    
-    if (sender.tag==320) {
-        _isDing=YES;
-    }else{
-        _isDing=NO;
-    }
-    
-    [self reshDing];
-}
--(void)reshDing{
-    UIButton * sen1 = [_mainScrollView viewWithTag:320];
-    UIButton * sen2 = [_mainScrollView viewWithTag:321];
-    sen1.selected=_isDing;
-    sen2.selected=!_isDing;
-    if (_isDing) {
-        _mapHelper = [PHMapHelper new];
-        [_mapHelper locationStartLocation:^{
-            
-        } locationing:^(BMKUserLocation *location, NSError *error) {
-            _latitude=location.location.coordinate.latitude;
-            _longitude=location.location.coordinate.longitude;
-            [_mapHelper regeoWithLocation:CLLocationCoordinate2DMake(_latitude, _longitude) block:^(BMKReverseGeoCodeResult *result, BMKSearchErrorCode error) {
-                if (error) {
-                    _city=@"北京市";
-                    return ;
-                }
-                _city=result.addressDetail.city;
-            }];
-            if (!error) {
-                [_mapHelper endLocation];
-            }        } stopLocation:^{
-    
-        }];
-        
-        
-        
-    }else{
-        _mapHelper = [PHMapHelper new];
-        GetLocationView * get = [[GetLocationView alloc]init];
-        [get appear];
-        get.block=^(double latitude,double longitude){
-            _latitude=latitude;
-            _longitude=longitude;
-        
-            
-            
-            [_mapHelper regeoWithLocation:CLLocationCoordinate2DMake(_latitude, _longitude) block:^(BMKReverseGeoCodeResult *result, BMKSearchErrorCode error) {
-                if (error) {
-                    _city=@"北京市";
-                    return ;
-                }
-                  _city=result.addressDetail.city;
-            }];
-        };
-    }
-    
-    
-}
-
+//-(void)locationBtnClick:(UIButton *)sender{
+//    
+//    
+//    
+//    if (sender.tag==320) {
+//        _isDing=YES;
+//    }else{
+//        _isDing=NO;
+//    }
+//    
+//    [self reshDing];
+//}
+//-(void)reshDing{
+//    UIButton * sen1 = [_mainScrollView viewWithTag:320];
+//    UIButton * sen2 = [_mainScrollView viewWithTag:321];
+//    sen1.selected=_isDing;
+//    sen2.selected=!_isDing;
+//    if (_isDing) {
+//        _mapHelper = [PHMapHelper new];
+//        [_mapHelper locationStartLocation:^{
+//            
+//        } locationing:^(BMKUserLocation *location, NSError *error) {
+//            _latitude=location.location.coordinate.latitude;
+//            _longitude=location.location.coordinate.longitude;
+//            [_mapHelper regeoWithLocation:CLLocationCoordinate2DMake(_latitude, _longitude) block:^(BMKReverseGeoCodeResult *result, BMKSearchErrorCode error) {
+//                if (error) {
+//                    _city=@"北京市";
+//                    return ;
+//                }
+//                _city=result.addressDetail.city;
+//            }];
+//            if (!error) {
+//                [_mapHelper endLocation];
+//            }        } stopLocation:^{
+//    
+//        }];
+//        
+//        
+//        
+//    }else{
+//        _mapHelper = [PHMapHelper new];
+//        GetLocationView * get = [[GetLocationView alloc]init];
+//        [get appear];
+//        get.block=^(double latitude,double longitude){
+//            _latitude=latitude;
+//            _longitude=longitude;
+//        
+//            
+//            
+//            [_mapHelper regeoWithLocation:CLLocationCoordinate2DMake(_latitude, _longitude) block:^(BMKReverseGeoCodeResult *result, BMKSearchErrorCode error) {
+//                if (error) {
+//                    _city=@"北京市";
+//                    return ;
+//                }
+//                  _city=result.addressDetail.city;
+//            }];
+//        };
+//    }
+//    
+//    
+//}
+//
 
 /**
  *  开户的按钮
@@ -966,24 +930,24 @@
     UITextField * hangye = [_mainScrollView viewWithTag:11001];
     UITextField * person = [_mainScrollView viewWithTag:11002];
     UITextField * phone = [_mainScrollView viewWithTag:11003];
-    UITextField * fuwutel = [_mainScrollView viewWithTag:11004];
+//    UITextField * fuwutel = [_mainScrollView viewWithTag:11004];
     
     
-    NSString * dingWeiType = _isDing?@"0":@"1";
+//    NSString * dingWeiType = _isDing?@"0":@"1";
     // 坐标
-    NSString * latitude = [NSString stringWithFormat:@"%f",_latitude];
-    NSString * longitude = [NSString stringWithFormat:@"%f",_longitude];
-    NSString * city = [NSString stringWithFormat:@"%@",_city];
-   
+//    NSString * latitude = [NSString stringWithFormat:@"%f",_latitude];
+//    NSString * longitude = [NSString stringWithFormat:@"%f",_longitude];
+//    NSString * city = [NSString stringWithFormat:@"%@",_city];
+//   
     
     
-    UITextField * address = [_mainScrollView viewWithTag:11006];
+//    UITextField * address = [_mainScrollView viewWithTag:11006];
     NSString * banBen = _isShangChengBan?@"2":@"1";
     
     
     
     
-    NSString *  imgSgFileNmae = @"qianming.png";
+//    NSString *  imgSgFileNmae = @"qianming.png";
     NSString *  img1FileName;
     img1FileName = _img1?@"yingyezhizhao.png":@"";
     NSString *  img2FileName;
@@ -997,15 +961,17 @@
     NSString *  fapiaoinfo = _isShouJu?@"1":@"2";
     NSString * fapiaoWay = _isYouJi?@"1":@"2";
     
-    if (!_isAgree) {
-        [MBProgressHUD promptWithString:@"请阅读协议并同意"];
-        return;
-    }
+//    if (!_isAgree) {
+//        [MBProgressHUD promptWithString:@"请阅读协议并同意"];
+//        return;
+//    }
     if ([dianpu.text isEmptyString]||
         [person.text isEmptyString]||
-        [phone.text isEmptyString]||
-        [fuwutel.text isEmptyString]||
-        [address.text isEmptyString]) {
+        [phone.text isEmptyString]
+//        ||
+//        [fuwutel.text isEmptyString]||
+//        [address.text isEmptyString]
+        ) {
         [MBProgressHUD promptWithString:@"请完善信息"];
         return;
     }
@@ -1018,11 +984,11 @@
 
 
     
-    if (!_isSign) {
-        [MBProgressHUD promptWithString:@"请签名"];
-        return;
-    }
-    if (_isFaPiao && _isNoSelecedShouJu && _isNoSelecedYouJi) {
+//    if (!_isSign) {
+//        [MBProgressHUD promptWithString:@"请签名"];
+//        return;
+//    }
+    if ((_isFaPiao && _isNoSelecedShouJu)|| (_isFaPiao && _isNoSelecedYouJi)) {
         if (_isNoSelecedShouJu) {
             [MBProgressHUD promptWithString:@"请选择收据或发票"];
             return;
@@ -1036,7 +1002,7 @@
     
     NSDictionary * temPram =@{
                               @"dianpu.id":dianpuid,                       //职员id(未登录传0)
-                              @"dianpu.qianming":imgSgFileNmae,
+//                              @"dianpu.qianming":imgSgFileNmae,
                               @"dianpu.yingyezhizhao":img1FileName,          //营业执照(命名：yingyezhizhao.后缀名,没上传 传空 )
                               @"dianpu.suiwudengjizhen":img2FileName,       //身份证(命名：shenfenzheng.后缀名,没上传 传空 )
                               @"dianpu.jigoudaima":img3FileName,            //银行卡(命名：yinhangka.后缀名,没上传 传空 )
@@ -1048,21 +1014,21 @@
                               @"fapiaoway":fapiaoWay               //1=邮寄  2=电子（选择发票=1时传值，否则不传）}
                               };
     NSMutableDictionary * pram =[NSMutableDictionary dictionaryWithDictionary:temPram];
-    NSDictionary * addDic = @{
-                              @"dianpu.dianpuleixing":dingWeiType,              //定位类型 （0当前位置 1地图定位）
-                              @"dianpu.x":latitude,                           //x坐标
-                              @"dianpu.y":longitude,                          //y坐标
-                              @"dianpu.kefurexian":fuwutel.text,              //服务电话
-                              @"dianpu.dingweidizhi":address.text,           //店铺地址
-                              @"dianpu.shifoukaitonghoutai":city,   //所属城市
-                              };
+//    NSDictionary * addDic = @{
+//                              @"dianpu.dianpuleixing":dingWeiType,              //定位类型 （0当前位置 1地图定位）
+//                              @"dianpu.x":latitude,                           //x坐标
+//                              @"dianpu.y":longitude,                          //y坐标
+//                              @"dianpu.kefurexian":fuwutel.text,              //服务电话
+//                              @"dianpu.dingweidizhi":address.text,           //店铺地址
+//                              @"dianpu.shifoukaitonghoutai":city,   //所属城市
+//                              };
 
     
     NSString * currentBanBen = [NSString stringWithFormat:@"%@",_dataDic[@"banben"]];
     if ([currentBanBen isEqualToString:@"0"]) {//免费版
         
     }
-    [pram addEntriesFromDictionary:addDic];
+//    [pram addEntriesFromDictionary:addDic];
     
     
     
@@ -1074,11 +1040,9 @@
         [pram addEntriesFromDictionary:@{@"month":[NSString stringWithFormat:@"%ld",(long)_month]}];
     }
     
-    
-    
     TopUpView * top = [TopUpView new];
     __block TopUpView * weakTop =top;
-    [top setMoney:[self.money floatValue] limitMoney:0 title:[NSString stringWithFormat:@"妙店佳商铺+%@备用金充值",user_tel] body:user_Id canChange:YES];
+    [top setMoney:[self.money floatValue] limitMoney:0 title:[NSString stringWithFormat:@"妙店佳商铺+%@备用金充值",user_tel] body:user_Id canChange:NO];
     [top appear];
     top.payBlock=^(BOOL isSuccess){
         if (isSuccess) {
@@ -1096,7 +1060,6 @@
                 [MBProgressHUD promptWithString:[NSString stringWithFormat:@"%@",message]];
                 
             } failure:^(NSError *error) {
-                
             }];
 
         }else{
@@ -1110,12 +1073,16 @@
     _isFaPiao = !_isFaPiao;
     [self reshFaPiao];
     
+    if (_isFaPiao) {
+        _mainScrollView.contentOffset=CGPointMake(0, _mainScrollView.contentSize.height-_mainScrollView.height);
+    }
+    
 }
 -(void)reshFaPiao{
     UIButton * selBtn = [_mainScrollView viewWithTag:2500];
     
     
-    UIButton * wayBtn = [_mainScrollView viewWithTag:2513];
+    UIButton * wayBtn = [_mainScrollView viewWithTag:2512];
     selBtn.selected=_isFaPiao;
     if (!_isFaPiao) {
         _isNoSelecedYouJi=YES;
@@ -1123,9 +1090,9 @@
     }
     
     if (_isFaPiao) {
-        _faPiaoView.height=wayBtn.bottom+20*MCscale;
+        _faPiaoView.height=wayBtn.bottom+100*MCscale;
     }else{
-        _faPiaoView.height=selBtn.bottom;
+        _faPiaoView.height=selBtn.bottom+70*MCscale;
     }
     for (int i = 2510; i < 2514; i++) {
         UIButton * wayBtn = [_mainScrollView viewWithTag:i];
@@ -1136,8 +1103,13 @@
         }
     }
     
-    _protocolView.top=_faPiaoView.bottom+10*MCscale;
-    _mainScrollView.contentSize=CGSizeMake(_mainScrollView.width, _protocolView.bottom+10*MCscale);
+//    _protocolView.top=_faPiaoView.bottom+10*MCscale;
+    
+    
+    _mainScrollView.bounces=NO;
+    _mainScrollView.contentSize=CGSizeMake(_mainScrollView.width, _faPiaoView.bottom+0*MCscale);
+    
+    
     [self reshPiaoOption];
 }
 -(void)faPiaoOption:(UIButton *)sender{
@@ -1195,13 +1167,13 @@
     
     
     
-    UIImageView * imgSg = _signImageView;
+//    UIImageView * imgSg = _signImageView;
     UIImageView * imgV1 = [_mainScrollView viewWithTag:1000];
     UIImageView * imgV2 = [_mainScrollView viewWithTag:1001];
     UIImageView * imgV3 = [_mainScrollView viewWithTag:1002];
     
     
-    NSString * imgSgFileName = @"qianming.png";
+//    NSString * imgSgFileName = @"qianming.png";
     NSString *  img1FileName;
     img1FileName = _img1?@"yingyezhizhao.png":@"";
     NSString *  img2FileName;
@@ -1213,9 +1185,9 @@
     NSMutableArray * selectedImageArray = [NSMutableArray array];
     
     
-    if (_isSign) {
-        [selectedImageArray addObject:@{@"imageName":imgSgFileName,@"image":imgSg.image}];
-    }
+//    if (_isSign) {
+//        [selectedImageArray addObject:@{@"imageName":imgSgFileName,@"image":imgSg.image}];
+//    }
     
     if (_img1) {
         [selectedImageArray addObject:@{@"imageName":img1FileName,@"image":imgV1.image}];
@@ -1259,9 +1231,6 @@
                 [MBProgressHUD promptWithString:@"升级成功"];
                 [self.navigationController popViewControllerAnimated:YES];
             }
-            
-      
-            
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         }];
     }
@@ -1271,24 +1240,24 @@
  *
  *  @param sender 协议的点击事件
  */
--(void)xieyiBtnClick:(UIButton *)sender{
-    UseDirectionViewController *agr = [[UseDirectionViewController alloc]init];
-    //    if (isModify) {
-    //        agr.pageUrl = [NSString stringWithFormat:@"%@/useXieyi.action?dianpuid=%@",HTTPImage,dianpuID];
-    //    }
-    //    else
-    //    {
-    
-   
-
-    
-    agr.pageUrl = [NSString stringWithFormat:@"%@shiyongxieyi.jsp",HTTPWeb];
-    //    }
-    agr.titStr = @"妙店佳系统使用协议";
-    agr.hidesBottomBarWhenPushed = YES;
-    UIBarButtonItem *bar=[[UIBarButtonItem alloc]init];
-    bar.image = [UIImage imageNamed:@"返回"];
-    agr.navigationItem.backBarButtonItem=bar;
-    [self.navigationController pushViewController:agr animated:YES];
-}
+//-(void)xieyiBtnClick:(UIButton *)sender{
+//    UseDirectionViewController *agr = [[UseDirectionViewController alloc]init];
+//    //    if (isModify) {
+//    //        agr.pageUrl = [NSString stringWithFormat:@"%@/useXieyi.action?dianpuid=%@",HTTPImage,dianpuID];
+//    //    }
+//    //    else
+//    //    {
+//    
+//   
+//
+//    
+//    agr.pageUrl = [NSString stringWithFormat:@"%@shiyongxieyi.jsp",HTTPWeb];
+//    //    }
+//    agr.titStr = @"妙店佳系统使用协议";
+//    agr.hidesBottomBarWhenPushed = YES;
+//    UIBarButtonItem *bar=[[UIBarButtonItem alloc]init];
+//    bar.image = [UIImage imageNamed:@"返回"];
+//    agr.navigationItem.backBarButtonItem=bar;
+//    [self.navigationController pushViewController:agr animated:YES];
+//}
 @end

@@ -9,6 +9,7 @@
 #import "OpenAccViewController.h"
 #import "Header.h"
 
+
 #import "FreeOpenView.h"
 #import "ZengQiangOpenView.h"
 #import <BaiduMapAPI_Map/BMKMapView.h>
@@ -24,10 +25,21 @@
 
 @property (nonatomic,strong)UIButton * rightBackBtn;
 
+
+
 @end
 
 @implementation OpenAccViewController
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden=YES;
+    
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBar.hidden=NO;
+    
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initData];
@@ -40,16 +52,33 @@
     // Do any additional setup after loading the view.
 }
 -(void)initNavi{
-    self.navigationItem.title=@"开户";
+    self.navigationController.navigationBar.hidden=YES;
+    SuperNavigationView * navi = [SuperNavigationView new];
+    [navi.leftBtn setBackgroundImage:nil forState:UIControlStateNormal];
+    [navi.leftBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [navi.leftBtn setTitleColor:textBlackColor forState:UIControlStateNormal];
+    [navi.leftBtn sizeToFit];
     
-
-    UIButton * leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    leftButton.frame = CGRectMake(0, 0, NVbtnWight, NVbtnWight);
-    [leftButton setImage:[UIImage imageNamed:@"返回按钮"] forState:UIControlStateNormal];
-    leftButton.tag = 1003;
-    [leftButton addTarget:self action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *leftButtonItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
-    self.navigationItem.leftBarButtonItem = leftButtonItem;
+    
+    [self.view addSubview:navi];
+    navi.block=^(NSInteger index){
+        if (index==0) {
+            [self pop];
+        }
+        
+        
+    };
+    
+//    self.navigationItem.title=@"开户";
+//    
+//
+//    UIButton * leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    leftButton.frame = CGRectMake(0, 0, NVbtnWight, NVbtnWight);
+//    [leftButton setImage:[UIImage imageNamed:@"返回按钮"] forState:UIControlStateNormal];
+//    leftButton.tag = 1003;
+//    [leftButton addTarget:self action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem *leftButtonItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
+//    self.navigationItem.leftBarButtonItem = leftButtonItem;
 }
 -(void)initData{
     _isFree=YES;
@@ -91,9 +120,9 @@
     _freeOpenView.controller=self;
     [_mainScrollView addSubview:_freeOpenView];
     
-    _zengOpneView = [[ZengQiangOpenView alloc]initWithFrame:CGRectMake(kDeviceWidth, 0, kDeviceWidth, _mainScrollView.height)];
-    _zengOpneView.controller=self;
-    [_mainScrollView addSubview:_zengOpneView];
+//    _zengOpneView = [[ZengQiangOpenView alloc]initWithFrame:CGRectMake(kDeviceWidth, 0, kDeviceWidth, _mainScrollView.height)];
+//    _zengOpneView.controller=self;
+//    [_mainScrollView addSubview:_zengOpneView];
 
 
     

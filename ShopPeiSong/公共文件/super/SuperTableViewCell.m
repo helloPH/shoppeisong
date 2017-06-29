@@ -55,17 +55,17 @@
 
 -(void)layoutSubviews{
     [super layoutSubviews];
-    _leftImg.frame=CGRectMake(10, 0, 20, 20);
+    _leftImg.frame=CGRectMake(15, 0, 20, 20);
     _leftImg.centerY=self.contentView.height/2;
     
     _rightImg.frame=CGRectMake(0, 0, 20, 20);
-    _rightImg.right=self.contentView.width-10;
+    _rightImg.right=self.contentView.width-15;
     _rightImg.centerY=self.contentView.height/2;
     
     _titleLabel.frame=CGRectMake(_leftImg.right+5, 0, self.contentView.width*0.3, 20);
     _titleLabel.centerY=self.contentView.height/2;
     
-    
+
     _contentLabel.frame=CGRectMake(0, 0, self.contentView.width*0.5, 20);
     _contentLabel.right=_rightImg.left-5;
     _contentLabel.centerY=self.contentView.height/2;

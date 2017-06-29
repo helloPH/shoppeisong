@@ -26,6 +26,9 @@
 #import "PHPush.h"
 #import "PHAlertView.h"
 //#import "GestureViewController.h"
+#import "UpdateTipView.h"
+
+#import "MoNiSystemAlert.h"
 
 @interface PlatformViewController ()<UITableViewDelegate,UITableViewDataSource,MBProgressHUDDelegate,PlatformCellDelegate>
 
@@ -45,6 +48,9 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+
+    
     [self getbumenDataWithStates:@"0"];
 
     
@@ -110,7 +116,7 @@
     /**
      *  开户分享
      */
-
+    [self getUpdateData];
  
     
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -389,8 +395,6 @@
 #pragma mark PlatformCellDelegate
 -(void)qiangdanButtonClickWithDanhao:(NSString *)danhao
 {
-
-    
     MBProgressHUD *mHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     mHud.mode = MBProgressHUDModeIndeterminate;
     mHud.delegate = self;
@@ -625,31 +629,19 @@
                             
                         };
                     }];
-                    
-                    
-                    
-                    
-                    
-                    
+   
                 }
-                
-                
-                
+
             } failure:^(NSError *error) {
                 
             }];
-            
-            
-            
+        
         }
             break;
             
         default:
             break;
     }
-    
-    
-    
 }
 #pragma mark -- 懒加载
 -(PaymentPasswordView *)passView
@@ -662,6 +654,40 @@
     }
     return _passView;
 }
-
+//获取后台版本(版本更新有关)
+-(void)getUpdateData
+{
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *appCurVersionNum = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    NSMutableDictionary *pram = [[NSMutableDictionary alloc]initWithDictionary:@{@"banbenhao":appCurVersionNum,@"xitong":@"4"}];
+    
+    [HTTPTool getWithBaseUrl:@"http://www.shp360.com/MshcShop/" url:@"banbenNew.action" params:pram success:^(id json) {
+            NSString *message = [NSString stringWithFormat:@"%@",[json valueForKey:@"message"]];
+                if ([message isEqualToString:@"3"]) {
+                    NSString * jibie = [NSString stringWithFormat:@"%@",[json valueForKey:@"jibie"]];
+                    NSString * description = [NSString stringWithFormat:@"%@",[json valueForKey:@"shuoming"]];
+                   description = [description stringByReplacingOccurrencesOfString:@"#" withString:@"\n"];
+                    
+                    UpdateTipView * update = [UpdateTipView new];
+                    __block UpdateTipView * weakUp = update;
+                    update.content = description;
+                    [update appear];
+                    update.block=^(NSInteger index){
+                        if (index == 0) {
+                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:stor_url]];
+                        }else{
+                            if ([jibie isEqualToString:@"1"]) {
+                                exit(0);
+                            }
+                        }
+                        [weakUp disAppear];
+                    };
+                    
+                }
+        
+    } failure:^(NSError *error) {
+        
+    }];
+}
 
 @end

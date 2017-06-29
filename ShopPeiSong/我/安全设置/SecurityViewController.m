@@ -64,26 +64,37 @@
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"确定退出登录" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cleAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"user_ID"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"user_tel"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"name"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"user_tel"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"loginPass"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"touxiangImage"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"bumen"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"zhiwu"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"status"];
-        set_User_dianpuID(@"");
         
-        GestureViewController * ges = [GestureViewController new];
-        [self presentViewController:ges animated:YES completion:^{
+        [Request logoutSuccess:^(id json) {
+            NSString * message = [NSString stringWithFormat:@"%@",[json valueForKey:@"messages"]];
+            if ([message isEqualToString:@"1"]) {
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"user_ID"];
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"user_tel"];
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"name"];
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"user_tel"];
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"loginPass"];
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"touxiangImage"];
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"bumen"];
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"zhiwu"];
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"status"];
+                set_User_dianpuID(@"");
+                
+                GestureViewController * ges = [GestureViewController new];
+                [self presentViewController:ges animated:YES completion:^{
+                    
+                }];
+                
+            }else{
+                
+            }
+        } failure:^(NSError *error) {
             
         }];
         
         
+
     }];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        
     }];
     
     
@@ -244,23 +255,34 @@
     }
     else if (index == 2)//更换绑定设备
     {// 更换设备
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"user_ID"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"user_tel"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"name"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"user_tel"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"loginPass"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"touxiangImage"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"bumen"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"zhiwu"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"status"];
-        set_User_dianpuID(@"");
-        
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"更换绑定设备成功,将退出系统" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *cleAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        exit(0);
+        [Request logoutSuccess:^(id json) {
+            NSString * message = [NSString stringWithFormat:@"%@",[json valueForKey:@"messages"]];
+            if ([message isEqualToString:@"1"]) {
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"user_ID"];
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"user_tel"];
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"name"];
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"user_tel"];
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"loginPass"];
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"touxiangImage"];
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"bumen"];
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"zhiwu"];
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"status"];
+                set_User_dianpuID(@"");
+                
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"更换绑定设备成功,将退出系统" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *cleAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                    exit(0);
+                }];
+                [alert addAction:cleAction];
+                [self presentViewController:alert animated:YES completion:nil];
+
+            }else{
+                
+            }
+        } failure:^(NSError *error) {
+            
         }];
-        [alert addAction:cleAction];
-        [self presentViewController:alert animated:YES completion:nil];
+        
     }
     else{
         [UIView animateWithDuration:0.3 animations:^{

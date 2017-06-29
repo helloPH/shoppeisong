@@ -31,7 +31,7 @@
 
 #import "QianDaoView.h"
 
-@interface PersonViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate>
+@interface PersonViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
 /**
  *   数据属性
@@ -148,6 +148,7 @@
     _mainTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, kDeviceWidth, kDeviceHeight-114) style:UITableViewStyleGrouped];
     [self.view addSubview:_mainTableView];
     _mainTableView.tableHeaderView=[self tableHeaderView];
+    _mainTableView.tableFooterView=[self tableFooterView];
     [_mainTableView registerClass:[PersonTableViewCell class] forCellReuseIdentifier:@"cell"];
     
     _mainTableView.delegate=self;
@@ -186,14 +187,12 @@
     UILabel * headerLable = [self.mainTableView.tableHeaderView viewWithTag:101];
     
     
-    [headerView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[self.personDic valueForKey:@"image"]]] placeholderImage:[UIImage imageNamed:@"yonghutouxiang"] options:SDWebImageRefreshCached];
-    
+    [headerView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[_personDic valueForKey:@"image"]]] placeholderImage:[UIImage imageNamed:@"yonghutouxiang"] options:SDWebImageRefreshCached];
 
-    
     
     NSString *phoneNum = [BaseCostomer phoneNumberJiamiWithString:[NSString stringWithFormat:@"%@",[self.personDic valueForKey:@"tel"]]];
     
-    NSString *zhiwuAndName = [NSString stringWithFormat:@"%@ %@",[self.personDic valueForKey:@"zhiwu"],[self.personDic valueForKey:@"name"]];
+    NSString *zhiwuAndName = [NSString stringWithFormat:@"%@  %@",[self.personDic valueForKey:@"zhiwu"],[self.personDic valueForKey:@"name"]];
     
     NSMutableAttributedString * attriHeaderLable = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@\n%@",zhiwuAndName,phoneNum]];
     [attriHeaderLable addAttribute:NSForegroundColorAttributeName value:textBlackColor range:NSMakeRange(0, attriHeaderLable.length)];
@@ -205,7 +204,6 @@
 
     
     [[NSUserDefaults standardUserDefaults]setValue:[self.personDic valueForKey:@"show"] forKey:@"show"];
-    
       [self.mainTableView reloadData];
     
 }
@@ -218,15 +216,21 @@
 
 #pragma mark -- tableview
 -(UIView*)tableHeaderView{
-    UIView * backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kDeviceWidth, 100*MCscale)];
+    UIView * backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kDeviceWidth, 80*MCscale)];
     backView.backgroundColor=naviBarTintColor;
     
     
     UIImageView * headImg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 60, 60)];
+    headImg.layer.cornerRadius = 8;
+    headImg.layer.masksToBounds=YES;
     [backView addSubview:headImg];
     headImg.centerY=backView.height/2;
     headImg.centerX=backView.width*0.3;
     headImg.tag=100;
+    headImg.userInteractionEnabled=YES;
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imageTapClick:)];
+    [headImg addGestureRecognizer:tap];
+    
     
     
     UILabel * content = [[UILabel alloc]initWithFrame:CGRectZero];
@@ -238,6 +242,19 @@
 
     
     return backView;
+}
+-(UIView *)tableFooterView{
+    UIView * backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kDeviceWidth, 30*MCscale)];
+    
+    
+    UILabel * content = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, kDeviceWidth-40, 20*MCscale)];
+    content.textAlignment=NSTextAlignmentCenter;
+    content.textColor=lineColor;
+    content.text = [NSString stringWithFormat:@"版本:V%@",APPVERSION];
+    [backView addSubview:content];
+    
+
+   return backView;
 }
 
 #pragma mark -- tableview delegate
@@ -255,7 +272,9 @@
     return 0.01;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
- 
+    if (indexPath.section==2) {
+        return 42;
+    }
     return 50;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -278,11 +297,21 @@
         [cell.contentLabel sizeToFit];
         cell.contentLabel.textColor=redTextColor;
     }else{
-        cell.contentLabel.text=@"";
+        if ([classString isEqualToString:NSStringFromClass([BalanceViewController class])]) {
+            cell.contentLabel.text = [NSString stringWithFormat:@"%@",[_personDic valueForKey:@"beiyongjin"]];
+            [cell.contentLabel sizeToFit];
+            cell.contentLabel.textColor=redTextColor;
+        }
+        
+        if ([classString isEqualToString:NSStringFromClass([ReceivingAwardViewController class])]) {
+            cell.contentLabel.text = [NSString stringWithFormat:@"%@",[_personDic valueForKey:@"jiedan"]];
+            [cell.contentLabel sizeToFit];
+            cell.contentLabel.textColor=redTextColor;
+        }
+        
+  
     }
     
-//    cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@",[cellDic valueForKey:@"img"]]];
-//    cell.textLabel.text= [NSString stringWithFormat:@"%@",[cellDic valueForKey:@"title"]];
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -364,6 +393,18 @@
         
         if ([controller isKindOfClass:[ReceivingAwardViewController class]]) {
             ((ReceivingAwardViewController *)controller).jiadanMoney=@"2";
+         
+            
+            NSString * jiedan = [NSString stringWithFormat:@"%@",[_personDic valueForKey:@"jiedan"]];
+            
+            
+            if ([jiedan isEqualToString:@"0"] || [jiedan isEmptyString]) {
+                [MBProgressHUD promptWithString:@"暂无数据"];
+                return;
+            }
+            
+            
+            
         }
         if ([controller isKindOfClass:[helpCenterViewController class]]) {
         }
@@ -493,5 +534,57 @@
     }
 
 }
+#pragma mark 上传图像
+-(void)imageTapClick:(UITapGestureRecognizer *)tap
+{
+    
+    UIImagePickerController * imagePicker = [[UIImagePickerController alloc]init];
+    imagePicker.delegate=self;
+    imagePicker.allowsEditing=YES;
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"选择图片路径" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *cancalAction = [UIAlertAction actionWithTitle:@"从相册选取" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+
+        
+        imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        [self presentViewController:imagePicker animated:YES completion:nil];
+    }];
+    UIAlertAction *otherAction = [UIAlertAction actionWithTitle:@"照相机" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        [self presentViewController:imagePicker animated:YES completion:nil];
+    }];
+    UIAlertAction *cleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    [alert addAction:cancalAction];
+    [alert addAction:otherAction];
+    [alert addAction:cleAction];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+#pragma mark UIImagePickerControllerDelegate
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
+{
+    UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
+    [picker dismissViewControllerAnimated:YES completion:^{
+        
+        
+        UIImageView * headImg = [self.mainTableView.tableHeaderView viewWithTag:100];
+
+        UIImage * image1 = [image imageByScalingToSize:CGSizeMake(120, 120)];
+        
+        
+        headImg.image = image1;
+        [HTTPTool postWithUrl:@"fileuploadyg.action" params:nil image:image1 success:^(id json) {
+            if ([[json valueForKey:@"message"]integerValue] == 1) {
+                [MBProgressHUD promptWithString:@"头像上传成功"];
+                [self reshData];
+            }
+        } failure:^(NSError *error) {
+            
+        }];
+    }];
+}
+
+
 
 @end

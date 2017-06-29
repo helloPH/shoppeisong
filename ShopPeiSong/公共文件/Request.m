@@ -369,7 +369,7 @@
  */
 +(void)updateLocationWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure{
 //    [MBProgressHUD start];
-    [HTTPTool  getWithBaseUrl:HTTPHEADER url:@"updateDianpuAddress.action" params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json) {
+    [HTTPTool  postWithBaseUrl:HTTPHEADER url:@"updateDianpuAddress.action" params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json) {
 //        [MBProgressHUD stop];
         success(json);
     } failure:^(NSError *error) {
@@ -578,6 +578,22 @@
         failure(error);
     }];
 }
+/*
+ * 退出登录
+ */
++(void)logoutSuccess:(successBlock)success failure:(failureBlock)failure{
+    [MBProgressHUD start];
+    NSDictionary * dic = @{@"userid":user_Id};
+    
+    [HTTPTool  getWithBaseUrl:HTTPHEADER url:@"Zonghe_updatelixia.action" params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json) {
+        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD stop];
+        [MBProgressHUD promptWithString:@"网络连接错误"];
+        failure(error);
+    }];
+}
 #pragma mark --- 登录注册
 /*
  *登录
@@ -763,19 +779,14 @@
 //    [MBProgressHUD start];
     NSString * banbenhao = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     
-    [HTTPTool  postWithBaseUrl:HTTPHEADER url:@"banbeniosStatus.action" params:[NSMutableDictionary dictionaryWithDictionary:@{@"banbenhao":banbenhao                                                                                                                        }] success:^(id json) {
+    NSDictionary * pram = @{@"banbenhao":banbenhao,
+                            @"xitong":@"4"};
+    
+    [HTTPTool  postWithBaseUrl:HTTPHEADER url:@"banbeniosStatus.action" params:[NSMutableDictionary dictionaryWithDictionary:pram] success:^(id json) {
         NSString * status = [NSString stringWithFormat:@"%@",[json valueForKey:@"status"]];
-        if ([status isEqualToString:@"2"]) {
-            success(@"0");// 待上线
-        }else{
-            success(@"1");// 已上线
-        }
-        
-//        [MBProgressHUD stop];
-        
+        success(status);
     } failure:^(NSError *error) {
-//        [MBProgressHUD stop];
-//        [MBProgressHUD promptWithString:@"网络连接错误"];
+
         failure(error);
     }];
 }
@@ -800,7 +811,7 @@
 +(void)successFenxiangKaihuLiLianContentSuccess:(successBlock)success failure:(failureBlock)failure{
     [MBProgressHUD start];
     [HTTPTool  postWithBaseUrl:HTTPHEADER url:@"fenxiangKaihu.action" params:[NSMutableDictionary dictionaryWithDictionary:@{@"yuangong.id":user_Id,
-                                                                                                                             @"yuangong.tel":user_tel}] success:^(id json) {
+                                                 @"yuangong.tel":user_tel}] success:^(id json) {
         [MBProgressHUD stop];
         success(json);
     } failure:^(NSError *error) {
@@ -818,6 +829,20 @@
     [HTTPTool  postWithBaseUrl:HTTPImage url:@"GuanjiaInfo.jsp" params:pram success:^(id json) {
         success(json);
     } failure:^(NSError *error) {
+        failure(error);
+    }];
+}
+/*
+ *验证身份
+ */
++(void)yanZhengShengFenWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure{
+    [MBProgressHUD start];
+    [HTTPTool  getWithBaseUrl:HTTPHEADER url:@"Zonghe_xitongtuisong.action" params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json) {
+        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD stop];
+        [MBProgressHUD promptWithString:@"网络连接错误"];
         failure(error);
     }];
 }
