@@ -11,7 +11,7 @@
 #import "GestureLockView.h"
 #import "RegistrationView.h"
 #import "Header.h"
-#import "findPasViewController.h"
+//#import "findPasViewController.h"
 #import "OpenAccountViewController.h"
 #import "OpenAccViewController.h"
 #import "PHAlertView.h"
@@ -178,8 +178,8 @@
                 return ;
             }
             NSDictionary * pram = @{@"dianpu.id":user_dianpuID,
-                                    @"dianpu.x":[NSString stringWithFormat:@"%f",location.location.coordinate.latitude],
-                                    @"dianpu.y":[NSString stringWithFormat:@"%f",location.location.coordinate.longitude],
+                                    @"dianpu.x":[NSString stringWithFormat:@"%f",location.location.coordinate.longitude],
+                                    @"dianpu.y":[NSString stringWithFormat:@"%f",location.location.coordinate.latitude],
                                     @"code":result.addressDetail.city};
             [Request updateLocationWithDic:pram Success:^(id json) {
             } failure:^(NSError *error) {

@@ -327,7 +327,12 @@
     UILabel *label = [BaseCostomer labelWithFrame:CGRectMake(0,0, kDeviceWidth, view.height) font:[UIFont systemFontOfSize:MLwordFont_2] textColor:textColors backgroundColor:[UIColor clearColor] textAlignment:NSTextAlignmentCenter numOfLines:1 text:@""];
     [view addSubview:label];
     if (section == 0) {
-        label.text = @"近期记录";
+        if (self.recordArray.count==0) {
+            label.text = @"";
+        }else{
+            label.text = @"近期记录";
+        }
+        
     }
     else
     {

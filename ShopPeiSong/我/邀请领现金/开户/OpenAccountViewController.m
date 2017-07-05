@@ -120,8 +120,6 @@
     [self showGuideImageWithUrl:@"images/caozuotishi/caogao.png"];
 }
 
-
-
 -(void)tightItemClick
 {
     [UIView animateWithDuration:0.3 animations:^{
@@ -203,24 +201,50 @@
 }
 -(void)createUI
 {
+    self.view.backgroundColor=backColor;
     
-    self.view.backgroundColor=[UIColor whiteColor];
-    NSArray *titleArray = @[@"店铺名",@"行业",@"法人/联系人",@"联系/注册手机号",@"服务电话",@"定位签到点",@"店铺地址"];
-    NSArray *placeHoldArray = @[@"请输入店铺名",@"",@"请输入法人/联系人",@"请输入联系/注册手机号",@"请输入服务电话",@"",@"请输入店铺地址"];
+    CGFloat setY = 84*MCscale;;
+    UIView * backView = [[UIView alloc]initWithFrame:CGRectMake(0, setY, kDeviceWidth, 100)];
+    backView.backgroundColor=[UIColor whiteColor];
+    [self.view addSubview:backView];
+    
+    
+    CGFloat temY = 10*MCscale;
+    NSArray *titleArray = @[@"店铺名",@"行业",@"法人/联系人",@"联系/注册手机号"
+//                            ,@"服务电话",@"定位签到点",@"店铺地址"
+                            ];
+    NSArray *placeHoldArray = @[@"请输入店铺名",@"",@"请输入店主/联系人",@"请输入绑定/注册手机号"
+//                                ,@"请输入服务电话",@"",@"请输入店铺地址"
+                                ];
     for (int i = 0; i<titleArray.count; i++) {
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(20*MCscale,40*MCscale*i+84*MCscale, 140*MCscale, 30*MCscale)];
+        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(20*MCscale,temY+10*MCscale, 0*MCscale, 30*MCscale)];
         [self customLabel:label AndString:titleArray[i]];
         label.tag = 10000+i;
         label.userInteractionEnabled = YES;
-        [self.view addSubview:label];
+        [backView addSubview:label];
         
         UIView *lineView = [[UIView alloc]initWithFrame:CGRectMake(10*MCscale, label.bottom +5*MCscale, kDeviceWidth - 20*MCscale, 1)];
         lineView.backgroundColor = lineColor;
-        [self.view addSubview:lineView];
+        [backView addSubview:lineView];
+//        temY = lineView.bottom;
+        
+        
+        
         
         if (i == 0 ||i == 2 ||i == 3 ||i == 4||i == 6) {
             UITextField *textField = [[UITextField alloc]initWithFrame:CGRectMake(label.right,label.top, kDeviceWidth - 40*MCscale - 140*MCscale, 30*MCscale)];
-            [self custom:textField AndString:placeHoldArray[i]];
+//            [self custom:textField AndString:placeHoldArray[i]];
+        
+            textField.placeholder = placeHoldArray[i];
+//            textField.textAlignment = NSTextAlignment;
+            textField.font = [UIFont systemFontOfSize:MLwordFont_4];
+            textField.textColor = textColors;
+            textField.delegate = self;
+            textField.returnKeyType = UIReturnKeyDone;
+            textField.backgroundColor = [UIColor clearColor];
+            [backView addSubview:textField];
+            
+            
             if (i == 3 || i== 4) {
                 textField.keyboardType = UIKeyboardTypePhonePad;
             }
@@ -228,16 +252,42 @@
         }
         else if (i == 1)
         {
-            [self selectedHangyeType];
+//            UILabel *industrLabel = [self.view viewWithTag:10001];
+            industryView = [[UIView alloc]initWithFrame:CGRectMake(label.right ,label.top, kDeviceWidth - label.right*2, 30*MCscale)];
+            industryView.backgroundColor = [UIColor clearColor];
+            [backView addSubview:industryView];
+            
+            UITapGestureRecognizer *industryTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapClick:)];
+            [industryView addGestureRecognizer:industryTap];
+            
+            selectedIndustrLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0,industryView.width - 15*MCscale,30*MCscale)];
+            [self customLabel:selectedIndustrLabel AndString:@"请选择行业类别"];
+//            selectedIndustrLabel.textAlignment = NSTextAlignment;
+            [industryView addSubview:selectedIndustrLabel];
+            
+            imageview1 = [[UIImageView alloc]initWithFrame:CGRectMake(industryView.width - 15*MCscale, 5*MCscale, 15*MCscale,20*MCscale)];
+            imageview1.right=industryView.width;
+            imageview1.image = [UIImage imageNamed:@"right_jian_icon"];
+            [industryView addSubview:imageview1];
+
         }
         else
         {
             [self getLocationData];
         }
+        temY = lineView.bottom;
     }
-    [self selectedImageData];
-    [self setProtocolData];
-    [self setSaveButtonData];
+    
+    
+    backView.height = temY;
+    setY = backView.bottom;
+    
+    
+    setY = [self selectedImageDataWithSetY:setY+20*MCscale].bottom;  //  图片
+    
+    setY =  [self setSaveButtonDataWithSetY:setY+20*MCscale].bottom; //  签名和保存按钮
+    
+    setY =  [self setProtocolDataWithSetY:setY].bottom;              //  协议
 }
 #pragma mark 选择行业
 -(void)selectedHangyeType
@@ -294,38 +344,57 @@
     }
 }
 #pragma mark 选择照片
--(void)selectedImageData
+-(UIView *)selectedImageDataWithSetY:(CGFloat )setY
 {
-    UITextField *addressTextField = [self.view viewWithTag:11006];
+//    UITextField *addressTextField = [self.view viewWithTag:11006];
+    UIView * backView = [[UIView alloc]initWithFrame:CGRectMake(0, setY, kDeviceWidth, 100)];
+    backView.backgroundColor=[UIColor whiteColor];
+    [self.view addSubview:backView];
+    
+    CGFloat temY = 20*MCscale;
+    
+    
     CGFloat imageWidth = (kDeviceWidth - 60*MCscale)/3;
     NSArray *imageArray = @[@"yingyezhizhao",@"shenfenzheng",@"yinghangka"];
     for (int i = 0; i<3; i++) {
-        UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake((imageWidth +10*MCscale)*i+20*MCscale , addressTextField.bottom +20*MCscale, imageWidth, imageWidth)];
+        UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake((imageWidth +10*MCscale)*i+20*MCscale , temY, imageWidth, imageWidth)];
         imageView .backgroundColor = [UIColor clearColor];
         imageView.image = [UIImage imageNamed:imageArray[i]];
         imageView.userInteractionEnabled = YES;
         imageView.tag = 1000+i;
-        [self.view addSubview:imageView];
+        [backView addSubview:imageView];
         
         UITapGestureRecognizer *imageTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imageTapClick:)];
         [imageView addGestureRecognizer:imageTap];
+        backView.height = imageView.bottom+20*MCscale;
     }
+    
+
+    return backView;
 }
 
 #pragma mark 开户协议
--(void)setProtocolData
+-(UIView *)setProtocolDataWithSetY:(CGFloat)setY
 {
-    UIImageView *imageView = [self.view viewWithTag:1000];
-    protocolView = [[UIView alloc]initWithFrame:CGRectMake(20*MCscale,imageView.bottom +5*MCscale, kDeviceWidth - 40*MCscale, 30*MCscale)];
+    
+    
+//    UIImageView *imageView = [self.view viewWithTag:1000];
+    UIView * backView = [[UIView alloc]initWithFrame:CGRectMake(0, setY, kDeviceWidth, 100)];
+    backView.backgroundColor=[UIColor whiteColor];
+    [self.view addSubview:backView];
+    
+    CGFloat temY = 0 ;
+    
+    protocolView = [[UIView alloc]initWithFrame:CGRectMake(20*MCscale,temY +5*MCscale, kDeviceWidth - 40*MCscale, 30*MCscale)];
     protocolView.backgroundColor = [UIColor clearColor];
-    UITapGestureRecognizer *protocoTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapClick:)];
-    [protocolView addGestureRecognizer:protocoTap];
-    [self.view addSubview:protocolView];
+//    UITapGestureRecognizer *protocoTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapClick:)];
+//    [protocolView addGestureRecognizer:protocoTap];
+    [backView addSubview:protocolView];
     
     protocolImage = [[UIImageView alloc]initWithFrame:CGRectMake(5*MCscale, 7*MCscale, 15*MCscale, 15*MCscale)];
     protocolImage.backgroundColor = [UIColor clearColor];
-    protocolImage.image = [UIImage imageNamed:@"选中"];
-    protocolImage.userInteractionEnabled = YES;
+//    protocolImage.image = [UIImage imageNamed:@"选中"];
+//    protocolImage.userInteractionEnabled = YES;
     [protocolView addSubview:protocolImage];
     
     UILabel *protocolLabel = [[UILabel alloc]initWithFrame:CGRectMake(protocolImage.right + 5*MCscale,5*MCscale,100, 20*MCscale)];
@@ -333,9 +402,9 @@
     protocolLabel.font = [UIFont systemFontOfSize:MLwordFont_7];
     [protocolView addSubview:protocolLabel];
     
-    xieyiLabel = [[UILabel alloc]initWithFrame:CGRectMake(protocolLabel.right,5*MCscale,188*MCscale, 20*MCscale)];
-    [self customLabel:xieyiLabel AndString:@"《妙店佳应用系统使用协议》"];
-    xieyiLabel.textColor = txtColors(78, 194, 151, 1);
+    xieyiLabel = [[UILabel alloc]initWithFrame:CGRectMake(protocolLabel.right,5*MCscale,89*MCscale, 20*MCscale)];
+    [self customLabel:xieyiLabel AndString:@"系统使用协议"];
+    xieyiLabel.textColor = mainColor;
     xieyiLabel.font = [UIFont systemFontOfSize:MLwordFont_7];
     xieyiLabel.userInteractionEnabled = YES;
     [protocolView addSubview:xieyiLabel];
@@ -344,40 +413,63 @@
     [xieyiLabel addGestureRecognizer:xieyiTap];
     
     UIView *xieyiView = [[UIView alloc]initWithFrame:CGRectMake(xieyiLabel.left, xieyiLabel.bottom, xieyiLabel.width, 1)];
-    xieyiView.backgroundColor = txtColors(78, 194, 151, 1);
+    xieyiView.backgroundColor = mainColor;
     [protocolView addSubview:xieyiView];
+    protocolView.width=xieyiLabel.right;
+    protocolView.centerX = backView.width/2;
+    
+    backView.height = protocolView.bottom;
+    backView.height = self.view.bottom-setY;
+    protocolView.bottom=backView.height-10*MCscale;
+    return backView;
+    
 }
 #pragma mark 乙方签名及提交按钮
--(void)setSaveButtonData
+-(UIView *)setSaveButtonDataWithSetY:(CGFloat)setY
 {
-    signView = [[UIView alloc]initWithFrame:CGRectMake(20*MCscale, protocolView.bottom, kDeviceWidth - 40*MCscale, 40*MCscale)];
-    signView.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:signView];
-    UITapGestureRecognizer *signViewTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(signViewTapClick:)];
-    [signView addGestureRecognizer:signViewTap];
+    CGFloat temY = 20*MCscale;
     
-    signLabel = [[UILabel alloc]initWithFrame:CGRectMake(5*MCscale, 5*MCscale, 100*MCscale, 30*MCscale)];
-    signLabel.textColor = redTextColor;
-    signLabel.font = [UIFont systemFontOfSize:MLwordFont_2];
-    signLabel.text = @"乙方签名:";
-    [signView addSubview:signLabel];
+    UIView * backView  = [[UIView alloc]initWithFrame:CGRectMake(0, setY, kDeviceWidth, 100)];
+    backView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:backView];
     
-    signImageView = [[UIImageView alloc]initWithFrame:CGRectMake(signLabel.right +5*MCscale,0,80*MCscale,40*MCscale)];
-    signImageView.backgroundColor = [UIColor clearColor];
-    [signView addSubview:signImageView];
+    
+    
+//    signView = [[UIView alloc]initWithFrame:CGRectMake(20*MCscale, temY, kDeviceWidth - 40*MCscale, 40*MCscale)];
+//    signView.backgroundColor = [UIColor clearColor];
+//    [backView addSubview:signView];
+//    UITapGestureRecognizer *signViewTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(signViewTapClick:)];
+//    [signView addGestureRecognizer:signViewTap];
+//    
+//    signLabel = [[UILabel alloc]initWithFrame:CGRectMake(5*MCscale, 5*MCscale, 100*MCscale, 30*MCscale)];
+//    signLabel.textColor = redTextColor;
+//    signLabel.font = [UIFont systemFontOfSize:MLwordFont_2];
+//    signLabel.text = @"乙方签名:";
+//    [signView addSubview:signLabel];
+//    
+//    signImageView = [[UIImageView alloc]initWithFrame:CGRectMake(signLabel.right +5*MCscale,0,80*MCscale,40*MCscale)];
+//    signImageView.backgroundColor = [UIColor clearColor];
+//    [signView addSubview:signImageView];
+//    temY = signView.bottom;
+    
     
 #pragma mark 提交按钮
-    submitBtn = [[UIButton alloc]initWithFrame:CGRectMake(20*MCscale,kDeviceHeight - 49*MCscale - 60*MCscale, kDeviceWidth - 40*MCscale, 40*MCscale)];
+    submitBtn = [[UIButton alloc]initWithFrame:CGRectMake(20*MCscale, temY, kDeviceWidth - 40*MCscale, 40*MCscale)];
     [submitBtn setTitle:@"创建开户" forState:UIControlStateNormal];
     [submitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     submitBtn.titleLabel.font = [UIFont boldSystemFontOfSize:MLwordFont_2];
     submitBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
     submitBtn.layer.cornerRadius = 5;
     submitBtn.layer.masksToBounds = YES;
-    submitBtn.backgroundColor = txtColors(213, 213, 213, 1);
-    submitBtn.enabled = NO;
+    submitBtn.backgroundColor = redTextColor;
     [submitBtn addTarget:self action:@selector(submitBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:submitBtn];
+    [backView addSubview:submitBtn];
+    
+    temY  = submitBtn.bottom;
+    backView.height = temY;
+    
+    
+    return backView;
 }
 -(void)initMaskView
 {
@@ -434,8 +526,8 @@
     if (index == 0) {
         NSData *imageData = UIImageJPEGRepresentation(dict[@"image"], 0.9);
         if (![dict isEqual:@{}]) {
-            submitBtn.enabled = YES;
-            submitBtn.backgroundColor = txtColors(250, 54, 71, 1);
+//            submitBtn.enabled = YES;
+//            submitBtn.backgroundColor = txtColors(250, 54, 71, 1);
             signImageView.image = [UIImage imageWithData:imageData];
             NSDictionary *dict111 = @{@"imageName":@"qianming.png",@"image":dict[@"image"]};
             [selectedImageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -463,8 +555,8 @@
         }
         else
         {
-            submitBtn.enabled = NO;
-            submitBtn.backgroundColor = txtColors(213, 213, 213, 1);
+//            submitBtn.enabled = NO;
+//            submitBtn.backgroundColor = txtColors(213, 213, 213, 1);
         }
         [UIView animateWithDuration:0.3 animations:^{
             mask.alpha = 0;
@@ -588,8 +680,8 @@
         ISImage = 0;
         
         signImageView.image = [UIImage imageNamed:@""];
-        submitBtn.enabled = NO;
-        submitBtn.backgroundColor = txtColors(213, 213, 213, 1);
+//        submitBtn.enabled = NO;
+//        submitBtn.backgroundColor = txtColors(213, 213, 213, 1);
         
         NSNotification *qingchuSign = [NSNotification notificationWithName:@"qingchuSignClick" object:nil];
         [[NSNotificationCenter defaultCenter]postNotification:qingchuSign];
@@ -610,6 +702,7 @@
     }
     else
     {
+
         [self FabuKaihuWithShenhe:@"2" AndMoney:string];
     }
     
@@ -656,14 +749,34 @@
     UITextField *storyNameTextField = [self.view viewWithTag:11000];
     UITextField *nameTextField = [self.view viewWithTag:11002];
     UITextField *phoneTextField = [self.view viewWithTag:11003];
-    UITextField *telTextField = [self.view viewWithTag:11004];
-    UITextField *addressTextField = [self.view viewWithTag:11006];
+//    UITextField *telTextField = [self.view viewWithTag:11004];
+//    UITextField *addressTextField = [self.view viewWithTag:11006];
     
-    if ([storyNameTextField.text isEqualToString:@""]||[selectedIndustrLabel.text isEqualToString:@"请选择行业类别"]||[nameTextField.text isEqualToString:@""]||[phoneTextField.text isEqualToString:@""]||[telTextField.text isEqualToString:@""]||[addressTextField.text isEqualToString:@""]||[longitudeStr isEqualToString:@""]||[latitudeStr isEqualToString:@""]){
+
+    
+    
+    
+    if ([storyNameTextField.text isEqualToString:@""]
+        ||[selectedIndustrLabel.text isEqualToString:@"请选择行业类别"]
+        ||[nameTextField.text isEqualToString:@""]
+        ||[phoneTextField.text isEqualToString:@""]
+        
+//        ||[telTextField.text isEqualToString:@""]
+//        ||[addressTextField.text isEqualToString:@""]
+//        ||[longitudeStr isEqualToString:@""]
+//        ||[latitudeStr isEqualToString:@""]
+        ){
         [self promptMessageWithString:@"请完善信息后重试"];
     }
     else
     {
+        
+        NSDictionary * imageDic = selectedImageArray[2];
+        UIImage * image  = imageDic[@"image"];
+        if (!image || ![image isKindOfClass:[UIImage class]]) {
+            [MBProgressHUD promptWithString:@"请上传资质证书"];
+            return;
+        }
 
         if([phoneTextField.text isValidateMobile]){
             NSMutableDictionary *pram =[NSMutableDictionary dictionaryWithDictionary:@{@"dianpu.yidongtel":phoneTextField.text}];
@@ -675,7 +788,23 @@
                 else
                 {
                     [MBProgressHUD start];
-                    NSMutableDictionary *pram =[NSMutableDictionary dictionaryWithDictionary:@{@"dianpu.dianpuname":storyNameTextField.text,@"dianpu.suozaihangyi":hangyeID,@"dianpu.dianpuleixing":[NSString stringWithFormat:@"%d",isMap],@"dianpu.x":longitudeStr,@"dianpu.y":latitudeStr,@"dianpu.lianxiren":nameTextField.text,@"dianpu.yidongtel":phoneTextField.text,@"dianpu.kefurexian":telTextField.text,@"dianpu.dingweidizhi":addressTextField.text,@"dianpu.yingyezhizhao":yingyezhizhao,@"dianpu.suiwudengjizhen":suiwudengjizhen,@"dianpu.jigoudaima":jigoudaima,@"dianpu.shenhe":shenhe,@"zhiyuanid":user_id,@"money":money,@"dianpu.shifoukaitonghoutai":city}];
+                    NSMutableDictionary *pram =[NSMutableDictionary dictionaryWithDictionary:@{@"dianpu.dianpuname":storyNameTextField.text,
+                                                   @"dianpu.suozaihangyi":hangyeID,
+//                                                   @"dianpu.dianpuleixing":[NSString stringWithFormat:@"%d",isMap],
+//                                                   @"dianpu.x":longitudeStr,
+//                                                   @"dianpu.y":latitudeStr,
+                                                   @"dianpu.lianxiren":nameTextField.text,
+                                                   @"dianpu.yidongtel":phoneTextField.text,
+//                                                   @"dianpu.kefurexian":telTextField.text,
+//                                                   @"dianpu.dingweidizhi":addressTextField.text,
+                                                   @"dianpu.yingyezhizhao":yingyezhizhao,
+                                                   @"dianpu.suiwudengjizhen":suiwudengjizhen,
+                                                   @"dianpu.jigoudaima":jigoudaima,
+                                                   @"dianpu.shenhe":shenhe,
+                                                   @"zhiyuanid":user_id,
+                                                   @"money":money,
+//                                                   @"dianpu.shifoukaitonghoutai":city
+                                                 }];
                     [HTTPTool  postWithUrl:@"kaihu.action" params:pram success:^(id json) {
                         [MBProgressHUD stop];
                         NSLog(@"开户%@",json);
@@ -723,12 +852,20 @@
 #pragma mark 修改开户
 -(void)ModifyKaihuWithShenhe:(NSString *)shenhe AndMoney:(NSString *)money
 {
-    UITextField *storyNameTextField = [self.view viewWithTag:11000];
+    UITextField *storyNameTextField = [self.view viewWithTag:11000];// 
     UITextField *nameTextField = [self.view viewWithTag:11002];
     UITextField *phoneTextField = [self.view viewWithTag:11003];
-    UITextField *telTextField = [self.view viewWithTag:11004];
-    UITextField *addressTextField = [self.view viewWithTag:11006];
-    if ([storyNameTextField.text isEqualToString:@""]||[selectedIndustrLabel.text isEqualToString:@"请选择行业类别"]||[nameTextField.text isEqualToString:@""]||[phoneTextField.text isEqualToString:@""]||[telTextField.text isEqualToString:@""]||[addressTextField.text isEqualToString:@""]||[longitudeStr isEqualToString:@""]||[latitudeStr isEqualToString:@""]){
+//    UITextField *telTextField = [self.view viewWithTag:11004];
+//    UITextField *addressTextField = [self.view viewWithTag:11006];
+    if ([storyNameTextField.text isEqualToString:@""]
+        ||[selectedIndustrLabel.text isEqualToString:@"请选择行业类别"]
+        ||[nameTextField.text isEqualToString:@""]
+        ||[phoneTextField.text isEqualToString:@""]
+//        ||[telTextField.text isEqualToString:@""]
+//        ||[addressTextField.text isEqualToString:@""]
+//        ||[longitudeStr isEqualToString:@""]
+//        ||[latitudeStr isEqualToString:@""]
+        ){
         [self promptMessageWithString:@"请完善信息后重试"];
     }
     else
@@ -746,7 +883,26 @@
                 {
                     [MBProgressHUD start];
 
-                    NSMutableDictionary *pram =[NSMutableDictionary dictionaryWithDictionary:@{@"dianpu.id":dianpuID,@"dianpu.dianpuname":storyNameTextField.text,@"dianpu.suozaihangyi":hangyeID,@"dianpu.dianpuleixing":[NSString stringWithFormat:@"%d",isMap],@"dianpu.x":latitudeStr,@"dianpu.y":longitudeStr,@"dianpu.lianxiren":nameTextField.text,@"dianpu.yidongtel":phoneTextField.text,@"dianpu.kefurexian":telTextField.text,@"dianpu.dingweidizhi":addressTextField.text,@"dianpu.yingyezhizhao":yingyezhizhao,@"dianpu.suiwudengjizhen":suiwudengjizhen,@"dianpu.jigoudaima":jigoudaima,@"dianpu.shenhe":shenhe,@"zhiyuanid":user_id,@"money":money}];
+                    NSMutableDictionary *pram =[NSMutableDictionary dictionaryWithDictionary:
+                                               @{
+                                                 @"dianpu.id":dianpuID,
+                                                 @"dianpu.dianpuname":storyNameTextField.text,
+                                                 @"dianpu.suozaihangyi":hangyeID,
+//                                                 @"dianpu.dianpuleixing":[NSString stringWithFormat:@"%d",isMap],
+//                                                 @"dianpu.x":latitudeStr,
+//                                                 @"dianpu.y":longitudeStr,
+                                                 @"dianpu.lianxiren":nameTextField.text,
+                                                 @"dianpu.yidongtel":phoneTextField.text,
+//                                                 @"dianpu.kefurexian":telTextField.text,
+//                                                 @"dianpu.dingweidizhi":addressTextField.text,
+                                                 @"dianpu.yingyezhizhao":yingyezhizhao,
+                                                 @"dianpu.suiwudengjizhen":suiwudengjizhen,
+                                                 @"dianpu.jigoudaima":jigoudaima,
+                                                 @"dianpu.shenhe":shenhe,
+                                                 @"zhiyuanid":user_id,
+                                                 @"money":money
+                                                 }
+                                                ];
                     
                     [HTTPTool postWithUrl:@"updateKaihuCaogao.action" params:pram success:^(id json) {
                         [MBProgressHUD stop];
@@ -822,8 +978,8 @@
     longitudeStr = @"";
     city = @"";
     signImageView.image = [UIImage imageNamed:@""];
-    submitBtn.enabled = NO;
-    submitBtn.backgroundColor = txtColors(213, 213, 213, 1);
+//    submitBtn.enabled = NO;
+//    submitBtn.backgroundColor = txtColors(213, 213, 213, 1);
     
     NSArray *imageArray = @[@"yingyezhizhao",@"shenfenzheng",@"yinghangka"];
     for (int i = 0; i<imageArray.count; i++) {
@@ -882,11 +1038,12 @@
         [passPopView removeFromSuperview];
     }];
     
-    if (isModify) {
+    if (isModify) {//  提取出来的 数据
         [self ModifyKaihuWithShenhe:@"0" AndMoney:kaihufei];
     }
     else
-    {
+    {             //   填写的数据
+        set_User_Kaihufei(@"1365");
         [self FabuKaihuWithShenhe:@"0" AndMoney:[NSString stringWithFormat:@"%@",user_kaihufei]];
     }
 }
@@ -1038,7 +1195,7 @@
         {
             agr.pageUrl = [NSString stringWithFormat:@"%@shiyongxieyi.jsp",HTTPWeb];
         }
-        agr.titStr = @"妙店佳应用系统使用协议";
+        agr.titStr = @"系统使用协议";
         agr.hidesBottomBarWhenPushed = YES;
         UIBarButtonItem *bar=[[UIBarButtonItem alloc]init];
         bar.title=@"";

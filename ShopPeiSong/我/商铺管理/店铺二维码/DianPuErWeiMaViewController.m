@@ -50,16 +50,17 @@
     NSString * dpname = [NSString stringWithFormat:@"%@",[_dataDic valueForKey:@"dianpuname"]];
     dpname=[dpname isEmptyString]?@"":dpname;
     
-    [imgView sd_setImageWithURL:[NSURL URLWithString:erweimaSt] placeholderImage:[UIImage imageNamed:@"yonghutouxiang"] options:SDWebImageRefreshCached];
+    imgView.image=[UIImage imageWithUrl:erweimaSt placeholderImageName:@"商铺_店铺二维码"];
+    
     titleLabel.text = dpname;
     
-    
     if ([erweimaSt isEmptyString] || [erweimaSt isEqualToString:@"0"]) {
-        saveBtn.userInteractionEnabled=NO;
+        
+//        saveBtn.userInteractionEnabled=NO;
         saveBtn.selected=YES;
         
     }else{
-        saveBtn.userInteractionEnabled=YES;
+//        saveBtn.userInteractionEnabled=YES;
         saveBtn.selected=NO;
     }
 
@@ -84,12 +85,11 @@
     tipLabel.text=@"店铺独享二维码";
     tipLabel.tag=101;
     
-    UILabel * titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(img.left, setY+10, img.width, 25)];
+    UILabel * titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20*MCscale, setY+10, kDeviceWidth-40*MCscale, 25)];
     titleLabel.font=[UIFont systemFontOfSize:MLwordFont_2];
     titleLabel.textAlignment=NSTextAlignmentCenter;
     titleLabel.textColor=redTextColor;
     [self.view addSubview:titleLabel];
-    titleLabel.text=@"东北麻辣烫";
     setY =titleLabel.bottom;
     titleLabel.tag=102;
     
@@ -149,15 +149,18 @@
 #pragma mark -- btnClick
 -(void)saveBtnClick:(UIButton *)sender{
     if (sender.selected) {
+        [MBProgressHUD promptWithString:@"暂无店铺二维码,请完善商铺信息"];
         return;
     }
     
     UIImageView * imgView = [self.view viewWithTag:100];
     UIImageWriteToSavedPhotosAlbum(imgView.image, self, nil, nil);
     
-    UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"" message:@"二维码已保存至本地!" delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil];
+    UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"" message:@"店铺二维码已保存至本地相册!" delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil];
     [alert show];
+
 }
+
 /*
 #pragma mark - Navigation
 

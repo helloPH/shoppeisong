@@ -18,7 +18,7 @@
     return self;
 }
 -(void)newView{
-    
+
     
     _leftImg = [[UIImageView alloc]initWithFrame:CGRectZero];
     [self.contentView addSubview:_leftImg];

@@ -114,7 +114,7 @@
 }
 -(void)setNavigationItem
 {
-    [self.navigationItem setTitle:@"安全设置"];
+    [self.navigationItem setTitle:@"设置"];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:MLwordFont_2],NSFontAttributeName, nil]];
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:self.leftButton];
     self.navigationItem.leftBarButtonItem = leftItem;

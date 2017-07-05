@@ -339,7 +339,7 @@
     
     
     NSString * shouhuodizhiSt = [NSString stringWithFormat:@"%@",self.DdxqDict[@"shouhuodizhi"]];
-    NSDictionary *dict3 = @{@"key":@"收货地址:",@"value":shouhuodizhiSt};
+    NSDictionary *dict3 = @{@"key":@"地点:",@"value":shouhuodizhiSt};
     
     NSString * cretdateSt = [NSString stringWithFormat:@"%@",self.DdxqDict[@"cretdate"]];
     NSDictionary *dict4 = @{@"key":@"下单时间:",@"value":cretdateSt};
@@ -470,7 +470,7 @@
     
     
     NSString * shouhuodizhiSt = [NSString stringWithFormat:@"%@",self.DdxqDict[@"shouhuodizhi"]];
-    NSDictionary *dict3 = @{@"key":@"收货地址:",@"value":shouhuodizhiSt};
+    NSDictionary *dict3 = @{@"key":@"地点:",@"value":shouhuodizhiSt};
     
     NSString * cretdateSt = [NSString stringWithFormat:@"%@",self.DdxqDict[@"cretdate"]];
     NSDictionary *dict4 = @{@"key":@"下单时间:",@"value":cretdateSt};

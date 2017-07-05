@@ -166,7 +166,7 @@
             
         }else{
             set_PushTimeInter(0);
-            [((AppDelegate*)([UIApplication sharedApplication].delegate)) endBgTask];
+//            [((AppDelegate*)([UIApplication sharedApplication].delegate)) endBgTask];
         }
     }
     if (_indexPath.row==4) {

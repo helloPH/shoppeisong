@@ -68,7 +68,7 @@
     
 
      NSArray *   titleArray = @[@"店铺名",@"行业",@"法人/联系人",@"联系/注册手机号"];
-     NSArray *   placeHoldArray = @[@"店铺名",@"行业",@"店主/联系人",@"绑定/注册手机号"];
+     NSArray *   placeHoldArray = @[@"请输入店铺名",@"请选择行业",@"请输入店主/联系人",@"请输入绑定/注册手机号"];
 
 
     for (int i = 0; i<titleArray.count; i++) {
@@ -383,6 +383,8 @@
     /**
      *  登录功能暂未实现   用以下功能代替
      */
+    
+
     if (self.controller.successBlock) {
         self.controller.successBlock(YES);
     }

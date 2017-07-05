@@ -32,6 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
     __weak typeof (self) weakSelf = self;
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
@@ -44,8 +45,6 @@
     
     NSString *imageStr = [NSString stringWithFormat:@"%@images/xitong/kaihu.png",HTTPHEADER];
     
-
-    
     self.yaoqingImageView.image=[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageStr]]];
     
     [self.view addSubview:self.invitationBtn];
@@ -57,8 +56,6 @@
         _yaoqingImageView = [BaseCostomer imageViewWithFrame:CGRectMake(0, 0 , kDeviceWidth, kDeviceHeight  - 50*MCscale) backGroundColor:[UIColor clearColor] image:@""];
         [self.view addSubview:_yaoqingImageView];
         [self.view bringSubviewToFront:_navi];
-        
-        
     }
     return _yaoqingImageView;
 }
@@ -88,16 +85,13 @@
     [_navi.leftBtn setBackgroundImage:[UIImage imageNamed:@"返回按钮"] forState:UIControlStateNormal];
     [self.view addSubview:_navi];
     
-    __weak InvitationViewController * weakSelf = self;
+    __block typeof(self)  weakSelf = self;
     _navi.block=^(NSInteger index){
         if (index==0) {
             [weakSelf.navigationController popViewControllerAnimated:YES];
         }
     };
-//    [self.navigationItem setTitle:@"邀请领现金"];
-//    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:MLwordFont_2],NSFontAttributeName, nil]];
-//    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:self.leftButton];
-//    self.navigationItem.leftBarButtonItem = leftItem;
+
 }
 
 -(void)invitationBtnClick

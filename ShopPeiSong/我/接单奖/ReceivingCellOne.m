@@ -108,13 +108,13 @@
         self.pingjiaLabel.backgroundColor = redTextColor;
         self.pingjiaLabel.textColor  = [UIColor whiteColor];
         
-        if ([user_show integerValue] == 1) {
-            self.infoLabel.text = [NSString stringWithFormat:@"评价:  %@",model.info];
-        }
-        else if ([user_show integerValue] ==2)
-        {
-            self.infoLabel.text = [NSString stringWithFormat:@"奖励:  %@",model.info];
-        }
+//        if ([user_show integerValue] == 1) {
+//            self.infoLabel.text = [NSString stringWithFormat:@"评价:  %@",model.info];
+//        }
+//        else if ([user_show integerValue] ==2)
+//        {
+            self.infoLabel.text = [NSString stringWithFormat:@"%@",model.info];
+//        }
     }
     self.pingjiaLabel.text = [NSString stringWithFormat:@"%@",self.statesArray[[model.status integerValue]-4]];
 }

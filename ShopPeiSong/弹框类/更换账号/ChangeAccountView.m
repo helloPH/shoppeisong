@@ -48,12 +48,10 @@
     //    self.clipsToBounds=YES;
     self.center=CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/2);
     [_backView addSubview:self];
- 
 
     
     NSMutableArray * accounts =   local_Accounts;
     
-
     CGFloat setY = 20;
     
     UILabel * title = [[UILabel alloc]initWithFrame:CGRectMake(0, setY, self.width, 30)];
@@ -64,12 +62,7 @@
     [self addSubview:title];
     setY = title.bottom;
     
-    
-    
-    
-    
-    
-    
+
     UIImageView * line = [[UIImageView alloc]initWithFrame:CGRectMake(0, setY, self.width, 1)];
     line.backgroundColor=lineColor;
     [self addSubview:line];
@@ -94,8 +87,6 @@
 }
 -(void)appear{
     [[UIApplication sharedApplication].delegate.window addSubview:_backView];
-    //    [[self getCurrentVC].view addSubview:_backView];
-    //    [[UIViewController presentingVC].view addSubview:_backView];
     _backView.alpha=0;
     [UIView animateWithDuration:0.3 animations:^{
         _backView.alpha=0.95;

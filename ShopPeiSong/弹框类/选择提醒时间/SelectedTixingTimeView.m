@@ -156,6 +156,10 @@
             break;
     }
     set_PushTimeInter(timeInter);
+//    if (timeInter==120) {
+//        set_PushTimeInter(5);
+//    }
+    
     NSLog(@"%ld",(long)pushTimeInter);
     [self disAppear];
     if (_block) {

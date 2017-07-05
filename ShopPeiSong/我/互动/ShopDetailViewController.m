@@ -134,7 +134,8 @@
 {
 
     
-    shopDetailTabel = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, kDeviceWidth, kDeviceHeight-64) style:UITableViewStyleGrouped];
+    shopDetailTabel = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, kDeviceWidth, kDeviceHeight-64) style:UITableViewStylePlain];
+
     shopDetailTabel.delegate = self;
     shopDetailTabel.dataSource = self;
     shopDetailTabel.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -215,10 +216,8 @@
     
     
     UIImageView * backView = [[UIImageView alloc]initWithFrame:shopDetailTabel.backgroundView.frame];
-    backView.image=[UIImage imageNamed:@""];
+    backView.image=nil;
     shopDetailTabel.backgroundView=backView;
-    
-    
     
     [HTTPTool getWithBaseUrl:@"http://www.shp360.com/MshcShop/" url:@"findbyyonghupingjia.action" params:pram success:^(id json) {
         [mbHud hide:YES];
@@ -226,11 +225,10 @@
         
         if (isRefresh) {
             [self endRefresh:loadType];
-               backView.image=[UIImage imageNamed:@"互动为空"];
         }
         if (lastPage == pageNum) {
             [evaluateDataAry removeAllObjects];
-               backView.image=[UIImage imageNamed:@"互动为空"];
+            
         }
         lastPage = pageNum;
         if ([[json valueForKey:@"massages"]integerValue] !=0) {
@@ -240,6 +238,8 @@
                 [evaluateModel setValuesForKeysWithDictionary:dict];
                 [evaluateDataAry addObject:evaluateModel];
             }
+        }else{
+            backView.image=[UIImage imageNamed:@"互动为空"];
         }
         [shopDetailTabel reloadData];
 
@@ -325,7 +325,7 @@
         if (evaluateDataAry.count!=0) {
              return evaluateDataAry.count+1;
         }else{
-            return evaluateDataAry.count;
+            return 0;
         }
        
     }

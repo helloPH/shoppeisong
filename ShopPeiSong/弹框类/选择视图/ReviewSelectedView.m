@@ -93,12 +93,12 @@
 -(void)reloadDataWithViewTag:(SeleType)index
 {
     viewTag = index;
-    if (index == 1) [self getShopMessageData];
-    else if (index == 2)  [self getshangpinFenleiData];
-    else if (index == 3)  [self getAddShangpinFenleiData];
-    else if (index == 4)  [self getAddShangpinBiaoqianData];
-    else if (index == 6)  [self getNOshenheShopMessageData];
-    else if (index == 7)  [self getHangYeLeiBieData];
+    if (index == 1) [self getShopMessageData];               // 商品
+    else if (index == 2)  [self getshangpinFenleiData];      // 商品分类
+    else if (index == 3)  [self getAddShangpinFenleiData];   //
+    else if (index == 4)  [self getAddShangpinBiaoqianData]; // 商品标签
+    else if (index == 6)  [self getNOshenheShopMessageData]; // 没有审核的商品
+    else if (index == 7)  [self getHangYeLeiBieData];        // 行业类别
     [self.mainTableview reloadData];
 }
 
@@ -179,7 +179,7 @@
         }
         else if ([[json valueForKey:@"message"]integerValue]== 2)
         {
-            [self promptMessageWithString:@"参数不能为空"];
+//            [self promptMessageWithString:@"参数不能为空"];
         }
         else
         {
@@ -349,10 +349,6 @@
 //    [cell addGestureRecognizer:tap];
 
     
-    
-    
-    
-    
     if (viewTag == 1)
     {
         [cell reloadDataForShopWithIndexPath:indexPath AndArray:self.dataArray];
@@ -378,7 +374,13 @@
 }
 -(void)tap:(UITapGestureRecognizer *)tap{
     CGPoint p = [tap locationInView:tap.view];
+   
+    
     NSIndexPath * indexPath = [self.mainTableview indexPathForRowAtPoint:p];
+    if (!indexPath) {
+        return;
+    }
+    
     
     __block ReviewSelectedView * weakSelf = self;
     if (_block) {
@@ -442,7 +444,11 @@
             
             CGPoint p = [longPress locationInView:longPress.view];
             NSIndexPath * indexPath = [self.mainTableview indexPathForRowAtPoint:p];
-
+            if (!indexPath) {
+                return;
+            }
+            
+            
             NSMutableDictionary * dic = [NSMutableDictionary dictionaryWithDictionary:self.dataArray[indexPath.row]];
             
             [dic setValue:@"1" forKey:@"isLongPress"];

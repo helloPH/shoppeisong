@@ -224,6 +224,22 @@
         failure(error);
     }];
 }
+/*
+ * 订单提醒后
+ */
++(void)upDateOrderTiXingWithSuccess:(successBlock)success failure:(failureBlock)failure{
+    NSString * url = @"getKQNewDingdan.action";
+    NSDictionary * dic = @{@"yuangong.id":user_Id};
+    [MBProgressHUD start];
+    [HTTPTool postWithUrl:url params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json){
+        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD stop];
+        [MBProgressHUD promptWithString:@"网络请求失败"];
+        failure(error);
+    }];
+}
 #pragma mark --- 个人中心
 /*
  *判断手机号是否开户
@@ -384,7 +400,7 @@
  */
 +(void)addFeiLeiWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure{
     [MBProgressHUD start];
-    [HTTPTool  getWithBaseUrl:HTTPImage url:@"Addleibies.action" params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json) {
+    [HTTPTool  postWithBaseUrl:HTTPImage url:@"Addleibies.action" params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json) {
         [MBProgressHUD stop];
         success(json);
     } failure:^(NSError *error) {
@@ -399,7 +415,7 @@
  */
 +(void)alterFenLeiWithDic:(NSDictionary *)dic Success:(successBlock)success failure:(failureBlock)failure{
     [MBProgressHUD start];
-    [HTTPTool  getWithBaseUrl:HTTPImage url:@"UpdateLeibies.action" params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json) {
+    [HTTPTool  postWithBaseUrl:HTTPImage url:@"UpdateLeibies.action" params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json) {
         [MBProgressHUD stop];
         success(json);
     } failure:^(NSError *error) {
@@ -607,7 +623,7 @@
         NSString * message = [NSString stringWithFormat:@"%@",[json valueForKey:@"message"]];
         switch ([message integerValue]) {
             case 0:
-                [MBProgressHUD promptWithString:@"无此员工信息"];
+                [MBProgressHUD promptWithString:@"手机号未注册"];
                 break;
             case 1://登录成功
             {

@@ -256,7 +256,7 @@
         NSLog(@"商品信息 %@",json);
         if (index == 1) {
             if ([[json valueForKey:@"message"]integerValue]==0) {
-                [self promptMessageWithString:@"无可显示商品"];
+//                [self promptMessageWithString:@"无可显示商品"];
             }
             else
             {
@@ -432,7 +432,8 @@
         }
         else
         {
-            [self promptMessageWithString:@"请输入商品名称"];
+              [self getShangpinMessagesData];
+//            [self promptMessageWithString:@"请输入商品名称"];
         }
         [self.nameTextField resignFirstResponder];
     }
@@ -462,11 +463,6 @@
         
     };
 
-    
-    
-    
-    
-   
 }
 #pragma mark UITextDelegate
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -477,7 +473,8 @@
     }
     else
     {
-        [self promptMessageWithString:@"请输入商品名称"];
+          [self getShangpinMessagesData];
+//        [self promptMessageWithString:@"请输入商品名称"];
     }
     [self.nameTextField resignFirstResponder];
 

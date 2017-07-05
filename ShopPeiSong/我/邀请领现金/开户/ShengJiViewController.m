@@ -270,7 +270,7 @@
 //    [self reshDing];
 }
 -(void)newView{
-    self.view.backgroundColor=[UIColor colorWithRed:224/256.0 green:224/256.0 blue:224/256.0 alpha:1];
+    self.view.backgroundColor=backColor;
     _mainScrollView=[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kDeviceWidth, self.view.height)];
     [self.view addSubview:_mainScrollView];
     
@@ -288,44 +288,45 @@
         cellView.tag=100+i;
         cellView.titleTF.text=titleArray[i];
         cellView.contentLabel.text=placeHoldArray[i];
-        
+        cellView.contentLabel.width=kDeviceWidth/2;
+        cellView.contentLabel.right=cellView.rightImg.left;
         
         
 
         
-        if (i == 0  || i==1 ||i == 2 ||i == 3 ||i == 4||i == 6) {
-
-            
-            if (i == 1)
-            {
-
-                
-                
-            }
-            if (i == 3 || i== 4) {
-//                textField.keyboardType = UIKeyboardTypePhonePad;
-            }
-            
-            
-//            textField.tag = 11000+i;
-        }
-        else
-        {
-            for (int j =0  ; j < 2; j ++) {
-
-                
-                if (j==0) {
-//                    locBtn.width=80;
-//                    locBtn.left=label.right;
-                }else{
-//                    locBtn.width=120;
-//                    locBtn.right=_mainScrollView.width-20*MCscale;
-                }
-            }
-            
-            
-            //            [self getLocationData];
-        }
+//        if (i == 0  || i==1 ||i == 2 ||i == 3 ||i == 4||i == 6) {
+//
+//            
+//            if (i == 1)
+//            {
+//
+//                
+//                
+//            }
+//            if (i == 3 || i== 4) {
+////                textField.keyboardType = UIKeyboardTypePhonePad;
+//            }
+//            
+//            
+////            textField.tag = 11000+i;
+//        }
+//        else
+//        {
+//            for (int j =0  ; j < 2; j ++) {
+//
+//                
+//                if (j==0) {
+////                    locBtn.width=80;
+////                    locBtn.left=label.right;
+//                }else{
+////                    locBtn.width=120;
+////                    locBtn.right=_mainScrollView.width-20*MCscale;
+//                }
+//            }
+//            
+//            
+//            //            [self getLocationData];
+//        }
         temY=cellView.bottom;
     }
     
@@ -607,9 +608,18 @@
         CGFloat btnY =   i / 2 * (btnH+10*MCscale) + 10*MCscale;
         
         
+        
+        
         UIButton * btn1 = [[UIButton alloc]initWithFrame:CGRectMake(btnX, btnY, btnW, btnH)];
         btn1.tag=2510+i;
         [backView addSubview:btn1];
+        if (i ==  faTitleArr.count-2 ) {
+            UIView * line = [[UIView alloc]initWithFrame:CGRectMake(70*MCscale, btn1.top-5*MCscale, kDeviceWidth-140*MCscale, 1)];
+            line.backgroundColor=lineColor;
+            [backView addSubview:line];
+            
+        }
+        
         [btn1 addTarget:self action:@selector(faPiaoOption:) forControlEvents:UIControlEventTouchUpInside];
         [btn1 setImage:[UIImage imageNamed:@"选择"] forState:UIControlStateNormal];
         [btn1 setImage:[UIImage imageNamed:@"选中"] forState:UIControlStateSelected];

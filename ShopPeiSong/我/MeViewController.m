@@ -543,8 +543,8 @@
                         return ;
                     }
                     NSDictionary * pram = @{@"dianpu.id":user_dianpuID,
-                                            @"dianpu.x":[NSString stringWithFormat:@"%f",location.location.coordinate.latitude],
-                                            @"dianpu.y":[NSString stringWithFormat:@"%f",location.location.coordinate.longitude],
+                                            @"dianpu.x":[NSString stringWithFormat:@"%f",location.location.coordinate.longitude],
+                                            @"dianpu.y":[NSString stringWithFormat:@"%f",location.location.coordinate.latitude],
                                             @"code":result.addressDetail.city};
                     [Request updateLocationWithDic:pram Success:^(id json) {
                         if ([[NSString stringWithFormat:@"%@",[json valueForKey:@"message"]] isEqualToString:@"1"]) {

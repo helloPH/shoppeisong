@@ -40,5 +40,9 @@
  *获取当前屏幕截图
  */
 +(UIImage *) getScreenShot;
+/*
+ *设置图片和默认图片
+ */
++(UIImage *) imageWithUrl:(id)url placeholderImageName:(NSString *)imageName;
 
 @end

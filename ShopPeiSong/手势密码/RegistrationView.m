@@ -10,7 +10,7 @@
 #import "NSString+MD5Addition.h"
 #import "FenXiangWithLoginAfter.h"
 #import "ShouShiMiMaView.h"
-#import "findPasViewController.h"
+//#import "findPasViewController.h"
 #import "PHAlertView.h"
 #import "PHMap.h"
 #import "PHButton.h"
@@ -64,8 +64,7 @@
         _naviView.backgroundColor=naviBarTintColor;
         [self addSubview:_naviView];
         
-        
-        
+
         UILabel * label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 0, 0)];
         label.text=@"登录";
         label.font=[UIFont systemFontOfSize:MLwordFont_3];
@@ -90,6 +89,8 @@
 -(UIImageView *)headImg{
     if (!_headImg) {
         _headImg = [[UIImageView alloc]init];
+        _headImg.layer.cornerRadius=8;
+        _headImg.layer.masksToBounds=YES;
         _headImg.hidden=YES;
         [self addSubview:_headImg];
     }
@@ -378,7 +379,7 @@
             
             
             if ([[json valueForKey:@"message"]integerValue] == 0) {
-                [self promptMessageWithString:@"无此员工信息"];
+                [self promptMessageWithString:@"手机号未注册"];
             }
             else if ([[json valueForKey:@"message"]integerValue] == 1)
             {
@@ -420,8 +421,10 @@
                 self.nameLabel.text =[NSString stringWithFormat:@"%@     %@",[json valueForKey:@"bumen"],[json valueForKey:@"name"]];
                 
                 NSString * bumen = [NSString stringWithFormat:@"%@",[json valueForKey:@"bumen"]];
+                NSString * banben = [NSString stringWithFormat:@"%@",[json valueForKey:@"banben"]];
                 
                 
+                set_dianpu_banben(banben);
                 set_DianPuName(self.dianpuNameLabel.text);
                 [[NSUserDefaults standardUserDefaults] setValue:[json valueForKey:@"name"] forKey:@"name"];
                 [[NSUserDefaults standardUserDefaults] setValue:[json valueForKey:@"zhiwu"] forKey:@"zhiwu"];
@@ -498,12 +501,11 @@
                 self.controller.willUpdateLocation=NO;
             }
             
-           
-            
+    
             PHAlertView * alert = [[PHAlertView alloc]initWithTitle:nil message:[NSString stringWithFormat:@"登录密码设置，商铺管理后台登录密码为“%@”。",user_loginPass] delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil];
             [alert show];
             alert.block=^(NSInteger index){
-                
+        
                 [self.controller  surePersonState];
                 [self mianMiLogin];
                 
@@ -555,12 +557,18 @@
             NSString * shouyinTaiQX = [NSString stringWithFormat:@"%@",[json valueForKey:@"shouyintai"]];
        
             set_User_ShouYingTaiQX([shouyinTaiQX isEqualToString:@"1"]);
-            NSLog(@"收银台   %@",user_ShouYingTaiQX?@"YES":@"NO");
+//            NSLog(@"收银台   %@",user_ShouYingTaiQX?@"YES":@"NO");
             
             
             NSString * shareContent = [NSString stringWithFormat:@"%@",[json valueForKey:@"kaihufenxiang"]];
+            NSString * shareImage   = [NSString stringWithFormat:@"%@",[json valueForKey:@"images"]];
+            NSString * shareCanShu  = [NSString stringWithFormat:@"%@",[json valueForKey:@"canshu"]];
             
-            set_LoginShareContent(shareContent);
+            NSDictionary * shareDic = @{@"kaihufenxiang":shareContent,
+                                        @"images":shareImage,
+                                        @"canshu":shareCanShu};
+            
+            set_LoginShareContent(shareDic);
             set_LoginPass(self.passWordTextfield.text);
             
             
@@ -643,7 +651,7 @@
     [HTTPTool getWithUrl:@"getYuangongInfo.action" params:pram success:^(id json) {
         NSLog(@"json%@",json);
         if ([[json valueForKey:@"message"]integerValue] == 0) {
-            [self promptMessageWithString:@"无此员工信息"];
+            [self promptMessageWithString:@"手机号未注册"];
         }
         else if ([[json valueForKey:@"message"]integerValue] == 1)
         {
@@ -710,14 +718,14 @@
     }];
     UIAlertAction * action2 = [UIAlertAction actionWithTitle:@"注册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
-        
         OpenAccViewController * openAcc = [OpenAccViewController new];
         UINavigationController * openNavi = [[UINavigationController alloc]initWithRootViewController:openAcc];
         [openNavi.navigationBar setBarTintColor:naviBarTintColor];
         [self.controller presentViewController:openNavi animated:YES completion:^{
         }];
         openAcc.successBlock=^(BOOL isLoginSuc){///开户成功 的 回调
-        
+            
+            
         };
 
         

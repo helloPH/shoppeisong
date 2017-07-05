@@ -193,7 +193,7 @@
                 [self promptMessageWithString:@"参数不能为空"];
             }
             else if ([message isEqualToString:@"4"]){
-                [self promptMessageWithString:@"无此员工信息"];
+                [self promptMessageWithString:@"手机号未注册"];
             }
         } failure:^(NSError *error) {
             [self promptMessageWithString:@"网络连接错误"];

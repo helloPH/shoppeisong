@@ -8,7 +8,7 @@
 
 #import "DianPuXinXiViewController.h"
 #import "AFHTTPRequestOperationManager.h"
-
+#import "ReplyEvaluateView.h"
 
 @interface DianPuXinXiViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (nonatomic,strong)UIScrollView * mainScrollView;
@@ -52,7 +52,8 @@
     headImg.tag=100;
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(headerImg:)];
     [headImg addGestureRecognizer:tap];
-
+    headImg.layer.cornerRadius=8;
+    headImg.layer.masksToBounds=YES;
     
     
     UILabel * titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, setY+10, _mainScrollView.width, 25)];
@@ -74,6 +75,12 @@
         cellView.titleTF.placeholder=[NSString stringWithFormat:@"%@",cellArray[i]];
          setY =cellView.bottom;
         cellView.tag=102+i;
+        
+        if (i == 1 || i == 2) {
+            cellView.titleTF.userInteractionEnabled=NO;
+            
+            [cellView addTarget:self action:@selector(gonggao:) forControlEvents:UIControlEventTouchUpInside];
+        }
     }
     
     
@@ -122,11 +129,8 @@
     NSString * gonggaoSt = [NSString stringWithFormat:@"%@",_dataDic[@"gonggao"]];
     NSString * neirongSt = [NSString stringWithFormat:@"%@",_dataDic[@"tese"]];
     
-//    headImg.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:headLink]]];
-//    if (!headImg.image) {
-//        headImg.image=[UIImage imageNamed:@"yonghutouxiang"];
-//    }
-    [headImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",headLink]] placeholderImage:[UIImage imageNamed:@"yonghutouxiang"] options:SDWebImageRefreshCached];
+    headImg.image = [UIImage imageWithUrl:headLink placeholderImageName:@"yonghutouxiang"];
+
     
     nameLabel.text=[nameSt isEmptyString]?@"":nameSt;
     phoneCell.titleTF.text=[phoneSt isEmptyString]?@"":phoneSt;
@@ -242,13 +246,36 @@
                             @"file":image};
     [Request upLoadImageWithUrl:@"fileuploadDianpuInfo.action" Dic:pram     Success:^(id json) {
         [self reshData];
-//        [self.navigationController popViewControllerAnimated:YES];
+
     } failure:^(NSError *error) {
         
     }];
     
 }
 
+-(void)gonggao:(CellView *)cellView{
+
+    ReplyEvaluateView * replay = [ReplyEvaluateView new];
+    
+    if (cellView.tag==103) {
+        replay.limit=1000;
+    }
+    
+    UIButton * btn = [replay valueForKey:@"submitBtn"];
+    [btn setTitle:@"保存" forState:UIControlStateNormal];
+    [replay setValue:btn forKey:@"submitBtn"];
+    
+    __block ReplyEvaluateView * weakReply = replay;
+    replay.content = cellView.titleTF.text;
+    [replay appear];
+    replay.block=^(NSString * string){
+        cellView.titleTF.text=string;
+        [weakReply disAppear];
+    };
+    
+    
+    
+}
 /*
 #pragma mark - Navigation
 

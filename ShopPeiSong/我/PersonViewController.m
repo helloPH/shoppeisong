@@ -14,7 +14,6 @@
 #import <ShareSDKUI/ShareSDK+SSUI.h>
 #import <sharesdkui/SSUIShareActionSheetStyle.h>
 
-
 #import "BalanceViewController.h"
 #import "ReceivingAwardViewController.h"
 #import "InvitationViewController.h"
@@ -85,12 +84,12 @@
 }
 -(void)reshCellContentArray{
     _tableContentArray = @[@[@{@"img":@"我_钱包",@"title":@"钱包",@"controller":NSStringFromClass([BalanceViewController class])},
-                             @{@"img":@"我_订单",@"title":@"订单",@"controller":@"ReceivingAwardViewController"}],
-                           @[@{@"img":@"我_邀请",@"title":@"邀请",@"controller":@"InvitationViewController"}],
+                             @{@"img":@"我_订单",@"title":@"订单",@"controller":NSStringFromClass([ReceivingAwardViewController class])}],
+                           @[@{@"img":@"我_邀请",@"title":@"邀请",@"controller":NSStringFromClass([InvitationViewController class])}],
                            
                            @[@{@"img":@"我_签到",@"title":@"签到",@"controller":@"noPush_qiandao"},
                              @{@"img":@"我_分享",@"title":@"分享",@"controller":@"noPush_fenxiang"},
-                             @{@"img":@"我_帮助",@"title":@"帮助",@"controller":@"helpCenterViewController"}]
+                             @{@"img":@"我_帮助",@"title":@"帮助",@"controller":NSStringFromClass([helpCenterViewController class])}]
                            ];
     
     NSMutableArray * sectionArr = [[NSMutableArray alloc]initWithArray:_tableContentArray];
@@ -150,6 +149,7 @@
     _mainTableView.tableHeaderView=[self tableHeaderView];
     _mainTableView.tableFooterView=[self tableFooterView];
     [_mainTableView registerClass:[PersonTableViewCell class] forCellReuseIdentifier:@"cell"];
+    _mainTableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     
     _mainTableView.delegate=self;
     _mainTableView.dataSource=self;
@@ -167,10 +167,8 @@
             [_personDic addEntriesFromDictionary:(NSDictionary *)json];
             NSString * banben = [NSString stringWithFormat:@"%@",_personDic[@"banben"]];
             set_dianpu_banben(banben);
-            
-            
+        
             [self reshView];
-            
         }
       
         
@@ -187,8 +185,10 @@
     UILabel * headerLable = [self.mainTableView.tableHeaderView viewWithTag:101];
     
     
-    [headerView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[_personDic valueForKey:@"image"]]] placeholderImage:[UIImage imageNamed:@"yonghutouxiang"] options:SDWebImageRefreshCached];
+    
+    NSString * headLink = [NSString stringWithFormat:@"%@",[_personDic valueForKey:@"image"]];
 
+    headerView.image = [UIImage imageWithUrl:headLink placeholderImageName:@"yonghutouxiang"];
     
     NSString *phoneNum = [BaseCostomer phoneNumberJiamiWithString:[NSString stringWithFormat:@"%@",[self.personDic valueForKey:@"tel"]]];
     
@@ -289,7 +289,7 @@
     
     cell.titleLabel.text=[NSString stringWithFormat:@"%@",[cellDic valueForKey:@"title"]];
     
-    cell.bottomLine.hidden=YES;
+    cell.bottomLine.hidden=indexPath.row==cellArray.count-1;
     
     NSString * classString = [NSString stringWithFormat:@"%@",cellDic[@"controller"]];
     if ([classString hasPrefix:@"noPush"] && [classString hasSuffix:@"qiandao"]) {
@@ -315,9 +315,11 @@
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    PersonTableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-//
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     NSArray * cellArray =_tableContentArray[indexPath.section];
+    
+    
     
     NSDictionary * cellDic = cellArray[indexPath.row];
     NSString * classString = [NSString stringWithFormat:@"%@",cellDic[@"controller"]];
@@ -360,8 +362,7 @@
                         PHAlertView * alert = [[PHAlertView alloc]initWithTitle:@"" message:@"店铺已经审核，店铺二维码已生成。" delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil];
                         [alert show];
                         alert.block=^(NSInteger index){
-                            
-                            
+
                             [self showShangpinFenLei];
                             
                         };
@@ -392,16 +393,18 @@
         
         
         if ([controller isKindOfClass:[ReceivingAwardViewController class]]) {
-            ((ReceivingAwardViewController *)controller).jiadanMoney=@"2";
-         
             
             NSString * jiedan = [NSString stringWithFormat:@"%@",[_personDic valueForKey:@"jiedan"]];
+            ((ReceivingAwardViewController *)controller).jiadanMoney=jiedan;
+         
             
-            
-            if ([jiedan isEqualToString:@"0"] || [jiedan isEmptyString]) {
-                [MBProgressHUD promptWithString:@"暂无数据"];
-                return;
-            }
+//            NSString * flag = [NSString stringWithFormat:@"%@",[_personDic valueForKey:@"flag"]];
+//            
+//            
+//            if ([flag isEqualToString:@"0"] || [flag isEmptyString]) {
+//                [MBProgressHUD promptWithString:@"无进入权限"];
+////                return;
+//            }
             
             
             
@@ -418,14 +421,13 @@
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    
     CGFloat offY = self.mainTableView.contentOffset.y;
- 
     if (offY<0) {
         _navi.height=64-offY;
         [self.view bringSubviewToFront:_navi];
     }else{
         [self.view sendSubviewToBack:_navi];
+        
     }
 }
 
@@ -491,7 +493,7 @@
     [shareParams SSDKSetupShareParamsByText:shareCont
                                      images:img
                                         url:[NSURL URLWithString:shareUrl]
-                                      title:@"分享标题"
+                                      title:shareCont
                                        type:SSDKContentTypeAuto];
     [ShareSDK share:SSDKPlatformSubTypeWechatTimeline parameters:shareParams onStateChanged:^(SSDKResponseState state, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error) {
         switch (state) {
@@ -537,10 +539,10 @@
 #pragma mark 上传图像
 -(void)imageTapClick:(UITapGestureRecognizer *)tap
 {
-    
     UIImagePickerController * imagePicker = [[UIImagePickerController alloc]init];
     imagePicker.delegate=self;
     imagePicker.allowsEditing=YES;
+    imagePicker.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"选择图片路径" preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *cancalAction = [UIAlertAction actionWithTitle:@"从相册选取" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -584,7 +586,4 @@
         }];
     }];
 }
-
-
-
 @end

@@ -119,7 +119,7 @@
     }
     else
     {
-        imageUrl = model.dianpulogo;
+        imageUrl =  model.dianpulogo;
     }
     [self.headImageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"yonghutouxiang"] options:SDWebImageRefreshCached];
     self.danhaoStr = model.danhao;

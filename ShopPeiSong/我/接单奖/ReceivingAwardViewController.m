@@ -50,7 +50,7 @@
 }
 -(void)setNavigationItem
 {
-    [self.navigationItem setTitle:@"接单奖励"];
+    [self.navigationItem setTitle:@"订单"];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:MLwordFont_2],NSFontAttributeName, nil]];
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:self.leftButton];
     self.navigationItem.leftBarButtonItem = leftItem;
@@ -58,13 +58,13 @@
 -(NSArray *)nameArray
 {
     if (!_nameArray) {
-        if ([user_show integerValue] == 1) {
-            _nameArray = @[@"接单金额",@"当前接单",@"未评价"];
-        }
-        else if ([user_show integerValue] == 2)
-        {
-        _nameArray = @[@"接单奖励",@"当前接单",@"未评价"];
-        }
+//        if ([user_show integerValue] == 1) {
+//            _nameArray = @[@"接单金额",@"接单",@"评价"];
+//        }
+//        else if ([user_show integerValue] == 2)
+//        {
+        _nameArray = @[@"打赏",@"接单",@"评价"];
+//        }
     }
     return _nameArray;
 }
@@ -145,8 +145,10 @@
             UILabel *jiadanjiangliLabel = [self.headView viewWithTag:1100];
             UILabel *dangqianjiadanLabel = [self.headView viewWithTag:1101];
             UILabel *weipingjiaLabel = [self.headView viewWithTag:1102];
-            jiadanjiangliLabel.text = [NSString stringWithFormat:@"%@",[json valueForKey:@"jiedan"]];
-            dangqianjiadanLabel.text = [NSString stringWithFormat:@"%@",[json valueForKey:@"dangqianjiedan"]];
+            
+            
+            jiadanjiangliLabel.text = [NSString stringWithFormat:@"%@",[json valueForKey:@"dangqianjiedan"]];
+            dangqianjiadanLabel.text = [NSString stringWithFormat:@"%@",[json valueForKey:@"jiedan"]];
             weipingjiaLabel.text = [NSString stringWithFormat:@"%@",[json valueForKey:@"weipingjia"]];
         }
         [self.mainTableView reloadData];

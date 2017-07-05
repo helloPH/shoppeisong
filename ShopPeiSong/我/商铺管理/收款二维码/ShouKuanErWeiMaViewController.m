@@ -51,19 +51,30 @@
     
     
     
-    UIImageView * zfbImg = [self.view viewWithTag:100];
-    UIImageView * wxImg = [self.view viewWithTag:101];
+    UIImageView * wxImg  = [self.view viewWithTag:100];
+    UIImageView * zfbImg = [self.view viewWithTag:101];
     
     NSString * zfbSt = [NSString stringWithFormat:@"%@",_dataDic[@"zhifubao"]];
     NSString * wxSt = [NSString stringWithFormat:@"%@",_dataDic[@"weixin"]];
     
-    [zfbImg sd_setImageWithURL:[NSURL URLWithString:zfbSt] placeholderImage:[UIImage imageNamed:@"商铺_店铺二维码"]];
+//    [zfbImg sd_setImageWithURL:[NSURL URLWithString:zfbSt] placeholderImage:[UIImage imageNamed:@"商铺_店铺二维码"]];
+    
+    
+    
 //    zfbImg.image=[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:zfbSt]]];
+//    if (!zfbImg.image) {
+//        zfbImg.image = [UIImage imageNamed:@"商铺_店铺二维码"];
+//    }
+    zfbImg.image=[UIImage imageWithUrl:zfbSt placeholderImageName:@"商铺_店铺二维码"];
     
     
-    
-    [wxImg sd_setImageWithURL:[NSURL URLWithString:wxSt] placeholderImage:[UIImage imageNamed:@"商铺_店铺二维码"]];
+//    [wxImg sd_setImageWithURL:[NSURL URLWithString:wxSt] placeholderImage:[UIImage imageNamed:@"商铺_店铺二维码"]];
 //    wxImg.image=[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:wxSt]]];
+//    if (!wxImg.image) {
+//        wxImg.image = [UIImage imageNamed:@"商铺_店铺二维码"];
+//    }
+    wxImg.image=[UIImage imageWithUrl:wxSt placeholderImageName:@"商铺_店铺二维码"];
+    
 }
 -(void)newView{
     _mainScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kDeviceWidth, kDeviceHeight)];
@@ -73,12 +84,15 @@
     
     self.navigationItem.title=@"收款二维码";
     
-    self.view.backgroundColor=[UIColor colorWithRed:224/255.0 green:224/255.0 blue:224/255.0 alpha:1];
+    self.view.backgroundColor=backColor;
     CGFloat setY = 64;
+    
+    
+    CGFloat imgH = (kDeviceHeight - 64*MCscale- (10*MCscale+30*MCscale+25*MCscale+30*MCscale)*2-65*MCscale)/2;
     for (int i =0; i < 2; i ++) {
         
         
-        UIView * backView = [[UIView alloc]initWithFrame:CGRectMake(0, setY+10, kDeviceWidth, 100)];
+        UIView * backView = [[UIView alloc]initWithFrame:CGRectMake(0, setY+10*MCscale, kDeviceWidth, 100)];
         [_mainScrollView addSubview:backView];
         backView.backgroundColor=[UIColor whiteColor];
         
@@ -87,7 +101,7 @@
         
         
         CGFloat BsetY = 0;
-        UILabel * titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, BsetY+30, backView.width, 25)];
+        UILabel * titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, BsetY+30*MCscale, backView.width, 25*MCscale)];
         [backView addSubview:titleLabel];
         titleLabel.font=[UIFont systemFontOfSize:MLwordFont_3];
         titleLabel.textAlignment=NSTextAlignmentCenter;
@@ -96,7 +110,7 @@
         BsetY =titleLabel.bottom;
         
         
-        UIImageView * img = [[UIImageView alloc]initWithFrame:CGRectMake(0, BsetY, backView.width*0.5, backView.width*0.5)];
+        UIImageView * img = [[UIImageView alloc]initWithFrame:CGRectMake(0, BsetY, imgH, imgH)];
         img.centerX=backView.width/2;
         img.image=[UIImage imageNamed:@"yonghutouxiang"];
         [backView addSubview:img];
@@ -107,14 +121,14 @@
         [img addGestureRecognizer:tap];
         
         
-        backView.height= BsetY +30;
+        backView.height= BsetY +30*MCscale;
         setY = backView.bottom;
     }
     
     
     
     
-    UILabel * bottomLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, setY+20, kDeviceWidth, 25)];
+    UILabel * bottomLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, setY+20*MCscale, kDeviceWidth, 25*MCscale)];
     [_mainScrollView addSubview:bottomLabel];
     bottomLabel.font=[UIFont systemFontOfSize:MLwordFont_4];
     bottomLabel.textColor=textBlackColor;

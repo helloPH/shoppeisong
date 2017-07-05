@@ -8,6 +8,7 @@
 
 #import "ReplyEvaluateView.h"
 #import "Header.h"
+#import "IQKeyboardManager.h"
 
 @interface ReplyEvaluateView()<UITextViewDelegate>
 
@@ -35,12 +36,17 @@
     }
     return self;
 }
+-(NSInteger)limit{
+    if (_limit == 0) {
+        _limit = 20;
+    }
+    return _limit;
+}
 -(void)newView{
     _backView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0,[UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(disAppear)];
     [_backView addGestureRecognizer:tap];
-    
-    
+    _backView.contentSize=CGSizeMake(_backView.width, _backView.height);
     
     //    [_backView addTarget:self action:@selector(disAppear) forControlEvents:UIControlEventTouchUpInside];
     self.frame=CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width*0.8, [UIScreen mainScreen].bounds.size.width*0.6);
@@ -51,10 +57,8 @@
     self.alpha = 0.95;
     self.layer.shadowOffset = CGSizeMake(0, 0);
     //    self.clipsToBounds=YES;
-    self.center=CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/2);
+    self.center=CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/2+50*MCscale);
     [_backView addSubview:self];
-    
-    
     
     _textView = [[UITextView alloc]initWithFrame:CGRectMake(20, 10, self.width-40, 30)];
     _textView.font=[UIFont systemFontOfSize:MLwordFont_4];
@@ -62,8 +66,6 @@
     _textView.backgroundColor=lineColor;
     [self addSubview:_textView];
     _textView.delegate=self;
-    
-    
     
     _submitBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, _textView.bottom+15, 100, 30)];
     _submitBtn.centerX=self.width/2;
@@ -75,21 +77,34 @@
     [_submitBtn addTarget:self action:@selector(submitBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_submitBtn];
     
-    
-    
     self.height=_submitBtn.bottom+15;
     self.centerY=[UIScreen mainScreen].bounds.size.height/2;
-    
 }
-
--(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
-    NSString * newString = [textView.text stringByReplacingCharactersInRange:range withString:text];
-    if (newString.length>20) {
-//        [MBProgressHUD promptWithString:@"最多输入20字"];
-        [MBProgressHUD promptWithString:@"最多输入20字"];
-        return NO;
+-(void)setContent:(NSString *)content{
+    _content = content;
+    
+    _textView.text = content;
+    CGSize size=  [_textView.text boundingRectWithSize:CGSizeMake(self.width-50,1000) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:MLwordFont_4],NSFontAttributeName, nil] context:nil].size;
+    if (size.height<30) {
+        _textView.height=30;
+    }else{
+        _textView.height=size.height+10;
     }
     
+    _submitBtn.top=_textView.bottom+15;
+    self.height =_submitBtn.bottom+15;
+    
+//    self.centerY=[UIScreen mainScreen].bounds.size.height/2-50*MCscale;
+}
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    NSString * newString = [textView.text stringByReplacingCharactersInRange:range withString:text];
+    if (newString.length>self.limit) {
+        if ([text isEmptyString]) {
+            return YES;
+        }
+        [MBProgressHUD promptWithString:[NSString stringWithFormat:@"最多输入%ld字",(long)self.limit]];
+        return NO;
+    }
     
    CGSize size=  [newString boundingRectWithSize:CGSizeMake(self.width-50,1000) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:MLwordFont_4],NSFontAttributeName, nil] context:nil].size;
     if (size.height<30) {
@@ -106,17 +121,13 @@
 }
 -(void)submitBtnClick:(UIButton *)sender{
     if ([_textView.text isEmptyString]) {
-        [MBProgressHUD promptWithString:@"请输入回复内容"];
+        [MBProgressHUD promptWithString:@"请输入内容"];
         return;
     }
     if (_block) {
         _block(_textView.text);
     }
-    
 }
-
-
-
 -(void)appear{
     [[UIApplication sharedApplication].delegate.window addSubview:_backView];
     //    [[self getCurrentVC].view addSubview:_backView];

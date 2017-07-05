@@ -68,6 +68,10 @@
  * 获取 商品详情
  */
 +(void)getShangPinInfoWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure;
+/*
+ * 订单提醒后
+ */
++(void)upDateOrderTiXingWithSuccess:(successBlock)success failure:(failureBlock)failure;
 
 #pragma mark --- 个人中心
 /*

@@ -151,6 +151,8 @@
 		0AB202C61E7286860020485E /* feedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB202C31E7286860020485E /* feedbackViewController.m */; };
 		0AB2EE0C1E6E40AC00BF4D84 /* OrdersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB2EE0B1E6E40AC00BF4D84 /* OrdersCell.m */; };
 		0AB2EE0F1E6E75D600BF4D84 /* PersonalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB2EE0E1E6E75D600BF4D84 /* PersonalCell.m */; };
+		0ABA6B881F0B748600371280 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ABA6B871F0B748600371280 /* AVFoundation.framework */; };
+		0ABC61811F06177100979682 /* ChainedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ABC61801F06177100979682 /* ChainedView.m */; };
 		0ABE4CBE1ED6F09B0041CC26 /* LatexView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ABE4CBD1ED6F09B0041CC26 /* LatexView.m */; };
 		0ABE4CC21ED6F0DE0041CC26 /* ShouShiMiMaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ABE4CC11ED6F0DE0041CC26 /* ShouShiMiMaView.m */; };
 		0ABEA1761F020AAE002CC5DA /* ChangeAccountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ABEA1751F020AAE002CC5DA /* ChangeAccountView.m */; };
@@ -899,6 +901,9 @@
 		0AB2EE0B1E6E40AC00BF4D84 /* OrdersCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrdersCell.m; sourceTree = "<group>"; };
 		0AB2EE0D1E6E75D600BF4D84 /* PersonalCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalCell.h; sourceTree = "<group>"; };
 		0AB2EE0E1E6E75D600BF4D84 /* PersonalCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalCell.m; sourceTree = "<group>"; };
+		0ABA6B871F0B748600371280 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		0ABC617F1F06177100979682 /* ChainedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChainedView.h; sourceTree = "<group>"; };
+		0ABC61801F06177100979682 /* ChainedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChainedView.m; sourceTree = "<group>"; };
 		0ABE4CBC1ED6F09B0041CC26 /* LatexView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LatexView.h; sourceTree = "<group>"; };
 		0ABE4CBD1ED6F09B0041CC26 /* LatexView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LatexView.m; sourceTree = "<group>"; };
 		0ABE4CC01ED6F0DE0041CC26 /* ShouShiMiMaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShouShiMiMaView.h; sourceTree = "<group>"; };
@@ -1644,6 +1649,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0ABA6B881F0B748600371280 /* AVFoundation.framework in Frameworks */,
 				0AF8EA641EB17A8B00846DE6 /* libstdc++.6.0.9.tbd in Frameworks */,
 				0AF8EB141EB1BA5500846DE6 /* TencentOpenAPI.framework in Frameworks */,
 				0AF8EA621EB17A7800846DE6 /* CoreTelephony.framework in Frameworks */,
@@ -1851,6 +1857,8 @@
 				0A1B32C31EEE88AC00BAA8D3 /* PHButton.m */,
 				0AAE95471EF92CD600FE0E15 /* PHPhoto.h */,
 				0AAE95481EF92CD600FE0E15 /* PHPhoto.m */,
+				0ABC617F1F06177100979682 /* ChainedView.h */,
+				0ABC61801F06177100979682 /* ChainedView.m */,
 			);
 			path = "公共文件";
 			sourceTree = "<group>";
@@ -2860,6 +2868,7 @@
 		0AF8EA1C1EB0984800846DE6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0ABA6B871F0B748600371280 /* AVFoundation.framework */,
 				0AF8EA631EB17A8B00846DE6 /* libstdc++.6.0.9.tbd */,
 				0AF8EA611EB17A7800846DE6 /* CoreTelephony.framework */,
 				0AF8EA5F1EB17A6C00846DE6 /* libsqlite3.0.tbd */,
@@ -4426,6 +4435,7 @@
 				0AF966B81EC5BC7B00043BE0 /* ZXQRCodeDetector.m in Sources */,
 				0A25D7D11ECAE30E00B9D269 /* UIImage+Rotate.m in Sources */,
 				0AF966181EC5BC7B00043BE0 /* ZXVINParsedResult.m in Sources */,
+				0ABC61811F06177100979682 /* ChainedView.m in Sources */,
 				0AAE953F1EF8D63B00FE0E15 /* ShopEvaluateModel.m in Sources */,
 				0AF966711EC5BC7B00043BE0 /* ZXRSSExpandedReader.m in Sources */,
 				0AF966851EC5BC7B00043BE0 /* ZXITFReader.m in Sources */,

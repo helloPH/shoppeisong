@@ -30,6 +30,8 @@
 
 #import "MoNiSystemAlert.h"
 
+#import "ChainedView.h"
+
 @interface PlatformViewController ()<UITableViewDelegate,UITableViewDataSource,MBProgressHUDDelegate,PlatformCellDelegate>
 
 @property(nonatomic,strong)UIButton *rightButton;
@@ -42,6 +44,8 @@
 
 @property (nonatomic,strong)PaymentPasswordView * passView;
 
+
+
 @end
 
 @implementation PlatformViewController
@@ -52,18 +56,35 @@
 
     
     [self getbumenDataWithStates:@"0"];
-
     
-    if (![loginShareContent isEmptyString]) {
+    NSLog(@"%@",user_Id);
+    
+    
+    NSString * useid = user_Id;
+//    ChainedView * chain = [ChainedView  new];
+//    chain.frame(CGRectMake(100, 100, 100, 100)).backGroundColor([UIColor redColor]);
+    
+//    [self.view addSubview:chain];
+//    chain.backRect(CGRectMake(10, 100, 50, 50));
+//    chain.backColor([UIColor redColor]);
+//
+//    FenXiangWithLoginAfter * fenxiang = [FenXiangWithLoginAfter new];
+//    [fenxiang appear];
+//
+    NSDictionary * shareDic = loginShareContent;
+    NSString * shareContent = [NSString stringWithFormat:@"%@",[shareDic valueForKey:@"kaihufenxiang"]];
+    if (![shareContent isEmptyString]) {
         FenXiangWithLoginAfter * fenxiang = [FenXiangWithLoginAfter new];
         NSLog(@"content --- - - %@",loginShareContent);
         [fenxiang appear];
-        set_LoginShareContent(@"");
+        set_LoginShareContent(@{});
     }
+    
+    
     sharePush.localBlock=^(NSDictionary *info){
         NSString * type = [NSString stringWithFormat:@"%@",info[@"id"]];
         NSString * value = [NSString stringWithFormat:@"%@",info[@"value"]];
-        
+    
         switch ([type integerValue]) {
             case 1:
             {
@@ -83,6 +104,23 @@
                 break;
             case 3:
             {
+                
+                if ([UIApplication sharedApplication].applicationState==UIApplicationStateActive) {
+                    NSString *filePath2 = [[NSBundle mainBundle] pathForResource:@"dingdantixng" ofType:@"mp3"];
+                    //构建URL
+                    NSURL *url3 = [NSURL fileURLWithPath:filePath2];
+                    //创建系统声音ID
+                    SystemSoundID soundID;
+                    //注册声音文件，并且将ID保存
+                    AudioServicesCreateSystemSoundID((__bridge CFURLRef _Nonnull)(url3), &soundID);
+                    //播放声音
+                    AudioServicesPlaySystemSound(soundID);
+                }
+   
+                
+                
+                
+                
                 PHAlertView * alert = [[PHAlertView alloc]initWithTitle:@"新订单,是否查看?" message:value delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"查看", nil];
                 [alert show];
                 alert.block=^(NSInteger index){
@@ -101,15 +139,9 @@
 
         
     };
-
-
     
 }
--(void)fingerprint{
-    
-    
-    
-}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -561,9 +593,6 @@
             NSString * suijisu = [contentDic valueForKey:@"suijishu"];
             NSInteger nowInter = [NSDate timeIntervalSinceReferenceDate];
             
-      
-            
-            
             
             if ([suijisu integerValue] > nowInter + 1000 * 3 ) {
                 
@@ -584,15 +613,10 @@
             break;
         case 2:// 扫码支付
         {
-            
-            
             NSString * suijisu = [NSString stringWithFormat:@"%@",[contentDic valueForKey:@"suijishu"]];
             NSString * yuangoId = [NSString stringWithFormat:@"%@",[contentDic valueForKey:@"yuangongid"]];
             NSString * yingyongId = [NSString stringWithFormat:@"%@",[contentDic valueForKey:@"yid"]];
-            
-            
-            
-    
+
             NSDictionary * pram = @{@"yuangongid":user_Id,
                                     @"yingyongid":yingyongId};
             
@@ -661,7 +685,9 @@
     NSString *appCurVersionNum = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
     NSMutableDictionary *pram = [[NSMutableDictionary alloc]initWithDictionary:@{@"banbenhao":appCurVersionNum,@"xitong":@"4"}];
     
-    [HTTPTool getWithBaseUrl:@"http://www.shp360.com/MshcShop/" url:@"banbenNew.action" params:pram success:^(id json) {
+//    [NSString stringWithFormat:@"%@%@",HTTPWeb];
+    
+    [HTTPTool getWithBaseUrl:HTTPShop url:@"banbenNew.action" params:pram success:^(id json) {
             NSString *message = [NSString stringWithFormat:@"%@",[json valueForKey:@"message"]];
                 if ([message isEqualToString:@"3"]) {
                     NSString * jibie = [NSString stringWithFormat:@"%@",[json valueForKey:@"jibie"]];

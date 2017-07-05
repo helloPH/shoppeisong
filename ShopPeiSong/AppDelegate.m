@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import <AVFoundation/AVFoundation.h>
+
 #import "CustomerTabbatViewController.h"
 #import "GestureViewController.h"
 #import "Header.h"
@@ -39,7 +41,10 @@
 #import "GuideViewController.h"
 
 @interface AppDelegate ()
-@property (nonatomic,assign)UIBackgroundTaskIdentifier bgTask;
+
+//@property (nonatomic,assign)UIBackgroundTaskIdentifier bgTask;
+@property (nonatomic,assign)NSTimeInterval             timeInterval;
+@property (nonatomic,strong)NSTimer                  * timer;
 @end
 
 @implementation AppDelegate
@@ -50,10 +55,11 @@
     manager.enable = YES;
 //    　　//控制点击背景是否收起键盘
     manager.shouldResignOnTouchOutside = YES;
+    manager.keyboardDistanceFromTextField=50*MCscale;
 //    　　//控制键盘上的工具条文字颜色是否用户自定义。
 //    manager.shouldToolbarUsesTextFieldTintColor = YES;
 //    　　//控制是否显示键盘上的工具条。
-//    manager.enableAutoToolbar = NO;
+    manager.enableAutoToolbar = NO;
     
     
     
@@ -65,7 +71,12 @@
 }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self initData];
-    [self beginBgTask];
+    _timeInterval = 60;
+    [self setTimerWithTimeInter:_timeInterval];
+    [sharePush registWithBlock:^(NSData *token, NSError *error) {
+        
+    }];
+
     
     
     if(![[NSUserDefaults standardUserDefaults] valueForKey:@"isFirstShoushi"]){
@@ -84,7 +95,7 @@
 //    [WXApi registerApp:@"wx34d8cb6d9fda6306"];
     [[PHMapHelper new]configBaiduMap];
     [self configShareSdk];
-    [self beginBgTask];
+ 
     
     return YES;
 }
@@ -181,8 +192,8 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-    
-//    [self initPushTimer];
+    [self setTimerWithTimeInter:_timeInterval];
+
     
     
 }
@@ -233,128 +244,168 @@
         sharePush.remoteBlock(userInfo);
     }
 }
-#pragma mark -- tuisong
--(void)endBgTask{
-    if (_bgTask) {
-        UIApplication *app = [UIApplication sharedApplication];
-        [app endBackgroundTask:_bgTask];
-    }
-}
-- (void)beginBgTask{
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
 
-    if (!banben_IsAfter) {
-        return;
+#pragma mark -- tuisong
+
+- (void)beginBgTask{
+  [sharePush registWithBlock:^(NSData *token, NSError *error) {
+      
+  }];
+    
+    NSError * setCategoryErr = nil;
+    NSError * activationErr  = nil;
+    [[AVAudioSession sharedInstance]setCategory:AVAudioSessionCategoryPlayback error:&setCategoryErr];
+    [[AVAudioSession sharedInstance]setActive:YES error:&activationErr];
+
+  
+    
+    UIApplication * app = [UIApplication sharedApplication];
+    __block UIBackgroundTaskIdentifier bgTask;
+    bgTask = [app beginBackgroundTaskWithExpirationHandler:^{
+       dispatch_async(dispatch_get_main_queue(), ^{
+           if (bgTask != UIBackgroundTaskInvalid) {
+               bgTask = UIBackgroundTaskInvalid;
+           }
+       });
+    }];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if (bgTask != UIBackgroundTaskInvalid) {
+            bgTask = UIBackgroundTaskInvalid;
+        }
+    });
+      [self setTimerWithTimeInter:_timeInterval];
+
+}
+-(void)setTimerWithTimeInter:(NSTimeInterval )timerInterval{
+    if (_timer) {
+        [_timer invalidate];
+        _timer = nil;
     }
+    _timer = [NSTimer scheduledTimerWithTimeInterval:timerInterval target:self selector:@selector(pushTask) userInfo:nil repeats:YES];
+    
+}
+-(void)pushTask{
     
    
-    int timeinter=60;
-    __block int weakTimeInter = timeinter;
+    [self setTimerWithTimeInter:_timeInterval];
     
-//    if (!pushTimeInter || pushTimeInter == 0 ) {
-//        [self endBgTask];
-//        return;
-//    }
+    NSString * urString = [NSString stringWithFormat:@"%@GuanjiaInfo.jsp?yuangongid=%@",HTTPImage,user_Id];
+    
+    NSURL * url = [NSURL URLWithString:urString];
+    NSString * htmlString = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+    
+    PHJavaScriptHelper * jshelper = [PHJavaScriptHelper new];
+    jshelper.htmlString = htmlString;
+    NSArray * arrar =  [jshelper getInfoS];
     
     
-    
-    NSLog(@"### -->backgroundinghandler");
-    UIApplication *app = [UIApplication sharedApplication];
-
-    [sharePush registWithBlock:^(NSData *token, NSError *error) {
+//    arrar = @[
+//              @{
+//                  @"id":@"1",
+//                  @"type":@"text",
+//                  @"value":@"0",
+//                  },
+//              @{
+//                  @"id":@"2",
+//                  @"type":@"text",
+//                  @"value":@"0"
+//                  },
+//              @{
+//                  @"id":@"3",
+//                  @"type":@"text",
+//                  @"value":@"2"
+//                  }
+//              ];
+    NSLog(@"useid %@",user_Id);
+    NSLog(@"推送的数据解析-------:%@",arrar);
+    for (NSDictionary * dic in arrar) {
+        NSString * value = [NSString stringWithFormat:@"%@",dic[@"value"]];
+        NSString * Id = [NSString stringWithFormat:@"%@",dic[@"id"]];
         
-    }];
-
-    
-    _bgTask = [app beginBackgroundTaskWithExpirationHandler:^{
-        __block UIBackgroundTaskIdentifier weakBgTask =_bgTask;
-        dispatch_async(dispatch_get_main_queue(),^{
-            if( weakBgTask != UIBackgroundTaskInvalid){
-                weakBgTask = UIBackgroundTaskInvalid;
-            }
-        });
-        NSLog(@"====任务完成了。。。。。。。。。。。。。。。===>");
-        [app endBackgroundTask:weakBgTask];
-    }];
-
-    
-    // Start the long-running task
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        while (true) {
-            if (!banben_IsAfter) {
-                break;
-            }
+        if (![value isEmptyString] && ![value isEqualToString:@"0"]) {
             
-            NSString * urString = [NSString stringWithFormat:@"%@GuanjiaInfo.jsp?%@",HTTPImage,user_Id];
-            NSURL * url = [NSURL URLWithString:urString];
-            NSString * htmlString = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
-            
-            PHJavaScriptHelper * jshelper = [PHJavaScriptHelper new];
-            jshelper.htmlString = htmlString;
-            NSArray * arrar =  [jshelper getInfoS];
-
-            
-            NSLog(@"推送的数据解析-------:%@",arrar);
-            for (NSDictionary * dic in arrar) {
-               NSString * value = [NSString stringWithFormat:@"%@",dic[@"value"]];
-               NSString * Id = [NSString stringWithFormat:@"%@",dic[@"id"]];
-                
-                if (![value isEmptyString] && ![value isEqualToString:@"0"]) {
-                    
-                    NSString * title;
-                    switch ([Id integerValue]) {
-                        case 1:
-                            title = @"欢迎使用妙店佳商铺";
-                            if ([value isEqualToString:@"0"]) {
-                                if (isZaiGang) {
-                                        NSLog(@"进入推送2");
-                                        Id = @"2";
-                                }else{
-                                    Id = @"0";
-                                }
-                            }else{
-                                if ([value isEqualToString:push_SystemValue]) {
-                                    if (isZaiGang) {
-                                        NSLog(@"进入推送2");
-                                        Id = @"2";
-                                    }
-                                    else{
-                                        Id = @"0";
-                                    }
-                                }
-                            }
-                            break;
-                        case 2:
-                            title = @"员工";
-                            break;
-                        case 3:
-                            break;
-                        default:
-                            break;
-                    }
-                    if ([Id integerValue]==1) {//系统
-                        set_Push_SystemValue(value);
-                        [sharePush localPushWithTitle:title body:@"点击进入详情"  time:0 sound:nil pram:dic];
-                    }else if ([Id integerValue]==2){
-                        if ([value isEqualToString:@"0"]) {// pc端地图接口
-                            
-                        }else{// 进入推送3
-                            
+            NSString * title;
+            switch ([Id integerValue]) {
+                case 1:
+                {
+                    title = @"欢迎使用妙店佳商铺";
+                    if ([value isEqualToString:@"0"]) {
+                        if (isZaiGang) {
+                            NSLog(@"进入推送2");
+                            Id = @"2";
+                        }else{
+                            Id = @"0";
                         }
-                    }else if([Id integerValue]==1){//新订单
-                        if (user_id) {
-                            weakTimeInter = (int)pushTimeInter;
-                            title = [NSString stringWithFormat:@"%@ %@",dianPuName,user_name];
-                            value = @"用户新订单提醒";
-                            [sharePush localPushWithTitle:title body:value  time:0 sound:@"dingdantixng.mp3" pram:dic];
-                            //          dingdantixng.mp3
+                    }else{
+                        if ([value isEqualToString:push_SystemValue]) {
+                            if (isZaiGang) {
+                                NSLog(@"进入推送2");
+                                Id = @"2";
+                            }
+                            else{
+                                Id = @"0";
+                            }
+                        }else{
+                            
+                            Id = @"1";
                         }
                     }
                 }
+                    break;
+                case 2:
+                {
+                    title = @"员工";
+                    if(![value isEqualToString:@"0"]){
+                        Id = @"3";
+                    }
+                }
+                    break;
+                case 3:
+                {
+                    
+                }
+                    break;
+                default:
+                    break;
             }
-            sleep(timeinter);
+            if ([Id integerValue]==1) {//系统
+                //                        set_Push_SystemValue(value);
+                
+                
+                [sharePush localPushWithTitle:title body:@"点击进入详情"  time:0 sound:nil pram:dic];
+            }else if ([Id integerValue]==2){
+    
+                // pc端地图接口
+                //                        if ([value isEqualToString:@"0"]) {
+                //                        }else{// 进入推送3
+                //
+                //                        }
+            }else if([Id integerValue]==3){//新订单
+                if (user_id) {
+                    if (!isZaiGang) {
+                        return;
+                    }
+                    if (pushTimeInter == 0) {
+                        return;
+                    }
+                    
+                    title = [NSString stringWithFormat:@"%@ %@",dianPuName,user_name];
+                    value = @"用户新订单提醒";
+                    
+                 
+                    
+                    [self setTimerWithTimeInter:pushTimeInter];
+                    [sharePush localPushWithTitle:title body:value  time:0 sound:@"dingdantixng.mp3" pram:dic];
+                    [Request upDateOrderTiXingWithSuccess:^(id json) {
+                        NSLog(@"%@",json);
+                    } failure:^(NSError *error) {
+                        
+                    }];
+                }
+            }
         }
-        
-    });
+    }
 }
+
+
 @end

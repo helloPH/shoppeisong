@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface ReplyEvaluateView : UIView
+@property (nonatomic,assign)NSInteger limit;
 @property (nonatomic,strong)void (^block)(NSString * string);
-
+@property (nonatomic,strong)NSString * content;
 -(void)appear;
 -(void)disAppear;
 @end

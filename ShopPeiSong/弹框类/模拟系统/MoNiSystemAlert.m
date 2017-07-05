@@ -100,16 +100,14 @@
     }completion:^(BOOL finished) {
         [self removeFromSuperview];
     }];
+    
 }
 -(void)alertSpan:(UIPanGestureRecognizer *)pan{
-
     CGFloat y =  [pan locationInView:pan.view.superview].y;
-
+    
     switch (pan.state) {
         case UIGestureRecognizerStateBegan:
-
-            _offsetY = y - pan.view.top;
- 
+            _offsetY = y - pan.view.top;/// 确定
             break;
         case UIGestureRecognizerStateChanged:
             pan.view.top = y - _offsetY;
@@ -122,7 +120,6 @@
                     pan.view.top = 20 *MCscale;
                 }];
             }
-
             break;
         default:
             break;

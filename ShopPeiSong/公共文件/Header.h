@@ -68,15 +68,23 @@
 #define user_name  [[NSUserDefaults standardUserDefaults]valueForKey:@"name"]//公司名
 #define user_zhiwu  [[NSUserDefaults standardUserDefaults]valueForKey:@"zhiwu"]//公司名
 
+
+
+
+#define set_User_Kaihufei(kaihufei)  [[NSUserDefaults standardUserDefaults] setValue:kaihufei forKey:@"kaihufeiyong"]
 #define user_kaihufei [[NSUserDefaults standardUserDefaults]valueForKey:@"kaihufeiyong"]//开户费
+
+
 #define shipin [[NSUserDefaults standardUserDefaults]valueForKey:@"shipin"]//视频是否下载过
-#define user_dianpulogo [[NSUserDefaults standardUserDefaults]valueForKey:@"dianpulogo"]//店铺lodo
+
+#define set_User_DianPuLogo(dianpulogo)  [[NSUserDefaults standardUserDefaults] setValue:dianpulogo forKey:@"dianpulogo"]
+#define user_dianpulogo [[NSUserDefaults standardUserDefaults]valueForKey:@"dianpulogo"]//店铺logo
 #define user_show [[NSUserDefaults standardUserDefaults]valueForKey:@"show"]//员工身份
 
 #define    local_Accounts     [[NSUserDefaults standardUserDefaults] objectForKey:@"local_Accounts"]
 #define    set_Local_Accounts(accounts)    [[NSUserDefaults standardUserDefaults]  setObject:accounts forKey:@"local_Accounts"]
 
-//登录分享内容
+//登录分享内容  // 字典 两个键值 kaihufenxiang  images
 #define set_LoginShareContent(loginShareContent) [[NSUserDefaults standardUserDefaults] setValue:loginShareContent forKey:@"loginShareContent"]//登录时的分享内容
 #define loginShareContent [[NSUserDefaults standardUserDefaults]valueForKey:@"loginShareContent"]//登录时的分享内容
 
@@ -159,6 +167,7 @@
 #define HTTPHEADER @"http://www.shp360.com/MshcShopGuanjia/"
 #define HTTPImage @"http://www.shp360.com/Store/"
 #define HTTPWeb @"http://www.shp360.com/"
+#define HTTPShop   @"http://www.shp360.com/MshcShop/"
 
 
 //#define HTTPHEADER @"http://192.168.1.250:8080/MshcShopGuanjia/"
@@ -166,9 +175,9 @@
 //#define HTTPWeb @"http://192.168.1.250:8080/"
 
 //#define HTTPHEADER @"http://192.168.1.99:8080/MshcShopGuanjia/"
-//#define HTTPImage @"http://192.168.1.99:8080/Store/"
-//#define HTTPWeb @"http://192.168.1.99:8080/"
-
+//#define HTTPImage  @"http://192.168.1.99:8080/Store/"
+//#define HTTPWeb    @"http://192.168.1.99:8080/"
+//#define HTTPShop   @"http://192.168.1.99:8080/MshcShop/"
 
 
 #ifdef DEBUG
@@ -216,6 +225,8 @@
 
 
 #define txtColors(r,g,b,alp) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:alp]
+
+#define backColor  [UIColor colorWithRed:235/255.0 green:235/255.0 blue:241/255.0 alpha:1]
 #define textColors txtColors(109.0,109.0,109.0,1)
 #define placeHolderColor txtColors(194, 195, 196, 1)  //占位符字体颜色
 #define textBlackColor txtColors(72, 73, 74, 0.9)

@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ShopPeiSong/&#x5e73;&#x53f0;/PlatformViewController.m"
-            timestampString = "520396581.040457"
+            timestampString = "520853785.491025"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "689"
-            endingLineNumber = "689"
+            startingLineNumber = "715"
+            endingLineNumber = "715"
             landmarkName = "-getUpdateData"
             landmarkType = "7">
          </BreakpointContent>
@@ -36,27 +36,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ShopPeiSong/&#x6211;/&#x9080;&#x8bf7;&#x9886;&#x73b0;&#x91d1;/&#x5f00;&#x6237;/ShengJiViewController.m"
-            timestampString = "520253452.452909"
+            timestampString = "520855425.558968"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1042"
-            endingLineNumber = "1042"
-            landmarkName = "-shengji"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ShopPeiSong/&#x6211;/&#x9080;&#x8bf7;&#x9886;&#x73b0;&#x91d1;/&#x5f00;&#x6237;/ShengJiViewController.m"
-            timestampString = "520253452.452909"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1053"
-            endingLineNumber = "1053"
+            startingLineNumber = "1063"
+            endingLineNumber = "1063"
             landmarkName = "-shengji"
             landmarkType = "7">
          </BreakpointContent>
@@ -84,12 +68,12 @@
                   moduleName = "ShopPeiSong"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/shiyuanshangpin/Desktop/%E9%A1%B9%E7%9B%AE/%E5%A6%99%E5%BA%97%E4%BD%B3%E9%85%8D%E9%80%81/shoppeisong/ShopPeiSong/%E6%89%8B%E5%8A%BF%E5%AF%86%E7%A0%81/%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81/findPasViewController.m"
-                  timestampString = "520416224.179006"
+                  timestampString = "520938953.859863"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "207"
                   endingLineNumber = "207"
-                  offsetFromSymbolStart = "344">
+                  offsetFromSymbolStart = "396">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -99,14 +83,270 @@
                   moduleName = "ShopPeiSong"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/shiyuanshangpin/Desktop/%E9%A1%B9%E7%9B%AE/%E5%A6%99%E5%BA%97%E4%BD%B3%E9%85%8D%E9%80%81/shoppeisong/ShopPeiSong/%E6%89%8B%E5%8A%BF%E5%AF%86%E7%A0%81/%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81/findPasViewController.m"
-                  timestampString = "520416224.18225"
+                  timestampString = "520938953.861176"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "208"
                   endingLineNumber = "208"
-                  offsetFromSymbolStart = "44">
+                  offsetFromSymbolStart = "64">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShopPeiSong/&#x63a5;&#x5355;/&#x6dfb;&#x52a0;&#x5546;&#x54c1;/OrderAddShangpinViewController.m"
+            timestampString = "520508282.293476"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "418"
+            endingLineNumber = "418"
+            landmarkName = "-buttonAction:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShopPeiSong/&#x63a5;&#x5355;/&#x6dfb;&#x52a0;&#x5546;&#x54c1;/OrderAddShangpinViewController.m"
+            timestampString = "520508896.052982"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "438"
+            endingLineNumber = "438"
+            landmarkName = "-textFieldShouldReturn:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShopPeiSong/&#x63a5;&#x5355;/&#x6dfb;&#x52a0;&#x5546;&#x54c1;/OrderAddShangpinViewController.m"
+            timestampString = "520508896.052982"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "423"
+            endingLineNumber = "423"
+            landmarkName = "-buttonAction:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShopPeiSong/&#x63a5;&#x5355;/&#x6dfb;&#x52a0;&#x5546;&#x54c1;/OrderAddShangpinViewController.m"
+            timestampString = "520508357.145468"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "329"
+            endingLineNumber = "329"
+            landmarkName = "-getShangpinMessagesWithUrl:AndDict:AndIndex:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShopPeiSong/&#x5e73;&#x53f0;/PlatformViewController.m"
+            timestampString = "520853785.491025"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "458"
+            endingLineNumber = "458"
+            landmarkName = "-qiangdanButtonClickWithDanhao:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShopPeiSong/&#x6211;/&#x9080;&#x8bf7;&#x9886;&#x73b0;&#x91d1;/&#x5f00;&#x6237;/OpenAccountViewController.m"
+            timestampString = "520768400.465923"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "701"
+            endingLineNumber = "701"
+            landmarkName = "-modifyKaihufeiWithString:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShopPeiSong/&#x6211;/&#x9080;&#x8bf7;&#x9886;&#x73b0;&#x91d1;/&#x5f00;&#x6237;/OpenAccountViewController.m"
+            timestampString = "520768400.465923"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "773"
+            endingLineNumber = "773"
+            landmarkName = "-FabuKaihuWithShenhe:AndMoney:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShopPeiSong/&#x6211;/&#x9080;&#x8bf7;&#x9886;&#x73b0;&#x91d1;/&#x5f00;&#x6237;/OpenAccountViewController.m"
+            timestampString = "520768400.465923"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "777"
+            endingLineNumber = "777"
+            landmarkName = "-FabuKaihuWithShenhe:AndMoney:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShopPeiSong/&#x6211;/&#x9080;&#x8bf7;&#x9886;&#x73b0;&#x91d1;/&#x5f00;&#x6237;/OpenAccountViewController.m"
+            timestampString = "520768400.465923"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "780"
+            endingLineNumber = "780"
+            landmarkName = "-FabuKaihuWithShenhe:AndMoney:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShopPeiSong/&#x6211;/&#x9080;&#x8bf7;&#x9886;&#x73b0;&#x91d1;/&#x5f00;&#x6237;/OpenAccountViewController.m"
+            timestampString = "520768400.465923"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "837"
+            endingLineNumber = "837"
+            landmarkName = "-FabuKaihuWithShenhe:AndMoney:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShopPeiSong/&#x6211;/&#x9080;&#x8bf7;&#x9886;&#x73b0;&#x91d1;/&#x5f00;&#x6237;/OpenAccountViewController.m"
+            timestampString = "520768400.465923"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "785"
+            endingLineNumber = "785"
+            landmarkName = "-FabuKaihuWithShenhe:AndMoney:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShopPeiSong/&#x6211;/&#x9080;&#x8bf7;&#x9886;&#x73b0;&#x91d1;/&#x5f00;&#x6237;/OpenAccountViewController.m"
+            timestampString = "520768400.465923"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "842"
+            endingLineNumber = "842"
+            landmarkName = "-FabuKaihuWithShenhe:AndMoney:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShopPeiSong/&#x6211;/&#x9080;&#x8bf7;&#x9886;&#x73b0;&#x91d1;/&#x5f00;&#x6237;/OpenAccountViewController.m"
+            timestampString = "520768400.465923"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "809"
+            endingLineNumber = "809"
+            landmarkName = "-FabuKaihuWithShenhe:AndMoney:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShopPeiSong/&#x6211;/&#x63a5;&#x5355;&#x5956;/&#x524d;&#x65e5;&#x8be6;&#x60c5;/DataAggregateViewController.m"
+            timestampString = "520840469.766227"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
+            landmarkName = "-getRecentRecordData"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShopPeiSong/&#x6211;/&#x63a5;&#x5355;&#x5956;/&#x524d;&#x65e5;&#x8be6;&#x60c5;/DataAggregateViewController.m"
+            timestampString = "520840619.698822"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
+            landmarkName = "-getRecentRecordData"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShopPeiSong/AppDelegate.m"
+            timestampString = "520938438.862326"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "384"
+            endingLineNumber = "384"
+            landmarkName = "-pushTask"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -12,7 +12,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-- (void)endBgTask;
+//- (void)endBgTask;
 - (void)beginBgTask;
 - (void)switchRootController;
 @end

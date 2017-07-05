@@ -58,7 +58,7 @@
         
         CGFloat BsetY = 0;
         UIView * headerView = [[UIView alloc]initWithFrame:CGRectMake(0, BsetY, backView.width, 20)];
-        headerView.backgroundColor=lineColor;
+        headerView.backgroundColor=backColor;
         [backView addSubview:headerView];
         BsetY = headerView.bottom;
         

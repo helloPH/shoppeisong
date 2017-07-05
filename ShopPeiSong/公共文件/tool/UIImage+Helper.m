@@ -270,7 +270,7 @@
     
     size_t bpr=CGImageGetBytesPerRow(cgimage);//每行的字节数
     size_t bpp=CGImageGetBitsPerPixel(cgimage);//每个像素的位数
-     size_t bpc=CGImageGetBitsPerComponent(cgimage);//每个字节的组成部分
+    size_t bpc=CGImageGetBitsPerComponent(cgimage);//每个字节的组成部分
     size_t bytes_per_pixel=bpp/bpc;
     
     CGDataProviderRef provider=CGImageGetDataProvider(cgimage);
@@ -329,5 +329,22 @@
     UIImage * image=UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return image;
+}
+/*
+ *设置图片和默认图片
+ */
++(UIImage *) imageWithUrl:(id)url placeholderImageName:(NSString *)imageName{
+    UIImage * image;
+    
+    if ([url isKindOfClass:[NSURL class]]) {
+        image =  [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+    }else if ([url isKindOfClass:[NSString class]]){
+        image =  [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]]];
+    }
+    if (!image) {
+        image = [UIImage imageNamed:imageName];
+    }
+    return image;
+    
 }
 @end

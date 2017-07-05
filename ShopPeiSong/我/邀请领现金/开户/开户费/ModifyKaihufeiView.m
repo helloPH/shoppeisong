@@ -96,7 +96,7 @@
 }
 -(void)submitBtnClick
 {
-    self.kaihufeiTextfield.text = @"";
+//    self.kaihufeiTextfield.text = @"";
     if ([self.modefyDelegate respondsToSelector:@selector(modifyKaihufeiWithString:)]) {
         [self.modefyDelegate modifyKaihufeiWithString:self.kaihufeiTextfield.text];
     }

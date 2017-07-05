@@ -101,6 +101,7 @@
     _mainTableView.tableHeaderView=[self tableHeaderView];
     _mainTableView.tableFooterView=[self tableViewFooterView];
     [_mainTableView registerClass:[PersonTableViewCell class] forCellReuseIdentifier:@"cell"];
+    _mainTableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     
     _mainTableView.delegate=self;
     _mainTableView.dataSource=self;
@@ -141,27 +142,22 @@
     nameSt = [nameSt isEmptyString]?@"点击进行编辑":nameSt;
     
     
+    NSString * teseSt = [NSString stringWithFormat:@"%@",_dataDic[@"tese"]];
+    teseSt = [teseSt isEmptyString]?@"点击编辑经营范围":teseSt;
     
     
     NSString * gonggaoSt = [NSString stringWithFormat:@"%@",_dataDic[@"gonggao"]];
-    gonggaoSt = [gonggaoSt isEmptyString]?@"点击进行编辑":gonggaoSt;
-    
-    
-    NSString * teseSt = [NSString stringWithFormat:@"%@",_dataDic[@"tese"]];
-  
-    teseSt = [teseSt isEmptyString]?@"点击进行编辑":teseSt;
+    gonggaoSt = [gonggaoSt isEmptyString]?@"点击编辑店铺公告":gonggaoSt;
 
-    
     set_User_Logo(headLink);
     
     
     UIImageView * headerView = [_tableHeaderView viewWithTag:100];
     UILabel * headerLable = [_tableHeaderView viewWithTag:101];
     
-    
-    [headerView sd_setImageWithURL:[NSURL URLWithString:headLink] placeholderImage:[UIImage imageNamed:@"yonghutouxiang"]];
+    headerView.image = [UIImage imageWithUrl:headLink placeholderImageName:@"yonghutouxiang"];
+//    [headerView sd_setImageWithURL:[NSURL URLWithString:headLink] placeholderImage:[UIImage imageNamed:@"yonghutouxiang"]];
 //    headerView.image=[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:headLink]]];
-    
     
     NSMutableAttributedString * attriHeaderLable = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@\n%@\n%@",nameSt,teseSt,gonggaoSt]];
     headerLable.attributedText =attriHeaderLable;
@@ -189,7 +185,8 @@
     headImg.centerY=backView.height/2;
     headImg.centerX=backView.width*0.2;
     headImg.tag=100;
-    
+    headImg.layer.cornerRadius=8;
+    headImg.layer.masksToBounds=YES;
     
     UILabel * content = [[UILabel alloc]initWithFrame:CGRectMake(headImg.right+20, headImg.top, kDeviceWidth, headImg.height)];
     content.textColor=textBlackColor;
@@ -265,7 +262,7 @@
     cell.titleLabel.text=[NSString stringWithFormat:@"%@",[cellDic valueForKey:@"title"]];
     cell.rightImg.image=[UIImage imageNamed:@"xialas"];
     
-    cell.bottomLine.hidden=YES;
+    cell.bottomLine.hidden=indexPath.row==cellArray.count-1;
     
     if  (indexPath.section==0 && indexPath.row==0) {
         if ([user_dianpu_banben isEqualToString:@"0"]) {
@@ -284,12 +281,21 @@
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     NSArray * cellArray = _tableContentArray[indexPath.section];
     NSDictionary * cellDic = cellArray[indexPath.row];
     NSString * controllerString = [NSString stringWithFormat:@"%@",[cellDic valueForKey:@"controller"]];
     if ([controllerString hasPrefix:@"noPush"]) {
         if ([controllerString hasSuffix:@"dingwei"]) {
-            [self upDateLocation];
+            if ([user_BuMen isEqualToString:@"管理"]) {
+                 [self upDateLocation];
+            }else{
+                [MBProgressHUD promptWithString:@"自有管理人员才能定位"];
+                return;
+            }
+            
+
         }
         if ([controllerString hasSuffix:@"shipin"]) {
             [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"http://www.shp360.com/kaihuvideo.jsp"]];
@@ -354,8 +360,8 @@
             
            
             NSDictionary * pram = @{@"dianpu.id":user_dianpuID,
-                                    @"dianpu.x":[NSString stringWithFormat:@"%f",location.location.coordinate.latitude],
-                                    @"dianpu.y":[NSString stringWithFormat:@"%f",location.location.coordinate.longitude],
+                                    @"dianpu.x":[NSString stringWithFormat:@"%f",location.location.coordinate.longitude],
+                                    @"dianpu.y":[NSString stringWithFormat:@"%f",location.location.coordinate.latitude],
                                     @"code":result.addressDetail.city};
             
             
