@@ -263,6 +263,12 @@
     [alert addAction:cancalAction];
     [alert addAction:otherAction];
     [alert addAction:cleAction];
+    
+    UIPopoverPresentationController *popover =alert.popoverPresentationController;
+    popover.sourceView = tap.view;
+    popover.sourceRect = tap.view.bounds;
+    popover.permittedArrowDirections=UIPopoverArrowDirectionAny;
+    
     [self.controller presentViewController:alert animated:YES completion:nil];
 }
 #pragma mark -- uiimagePicker delegate

@@ -290,9 +290,9 @@
         cellView.contentLabel.text=placeHoldArray[i];
         cellView.contentLabel.width=kDeviceWidth/2;
         cellView.contentLabel.right=cellView.rightImg.left;
+        cellView.bottomLine.hidden=titleArray.count-1==i;
         
         
-
         
 //        if (i == 0  || i==1 ||i == 2 ||i == 3 ||i == 4||i == 6) {
 //
@@ -410,6 +410,12 @@
     [alert addAction:cancalAction];
     [alert addAction:otherAction];
     [alert addAction:cleAction];
+    
+    UIPopoverPresentationController *popover =alert.popoverPresentationController;
+    popover.sourceView = tap.view;
+    popover.sourceRect = tap.view.bounds;
+    popover.permittedArrowDirections=UIPopoverArrowDirectionAny;
+    
     [self presentViewController:alert animated:YES completion:nil];
 }
 #pragma mark -- uiimagePicker delegate
@@ -617,6 +623,7 @@
             UIView * line = [[UIView alloc]initWithFrame:CGRectMake(70*MCscale, btn1.top-5*MCscale, kDeviceWidth-140*MCscale, 1)];
             line.backgroundColor=lineColor;
             [backView addSubview:line];
+            line.tag=2600;
             
         }
         
@@ -1094,6 +1101,10 @@
     
     UIButton * wayBtn = [_mainScrollView viewWithTag:2512];
     selBtn.selected=_isFaPiao;
+    
+    UIView * line = [_mainScrollView viewWithTag:2600];
+    
+    
     if (!_isFaPiao) {
         _isNoSelecedYouJi=YES;
         _isNoSelecedShouJu=YES;
@@ -1108,8 +1119,10 @@
         UIButton * wayBtn = [_mainScrollView viewWithTag:i];
         if (_isFaPiao) {
             wayBtn.hidden=NO;
+            line.hidden=NO;
         }else{
             wayBtn.hidden=YES;
+            line.hidden=YES;
         }
     }
     

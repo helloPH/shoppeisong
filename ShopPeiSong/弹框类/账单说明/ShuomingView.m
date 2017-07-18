@@ -64,7 +64,7 @@
         }
         else
         {
-            self.shuomingTextView.text = [json valueForKey:@"shuoming"];
+            self.shuomingTextView.text =[NSString stringWithFormat:@"%@",[json valueForKey:@"shuoming"]];
         }
     } failure:^(NSError *error) {
         [mHud hide:YES];

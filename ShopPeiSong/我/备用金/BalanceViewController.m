@@ -19,6 +19,8 @@
 #import "Header.h"
 #import "XuFeiViewController.h"
 #import "TopUpView.h"
+#import "SecurityViewController.h"
+
 
 @interface BalanceViewController()<UIGestureRecognizerDelegate,UITableViewDelegate,UITableViewDataSource,MBProgressHUDDelegate,PaymentPasswordViewDelegate,BalanceCellDelegate>
 @property(nonatomic,strong)UITableView *mainTableView;
@@ -314,6 +316,7 @@
     if (indexPath.section == 1) {
         BalanceRecordModel *model = self.DataAggregateArray[indexPath.row];
         DataAggregateViewController *DataAggregateVC = [[DataAggregateViewController alloc]init];
+        DataAggregateVC.navigationItem.title=model.date;
         DataAggregateVC.hidesBottomBarWhenPushed = YES;
         DataAggregateVC.dateStr = model.date;
         DataAggregateVC.ViewTag = 1;
@@ -370,7 +373,7 @@
 {
     if (button.tag == 1200) {//余额提现
        
-        
+
         if ([self.quanxianStr isEqualToString:@"1"]) {
             [UIView animateWithDuration:0.3 animations:^{
                 self.maskView.alpha = 1;
@@ -389,7 +392,29 @@
         }
         else if ([self.quanxianStr isEqualToString:@"4"])
         {
-            [self promptMessageWithString:@"未设置提现密码"];
+//            [self promptMessageWithString:@"未设置提现密码"];
+            
+            UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"还未设置提现密码" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+            
+            
+            UIAlertAction * action1 = [UIAlertAction actionWithTitle:@"好了" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                
+            }];
+            
+            UIAlertAction * action2 = [UIAlertAction actionWithTitle:@"去设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                SecurityViewController * security = [SecurityViewController new];
+                [self.navigationController pushViewController:security animated:YES];
+            }];
+    
+            [alert addAction:action1];
+            [alert addAction:action2];
+            [self presentViewController:alert animated:YES completion:^{
+            }];
+            
+            
+            
+            
+            
         }else{
             [MBProgressHUD promptWithString:@"不能提现"];
         }

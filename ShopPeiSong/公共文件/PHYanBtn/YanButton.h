@@ -8,8 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+
+
 @interface YanButton : UIButton
 @property (strong,nonatomic)NSString * code;
+@property (nonatomic,strong)NSTimer * timer;
+//@property (nonatomic,assign)
+@property (nonatomic,strong)void (^timeOut)();
 +(YanButton *)insButtonWithFrame:(CGRect )frame title:(NSString *)title time:(NSInteger)time;
 -(void)startTimer;
 -(void)endTimer;

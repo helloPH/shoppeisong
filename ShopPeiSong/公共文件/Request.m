@@ -121,6 +121,54 @@
     }];
     
 }
+/*
+ *根据系统消息ID 获取 消息信息
+ */
++(void)getSystemMessageInfoWithMessageId:(NSString *)Id success:(successBlock)success failure:(failureBlock)failure{
+    NSString * url = @"tuiSongXiTong.action";
+//    [MBProgressHUD start];
+    [HTTPTool getWithBaseUrl:HTTPHEADER url:url params:[NSMutableDictionary dictionaryWithDictionary:@{@"xitongbianhao":Id,
+                                   @"yuangongid":user_Id}] success:^(id json) {
+//        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+//        [MBProgressHUD stop];
+//        [MBProgressHUD promptWithString:@"网络请求失败"];
+        failure(error);
+    }];
+}
+/*
+ *获取消息列表
+ */
++(void)getSystemMessageListSuccess:(successBlock)success failure:(failureBlock)failure{
+    NSString * url = @"Zonghe_findbyxinxixitong.action";
+        [MBProgressHUD start];
+    NSMutableDictionary * parm = [NSMutableDictionary dictionaryWithDictionary:@{@"canshu":@"2",@"userid":user_Id}];
+    
+    [HTTPTool getWithBaseUrl:HTTPHEADER url:url params:parm success:^(id json) {
+                [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+                [MBProgressHUD stop];
+                [MBProgressHUD promptWithString:@"网络请求失败"];
+        failure(error);
+    }];
+}
+/*
+ *消息列表 删除单个
+ */
++(void)deleteFromSystemMessageListWithMessageId:(NSString *)messageId success:(successBlock)success failure:(failureBlock)failure{
+    NSString * url = @"Zonghe_deletexinxi.action";
+    [MBProgressHUD start];
+    [HTTPTool getWithBaseUrl:HTTPHEADER url:url params:[NSMutableDictionary dictionaryWithDictionary:@{@"canshu":messageId}] success:^(id json) {
+        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD stop];
+        [MBProgressHUD promptWithString:@"网络请求失败"];
+        failure(error);
+    }];
+}
 #pragma mark -- 订单界面
 /*
  *获取 已接订单列表
@@ -232,6 +280,21 @@
     NSDictionary * dic = @{@"yuangong.id":user_Id};
     [MBProgressHUD start];
     [HTTPTool postWithUrl:url params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json){
+        [MBProgressHUD stop];
+        success(json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD stop];
+        [MBProgressHUD promptWithString:@"网络请求失败"];
+        failure(error);
+    }];
+}
+/*
+ *修改附加
+ */
++(void)alterFuJiaWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure{
+    NSString * url = @"chae.action";
+    [MBProgressHUD start];
+    [HTTPTool getWithUrl:url params:[NSMutableDictionary dictionaryWithDictionary:dic] success:^(id json){
         [MBProgressHUD stop];
         success(json);
     } failure:^(NSError *error) {
@@ -590,7 +653,7 @@
         success(json);
     } failure:^(NSError *error) {
         [MBProgressHUD stop];
-        [MBProgressHUD promptWithString:@"网络连接错误"];
+//        [MBProgressHUD promptWithString:@"网络连接错误"];
         failure(error);
     }];
 }
@@ -671,7 +734,7 @@
         success(json);
     } failure:^(NSError *error) {
         [MBProgressHUD stop];
-        //        [MBProgressHUD promptWithString:@"网络连接错误"];
+        [MBProgressHUD promptWithString:@"网络连接错误"];
         failure(error);
     }];
 }

@@ -89,7 +89,7 @@
     setY = textField.bottom;
     
     for (int i = 0; i <2; i ++) {
-        UIButton * btn = [[UIButton alloc]initWithFrame:CGRectMake(0, self.height*0.69, self.width*0.3, self.height*0.1)];
+        UIButton * btn = [[UIButton alloc]initWithFrame:CGRectMake(0, self.height*0.64, self.width*0.3, self.height*0.09)];
         if (!flag) {
             btn.frame=CGRectMake(0, textField.bottom+10*MCscale, self.width*0.5, 40*MCscale);
         }

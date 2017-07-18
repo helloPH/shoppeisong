@@ -10,7 +10,7 @@
 #import "Header.h"
 @interface PlatformCell()
 @property(nonatomic,strong)UIImageView *headImageView,*yuanImage;//头像,圆点
-@property(nonatomic,strong)UILabel *danhaoLabel,*nameLabel,*addressLabel,*timeLabel;//单号,商户名,地址,时间
+@property(nonatomic,strong)UILabel *danhaoLabel,*nameLabel,*addressLabel,*peisongfsLabel,*timeLabel;//单号,商户名,地址,时间
 @property(nonatomic,strong)UIButton *jiedanBtn;//接单按钮
 @property(nonatomic,strong)UIView *lineView;//
 @property(nonatomic,strong)NSString *danhaoStr;
@@ -48,7 +48,7 @@
 -(UILabel *)danhaoLabel
 {
     if (!_danhaoLabel) {
-        _danhaoLabel = [BaseCostomer labelWithFrame:CGRectZero font:[UIFont systemFontOfSize:MLwordFont_4] textColor:textColors backgroundColor:[UIColor clearColor] textAlignment:NSTextAlignmentLeft numOfLines:1 text:@""];
+        _danhaoLabel = [BaseCostomer labelWithFrame:CGRectZero font:[UIFont systemFontOfSize:MLwordFont_7] textColor:textColors backgroundColor:[UIColor clearColor] textAlignment:NSTextAlignmentLeft numOfLines:1 text:@""];
         [self.contentView addSubview:_danhaoLabel];
     }
     return _danhaoLabel;
@@ -82,7 +82,13 @@
     }
     return _jiedanBtn;
 }
-
+-(UILabel *)peisongfsLabel{
+    if (!_peisongfsLabel) {
+        _peisongfsLabel = [BaseCostomer labelWithFrame:CGRectZero font:[UIFont systemFontOfSize:MLwordFont_7] textColor:mainColor backgroundColor:[UIColor clearColor] textAlignment:NSTextAlignmentCenter numOfLines:1 text:@""];
+        [self.contentView addSubview:_peisongfsLabel];
+    }
+    return _peisongfsLabel;
+}
 -(UILabel *)timeLabel
 {
     if (!_timeLabel) {
@@ -108,10 +114,28 @@
     self.danhaoLabel.text = [NSString stringWithFormat:@"单号:%@",model.danhao];
     self.nameLabel.text = [NSString stringWithFormat:@"应收:%@",model.shanghu];
     self.addressLabel.text = [NSString stringWithFormat:@"地点:%@",model.shouhuodizhi];
+    
+    NSString * peisongfs = [NSString stringWithFormat:@"%@",model.peisongfangshi];
+    if ([peisongfs isEmptyString]) {
+        self.peisongfsLabel.text = @"";
+    }else{
+        NSArray * titles = @[@"堂食",@"外卖",@"外卖",@"打包"];
+        self.peisongfsLabel.text = [NSString stringWithFormat:@"%@",titles[[peisongfs integerValue]]];
+    }
+    
+    
+ 
+    
+    
+    
     self.timeLabel.text = [NSString stringWithFormat:@"%@",model.time];
     
-    NSString * isPeiSong = _model.peisongfangshi; //
-    [self.jiedanBtn setTitle:[isPeiSong isEqualToString:@"0"]?@"明细":@"抢单" forState:UIControlStateNormal];
+//    _model.peisongfangshi=@"0";
+    BOOL isBenDi = [peisongfs isEqualToString:@"0"] || [peisongfs isEqualToString:@"3"]; //
+    
+    
+    
+    [self.jiedanBtn setTitle:isBenDi?@"详情":@"接单" forState:UIControlStateNormal];
     
     NSString *imageUrl;
     if (user_dianpulogo) {
@@ -131,17 +155,21 @@
     }
     else
     {
+        
+//        model.shifoukeqiang=@"0";
         if ([model.shifoukeqiang integerValue] == 1) {//可抢
             [self.jiedanBtn setTitleColor:redTextColor forState:UIControlStateNormal];
             self.jiedanBtn.layer.borderColor = redTextColor.CGColor;
-            self.jiedanBtn.enabled = YES;
+//            self.jiedanBtn.enabled = YES;
+//            self.jiedanBtn.userInteractionEnabled = YES;
         }
         else
         {
             //不可抢
             [self.jiedanBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
             self.jiedanBtn.layer.borderColor = [UIColor grayColor].CGColor;
-            self.jiedanBtn.enabled = NO;
+//            self.jiedanBtn.enabled = NO;
+//            self.jiedanBtn.userInteractionEnabled=NO;
         }
     }
     if ([model.status integerValue] == 0||[model.status integerValue]==1) {
@@ -161,6 +189,12 @@
             [self.platformDelagete jinRuXiangQing:self.danhaoStr];
         }
     }else{
+        NSString * shifoukeqiang = [NSString stringWithFormat:@"%@",_model.shifoukeqiang];
+        
+        if (![shifoukeqiang isEqualToString:@"1"]) {
+            [MBProgressHUD promptWithString:@"该订单不可抢"];
+            return;
+        }
         if ([self.platformDelagete respondsToSelector:@selector(qiangdanButtonClickWithDanhao:)]) {
             [self.platformDelagete qiangdanButtonClickWithDanhao:self.danhaoStr];
         }
@@ -198,6 +232,8 @@
         make.height.equalTo(self.danhaoLabel.mas_height);
     }];
     
+  
+    
     [self.addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.danhaoLabel.mas_left);
         make.top.equalTo(self.nameLabel.mas_bottom).offset(5*MCscale);
@@ -211,6 +247,13 @@
         make.width.equalTo(@(70*MCscale));
         make.height.equalTo(@(25*MCscale));
     }];
+    [self.peisongfsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.jiedanBtn.mas_left);
+        make.top.equalTo(self.nameLabel.mas_top);
+        make.width.equalTo(self.jiedanBtn.mas_width);
+        make.height.equalTo(self.nameLabel.mas_height);
+    }];
+    
     
     [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.jiedanBtn.mas_left);

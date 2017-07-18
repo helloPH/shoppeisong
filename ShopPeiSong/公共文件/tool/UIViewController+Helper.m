@@ -24,7 +24,13 @@
     }
     
     UIImageView * imgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
-    [imgView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",HTTPHEADER,imgUrl]]];
+    if ([imgUrl hasPrefix:@"http"]) {
+        [imgView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:nil options:SDWebImageRefreshCached];
+    }else{
+        [imgView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",HTTPHEADER,imgUrl]]];
+    }
+    
+
     imgView.userInteractionEnabled=YES;
     imgView.alpha=0.9;
     

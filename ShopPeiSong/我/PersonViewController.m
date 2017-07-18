@@ -56,6 +56,11 @@
     
     NSLog(@"%@",user_dianpuID);
     NSLog(@"%@",user_Id);
+ 
+    
+
+    
+    
     
 }
 -(void)viewWillDisappear:(BOOL)animated{
@@ -169,6 +174,13 @@
             set_dianpu_banben(banben);
         
             [self reshView];
+            
+//            [[NSUserDefaults standardUserDefaults]setBool:NO forKey:NSStringFromClass([self class])];
+////            [[SDImageCache sharedImageCache]clearDisk];
+//            
+//            
+//            
+//            [self showGuideImageWithUrl:@"http://localhost:8080/myFirstServletDemo/Images/ic_launcher.png"];
         }
       
         
@@ -350,7 +362,8 @@
             
             NSDictionary * pram = @{@"dianpuid":user_dianpuID};
             [Request getShenHeStatusWithDic:pram Success:^(id json) {
-                NSString * message = [NSString stringWithFormat:@"%@",[json valueForKey:@"messages"]];
+                NSString * message = [NSString stringWithFormat:@"%@",[json valueForKey:@"message"]];
+//                message = @"1";
                 switch ([message integerValue]) {
                     case 0:
                     {
@@ -386,7 +399,7 @@
                         break;
                 }
             } failure:^(NSError *error) {
-                
+                 [self showShangpinFenLei];
             }];
                        return;
         }
@@ -539,6 +552,7 @@
 #pragma mark 上传图像
 -(void)imageTapClick:(UITapGestureRecognizer *)tap
 {
+
     UIImagePickerController * imagePicker = [[UIImagePickerController alloc]init];
     imagePicker.delegate=self;
     imagePicker.allowsEditing=YES;
@@ -560,6 +574,12 @@
     [alert addAction:cancalAction];
     [alert addAction:otherAction];
     [alert addAction:cleAction];
+    
+    UIPopoverPresentationController *popover =alert.popoverPresentationController;
+    popover.sourceView = tap.view;
+    popover.sourceRect = tap.view.bounds;
+    popover.permittedArrowDirections=UIPopoverArrowDirectionAny;
+    
     [self presentViewController:alert animated:YES completion:nil];
 }
 

@@ -40,6 +40,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="lauch" width="281" height="500"/>
+        <image name="lauch" width="540" height="960"/>
     </resources>
 </document>

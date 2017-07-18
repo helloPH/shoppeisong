@@ -83,11 +83,29 @@
 {
     ReceivedModelTwo *model = array[indexpath.row];
     self.dateLabel.text = model.date;
-    self.moneyLabel.text = [NSString stringWithFormat:@"金额:  %@",model.jine];
-    self.quxiaoLabel.text = [NSString stringWithFormat:@"取消订单%@",model.quxiao];
-    self.weipingjiaLabel.text = [NSString stringWithFormat:@"未评价%@",model.weipingjia];
-    self.yipingjiaLabel.text = [NSString stringWithFormat:@"已评价%@",model.yipingjia];
     
+    
+    NSString * dingdanshu = [NSString stringWithFormat:@"%ld",[model.quxiao integerValue]+[model.weipingjia integerValue]+[model.yipingjia integerValue]];
+    self.moneyLabel.text = [NSString stringWithFormat:@"订单:  %@",dingdanshu];
+    
+
+    NSString * quxiao = [NSString stringWithFormat:@"%@",model.quxiao];
+    self.quxiaoLabel.text = [NSString stringWithFormat:@"堂食%@",quxiao];
+    if ([quxiao isEqualToString:@"0"]) {
+        self.quxiaoLabel.text=@"";
+    }
+    
+    NSString * weiping = [NSString stringWithFormat:@"%@",model.weipingjia];
+    self.weipingjiaLabel.text = [NSString stringWithFormat:@"打包%@",weiping];
+    if ([weiping isEqualToString:@"0"]) {
+        self.weipingjiaLabel.text=@"";
+    }
+    
+    NSString * yiping = [NSString stringWithFormat:@"%@",model.yipingjia];
+    self.yipingjiaLabel.text = [NSString stringWithFormat:@"外卖%@",yiping];
+    if ([yiping isEqualToString:@"0"]) {
+        self.yipingjiaLabel.text=@"";
+    }
 }
 -(void)layoutSubviews
 {

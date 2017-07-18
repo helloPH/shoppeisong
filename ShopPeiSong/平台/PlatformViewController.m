@@ -32,6 +32,14 @@
 
 #import "ChainedView.h"
 
+#import "KaiHuChengGongView.h"
+
+#import "MoNiSystemAlert.h"
+
+#import "PHButton.h"
+
+#import "SystemMessageViewController.h"
+
 @interface PlatformViewController ()<UITableViewDelegate,UITableViewDataSource,MBProgressHUDDelegate,PlatformCellDelegate>
 
 @property(nonatomic,strong)UIButton *rightButton;
@@ -44,7 +52,7 @@
 
 @property (nonatomic,strong)PaymentPasswordView * passView;
 
-
+@property (nonatomic,strong)UIImageView * redPoint;
 
 @end
 
@@ -54,23 +62,14 @@
     [super viewWillAppear:animated];
     
 
-    
+//    [[UIApplication sharedApplication]setApplicationIconBadgeNumber:2];
     [self getbumenDataWithStates:@"0"];
     
     NSLog(@"%@",user_Id);
     
+
     
-    NSString * useid = user_Id;
-//    ChainedView * chain = [ChainedView  new];
-//    chain.frame(CGRectMake(100, 100, 100, 100)).backGroundColor([UIColor redColor]);
-    
-//    [self.view addSubview:chain];
-//    chain.backRect(CGRectMake(10, 100, 50, 50));
-//    chain.backColor([UIColor redColor]);
-//
-//    FenXiangWithLoginAfter * fenxiang = [FenXiangWithLoginAfter new];
-//    [fenxiang appear];
-//
+
     NSDictionary * shareDic = loginShareContent;
     NSString * shareContent = [NSString stringWithFormat:@"%@",[shareDic valueForKey:@"kaihufenxiang"]];
     if (![shareContent isEmptyString]) {
@@ -88,9 +87,36 @@
         switch ([type integerValue]) {
             case 1:
             {
-                set_Push_SystemValue(value);
-                if ([UIApplication sharedApplication].applicationState!=UIApplicationStateActive) {
-                    [((AppDelegate *)([UIApplication sharedApplication].delegate)) switchRootController];
+//                set_Push_SystemValue(value);
+                if ([UIApplication sharedApplication].applicationState==UIApplicationStateActive) {
+                    [Request getSystemMessageInfoWithMessageId:value success:^(id json) {
+                        NSString *filePath2 = [[NSBundle mainBundle] pathForResource:@"systemTui" ofType:@"wav"];
+                        //构建URL
+                        NSURL *url3 = [NSURL fileURLWithPath:filePath2];
+                        //创建系统声音ID
+                        SystemSoundID soundID;
+                        //注册声音文件，并且将ID保存
+                        AudioServicesCreateSystemSoundID((__bridge CFURLRef _Nonnull)(url3), &soundID);
+                        //播放声音
+                        AudioServicesPlaySystemSound(soundID);
+                        
+                        
+                        NSString * title      = [NSString stringWithFormat:@"%@",[json valueForKey:@"image"]];
+                        NSString * content    = [NSString stringWithFormat:@"%@",[json valueForKey:@"content"]];
+//                        NSString * weiduCount = [NSString stringWithFormat:@"%@",[json valueForKey:@"shuliang"]];
+                        
+                        MoNiSystemAlert * moni = [MoNiSystemAlert new];
+                        moni.title = title;
+                        moni.content = content;
+        
+                        [moni appear];
+                    } failure:^(NSError *error) {
+                        
+                    }];
+                    
+                    _redPoint.hidden = systemWeiDuCount ==0;
+                    
+//                    [((AppDelegate *)([UIApplication sharedApplication].delegate)) switchRootController];
                 }
             }
                 break;
@@ -128,7 +154,6 @@
                         [((CustomerTabbatViewController *)self.navigationController.tabBarController) setCustomIndex:0];
                         [self.navigationController popToRootViewControllerAnimated:YES];
                     }
-                    
                 };
             }
                 break;
@@ -203,6 +228,30 @@
     [self.navigationItem setTitle:dianPuName];
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:self.rightButton];
     self.navigationItem.rightBarButtonItem = rightItem;
+    
+    PHButton * leftBtn = [[PHButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [leftBtn setImage:[UIImage imageNamed:@"systemMessage"] forState:UIControlStateNormal];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:leftBtn];
+    
+    _redPoint = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 8, 8)];
+    [leftBtn addSubview:_redPoint];
+    _redPoint.right = leftBtn.width;
+    _redPoint.backgroundColor=redTextColor;
+    _redPoint.layer.cornerRadius = _redPoint.width/2;
+    _redPoint.hidden=systemWeiDuCount==0;
+    
+    
+    
+    [leftBtn addAction:^{
+        SystemMessageViewController * message = [SystemMessageViewController new];
+        message.hidesBottomBarWhenPushed=YES;
+        [self.navigationController pushViewController:message animated:YES];
+        
+        set_SystemWeiDuCount(0);
+        _redPoint.hidden=YES;
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+    }];
+    
 }
 
 -(void)rightItemClick
@@ -290,7 +339,6 @@
     {
         bumenUrl = @"gongyingDingdan.action";
         pram = [NSMutableDictionary dictionaryWithDictionary:@{@"yuangong.id":user_id}];
-        
     }
     [self getDingdanMessagesWithBumenUrl:bumenUrl AndPram:pram];
 }
@@ -302,20 +350,24 @@
     mHud.delegate = self;
     mHud.labelText = @"请稍等...";
     [mHud show:YES];
-    [HTTPTool getWithUrl:bumenUrl params:pram success:^(id json) {
+    [HTTPTool postWithUrl:bumenUrl params:pram success:^(id json) {
         [mHud hide:YES];
         NSLog(@"可抢订单 %@",json);
         if (self.isRefresh) {
             [self endRefresh];
         }
         
-        
         [self.keqiangdingdanArray removeAllObjects];
 
-        if ([[json valueForKey:@"message"]integerValue]== 1) {
+        NSString * message = [json valueForKey:@"message"];
+        if (!isZaiGang) {
+            message = @"2";
+        }
+        
+        if ([message integerValue]== 1) {
             [self promptMessageWithString:@"无此员工"];
         }
-        else if ([[json valueForKey:@"message"] integerValue] == 2)
+        else if ([message integerValue] == 2)
         {
             [self tableIsEmpty];
         }
@@ -324,6 +376,7 @@
             self.mainTableView.backgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"白底.jpg"]];
             NSArray *diandanList = [json valueForKey:@"dingdanlist"];
             
+        
             for (NSDictionary *dic in diandanList) {
                 KeQiangDiandanModel *model = [[KeQiangDiandanModel alloc]init];
                 [model setValuesForKeysWithDictionary:dic];
@@ -333,6 +386,8 @@
     
         
         [self.mainTableView reloadData];
+        [self showGuideImageWithUrl:@"images/caozuotishi/saoma.png"];
+        
 
     } failure:^(NSError *error) {
         [mHud hide:YES];
@@ -372,8 +427,9 @@
     /**
      *   收银台
      */
-    if ([model.peisongfangshi isEqualToString:@"0"]) { // 本地 购买 显示收银台
-        
+     NSString * peisongfs = [NSString stringWithFormat:@"%@",model.peisongfangshi];
+     BOOL isBenDi = [peisongfs isEqualToString:@"0"] || [peisongfs isEqualToString:@"3"]; //
+    if (isBenDi) { // 本地 购买 显示收银台
         NSLog(@"%@",user_ShouYingTaiQX?@"YES":@"NO");
         if (!user_ShouYingTaiQX) { // 如果没有收银台权限 直接略过
             [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -613,8 +669,8 @@
             break;
         case 2:// 扫码支付
         {
-            NSString * suijisu = [NSString stringWithFormat:@"%@",[contentDic valueForKey:@"suijishu"]];
-            NSString * yuangoId = [NSString stringWithFormat:@"%@",[contentDic valueForKey:@"yuangongid"]];
+//            NSString * suijisu = [NSString stringWithFormat:@"%@",[contentDic valueForKey:@"suijishu"]];
+//            NSString * yuangoId = [NSString stringWithFormat:@"%@",[contentDic valueForKey:@"yuangongid"]];
             NSString * yingyongId = [NSString stringWithFormat:@"%@",[contentDic valueForKey:@"yid"]];
 
             NSDictionary * pram = @{@"yuangongid":user_Id,

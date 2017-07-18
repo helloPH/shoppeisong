@@ -251,14 +251,7 @@
   [sharePush registWithBlock:^(NSData *token, NSError *error) {
       
   }];
-    
-    NSError * setCategoryErr = nil;
-    NSError * activationErr  = nil;
-    [[AVAudioSession sharedInstance]setCategory:AVAudioSessionCategoryPlayback error:&setCategoryErr];
-    [[AVAudioSession sharedInstance]setActive:YES error:&activationErr];
 
-  
-    
     UIApplication * app = [UIApplication sharedApplication];
     __block UIBackgroundTaskIdentifier bgTask;
     bgTask = [app beginBackgroundTaskWithExpirationHandler:^{
@@ -286,8 +279,6 @@
 }
 -(void)pushTask{
     
-   
-    [self setTimerWithTimeInter:_timeInterval];
     
     NSString * urString = [NSString stringWithFormat:@"%@GuanjiaInfo.jsp?yuangongid=%@",HTTPImage,user_Id];
     
@@ -297,7 +288,6 @@
     PHJavaScriptHelper * jshelper = [PHJavaScriptHelper new];
     jshelper.htmlString = htmlString;
     NSArray * arrar =  [jshelper getInfoS];
-    
     
 //    arrar = @[
 //              @{
@@ -318,6 +308,16 @@
 //              ];
     NSLog(@"useid %@",user_Id);
     NSLog(@"推送的数据解析-------:%@",arrar);
+    
+    
+    if (arrar==nil || arrar.count==0) {
+        return;
+    }
+    
+    NSDictionary * dic1 = arrar[0];
+//    NSDictionary * dic2 = arrar[1];
+//    NSDictionary * dic3 = arrar[2];
+    
     for (NSDictionary * dic in arrar) {
         NSString * value = [NSString stringWithFormat:@"%@",dic[@"value"]];
         NSString * Id = [NSString stringWithFormat:@"%@",dic[@"id"]];
@@ -330,23 +330,25 @@
                 {
                     title = @"欢迎使用妙店佳商铺";
                     if ([value isEqualToString:@"0"]) {
-                        if (isZaiGang) {
-                            NSLog(@"进入推送2");
-                            Id = @"2";
-                        }else{
-                            Id = @"0";
-                        }
+                        
+//                        if (isZaiGang) {
+//                            NSLog(@"进入推送2");
+//                            Id = @"2";
+//                        }else{
+//                            Id = @"0";
+//                        }
+                        Id = @"0";
                     }else{
                         if ([value isEqualToString:push_SystemValue]) {
-                            if (isZaiGang) {
-                                NSLog(@"进入推送2");
-                                Id = @"2";
-                            }
-                            else{
-                                Id = @"0";
-                            }
+//                            if (isZaiGang) {
+//                                NSLog(@"进入推送2");
+//                                Id = @"2";
+//                            }
+//                            else{
+//                                Id = @"0";
+//                            }
+                            Id = @"0";
                         }else{
-                            
                             Id = @"1";
                         }
                     }
@@ -362,6 +364,17 @@
                     break;
                 case 3:
                 {
+                    NSString * value1 = [NSString stringWithFormat:@"%@",dic1[@"value"]];
+//                    NSString * Id1 = [NSString stringWithFormat:@"%@",dic1[@"id"]];
+                    
+                    
+                    if ([value1 isEqualToString:@"0"]) {
+                        Id = @"3";
+                    }else if([value1 isEqualToString:push_SystemValue]){
+                        Id = @"3";
+                    }else{
+                        Id = @"0";
+                    }
                     
                 }
                     break;
@@ -369,17 +382,26 @@
                     break;
             }
             if ([Id integerValue]==1) {//系统
-                //                        set_Push_SystemValue(value);
+               set_Push_SystemValue(value);
+                [Request getSystemMessageInfoWithMessageId:value success:^(id json) {
+  
+                    NSString * title      = [NSString stringWithFormat:@"%@",[json valueForKey:@"image"]];
+                    NSString * content    = [NSString stringWithFormat:@"%@",[json valueForKey:@"content"]];
+                    NSString * weiduCount = [NSString stringWithFormat:@"%@",[json valueForKey:@"shuliang"]];
+                    
+                    set_SystemWeiDuCount([weiduCount integerValue]);
+                    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:systemWeiDuCount];
+                    
+                     [sharePush localPushWithTitle:title body:content  time:0 sound:@"systemTui.wav" pram:dic];
+                } failure:^(NSError *error) {
+                }];
                 
-                
-                [sharePush localPushWithTitle:title body:@"点击进入详情"  time:0 sound:nil pram:dic];
+                break;
             }else if ([Id integerValue]==2){
-    
-                // pc端地图接口
-                //                        if ([value isEqualToString:@"0"]) {
-                //                        }else{// 进入推送3
-                //
-                //                        }
+                
+                
+
+ 
             }else if([Id integerValue]==3){//新订单
                 if (user_id) {
                     if (!isZaiGang) {
@@ -394,10 +416,16 @@
                     
                  
                     
-                    [self setTimerWithTimeInter:pushTimeInter];
-                    [sharePush localPushWithTitle:title body:value  time:0 sound:@"dingdantixng.mp3" pram:dic];
+                  
                     [Request upDateOrderTiXingWithSuccess:^(id json) {
-                        NSLog(@"%@",json);
+                        NSString * message = [NSString stringWithFormat:@"%@",[json valueForKey:@"message"]];
+                        if ([message isEqualToString:@"3"]) {
+                            [self setTimerWithTimeInter:pushTimeInter];
+                            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+                            [sharePush localPushWithTitle:title body:value  time:0 sound:@"dingdantixng.mp3" pram:dic];
+                        }
+//                        NSLog(@"%@",json);
+                        
                     } failure:^(NSError *error) {
                         
                     }];

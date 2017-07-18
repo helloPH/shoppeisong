@@ -45,7 +45,7 @@
 
 -(void)setNavigationItem
 {
-    [self.navigationItem setTitle:@"抢单详情"];
+    [self.navigationItem setTitle:@"订单详情"];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:MLwordFont_2],NSFontAttributeName, nil]];
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:self.leftButton];
     self.navigationItem.leftBarButtonItem = leftItem;
@@ -105,7 +105,17 @@
                 [self.shangpinListArray addObject:model];
             }
             
-            NSDictionary *dict1 = @{@"key":@"预约送达时间:",@"value":dict[@"yuyuesongda"]};
+            
+            NSString * psfsIndex = [NSString stringWithFormat:@"%@",dict[@"dingdanleixing"]];
+            NSArray * titles = @[@"堂食",@"外卖",@"外卖",@"打包"];
+            NSString * psfsString = [NSString stringWithFormat:@"%@",titles[[psfsIndex integerValue]]];
+            if ([psfsIndex isEmptyString]) {
+                psfsString = @"NULL";
+            }
+            
+            NSDictionary *ddTypeDic = @{@"key":@"订单类型:",@"value":psfsString};
+            NSDictionary *dict1 = @{@"key":@"送达时间:",@"value":dict[@"yuyuesongda"]};
+            [self.zhifushangshiArray addObject:ddTypeDic];
             [self.zhifushangshiArray addObject:dict1];
             if ([dict[@"fapiao"] integerValue] != 0) {
                 NSDictionary *dict2 = @{@"key":@"发票:",@"value":dict[@"fapiao"]};

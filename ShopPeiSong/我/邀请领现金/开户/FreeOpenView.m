@@ -17,6 +17,8 @@
 //#import "PHPay.h"
 #import "OnLinePayView.h"
 
+
+#import "KaiHuChengGongView.h"
 #import "YanZhengMaViewController.h"
 
 
@@ -307,6 +309,10 @@
         [MBProgressHUD promptWithString:@"请选择行业"];
         return;
     }
+    if (![phone.text isValidateMobile]) {
+        [MBProgressHUD promptWithString:@"请输入正确的手机号"];
+        return;
+    }
     
     NSDictionary * dic = @{@"dianpu.yidongtel":phone.text};
     [Request judgePhoneWithDic:dic success:^(id json) {
@@ -346,11 +352,18 @@
         if ([message isEqualToString:@"1"]) {
             
 
-            [MBProgressHUD promptWithString:@"开户成功"];
+//            [MBProgressHUD promptWithString:@"开户成功"];
+             _dataDic = (NSDictionary *)json;
             
+
+            KaiHuChengGongView * cheng = [KaiHuChengGongView new];
+            [cheng appear];
+            cheng.block=^(){
+                 [self login];
+            };
 //            [self upLoadImagesWithDianPuId:dianpuid];
-            _dataDic = (NSDictionary *)json;
-            [self login];
+           
+           
             
         }else if([message isEqualToString:@"0"]){
             [MBProgressHUD promptWithString:@"参数有空请检查"];

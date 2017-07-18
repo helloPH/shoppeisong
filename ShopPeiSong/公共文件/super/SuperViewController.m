@@ -17,17 +17,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor=[UIColor whiteColor];
+    self.view.backgroundColor=backColor;
     [self setNavigationItem];
  
     // Do any additional setup after loading the view.
 }
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    self.hidesBottomBarWhenPushed=YES;
-//    self.navigationController.navigationBar.hidden=YES;
-    
-}
+//-(void)viewWillAppear:(BOOL)animated{
+//    [super viewWillAppear:animated];
+//
+////    self.navigationController.navigationBar.hidden=YES;
+//    
+//}
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
 //    self.navigationController.navigationBar.hidden=NO;
@@ -42,6 +42,8 @@
     [leftBtn addTarget:self.navigationController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
+    
+    
     
 //    _navi = [SuperNavigationView new];
 //    _navi.backgroundColor=naviBarTintColor;

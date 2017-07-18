@@ -19,5 +19,13 @@
 @property(nonatomic,assign)float buchaMoney;
 
 @property(nonatomic,strong)id<ChangeFujiafeiViewDelegate>changeFujiaDelegate;
+
+
+
+
 -(void)getFujiafeiMoney:(NSString *)fujiafeiMoney AndViewTag:(NSInteger)viewTag;
+
+
+-(void)appear;
+-(void)disAppear;
 @end

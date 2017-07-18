@@ -71,7 +71,7 @@
 -(UILabel *)timeLabel
 {
     if (!_timeLabel) {
-        _timeLabel = [BaseCostomer labelWithFrame:CGRectZero font:[UIFont systemFontOfSize:MLwordFont_4] textColor:textColors backgroundColor:[UIColor clearColor] textAlignment:NSTextAlignmentRight numOfLines:1 text:@""];
+        _timeLabel = [BaseCostomer labelWithFrame:CGRectZero font:[UIFont systemFontOfSize:MLwordFont_4] textColor:lineColor backgroundColor:[UIColor clearColor] textAlignment:NSTextAlignmentRight numOfLines:1 text:@""];
         [self.contentView addSubview:_timeLabel];
     }
     return _timeLabel;
@@ -97,8 +97,14 @@
     self.danhaoLabel.text = model.danhao;
     self.moneyLabel.text = [NSString stringWithFormat:@"金额:  %@",model.jine];
     self.yongshiLabel.text = [NSString stringWithFormat:@"%@",model.yongshi];
+    if (![self.yongshiLabel.text hasSuffix:@"分钟"]) {
+        self.yongshiLabel.text = @"";
+    }
+    
+    
     self.timeLabel.text = [NSString stringWithFormat:@"%@",model.time];
 
+    
     if ([model.status integerValue] == 4) {
         self.pingjiaLabel.backgroundColor = txtColors(214, 214,214, 1);
         self.pingjiaLabel.textColor  = textColors;
@@ -108,15 +114,26 @@
         self.pingjiaLabel.backgroundColor = redTextColor;
         self.pingjiaLabel.textColor  = [UIColor whiteColor];
         
-//        if ([user_show integerValue] == 1) {
-//            self.infoLabel.text = [NSString stringWithFormat:@"评价:  %@",model.info];
-//        }
-//        else if ([user_show integerValue] ==2)
-//        {
-            self.infoLabel.text = [NSString stringWithFormat:@"%@",model.info];
+
+        self.infoLabel.text = [NSString stringWithFormat:@"%@",model.info] ;
+        if ([self.infoLabel.text isEqualToString:@"0"]) {
+            self.infoLabel.text = @"";
+        }
+        if ([self.infoLabel.text hasSuffix:@":0"]) {
+            self.infoLabel.text = @"好";
+        }
+        
 //        }
     }
+
+    
     self.pingjiaLabel.text = [NSString stringWithFormat:@"%@",self.statesArray[[model.status integerValue]-4]];
+
+    if ([model.status integerValue]-4 == 1) {
+        self.yongshiLabel.hidden=YES;
+    }else{
+        self.yongshiLabel.hidden=NO;
+    }
 }
 -(void)layoutSubviews
 {

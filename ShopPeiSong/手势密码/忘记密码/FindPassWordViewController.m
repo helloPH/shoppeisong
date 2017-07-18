@@ -11,7 +11,7 @@
 #import "MoNiSystemAlert.h"
 
 #import "ShouShiMiMaView.h"
-#import "YanButton.h"
+#import "CaptchaTimerManager.h"
 
 @interface FindPassWordViewController ()<UITextFieldDelegate>
 @property (nonatomic,strong)NSString * nPW;
@@ -19,13 +19,11 @@
 
 @property (nonatomic,strong)UITextField * phoneTF;
 
-@property (nonatomic,strong)YanButton * yanBtn;
-
-
 @property (nonatomic,strong)UITextField * yanTF;
 
 @property (nonatomic,strong)UIButton    * yanSureBtn;
 
+@property (nonatomic,strong)YanButton * yanBtn;
 @end
 
 @implementation FindPassWordViewController
@@ -36,8 +34,50 @@
     [self newView];
     [self reshView];
     
+    
+    
+    
+    CaptchaTimerManager * manager = [CaptchaTimerManager sharedTimerManager];
+    
+    if (manager.timeout>0 && [self.phoneTF.text isEqualToString:findPassLastTel]) {
+        NSDictionary * pram = @{@"canshu":@"2",// 1 用户 2 员工
+                                @"tel":_phoneTF.text,
+                                @"content":user_shebeiId};
+        
+        [self yanZhengShengFenWithDic:pram success:^(id json) {
+            
+            if ([json isEqualToString:@"0"]) {// 短信
+                
+                [_yanBtn setValue:@(manager.timeout) forKey:@"totalTime"];
+                [_yanBtn setValue:@(manager.timeout) forKey:@"realTime"];
+                [_yanBtn startTimer];
+                _phoneTF.userInteractionEnabled=NO;
+                _yanBtn.hidden=NO;
+                _yanTF.hidden=NO;
+                _yanSureBtn.hidden=NO;
+
+            }else{
+
+            }
+        } failure:^(NSError *error) {
+            
+        }];
+
+    }
+
+    
+    
+    
+//    if (_yanBtn.timer) {
+//        _yanBtn.hidden=NO;
+//        _yanTF.hidden=NO;
+//        _yanSureBtn.hidden=NO;
+//    }
+    
+    
     // Do any additional setup after loading the view.
 }
+
 -(void)newNavi{
     UIButton * leftBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, NVbtnWight, NVbtnWight)];
     [leftBtn setImage:[UIImage imageNamed:@"返回按钮"] forState:UIControlStateNormal];
@@ -49,7 +89,24 @@
     
 }
 -(void)dismiss{
+    if (_popBack) {
+        _popBack();
+    }
     [self.navigationController dismissViewControllerAnimated:YES completion:^{}];
+    NSInteger realTime = [[_yanBtn valueForKey:@"realTime"] integerValue];
+    
+    if (realTime>0) {
+        if ([_phoneTF.text isValidateMobile]) {
+            set_FindPassLastTel(_phoneTF.text);
+        }
+        
+        CaptchaTimerManager * manager =[CaptchaTimerManager sharedTimerManager];
+        manager.timeout = (int)realTime;
+        [manager countDown];
+    }
+
+    
+ 
 }
 -(void)reshView{
     _yanBtn.hidden=YES;
@@ -97,6 +154,7 @@
     setY = _yanBtn.bottom;
     
     
+    
     _yanTF = [[UITextField alloc]initWithFrame:CGRectMake(20*MCscale, setY+20, self.view.width-40, 40*MCscale)];
     _yanTF.placeholder = @"请输入验证码";
     _yanTF.keyboardType = UIKeyboardTypeNumberPad;
@@ -120,6 +178,8 @@
     [self.view addSubview:_yanSureBtn];
 }
 -(void)yanzhengtel{
+    
+    
     UITextField *tel = _phoneTF;
     BOOL isMatch = [BaseCostomer panduanPhoneNumberWithString:tel.text];
     if(!isMatch){
@@ -130,6 +190,11 @@
         [self presentViewController:alert animated:YES completion:nil];
     }
     else{
+        if (_yanBtn.timer) {
+            [MBProgressHUD promptWithString:@"验证码已发送"];
+            return;
+        }
+        
         NSMutableDictionary *pram = [[NSMutableDictionary alloc]initWithDictionary:@{@"yuangong.tel":tel.text}];
         
         
@@ -157,23 +222,28 @@
                 }
             }
             else{
+                __block typeof(self) weakSelf = self;
                 
-                
-      
+
                 NSDictionary * pram = @{@"canshu":@"2",// 1 用户 2 员工
                                         @"tel":tel.text,
                                         @"content":user_shebeiId};
                 
                 [self yanZhengShengFenWithDic:pram success:^(id json) {
                     
-                            _yanBtn.hidden=NO;
-                            [_yanBtn startTimer];
-                            _yanTF.hidden=NO;
-                            _yanSureBtn.hidden=NO;
+                    _yanBtn.hidden=NO;
+                    [_yanBtn startTimer];
+                    _yanTF.hidden=NO;
+                    _yanSureBtn.hidden=NO;
+                    
+                    _yanBtn.timeOut=^(){
+                        weakSelf.phoneTF.userInteractionEnabled=YES;
+                    };
+                    
                     if ([json isEqualToString:@"0"]) {
                     }else{
                         MoNiSystemAlert * alert = [MoNiSystemAlert new];
-                        alert.content=[NSString stringWithFormat:@"%@",json];
+                        alert.title=[NSString stringWithFormat:@"你好：你的重置密码验证码是“%@“",json];
                         [alert appear];
                     }
                 } failure:^(NSError *error) {

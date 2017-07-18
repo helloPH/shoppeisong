@@ -59,14 +59,32 @@
 -(NSArray *)titleArray1
 {
     if (!_titleArray1) {
-        _titleArray1 = @[@"名称:",@"类别",@"库存量",@"原价",@"现价",@"成本价",@"附加费",@"标签",@"排序"];
+        _titleArray1 = @[@"名称:",
+                         @"类别",
+//                         @"库存量",
+                         @"原价",
+                         @"现价",
+                         @"成本价",
+//                         @"附加费",
+//                         @"标签",
+//                         @"排序"
+                         ];
     }
     return _titleArray1;
 }
 -(NSArray *)placeoderArray
 {
     if (!_placeoderArray) {
-        _placeoderArray = @[@"请输入名称",@"",@"请输入库存量",@"请输入原价",@"请输入现价",@"请输入成本价",@"",@"",@"请输入排序"];
+        _placeoderArray = @[@"请输入名称",
+                            @"",
+//                            @"请输入库存量",
+                            @"填写原价可显示在特价、折扣专区",
+                            @"请输入现价",
+                            @"请输入成本价",
+                            @"",
+                            @"",
+                            @"请输入排序"
+                            ];
     }
     return _placeoderArray;
 }
@@ -76,15 +94,18 @@
     for (int i = 0; i<self.titleArray1.count; i++) {
         UILabel *titleLabel = [BaseCostomer labelWithFrame:CGRectMake(10*MCscale,40*MCscale*i+5*MCscale, 60*MCscale, 30*MCscale) font:[UIFont systemFontOfSize:MLwordFont_4] textColor:textColors backgroundColor:[UIColor clearColor] textAlignment:0 numOfLines:1 text:self.titleArray1[i]];
         [self addSubview:titleLabel];
-        if (i == 0 ||i == 1||i==4||i==5||i==8) {
+//        if (i == 0 ||i == 1||i==4||i==5||i==8) {
+//            titleLabel.textColor = redTextColor;
+//        }
+        if (i == 0 ||i == 1||i==3||i==4) {
             titleLabel.textColor = redTextColor;
         }
         
         UIView *line = [BaseCostomer viewWithFrame:CGRectMake(10*MCscale, titleLabel.bottom+5*MCscale, kDeviceWidth-20*MCscale, 1) backgroundColor:lineColor];
         [self addSubview:line];
-        
-        if (i == 0 ||i == 2||i==3||i==4||i==5||i==8) {
-            UITextField *textField = [BaseCostomer textfieldWithFrame:CGRectMake(kDeviceWidth-130*MCscale , titleLabel.top, 120*MCscale, 30*MCscale) font:[UIFont systemFontOfSize:MLwordFont_4] textColor:textColors textAlignment:2 keyboardType:UIKeyboardTypeNumbersAndPunctuation borderStyle:0 placeholder:self.placeoderArray[i]];
+//        i == 0 ||i == 2||i==3||i==4||i==5||i==8
+        if (i == 0 ||i == 2 || i==3||i==4) {
+            UITextField *textField = [BaseCostomer textfieldWithFrame:CGRectMake(titleLabel.right, titleLabel.top, self.width-titleLabel.right-10*MCscale, 30*MCscale) font:[UIFont systemFontOfSize:MLwordFont_4] textColor:textColors textAlignment:2 keyboardType:UIKeyboardTypeNumbersAndPunctuation borderStyle:0 placeholder:self.placeoderArray[i]];
             textField.backgroundColor = [UIColor clearColor];
             textField.returnKeyType = UIReturnKeyDone;
             textField.tag = 10000+i;
@@ -111,11 +132,11 @@
             UILabel *contentLabel = [BaseCostomer labelWithFrame:CGRectMake(30*MCscale,0, 150*MCscale, 30*MCscale) font:[UIFont systemFontOfSize:MLwordFont_4] textColor:txtColors(216, 216, 216, 1) backgroundColor:[UIColor clearColor] textAlignment:1 numOfLines:1 text:@""];
             contentLabel.tag = 30000+i;
             [backView addSubview:contentLabel];
-            if (i == 6) {
-                UILabel *contentLabel = [BaseCostomer labelWithFrame:CGRectMake(backView.width - 75*MCscale,0,50*MCscale, 30*MCscale) font:[UIFont systemFontOfSize:MLwordFont_4] textColor:txtColors(216, 216, 216, 1) backgroundColor:[UIColor clearColor] textAlignment:1 numOfLines:1 text:@""];
-                contentLabel.tag = 40000+i;
-                [backView addSubview:contentLabel];
-            }
+//            if (i == 6) {
+//                UILabel *contentLabel = [BaseCostomer labelWithFrame:CGRectMake(backView.width - 75*MCscale,0,50*MCscale, 30*MCscale) font:[UIFont systemFontOfSize:MLwordFont_4] textColor:txtColors(216, 216, 216, 1) backgroundColor:[UIColor clearColor] textAlignment:1 numOfLines:1 text:@""];
+//                contentLabel.tag = 40000+i;
+//                [backView addSubview:contentLabel];
+//            }
         }
     }
 }
@@ -133,26 +154,26 @@
             [self addSubview:self.selectedView];
         }];
     }
-    else if (tap.view.tag == 20006)
-    {
-        [UIView animateWithDuration:0.3 animations:^{
-            self.maskView.alpha = 1;
-            [self addSubview:self.maskView];
-            self.fujiafeiView.alpha = 0.95;
-            [self addSubview:self.fujiafeiView];
-        }];
-    }
-    else if (tap.view.tag == 20007)
-    {
-        [UIView animateWithDuration:0.3 animations:^{
-            self.maskView.alpha = 1;
-            [self addSubview:self.maskView];
-            self.selectedView.alpha = 0.95;
-            //            self.selectedView.dianpuId = self.dianpuID;
-            [self.selectedView reloadDataWithViewTag:4];
-            [self addSubview:self.selectedView];
-        }];
-    }
+//    else if (tap.view.tag == 20006)
+//    {
+//        [UIView animateWithDuration:0.3 animations:^{
+//            self.maskView.alpha = 1;
+//            [self addSubview:self.maskView];
+//            self.fujiafeiView.alpha = 0.95;
+//            [self addSubview:self.fujiafeiView];
+//        }];
+//    }
+//    else if (tap.view.tag == 20007)
+//    {
+//        [UIView animateWithDuration:0.3 animations:^{
+//            self.maskView.alpha = 1;
+//            [self addSubview:self.maskView];
+//            self.selectedView.alpha = 0.95;
+//            //            self.selectedView.dianpuId = self.dianpuID;
+//            [self.selectedView reloadDataWithViewTag:4];
+//            [self addSubview:self.selectedView];
+//        }];
+//    }
 }
 #pragma mark 选择商品类别
 -(void)selectedAddShangpinLeixinWithString:(NSString *)string AndId:(NSString *)ID
@@ -199,14 +220,14 @@
     UITextField *textfield2 = [self viewWithTag:10002];
     UITextField *textfield3 = [self viewWithTag:10003];
     UITextField *textfield4 = [self viewWithTag:10004];
-    UITextField *textfield5 = [self viewWithTag:10005];
-    UITextField *textfield6 = [self viewWithTag:10008];
+//    UITextField *textfield5 = [self viewWithTag:10005];
+//    UITextField *textfield6 = [self viewWithTag:10008];
     [textfield1 resignFirstResponder];
     [textfield2 resignFirstResponder];
     [textfield3 resignFirstResponder];
     [textfield4 resignFirstResponder];
-    [textfield5 resignFirstResponder];
-    [textfield6 resignFirstResponder];
+//    [textfield5 resignFirstResponder];
+//    [textfield6 resignFirstResponder];
     
     return YES;
 }
@@ -216,13 +237,13 @@
     UITextField *textfield2 = [self viewWithTag:10002];
     UITextField *textfield3 = [self viewWithTag:10003];
     UITextField *textfield4 = [self viewWithTag:10004];
-    UITextField *textfield5 = [self viewWithTag:10005];
-    UITextField *textfield6 = [self viewWithTag:10008];
+//    UITextField *textfield5 = [self viewWithTag:10005];
+//    UITextField *textfield6 = [self viewWithTag:10008];
     [textfield1 resignFirstResponder];
     [textfield2 resignFirstResponder];
     [textfield3 resignFirstResponder];
     [textfield4 resignFirstResponder];
-    [textfield5 resignFirstResponder];
-    [textfield6 resignFirstResponder];
+//    [textfield5 resignFirstResponder];
+//    [textfield6 resignFirstResponder];
 }
 @end

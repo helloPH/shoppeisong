@@ -8,6 +8,8 @@
 
 #import "YanZhengMaViewController.h"
 #import "YanButton.h"
+//#import "CaptchaTimerManager.h"
+
 
 
 @interface YanZhengMaViewController ()<UITextFieldDelegate>
@@ -22,11 +24,26 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden=YES;
+
     
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     self.navigationController.navigationBar.hidden=NO;
+    
+    
+    
+    NSInteger realTime = [[_yanBtn valueForKey:@"realTime"] integerValue];
+    if (realTime>1) {
+        if ([_phone isValidateMobile]) {
+            set_RegistLastTel(_phone);
+        }
+
+        TimerManager * manager =[TimerManager sharedTimerManager];
+        manager.timeout = (int)realTime;
+        [manager countDown];
+    }
+
     
 }
 - (void)viewDidLoad {
@@ -34,6 +51,19 @@
     
     [self newView];
     [self initNavi];
+    
+    TimerManager * manager = [TimerManager sharedTimerManager];
+    
+    if (manager.timeout>0 && [_phone isEqualToString:registLastTel]) {
+        [_yanBtn setValue:@(manager.timeout) forKey:@"totalTime"];
+        [_yanBtn setValue:@(manager.timeout) forKey:@"realTime"];
+        _yanBtn.timer = nil;
+        //        [_yanBtn endTimer];
+        [_yanBtn startTimer];
+    }else{
+            [self yanBtnClick:_yanBtn];
+    }
+    
     // Do any additional setup after loading the view.
 }
 
@@ -100,7 +130,7 @@
     _yanBtn.titleLabel.textAlignment=NSTextAlignmentCenter;
     [self.view addSubview:_yanBtn];
     [_yanBtn addTarget:self action:@selector(yanBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self yanBtnClick:_yanBtn];
+
     
     
     _textF = [[UITextField alloc]initWithFrame:CGRectZero];
@@ -174,5 +204,61 @@
     // Pass the selected object to the new view controller.
 }
 */
+@end
+
+
+@implementation TimerManager
+
+
++ (id)sharedTimerManager{
+    
+    static TimerManager *manager = nil;
+    
+    static dispatch_once_t onceToken;
+    
+    dispatch_once(&onceToken, ^{
+        
+        if (manager == nil) {
+            
+            manager = [[self alloc]init];
+        }
+    });
+    return manager;
+    
+}
+
+
+- (void)countDown{
+    
+    if (_timeout > 0) {
+        
+        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        
+        dispatch_source_t _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,queue);
+        
+        dispatch_source_set_timer(_timer,dispatch_walltime(NULL, 0),1.0*NSEC_PER_SEC, 0); //每秒执行
+        
+        dispatch_source_set_event_handler(_timer, ^{
+            
+            if(_timeout<=0){ //倒计时结束，关闭
+                
+                dispatch_source_cancel(_timer);
+                
+            }else{
+                
+                _timeout--;
+                
+            }
+            
+        });
+        
+        dispatch_resume(_timer);
+        
+    }
+    
+}
 
 @end
+
+
+

@@ -10,7 +10,6 @@
 @interface YanButton ()
 @property (nonatomic,assign)NSUInteger totalTime;
 @property (nonatomic,strong)NSString * titleYan;
-@property (nonatomic,strong)NSTimer * timer;
 @property (nonatomic,assign)NSInteger realTime;
 @end
 @implementation YanButton
@@ -42,6 +41,7 @@
         NSString * value=[NSString stringWithFormat:@"接收短信大概需要%ld秒",(long)_realTime];
         [self setTitle:value forState:UIControlStateNormal];
     }else{
+      
            [self endTimer];
     }
 }
@@ -51,6 +51,9 @@
     [self setTitle:_titleYan forState:UIControlStateNormal];
     [_timer invalidate];
     _timer=nil;
+    if (_timeOut) {
+        _timeOut();
+    }
 }
 /*
 // Only override drawRect: if you perform custom drawing.

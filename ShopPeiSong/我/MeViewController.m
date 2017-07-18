@@ -397,7 +397,7 @@
         NSString * firstTitle;
         
         
-        NSString * dodo = [NSString stringWithFormat:@"%@",_personDic[@"dodo"]];
+//        NSString * dodo = [NSString stringWithFormat:@"%@",_personDic[@"dodo"]];
         if ([banben isEqualToString:@"2"]) {
             firstTitle = @"邀请领现金";
         }else{

@@ -71,25 +71,27 @@
             UITextField *textfield2 = [self.checkView  viewWithTag:11001];
             UITextField *textfield3 = [self.checkView  viewWithTag:11002];
             UITextField *textfield4 = [self.checkView  viewWithTag:11003];
+            UITextField *textfield5 = [self.checkView  viewWithTag:11004];
             textfield1.text = [NSString stringWithFormat:@"%@",shangpinDict[@"yuanjia"]];
             textfield2.text =  [NSString stringWithFormat:@"%@",shangpinDict[@"xianjia"]];
             textfield3.text =  [NSString stringWithFormat:@"%@",shangpinDict[@"caigoujia"]];
             textfield4.text =  [NSString stringWithFormat:@"%@",shangpinDict[@"dianleipaixu"]];
+            textfield5.text =  [NSString stringWithFormat:@"%@",shangpinDict[@"kucun"]];
             
-            UIView *backView1 = [self.checkView viewWithTag:21005];
-            UILabel *fujiafeiNameLabel = [backView1 viewWithTag:31005];
-            UILabel *fujiafeiMoneyLabel = [backView1 viewWithTag:41005];
+            UIView *backView1 = [self.checkView viewWithTag:21006];
+            UILabel *fujiafeiNameLabel = [backView1 viewWithTag:31006];
+            UILabel *fujiafeiMoneyLabel = [backView1 viewWithTag:41006];
             fujiafeiNameLabel.text =  [NSString stringWithFormat:@"%@",shangpinDict[@"fujiafeiyong_name"]];;
             fujiafeiMoneyLabel.text =  [NSString stringWithFormat:@"%@",shangpinDict[@"fujiafeiyong_money"]];;
             
             NSArray *biaoqianArray = @[@"推荐",@"新品",@"热销",@"特惠购"];
-            UIView *backView2 = [self.checkView viewWithTag:21004];
-            UILabel *biaoqianLabel = [backView2 viewWithTag:31004];
+            UIView *backView2 = [self.checkView viewWithTag:21005];
+            UILabel *biaoqianLabel = [backView2 viewWithTag:31005];
             biaoqianLabel.text = biaoqianArray[[shangpinDict[@"biaoqian"] integerValue]-1];
             
             NSArray *stateArray = @[@"下架",@"上架"];
-            UIView *backView3 = [self.checkView viewWithTag:21006];
-            UILabel *statesLabel = [backView3 viewWithTag:31006];
+            UIView *backView3 = [self.checkView viewWithTag:21007];
+            UILabel *statesLabel = [backView3 viewWithTag:31007];
             statesLabel.text = stateArray[[shangpinDict[@"zhuangtai"] integerValue]];
             NSString *imageUrl = [NSString stringWithFormat:@"%@",shangpinDict[@"canpinpic"]];
             [self.ShangpinImage sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"yonghutouxiang"] options:SDWebImageRefreshCached];
@@ -147,7 +149,7 @@
     if (!_ShangpinImage) {
         _ShangpinImage = [BaseCostomer imageViewWithFrame:CGRectMake(kDeviceWidth/2.0-50,10*MCscale, 100*MCscale, 100*MCscale) backGroundColor:[UIColor clearColor] cornerRadius:0 userInteractionEnabled:YES image:@"yonghutouxiang"];
         
-        UITapGestureRecognizer *shangpinImageTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ShangpinImageTapClick)];
+        UITapGestureRecognizer *shangpinImageTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ShangpinImageTapClick:)];
         [_ShangpinImage addGestureRecognizer:shangpinImageTap];
     }
     return _ShangpinImage;
@@ -221,7 +223,7 @@
     return _imagePicker;
 }
 #pragma mark 上传商品照片
--(void)ShangpinImageTapClick
+-(void)ShangpinImageTapClick:(UITapGestureRecognizer *)tap
 {
     if (self.viewTag == 1) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"选择图片路径" preferredStyle:UIAlertControllerStyleActionSheet];
@@ -238,6 +240,12 @@
         [alert addAction:cancalAction];
         [alert addAction:otherAction];
         [alert addAction:cleAction];
+        
+        UIPopoverPresentationController *popover =alert.popoverPresentationController;
+        popover.sourceView = tap.view;
+        popover.sourceRect = tap.view.bounds;
+        popover.permittedArrowDirections=UIPopoverArrowDirectionAny;
+        
         [self presentViewController:alert animated:YES completion:nil];
     }
 }
@@ -264,49 +272,66 @@
     if (self.viewTag == 1) {
         NSString *biaoqianStr,*kucunshuStr,*yuanjiaStr,*fujiafeiName,*fujiafeiMoney;
         UITextField *textfield1 = [self.addView viewWithTag:10000];//商品名
-        UITextField *textfield2 = [self.addView  viewWithTag:10002];//库存量
-        UITextField *textfield3 = [self.addView  viewWithTag:10003];//原价
-        UITextField *textfield4 = [self.addView  viewWithTag:10004];//现价
-        UITextField *textfield5 = [self.addView  viewWithTag:10005];//采购价
-        UITextField *textfield6 = [self.addView  viewWithTag:10008];//排序
+        UITextField *textfield2 = [self.addView  viewWithTag:10002];//原价
+        UITextField *textfield3 = [self.addView  viewWithTag:10003];//现价
+        UITextField *textfield4 = [self.addView  viewWithTag:10004];//成本价
+//        UITextField *textfield5 = [self.addView  viewWithTag:10005];//采购价
+//        UITextField *textfield6 = [self.addView  viewWithTag:10008];//排序
         
         UIView *backView3 = [self.addView viewWithTag:20001];//类别
         UILabel *leibieLabel = [backView3 viewWithTag:30001];
         
-        UIView *backView1 = [self.addView viewWithTag:20006];//附加费
-        UILabel *fujiafeiNameLabel = [backView1 viewWithTag:30006];
-        UILabel *fujiafeiMoneyLabel = [backView1 viewWithTag:40006];
+//        UIView *backView1 = [self.addView viewWithTag:20006];//附加费
+//        UILabel *fujiafeiNameLabel = [backView1 viewWithTag:30006];
+//        UILabel *fujiafeiMoneyLabel = [backView1 viewWithTag:40006];
         
-        UIView *backView2 = [self.addView viewWithTag:20007];//标签
-        UILabel *biaoqianLabel = [backView2 viewWithTag:30007];
+//        UIView *backView2 = [self.addView viewWithTag:20007];//标签
+//        UILabel *biaoqianLabel = [backView2 viewWithTag:30007];
         
         if ([self.imageNameStr isEqualToString:@""]) {
             [self promptMessageWithString:@"请上传图片"];
         }
-        else if ([textfield1.text isEqualToString:@""]||[textfield4.text isEqualToString:@""]||[textfield5.text isEqualToString:@""]||[textfield6.text isEqualToString:@""]||[leibieLabel.text isEqualToString:@""])
+        else if ([textfield1.text isEqualToString:@""]||
+                 [textfield4.text isEqualToString:@""]||
+//                 [textfield5.text isEqualToString:@""]||
+//                 [textfield6.text isEqualToString:@""]||
+                 [leibieLabel.text isEqualToString:@""])
         {
             [self promptMessageWithString:@"请完善商品信息"];
         }
         else
         {
-            if ([textfield2.text isEqualToString:@""])  kucunshuStr = @"0";
-            else kucunshuStr = textfield2.text;
+//            if ([textfield2.text isEqualToString:@""])
+//                kucunshuStr = @"0";
+//            else kucunshuStr = textfield2.text;
             
-            if ([textfield3.text isEqualToString:@""])  yuanjiaStr = @"0";
-            else yuanjiaStr = textfield3.text;
+            if ([textfield2.text isEqualToString:@""])  yuanjiaStr = @"0";
+            else yuanjiaStr = textfield2.text;
             
-            if ([fujiafeiNameLabel.text isEqualToString:@""])  fujiafeiName = @"0";
-            else fujiafeiName = fujiafeiNameLabel.text;
+//            if ([fujiafeiNameLabel.text isEqualToString:@""])  fujiafeiName = @"0";
+//            else fujiafeiName = fujiafeiNameLabel.text;
             
-            if ([fujiafeiMoneyLabel.text isEqualToString:@""])  fujiafeiMoney = @"0";
-            else fujiafeiMoney = textfield2.text;
+//            if ([fujiafeiMoneyLabel.text isEqualToString:@""])  fujiafeiMoney = @"0";
+//            else fujiafeiMoney = textfield2.text;
             
-            if ([biaoqianLabel.text isEqualToString:@"推荐"]||[biaoqianLabel.text isEqualToString:@""]) biaoqianStr = @"1";
-            else if ([biaoqianLabel.text isEqualToString:@"新品"]) biaoqianStr = @"2";
-            else if ([biaoqianLabel.text isEqualToString:@"热销"]) biaoqianStr = @"3";
-            else if ([biaoqianLabel.text isEqualToString:@"特惠购"]) biaoqianStr = @"4";
+//            if ([biaoqianLabel.text isEqualToString:@"推荐"]||[biaoqianLabel.text isEqualToString:@""]) biaoqianStr = @"1";
+//            else if ([biaoqianLabel.text isEqualToString:@"新品"]) biaoqianStr = @"2";
+//            else if ([biaoqianLabel.text isEqualToString:@"热销"]) biaoqianStr = @"3";
+//            else if ([biaoqianLabel.text isEqualToString:@"特惠购"]) biaoqianStr = @"4";
             
-            NSMutableDictionary *pram = [NSMutableDictionary dictionaryWithDictionary:@{@"shop.dianpuid":self.dianpuID,@"shop.canpinpic":self.imageNameStr,@"shop.shangpinname":textfield1.text,@"shop.leibie":leibieLabel.text,@"shop.kucunshu":kucunshuStr,@"shop.yuanjia":yuanjiaStr,@"shop.xianjia":textfield4.text,@"shop.caigoujia":textfield5.text,@"shop.fujiafeiyong_money":fujiafeiMoney,@"shop.fujiafeiyong_name":fujiafeiName,@"shop.dianleipaixu":textfield6.text,@"biaoqian":biaoqianStr}];
+            NSMutableDictionary *pram = [NSMutableDictionary dictionaryWithDictionary:@{@"shop.dianpuid":self.dianpuID,
+                                           @"shop.canpinpic":self.imageNameStr,
+                                           @"shop.shangpinname":textfield1.text,
+                                           @"shop.leibie":leibieLabel.text,
+                                           @"shop.kucunshu":@"0",
+                                           @"shop.yuanjia":yuanjiaStr,
+                                           @"shop.xianjia":textfield3.text,
+                                           @"shop.caigoujia":textfield4.text,
+                                           @"shop.fujiafeiyong_money":@"0",
+                                           @"shop.fujiafeiyong_name":@"0",
+//                                           @"shop.dianleipaixu":textfield6.text,
+                                           @"biaoqian":@"1"
+                                           }];
             
             [self saveMessagesForShangpinWithUrl:@"addShangpin.action" AndPram:pram];
         }
@@ -317,16 +342,17 @@
         UITextField *textfield2 = [self.checkView  viewWithTag:11001];
         UITextField *textfield3 = [self.checkView  viewWithTag:11002];
         UITextField *textfield4 = [self.checkView  viewWithTag:11003];
+        UITextField *textfield5 = [self.checkView viewWithTag:11004];
         
-        UIView *backView1 = [self.checkView viewWithTag:21005];
-        UILabel *fujiafeiNameLabel = [backView1 viewWithTag:31005];
-        UILabel *fujiafeiMoneyLabel = [backView1 viewWithTag:41005];
+        UIView *backView1 = [self.checkView viewWithTag:21006];
+        UILabel *fujiafeiNameLabel = [backView1 viewWithTag:31006];
+        UILabel *fujiafeiMoneyLabel = [backView1 viewWithTag:41006];
         
-        UIView *backView2 = [self.checkView viewWithTag:21004];
-        UILabel *biaoqianLabel = [backView2 viewWithTag:31004];
+        UIView *backView2 = [self.checkView viewWithTag:21005];
+        UILabel *biaoqianLabel = [backView2 viewWithTag:31005];
         
-        UIView *backView3 = [self.checkView viewWithTag:21006];
-        UILabel *statesLabel = [backView3 viewWithTag:31006];
+        UIView *backView3 = [self.checkView viewWithTag:21007];
+        UILabel *statesLabel = [backView3 viewWithTag:31007];
         
         NSString *statesStr,*biaoqianStr;
         
@@ -338,7 +364,17 @@
         else if ([biaoqianLabel.text isEqualToString:@"热销"]) biaoqianStr = @"3";
         else if ([biaoqianLabel.text isEqualToString:@"特惠购"]) biaoqianStr = @"4";
         
-        NSMutableDictionary *pram = [NSMutableDictionary dictionaryWithDictionary:@{@"shop.id":self.shangpinID,@"shop.yuanjia":textfield1.text,@"shop.xianjia":textfield2.text,@"shop.caigoujia":textfield3.text,@"shop.fujiafeiyong_money":fujiafeiMoneyLabel.text,@"shop.fujiafeiyong_name":fujiafeiNameLabel.text,@"shop.zhuangtai":statesStr,@"shop.dianleipaixu":textfield4.text,@"biaoqian":biaoqianStr}];
+        NSMutableDictionary *pram = [NSMutableDictionary dictionaryWithDictionary:@{@"shop.id":self.shangpinID,
+                                       @"shop.yuanjia":textfield1.text,
+                                       @"shop.xianjia":textfield2.text,
+                                       @"shop.caigoujia":textfield3.text,
+                                       @"shop.dianleipaixu":textfield4.text,
+                                       @"shop.kucunshu":textfield5.text,
+                                       @"shop.fujiafeiyong_money":fujiafeiMoneyLabel.text,
+                                       @"shop.fujiafeiyong_name":fujiafeiNameLabel.text,
+                                       @"shop.zhuangtai":statesStr,
+                                       
+                                       @"biaoqian":biaoqianStr}];
         [self saveMessagesForShangpinWithUrl:@"updateShangpin.action" AndPram:pram];
     }
 }

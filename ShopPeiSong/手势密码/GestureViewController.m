@@ -17,6 +17,7 @@
 #import "PHAlertView.h"
 #import "PHMap.H"
 #import "FindPassWordViewController.h"
+#import "YanButton.h"
 
 @interface GestureViewController ()<GestureLockDelegate,MBProgressHUDDelegate,RegistrationViewDelegate>
 @property (strong, nonatomic) UILabel *label;
@@ -29,6 +30,8 @@
 
 
 @property (nonatomic,strong)PHMapHelper * mapHelper;
+
+@property (nonatomic,strong)NSTimer * yanTimer;
 @end
 @implementation GestureViewController
 - (void)viewDidLoad {
@@ -124,19 +127,12 @@
                     set_DianPuName([json valueForKey:@"shequname"]);
                     set_User_dianpuID([json valueForKey:@"shequid"]);
                     
-                    if (_willUpdateLocation) {
-                        [self updateLocation];
-                    }
-                    self.registraView.hidden = YES;
-                    self.label.hidden = NO;
-                    self.label.text = @"请输入手势密码";
-//                    self.backImge.hidden = NO;
-                    self.gesView.hidden = NO;
-                    self.forgetBtn.hidden = NO;
+                    [self shoushijiemian];
                 }
                     break;
                 case 2:
                     [MBProgressHUD promptWithString:@"参数为空"];
+                    [self denglujiemian];
                     break;
                     
                 default:
@@ -144,7 +140,7 @@
             }
   
         } failure:^(NSError *error) {
-            
+            [self shoushijiemian];
         }];
 
     }else{
@@ -152,6 +148,17 @@
     }
     
 
+}
+-(void)shoushijiemian{
+    if (_willUpdateLocation) {
+        [self updateLocation];
+    }
+    self.registraView.hidden = YES;
+    self.label.hidden = NO;
+    self.label.text = @"请输入手势密码";
+    //                    self.backImge.hidden = NO;
+    self.gesView.hidden = NO;
+    self.forgetBtn.hidden = NO;
 }
 -(void)denglujiemian{
     [UIView animateWithDuration:0.3 animations:^{
@@ -272,13 +279,26 @@
 {
 //    findPasViewController *findPasVC = [[findPasViewController alloc]init];
     FindPassWordViewController * findPasVC = [FindPassWordViewController new];
+    __block FindPassWordViewController * weakFind = findPasVC;
     if (button.tag==100) {
+        
+        
         findPasVC.beforeTel=self.registraView.accountTextfield.text;
+        
+        
+//        if (self.yanBtn) {
+//            findPasVC.yanBtn=_yanBtn;
+//        }
         findPasVC.backPhone=^(NSString *tel){
-            self.registraView.accountTextfield.text=tel;
+             self.registraView.accountTextfield.text=tel;
         };
+//        findPasVC.popBack=^(){
+//            self.yanTimer=weakFind.yanBtn.timer;
+////            NSLog(@"find --- %@,%f",weakFind.yanBtn.timer.fireDate,weakFind.yanBtn.timer.timeInterval);
+////             weakFind.yanBtn.timer.fireDate
+//        };
     }
-    
+
     
     findPasVC.hidesBottomBarWhenPushed = YES;
     UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:findPasVC];
@@ -289,6 +309,11 @@
     [bar setTitleTextAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:17],NSForegroundColorAttributeName:[UIColor whiteColor]}];
     [self presentViewController:navi animated:YES completion:^{
         //code;
+        if (_yanTimer) {
+                  findPasVC.timer = _yanTimer;
+            NSLog(@"ges -- %@,%f",_yanTimer.fireDate,_yanTimer.timeInterval);
+        }
+  
     }];
 }
 

@@ -20,6 +20,7 @@ typedef NS_ENUM(NSUInteger,SeleType){
 
 
 @protocol ReviewSelectedViewDelegate <NSObject>
+@optional
 /**
  *  选择店铺
  */

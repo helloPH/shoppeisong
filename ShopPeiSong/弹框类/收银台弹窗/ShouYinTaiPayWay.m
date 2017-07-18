@@ -61,6 +61,7 @@
     inputField.text = shishou;
     
     NSString * change = [NSString stringWithFormat:@"%@",_dataDic[@"change"]];
+    change = @"1";
     inputField.userInteractionEnabled = [change isEqualToString:@"1"];
     inputField.enabled = [change isEqualToString:@"1"];
 
@@ -73,7 +74,7 @@
      *  取消订单的赋值
      */
     // 是否正在消费中
-    UIButton * cancelBtn = [self viewWithTag:31];// 取消订单按钮
+//    UIButton * cancelBtn = [self viewWithTag:31];// 取消订单按钮
     
     
     /**
@@ -85,6 +86,8 @@
     NSString * zhifuF = [NSString stringWithFormat:@"%@",_dataDic[@"zhifufangshi"]];
     NSString * payTitle;
     
+    
+//zhifuF = @"0";
     if([zhifuF isEqualToString:@"0"]){//未支付
         [payBtn.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
         payTitle = @"";
@@ -92,20 +95,41 @@
         // // 显示全部的付款方式
         
         CGFloat zeroY = 0;
-        NSArray * title = @[@"   现金收款",@"       妙支付",@"   微信收款",@"支付宝收款"];
+//        NSArray * title = @[@"   现金收款",@"       妙支付",@"   微信收款",@"支付宝收款"];
+        NSArray * title = @[
+                            @"   货到付款",
+                            @"   在线支付",
+                            @"   余额支付",
+                            @"   微信收款",
+                            @" 支付宝收款",
+                            @" 银联卡收款",
+                            @"   现金收款",
+                            @"       消费券",
+                            @"         其他"
+                            ];
+        
         for (int i = 0; i < title.count; i ++) {
             CGFloat zeroW = payBtn.width;
             CGFloat zeroH = payBtn.height;
             CGFloat zeroX = 0 ;
 
+            
+            
+            
+            
             UIButton * zeroBtn = [[UIButton alloc]initWithFrame:CGRectMake(zeroX, zeroY, zeroW, zeroH)];
+            if (i == 0 ||i == 1 || i == 2 || i == 7) {
+                zeroBtn.height = 0.01;
+            }
+            
+            
             [payBtn addSubview:zeroBtn];
             [zeroBtn setImage:[UIImage imageNamed:@"选择"] forState:UIControlStateNormal];
             [zeroBtn setImage:[UIImage imageNamed:@"选中"] forState:UIControlStateSelected];
             [zeroBtn setTitle:title[i] forState:UIControlStateNormal];
             [zeroBtn setTitleColor:textBlackColor forState:UIControlStateNormal];
             zeroBtn.titleLabel.font=[UIFont systemFontOfSize:MLwordFont_4];
-            zeroY=zeroBtn.bottom+20*MCscale;
+           
             zeroBtn.tag=300+i;
             zeroBtn.imageView.contentMode=UIViewContentModeScaleAspectFit;
             [zeroBtn addTarget:self action:@selector(payByZeroPayBtn:) forControlEvents:UIControlEventTouchUpInside];
@@ -113,29 +137,23 @@
             UIView * line = [[UIView alloc]initWithFrame:CGRectMake(0, zeroBtn.bottom+10*MCscale, zeroBtn.width, 1)];
             line.backgroundColor=lineColor;
             [payBtn addSubview:line];
+        
+            if (i == 0 || i == 1 || i == 2 || i == 7) {
+                line.top = zeroBtn.bottom;
+                line.hidden=YES;
+                zeroBtn.hidden=YES;
+//                zeroY = zeroBtn.bottom;
+            }else{
+                zeroY=zeroBtn.bottom+20*MCscale;
+            }
+        
             
         }
         payBtn.height=zeroY;
+    }else{
+        payTitle = [self translateWithFkfsIndex:zhifuF];
     }
-
-    if ([zhifuF isEqualToString:@"1"]) {//货到付款
-        payTitle = @"    货到付款";
-    }
-    
-    if([zhifuF isEqualToString:@"7"]){//现金收款
-        payTitle = @"    现金收款";
-    }
-    if([zhifuF isEqualToString:@"3"]){//妙支付
-        payTitle = @"    妙支付收款";
-    }
-    if([zhifuF isEqualToString:@"4"]){//微信支付
-        payTitle = @"    微信收款";
-    }
-    if([zhifuF isEqualToString:@"5"]){//支付宝支付
-        payTitle = @"    支付宝收款";
-    }
-    
-    
+ 
     [payBtn setTitle:payTitle forState:UIControlStateNormal];
     self.height=payBtn.bottom+20*MCscale;
     self.center=CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/2);
@@ -186,7 +204,6 @@
             setY=btn.bottom;
             
             for (int j = 0; j < 2; j ++) {
-                
                 
                 UIButton *selBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 120, 20)];
                 [btn addSubview:selBtn];
@@ -254,8 +271,7 @@
     if ((!mianMiPay && ([zhifuF isEqualToString:@"1"] ||[zhifuF isEqualToString:@"7"]))||// 不免密 但是 现金支付
         (!mianMiPay && (money != currentMoney))// 不免密 但是金额改变 都要输入密码
        )  {
-        
-
+    
         LoginPasswordView * loginPass = [LoginPasswordView new];
         [loginPass appear];
         [loginPass reloadDataWithViewTag:1];
@@ -289,24 +305,8 @@
     
     NSString * zhifuFangshi = [NSString stringWithFormat:@"%@",_dataDic[@"zhifufangshi"]];
     
-    
     if ([zhifuFangshi isEqualToString:@"0"]) {
-        switch (_btnIndex) {
-            case 0:
-                zhifuFangshi=@"7";
-                break;
-            case 1:
-                zhifuFangshi=@"3";
-                break;
-            case 2:
-                zhifuFangshi=@"4";
-                break;
-            case 3:
-                zhifuFangshi=@"5";
-                break;
-            default:
-                break;
-        }
+        zhifuFangshi = [NSString stringWithFormat:@"%ld",_btnIndex+1];
     }
     
     
@@ -437,6 +437,7 @@
 
 -(void)payByZeroPayBtn:(UIButton *)sender{
     _btnIndex = sender.tag-300;
+
     
     NSString * zhifuF = [NSString stringWithFormat:@"%@",_dataDic[@"zhifufangshi"]];
     UITextField * inputField = [self viewWithTag:110];
@@ -483,5 +484,8 @@
     [self shoukuan];
     
 }
-
+-(NSString *)translateWithFkfsIndex:(NSString *)fkindex{
+    NSArray * titles = @[@"未支付",@"货到付款",@"在线支付",@"余额支付",@"微信收款",@"支付宝收款",@"银联卡收款",@"现金收款",@"消费券",@"其他"];
+    return titles[[fkindex integerValue]];
+}
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "PHButton.h"
+#import "UIViewExt.h"
 
 @implementation PHButton
 -(void)addAction:(Block)block{
@@ -18,6 +19,17 @@
          _block();
     }
    
+}
+-(void)setImgDirection:(ImgDirection)imgDirection{
+    _imgDirection = imgDirection;
+}
+
+-(void)layoutSubviews{
+    [super layoutSubviews];
+    if (_imgDirection == imgRight) {
+        self.titleLabel.left = 0;
+        self.imageView.left = self.titleLabel.right + 1;
+    }
 }
 /*
 // Only override drawRect: if you perform custom drawing.

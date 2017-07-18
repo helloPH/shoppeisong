@@ -16,7 +16,10 @@
 @property(nonatomic,strong)UIView *lineView;
 @property(nonatomic,strong)NSArray *statesArray;
 @property(nonatomic,strong)NSString *zhangdanID;
+
+@property(nonatomic,strong)BalanceModel * model;
 @end
+
 @implementation BalanceCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -76,7 +79,7 @@
 -(UILabel *)danhaoLabel
 {
     if (!_danhaoLabel) {
-        _danhaoLabel = [BaseCostomer labelWithFrame:CGRectZero font:[UIFont systemFontOfSize:MLwordFont_7] textColor:textColors backgroundColor:[UIColor clearColor] textAlignment:0 numOfLines:1 text:@""];
+        _danhaoLabel = [BaseCostomer labelWithFrame:CGRectZero font:[UIFont systemFontOfSize:MLwordFont_7] textColor:lineColor backgroundColor:[UIColor clearColor] textAlignment:0 numOfLines:1 text:@""];
         [self.contentView addSubview:_danhaoLabel];
     }
     return _danhaoLabel;
@@ -116,11 +119,19 @@
 -(void)reloadDataWithIndexPath:(NSIndexPath *)indexpath AndArray:(NSArray *)array
 {
     BalanceModel *model = array[indexpath.row];
+    _model = model;
     self.nameLabel.text = [NSString stringWithFormat:@"%@",model.leimu];
     self.statesImage.image = [UIImage imageNamed:self.statesArray[[model.status integerValue]]];
     self.timeLabel.text  = [NSString stringWithFormat:@"%@",model.date];
     self.yueLabel.text = [NSString stringWithFormat:@"余额%.2f",[model.yue floatValue]];
+    
+    
     self.danhaoLabel.text = [NSString stringWithFormat:@"%@",model.danhao];
+    if ([self.danhaoLabel.text isEqualToString:@"0"]) {
+        self.danhaoLabel.text = @"";
+    }
+    
+    
     if ([model.type integerValue] == 0) {
         self.moneyLabel.text = [NSString stringWithFormat:@"-¥%.2f",[model.jine floatValue]];
     }
@@ -145,9 +156,14 @@
 
 -(void)imageTapClick:(UITapGestureRecognizer *)tap
 {
+    if ([_model.shuoming integerValue] != 1) {
+        return;
+    }
     
     if ([self.balanceDelegate respondsToSelector:@selector(getZhangdanShuomingDataWithZhangdanID:)])
     {
+        
+        
         [self.balanceDelegate getZhangdanShuomingDataWithZhangdanID:self.zhangdanID];
     }
 }

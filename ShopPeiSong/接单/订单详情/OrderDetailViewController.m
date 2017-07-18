@@ -21,6 +21,7 @@
 #import "PHMap.h"
 #import "AlterOrderPeiSongFeiView.h"
 #import "OrderDetailChangeMoneyAndShuLiangView.h"
+#import "AlterFujiaFeiView.h"
 
 @interface OrderDetailViewController ()<UIGestureRecognizerDelegate,UITableViewDelegate,UITableViewDataSource,MBProgressHUDDelegate,OrderDetailDrawerViewDelegate,ChangeFujiafeiViewDelegate,PaymentPasswordViewDelegate,CancalOrderViewDelegate>
 @property(nonatomic,strong)UITableView *mainTableView;
@@ -80,7 +81,7 @@
 }
 -(void)setNavigationItem
 {
-    [self.navigationItem setTitle:@"东北麻辣烫"];
+    [self.navigationItem setTitle:@"订单详情"];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:MLwordFont_2],NSFontAttributeName, nil]];
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:self.leftButton];
     self.navigationItem.leftBarButtonItem = leftItem;
@@ -123,6 +124,14 @@
         [self.view addSubview:_mainTableView];
     }
     return _mainTableView;
+}
+-(void)reshView{
+    [self.mainTableView reloadData];
+    if (![[NSString stringWithFormat:@"%@",_DdxqDict[@"dinapuname"]] isEqualToString:dianPuName]) {
+        self.navigationItem.title=[NSString stringWithFormat:@"%@",_DdxqDict[@"dinapuname"]];
+    }
+    
+    
 }
 -(UIImageView *)choutiImage
 {
@@ -296,7 +305,7 @@
             if (_isFirstEnter) {// 第一次进入
                 _isFirstEnter=NO;
                 [self reshData];
-            }{
+            }else{
                 [self alertReshData];
             }
             
@@ -305,7 +314,8 @@
          
 //            [self reshData];
         }
-        [self.mainTableView reloadData];  
+        [self reshView];
+//        [self.mainTableView reloadData];  
         [self showGuideImageWithUrl:@"images/caozuotishi/chouti.png"];
 
     } failure:^(NSError *error) {
@@ -324,7 +334,6 @@
     for (NSDictionary *dic in shangpinList) {
         OrderDetailShangpinModel *model = [[OrderDetailShangpinModel alloc]init];
         [model setValuesForKeysWithDictionary:dic];
-        
         
         [self.shangpinListArray addObject:model];
         self.tihuofeiMoney = self.tihuofeiMoney+[model.total_money floatValue];
@@ -359,11 +368,20 @@
     
     
     
+    NSString * psfsIndex = [NSString stringWithFormat:@"%@",self.DdxqDict[@"dingdanleixing"]];
+    NSArray * titles = @[@"堂食",@"外卖",@"外卖",@"打包"];
+    NSString * psfsString = [NSString stringWithFormat:@"%@",titles[[psfsIndex integerValue]]];
+    if ([psfsIndex isEmptyString]) {
+        psfsString = @"NULL";
+    }
+    
+    NSDictionary *ddTypeDic = @{@"key":@"订单类型:",@"value":psfsString};
+    NSDictionary *dict6 = @{@"key":@"支付方式:",@"value":[self translateWithFkfsIndex:self.DdxqDict[@"zhifufangshi"]]};
+    
+    NSDictionary *dict7 = @{@"key":@"送达时间:",@"value":self.DdxqDict[@"yuyuesongda"]};
     
     
-    
-    NSDictionary *dict6 = @{@"key":@"支付方式:",@"value":self.DdxqDict[@"zhifufangshi"]};
-    NSDictionary *dict7 = @{@"key":@"预约送达时间:",@"value":self.DdxqDict[@"yuyuesongda"]};
+    [self.zhifushangshiArray addObject:ddTypeDic];
     [self.zhifushangshiArray addObject:dict6];
     [self.zhifushangshiArray addObject:dict7];
     
@@ -396,8 +414,8 @@
         self.tihuofeiMoney = self.tihuofeiMoney +self.fujiafeiCount;
         [self.shuliangArray addObject:dict11];
     }
-    if ([self.DdxqDict[@"peisongfei"] integerValue] != 0) {
-        NSDictionary *dict11 = @{@"key":@"配送费:",@"value":[NSString stringWithFormat:@"¥%.2f",[self.DdxqDict[@"peisongfei"] floatValue]]};
+    if ([self.DdxqDict[@"peisongzhichu"] integerValue] != 0) {
+        NSDictionary *dict11 = @{@"key":@"配送费:",@"value":[NSString stringWithFormat:@"¥%.2f",[self.DdxqDict[@"peisongzhichu"] floatValue]]};
         [self.shuliangArray addObject:dict11];
     }
     
@@ -433,8 +451,17 @@
     /**
      *  支付方式
      */
-    NSDictionary *dict6 = @{@"key":@"支付方式:",@"value":self.DdxqDict[@"zhifufangshi"]};
-    NSDictionary *dict7 = @{@"key":@"预约送达时间:",@"value":self.DdxqDict[@"yuyuesongda"]};
+    NSString * psfsIndex = [NSString stringWithFormat:@"%@",self.DdxqDict[@"dingdanleixing"]];
+    NSArray * titles = @[@"堂食",@"外卖",@"外卖",@"打包"];
+    NSString * psfsString = [NSString stringWithFormat:@"%@",titles[[psfsIndex integerValue]]];
+    if ([psfsIndex isEmptyString]) {
+        psfsString = @"NULL";
+    }
+    
+    NSDictionary *ddTypeDic = @{@"key":@"订单类型:",@"value":psfsString};
+    NSDictionary *dict6 = @{@"key":@"支付方式:",@"value":[self translateWithFkfsIndex:self.DdxqDict[@"zhifufangshi"]]};
+    NSDictionary *dict7 = @{@"key":@"送达时间:",@"value":self.DdxqDict[@"yuyuesongda"]};
+    [self.zhifushangshiArray addObject:ddTypeDic];
     [self.zhifushangshiArray addObject:dict6];
     [self.zhifushangshiArray addObject:dict7];
     
@@ -448,9 +475,7 @@
         OrderDetailShangpinModel *model = [[OrderDetailShangpinModel alloc]init];
         [model setValuesForKeysWithDictionary:dic];
         
-        
-        
-        
+    
         [self.shangpinListArray addObject:model];
         self.tihuofeiMoney = self.tihuofeiMoney+[model.total_money floatValue];
         shuliang = shuliang + [model.shuliang floatValue];
@@ -525,8 +550,8 @@
         self.tihuofeiMoney = self.tihuofeiMoney +self.fujiafeiCount;
         [self.shuliangArray addObject:dict11];
     }
-    if ([self.DdxqDict[@"peisongfei"] integerValue] != 0) {
-        NSDictionary *dict11 = @{@"key":@"配送费:",@"value":[NSString stringWithFormat:@"¥%.2f",[self.DdxqDict[@"peisongfei"] floatValue]]};
+    if ([self.DdxqDict[@"peisongzhichu"] integerValue] != 0) {
+        NSDictionary *dict11 = @{@"key":@"配送费:",@"value":[NSString stringWithFormat:@"¥%.2f",[self.DdxqDict[@"peisongzhichu"] floatValue]]};
         [self.shuliangArray addObject:dict11];
     }
     
@@ -586,6 +611,17 @@
 {
     if (section == 0) return 0.5;
     else if (section == 2){
+        NSString * man = [NSString stringWithFormat:@"%@",_DdxqDict[@"goumaimoney"]];
+        NSString * jian = [NSString stringWithFormat:@"%@",_DdxqDict[@"jianmoney"]];
+        NSString * youhui = [NSString stringWithFormat:@"%@",_DdxqDict[@"youhui"]];
+        
+        
+        if (([man isEmptyString] || [man isEqualToString:@"0"])&&
+            ([jian isEmptyString] || [man isEqualToString:@"0"])&&
+            ([youhui isEmptyString] || [man isEqualToString:@"0"])) {
+            return 4*MCscale;
+        }
+        
         return 30*MCscale;
     }else return 4*MCscale;
     
@@ -599,7 +635,13 @@
     UILabel * lable= [[UILabel alloc]initWithFrame:CGRectMake(10*MCscale, 10*MCscale, 100, 20*MCscale)];
     lable.textColor=textBlackColor;
     [backView addSubview:lable];
-    lable.text=[NSString stringWithFormat:@"满减:满%@减%@",_DdxqDict[@"goumaimoney"],_DdxqDict[@"jianmoney"]];
+    
+    
+    NSString * man = [NSString stringWithFormat:@"%@",_DdxqDict[@"goumaimoney"]];
+    NSString * jian = [NSString stringWithFormat:@"%@",_DdxqDict[@"jianmoney"]];
+    
+    
+    lable.text=[NSString stringWithFormat:@"满减:满%@减%@",man,jian];
     [lable sizeToFit];
     
     
@@ -607,10 +649,18 @@
     lable1.textColor=redTextColor;
     [backView addSubview:lable1];
  
-    lable1.text=[NSString stringWithFormat:@"优惠:%@元",_DdxqDict[@"youhui"]];
+    NSString * youhui = [NSString stringWithFormat:@"%@",_DdxqDict[@"youhui"]];
+    lable1.text=[NSString stringWithFormat:@"优惠:%@元",youhui];
     [lable1 sizeToFit];
     lable1.right=kDeviceWidth-10*MCscale;
     
+    
+    
+    if (([man isEmptyString] || [man isEqualToString:@"0"])&&
+        ([jian isEmptyString] || [man isEqualToString:@"0"])&&
+        ([youhui isEmptyString] || [man isEqualToString:@"0"])) {
+        return nil;
+    }
     if (section==2) {
            return backView;
     }else{
@@ -667,11 +717,7 @@
         }
         [cell reloadDataWithIndexpath:indexPath WithArray:self.shangpinListArray];
         cell.contentView.tag=100+indexPath.row;
-        
-        
-        
-        
-        
+
         return cell;
     }
     
@@ -707,14 +753,12 @@
             [shopList replaceObjectAtIndex:press.view.tag-100 withObject:shopInfo];
             [_DdxqDict setObject:shopList forKey:@"shoplist"];
             [self alertReshData];
-            [_mainTableView reloadData];
+            [self reshView];
+
             
         };
         
-   
-        
-        
-        
+
 //          _DdxqDict * ddmDic =
     };
 }
@@ -727,7 +771,8 @@
             
             [self.DdxqDict setObject:shopList forKey:@"shoplist"];
             [self alertReshData];
-            [self.mainTableView reloadData];
+            [self reshView];
+//            [self.mainTableView reloadData];
             
             
         }];
@@ -774,22 +819,64 @@
             }
             else
             {
-                [UIView animateWithDuration:0.3 animations:^{
-                    self.DrawerView.alpha = 0;
-                    [self.DrawerView removeFromSuperview];
-                    self.choutiBackView.frame = CGRectMake(10*MCscale, kDeviceHeight-20*MCscale, kDeviceWidth-20*MCscale, 20*MCscale);
-                    self.choutiImage.image = [UIImage imageNamed:@"oop1"];
-                    self.changeFujjia.alpha = 1;
-                    [self.changeFujjia getFujiafeiMoney:[NSString stringWithFormat:@"当前附加费:%.2f",self.fujiafeiCount] AndViewTag:1];
-                    [self.view addSubview:self.changeFujjia];
-                }];
+                AlterFujiaFeiView * alter = [AlterFujiaFeiView new];
+                __block typeof(alter) weakAlter = alter;
+                
+                UITextField * tf = [alter valueForKey:@"textField"];
+                [alter setValue:tf forKey:@"textField"];
+                tf.placeholder = [NSString stringWithFormat:@"当前附加费:%.2f",self.fujiafeiCount];
+                [alter appear];
+                alter.block=^(NSString *money){
+                    [weakAlter disAppear];
+                    
+                    [self promptSuccessWithString:@"保存成功"];
+                    [self.DdxqDict setValue:money forKey:@"fujiafei"];
+                    [self alertReshData];
+                    [self reshView];
+//                    [_mainTableView reloadData];
+                    
+                    
+                    
+//                    NSString * dingdanhao = [NSString stringWithFormat:@"%@",_DdxqDict[@"dingdanhao"]];
+//                    
+//                    NSMutableDictionary *pram = [NSMutableDictionary dictionaryWithDictionary:@{@"danhao":dingdanhao,@"yuangongid":user_id,@"chae":money}];
+//                    [Request alterFuJiaWithDic:pram success:^(id json) {
+//                        NSInteger index = [[NSString stringWithFormat:@"%@",[json valueForKey:@"message"]] integerValue];
+////                        if (index == 0) {
+////
+////                        }
+////                        else
+//                        if(index == 1) {
+//                    
+//                        }
+//                        else if (index == 2) {[self promptMessageWithString:@"补差额失败"];
+//                        }
+//                    } failure:^(NSError *error) {
+//                        
+//                    }];
+                    
+                    
+                    
+                    
+                };
+
+                
+//                [UIView animateWithDuration:0.3 animations:^{
+//                    self.DrawerView.alpha = 0;
+//                    [self.DrawerView removeFromSuperview];
+//                    self.choutiBackView.frame = CGRectMake(10*MCscale, kDeviceHeight-20*MCscale, kDeviceWidth-20*MCscale, 20*MCscale);
+//                    self.choutiImage.image = [UIImage imageNamed:@"oop1"];
+//                    self.changeFujjia.alpha = 1;
+//                    [self.changeFujjia getFujiafeiMoney:[NSString stringWithFormat:@"当前附加费:%.2f",self.fujiafeiCount] AndViewTag:1];
+//                    [self.view addSubview:self.changeFujjia];
+//                }];
             }
         }
             break;
         case 1:
         {
             if ([self.DdxqDict[@"zhifufangshi"] isEqualToString:@"货到付款"]||[self.DdxqDict[@"dingdanshoucha"] integerValue] == 0) {
-                [self promptMessageWithString:@"当前订单不符合退查条件"];
+                [self promptMessageWithString:@"当前订单不符合退差条件"];
             }
             else
             {
@@ -875,7 +962,8 @@
                     [self.DdxqDict setObject:goodArr forKey:@"shoplist"];
     
                     [self alertReshData];
-                [self.mainTableView reloadData];
+                    [self reshView];
+
             };
 //            }
         }
@@ -903,9 +991,15 @@
             break;
         case 7://免配送费
         {
+            NSString * xiugaipeisong  = [NSString stringWithFormat:@"%@",_DdxqDict[@"xiugaipeisong"]];
+            if (![xiugaipeisong isEqualToString:@"1"]) {
+                [MBProgressHUD promptWithString:@"您没有免配送费的权限"];
+                return;
+            }
+            
             NSDictionary * pram = @{@"danhao":_danhao};
             [Request cancelOrderPeiSongFeiWithDic:pram success:^(id json) {
-                NSString * messge = [NSString stringWithFormat:@"%@",[json valueForKey:@"message"]];
+                NSString * messge = [NSString stringWithFormat:@"%@",[json valueForKey:@"massages"]];
                 if ([messge isEqualToString:@"1"]) {
                     [MBProgressHUD promptWithString:@"成功免配送费"];
                     [self getOrderDetailData];
@@ -989,10 +1083,7 @@
     NSString * fujiafei  = [NSString stringWithFormat:@"%@",_DdxqDict[@"fujiafei"]];
     NSString * shifukuan = [NSString stringWithFormat:@"%@",_DdxqDict[@"shifukuan"]];
 
-    
-    
-    
-  
+
     
     NSString * yanses     = @"";
     NSString * xinghaos   = @"";
@@ -1082,6 +1173,10 @@
         [self.shangpinListArray removeAllObjects];
         self.tihuofeiMoney = 0;
         self.fujiafeiCount = 0;
+        
+        
+        
+        
         
         NSArray *shangpinList = self.DdxqDict[@"shoplist"];
         for (NSDictionary *dic in shangpinList) {
@@ -1224,7 +1319,10 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+-(NSString *)translateWithFkfsIndex:(NSString *)fkindex{
+    NSArray * titles = @[@"未支付",@"货到付款",@"在线支付",@"余额支付",@"微信收款",@"支付宝收款",@"银联卡收款",@"现金收款",@"消费券",@"其他"];
+    return titles[[fkindex integerValue]];
+}
 /*
  #pragma mark - Navigation
  

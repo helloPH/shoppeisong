@@ -48,7 +48,9 @@
 -(void)newVeiw{
 #pragma mark 退出登录
     _outLoginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _outLoginBtn.frame = CGRectMake(10*MCscale, self.mainTableView.bottom+20*MCscale, kDeviceWidth-20*MCscale, 50*MCscale);
+    _outLoginBtn.frame = CGRectMake(10*MCscale, self.view.height-70*MCscale, kDeviceWidth-20*MCscale, 50*MCscale);
+    
+    
     _outLoginBtn.backgroundColor = txtColors(249, 54, 73, 1);
     _outLoginBtn.layer.masksToBounds = YES;
     _outLoginBtn.layer.cornerRadius = 5.0;

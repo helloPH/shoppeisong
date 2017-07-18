@@ -55,7 +55,7 @@
 }
 -(void)setNavigationItem
 {
-    [self.navigationItem setTitle:@"前日详情"];
+//    [self.navigationItem setTitle:@"前日详情"];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:MLwordFont_2],NSFontAttributeName, nil]];
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:self.leftButton];
     self.navigationItem.leftBarButtonItem = leftItem;
@@ -190,6 +190,7 @@
     }
     else
     {
+//        NSStringFromClass([ReceivingCellOne class]);
         static NSString *identifier = @"ReceivingCellOne";
         ReceivingCellOne *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (cell == nil) {
@@ -223,6 +224,7 @@
     mHud.labelText = string;
     mHud.mode = MBProgressHUDModeText;
     [mHud showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];
+    
 }
 
 #pragma mark BalanceDelegate(账单说明)

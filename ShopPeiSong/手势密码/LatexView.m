@@ -10,6 +10,7 @@
 #define SELECT_COLOR [UIColor colorWithRed:0.3 green:0.7 blue:1 alpha:1]
 
 @interface LatexView()
+
 @property(nonatomic,strong)NSMutableArray *btnArra;
 @property(nonatomic,assign)CGPoint currentPoint;
 
@@ -42,7 +43,6 @@
        
             [btn setBackgroundImage:[self drawWrongImageWithRadius:width - 6] forState:UIControlStateDisabled];
             [self addSubview:btn];
-            
             
             CGFloat height=74;
             CGFloat Margin=(self.frame.size.width-3*width)/4;

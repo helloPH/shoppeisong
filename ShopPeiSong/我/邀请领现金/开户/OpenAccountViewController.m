@@ -613,6 +613,12 @@
     [alert addAction:cancalAction];
     [alert addAction:otherAction];
     [alert addAction:cleAction];
+    
+    UIPopoverPresentationController *popover =alert.popoverPresentationController;
+    popover.sourceView = tap.view;
+    popover.sourceRect = tap.view.bounds;
+    popover.permittedArrowDirections=UIPopoverArrowDirectionAny;
+    
     [self presentViewController:alert animated:YES completion:nil];
 }
 
@@ -749,22 +755,13 @@
     UITextField *storyNameTextField = [self.view viewWithTag:11000];
     UITextField *nameTextField = [self.view viewWithTag:11002];
     UITextField *phoneTextField = [self.view viewWithTag:11003];
-//    UITextField *telTextField = [self.view viewWithTag:11004];
-//    UITextField *addressTextField = [self.view viewWithTag:11006];
-    
 
-    
-    
-    
     if ([storyNameTextField.text isEqualToString:@""]
         ||[selectedIndustrLabel.text isEqualToString:@"请选择行业类别"]
         ||[nameTextField.text isEqualToString:@""]
         ||[phoneTextField.text isEqualToString:@""]
         
-//        ||[telTextField.text isEqualToString:@""]
-//        ||[addressTextField.text isEqualToString:@""]
-//        ||[longitudeStr isEqualToString:@""]
-//        ||[latitudeStr isEqualToString:@""]
+
         ){
         [self promptMessageWithString:@"请完善信息后重试"];
     }

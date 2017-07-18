@@ -73,7 +73,7 @@
     NSDictionary * pram = @{@"danhao":_danhao,
                             @"leibie":_textField.text};
     [Request alterOrderPeiSongFeiWithDic:pram success:^(id json) {
-        NSString * message = [NSString stringWithFormat:@"%@",[json valueForKey:@"message"]];
+        NSString * message = [NSString stringWithFormat:@"%@",[json valueForKey:@"massages"]];
         if ([message isEqualToString:@"1"]) {
             [MBProgressHUD promptWithString:@"修改成功"];
             [self disAppear];

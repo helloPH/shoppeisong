@@ -8,9 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import "PHButton.h"
+typedef NS_ENUM(NSUInteger , ImgDirection) {
+    imgLeft,
+    imgTop,
+    imgRight,
+    imgBotton
+};
 
 typedef void(^Block)();
 @interface PHButton : UIButton
+@property (nonatomic,assign)ImgDirection imgDirection;
+
 @property (nonatomic,strong)Block block;
+
+
 -(void)addAction:(Block)block;
+- (void)changeTitleLeft;
 @end

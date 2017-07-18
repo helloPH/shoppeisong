@@ -16,3 +16,14 @@
 
 -(void)clear;
 @end
+
+
+@interface TimerManager : NSObject
+
+@property (nonatomic, assign)__block int timeout;
+
++ (id)sharedTimerManager;
+
+- (void)countDown;
+
+@end

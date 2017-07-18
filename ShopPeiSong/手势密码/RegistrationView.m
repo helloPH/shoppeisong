@@ -230,10 +230,10 @@
         
         __block RegistrationView * weakSelf = self;
         [_moreBtn addAction:^{
-            
+           
         }];
         _moreBtn.block=^(){
-            [weakSelf showShell];
+             [weakSelf showShell];
         };
     }
     return _moreBtn;
@@ -429,7 +429,11 @@
                 [[NSUserDefaults standardUserDefaults] setValue:[json valueForKey:@"name"] forKey:@"name"];
                 [[NSUserDefaults standardUserDefaults] setValue:[json valueForKey:@"zhiwu"] forKey:@"zhiwu"];
                 set_User_BuMen(bumen);
-                [[NSUserDefaults standardUserDefaults] setValue:[json valueForKey:@"status"] forKey:@"status"];
+                
+                BOOL isZaiG = [[NSString stringWithFormat:@"%@",[json valueForKey:@"status"]] isEqualToString:@"1"];
+                set_IsZaiGang(isZaiG);
+                
+//                [[NSUserDefaults standardUserDefaults] setValue:[json valueForKey:@"status"] forKey:@"status"];
             }
         } failure:^(NSError *error) {
             [MBProgressHUD stop];
@@ -502,7 +506,7 @@
             }
             
     
-            PHAlertView * alert = [[PHAlertView alloc]initWithTitle:nil message:[NSString stringWithFormat:@"登录密码设置，商铺管理后台登录密码为“%@”。",user_loginPass] delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil];
+            PHAlertView * alert = [[PHAlertView alloc]initWithTitle:nil message:[NSString stringWithFormat:@"登录密码设置完成，商铺管理后台登录密码为“%@”。",user_loginPass] delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil];
             [alert show];
             alert.block=^(NSInteger index){
         
@@ -701,7 +705,7 @@
     UIAlertAction * action1 = [UIAlertAction actionWithTitle:@"更换账号" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         NSMutableArray * accounts = local_Accounts;
         if (!accounts || ![accounts isKindOfClass:[NSMutableArray class]]) {
-            [MBProgressHUD promptWithString:@"应用还未登陆过任何账号"];
+            [MBProgressHUD promptWithString:@"没有可切换账户"];
             return ;
         }
        
@@ -750,6 +754,13 @@
     [alert addAction:action3];
     [alert addAction:action4];
 
+    
+    
+    UIPopoverPresentationController *popover =alert.popoverPresentationController;
+    popover.sourceView = _moreBtn;
+    popover.sourceRect = _moreBtn.bounds;
+    popover.permittedArrowDirections=UIPopoverArrowDirectionAny;
+    
     [self.controller presentViewController:alert animated:YES completion:^{
         
     }];

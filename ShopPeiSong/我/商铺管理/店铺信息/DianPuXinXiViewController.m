@@ -222,6 +222,12 @@
     [alert addAction:cancalAction];
     [alert addAction:otherAction];
     [alert addAction:cleAction];
+    
+    UIPopoverPresentationController *popover =alert.popoverPresentationController;
+    popover.sourceView = tap.view;
+    popover.sourceRect = tap.view.bounds;
+    popover.permittedArrowDirections=UIPopoverArrowDirectionAny;
+    
     [self presentViewController:alert animated:YES completion:nil];
 }
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{

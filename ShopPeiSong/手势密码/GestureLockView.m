@@ -174,7 +174,8 @@
             [MBProgressHUD stop];
             NSLog(@"json  %@",json);
             if ([[json valueForKey:@"message"]integerValue]== 2) {
-                [self promptMessageWithString:@"请输入正确的手势密码"];
+                [MBProgressHUD promptWithString:@"请输入正确的手势密码"];
+             
                 if ([self.GestureDelegate respondsToSelector:@selector(GestureLockPasswordWrong:)]) {
                     [self.GestureDelegate GestureLockPasswordWrong:self];
                 }
@@ -203,8 +204,10 @@
             }
         } failure:^(NSError *error) {
             [MBProgressHUD stop];
-            [self promptMessageWithString:@"网络连接错误"];
+            [MBProgressHUD promptWithString:@"网络连接错误"];
+            [self performSelector:@selector(resetView) withObject:self afterDelay:1];
         }];
+     
     }
     else
     {
@@ -270,7 +273,8 @@
         [mHud hide:YES];
         NSLog(@"登录密码验证 %@",json);
         if ([[json valueForKey:@"message"]integerValue]== 2) {
-            [self promptMessageWithString:@"请输入正确的手势密码"];
+            [MBProgressHUD promptWithString:@"请输入正确的手势密码"];
+    
             if ([self.GestureDelegate respondsToSelector:@selector(GestureLockPasswordWrong:)]) {
                 [self.GestureDelegate GestureLockPasswordWrong:self];
             }
@@ -310,7 +314,9 @@
         }
     } failure:^(NSError *error) {
         [mHud hide:YES];
+      
         [self promptMessageWithString:@"网络连接错误"];
+//        [self resetView];
     }];
 }
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event

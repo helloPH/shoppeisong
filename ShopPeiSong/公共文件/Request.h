@@ -39,6 +39,19 @@
  *结束收银台
  */
 +(void)endShouYinTaiWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure;
+/*
+ *根据系统消息ID 获取 消息信息
+ */
++(void)getSystemMessageInfoWithMessageId:(NSString *)Id success:(successBlock)success failure:(failureBlock)failure;
+/*
+ *获取消息列表
+ */
++(void)getSystemMessageListSuccess:(successBlock)success failure:(failureBlock)failure;
+/*
+ *消息列表 删除单个
+ */
++(void)deleteFromSystemMessageListWithMessageId:(NSString *)messageId success:(successBlock)success failure:(failureBlock)failure;
+
 #pragma mark -- 订单界面
 /*
  *获取 已接订单
@@ -72,6 +85,10 @@
  * 订单提醒后
  */
 +(void)upDateOrderTiXingWithSuccess:(successBlock)success failure:(failureBlock)failure;
+/*
+ *修改附加
+ */
++(void)alterFuJiaWithDic:(NSDictionary *)dic success:(successBlock)success failure:(failureBlock)failure;
 
 #pragma mark --- 个人中心
 /*

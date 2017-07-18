@@ -60,7 +60,7 @@
     setY=line.bottom;
     [self addSubview:line];
 
-    for (int i = 0; i < 3; i ++) {
+    for (int i = 0; i < 2; i ++) {
         UIButton * btn = [[UIButton alloc]initWithFrame:CGRectMake(0, setY+10*MCscale, self.width, 30*MCscale)];
         [self addSubview:btn];
         
@@ -86,8 +86,8 @@
             case 1:
             {
                 [btn setImage:[UIImage imageNamed:@"微支付"] forState:UIControlStateNormal];
-                [self addSubview:line1];
-                setY = line1.bottom;
+//                [self addSubview:line1];
+//                setY = line1.bottom;
                 [btn addTarget:self action:@selector(wechatPay) forControlEvents:UIControlEventTouchUpInside];
                 
             }

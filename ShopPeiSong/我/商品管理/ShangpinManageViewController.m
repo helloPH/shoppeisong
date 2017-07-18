@@ -251,6 +251,8 @@
     mHud.delegate = self;
     mHud.labelText = @"请稍等...";
     [mHud show:YES];
+    
+    [self.shangpinArray removeAllObjects];
     [HTTPTool postWithUrl:url params:pram success:^(id json){
         [mHud hide:YES];
         NSLog(@"商品信息 %@",json);
@@ -414,8 +416,7 @@
             {
                 NSString * string = [NSString stringWithFormat:@"%@",dic[@"leibie"]];
                 NSMutableDictionary *pram = [NSMutableDictionary dictionaryWithDictionary:@{@"dianpuid":self.dianpuID,@"leibie":string}];
-                
-                [self getShangpinMessagesWithUrl:@"getDianpuShopByLeibie.action" AndDict:pram AndIndex:2];
+                [self      getShangpinMessagesWithUrl:@"getDianpuShopByLeibie.action" AndDict:pram AndIndex:2];
             }
 //            [MBProgressHUD promptWithString:islongPress];
             

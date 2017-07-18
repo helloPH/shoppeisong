@@ -107,14 +107,28 @@
 -(NSArray *)titleArray1
 {
     if (!_titleArray1) {
-        _titleArray1 = @[@"原价",@"现价",@"成本价",@"排序",@"标签",@"附加费",@"商品状态"];
+        _titleArray1 = @[@"原价",
+                         @"现价",
+                         @"成本价",
+                         @"排序",
+                         @"库存量",
+                         @"标签",
+                         @"附加费",
+                         @"商品状态"];
     }
     return _titleArray1;
 }
 -(NSArray *)placeoderArray
 {
     if (!_placeoderArray) {
-        _placeoderArray = @[@"请输入原价",@"请输入现价",@"请输入成本价",@"请输入排序",@"",@"",@""];
+        _placeoderArray = @[@"请输入原价",
+                            @"请输入现价",
+                            @"请输入成本价",
+                            @"请输入排序",
+                            @"请输入库存量",
+                            @"",
+                            @"",
+                            @""];
     }
     return _placeoderArray;
 }
@@ -128,7 +142,7 @@
         UIView *line = [BaseCostomer viewWithFrame:CGRectMake(10*MCscale, titleLabel.bottom+5*MCscale, kDeviceWidth-20*MCscale, 1) backgroundColor:lineColor];
         [self addSubview:line];
         
-        if (i < 4) {
+        if (i < 5) {
             UITextField *textField = [BaseCostomer textfieldWithFrame:CGRectMake(kDeviceWidth-130*MCscale , titleLabel.top, 120*MCscale, 30*MCscale) font:[UIFont systemFontOfSize:MLwordFont_4] textColor:redTextColor textAlignment:2 keyboardType:UIKeyboardTypeNumbersAndPunctuation borderStyle:0 placeholder:self.placeoderArray[i]];
             textField.backgroundColor = [UIColor clearColor];
             textField.returnKeyType = UIReturnKeyDone;
@@ -151,7 +165,7 @@
             UILabel *contentLabel = [BaseCostomer labelWithFrame:CGRectMake(30*MCscale,0, 150*MCscale, 30*MCscale) font:[UIFont systemFontOfSize:MLwordFont_4] textColor:txtColors(216, 216, 216, 1) backgroundColor:[UIColor clearColor] textAlignment:1 numOfLines:1 text:@""];
             contentLabel.tag = 31000+i;
             [backView addSubview:contentLabel];
-            if (i == 5) {
+            if (i == 6) {
                 UILabel *contentLabel = [BaseCostomer labelWithFrame:CGRectMake(backView.width - 75*MCscale,0,50*MCscale, 30*MCscale) font:[UIFont systemFontOfSize:MLwordFont_4] textColor:txtColors(216, 216, 216, 1) backgroundColor:[UIColor clearColor] textAlignment:1 numOfLines:1 text:@""];
                 contentLabel.tag = 41000+i;
                 [backView addSubview:contentLabel];
@@ -163,7 +177,7 @@
 -(void)backViewTapClick:(UITapGestureRecognizer *)tap
 {
     NSLog(@"%ld",tap.view.tag);
-    if (tap.view.tag == 21004) {
+    if (tap.view.tag == 21005) {
         self.selectedView.frame =CGRectMake(60*MCscale,120*MCscale, kDeviceWidth - 120*MCscale, 240*MCscale);
         [UIView animateWithDuration:0.3 animations:^{
             self.maskView.alpha = 1;
@@ -174,7 +188,7 @@
             [self addSubview:self.selectedView];
         }];
     }
-    else if (tap.view.tag == 21005)
+    else if (tap.view.tag == 21006)
     {
         [UIView animateWithDuration:0.3 animations:^{
             self.maskView.alpha = 1;
@@ -183,7 +197,7 @@
             [self addSubview:self.fujiafeiView];
         }];
     }
-    else if (tap.view.tag == 21006)
+    else if (tap.view.tag == 21007)
     {
         self.selectedView.frame = CGRectMake(60*MCscale,180*MCscale, kDeviceWidth - 120*MCscale, 120*MCscale);
         [UIView animateWithDuration:0.3 animations:^{
@@ -199,17 +213,17 @@
 #pragma mark 选择商品标签
 -(void)selectedAddShangpinBiaoqianWithString:(NSString *)string AndId:(NSString *)ID
 {
-    UIView *backView1 = [self viewWithTag:21004];
-    UILabel *leibieLabel = [backView1 viewWithTag:31004];
+    UIView *backView1 = [self viewWithTag:21005];
+    UILabel *leibieLabel = [backView1 viewWithTag:31005];
     leibieLabel.text = string;
     [self maskViewDisMiss];
 }
 #pragma mark 附加费(FujiafeiViewDelegate)
 -(void)saveFujiafeiWithName:(NSString *)fujiafeiName AndMoney:(NSString *)fujiafeiMoney
 {
-    UIView *backView1 = [self viewWithTag:21005];
-    UILabel *leibieLabel = [backView1 viewWithTag:31005];
-    UILabel *leibieLabe2 = [backView1 viewWithTag:41005];
+    UIView *backView1 = [self viewWithTag:21006];
+    UILabel *leibieLabel = [backView1 viewWithTag:31006];
+    UILabel *leibieLabe2 = [backView1 viewWithTag:41006];
     leibieLabel.text = fujiafeiName;
     leibieLabe2.text = fujiafeiMoney;
     [self maskViewDisMiss];
@@ -218,8 +232,8 @@
 #pragma mark 商品状态
 -(void)selectedStatesWithString:(NSString *)string
 {
-    UIView *backView1 = [self viewWithTag:21006];
-    UILabel *leibieLabel = [backView1 viewWithTag:31006];
+    UIView *backView1 = [self viewWithTag:21007];
+    UILabel *leibieLabel = [backView1 viewWithTag:31007];
     leibieLabel.text = string;
     [self maskViewDisMiss];
 }

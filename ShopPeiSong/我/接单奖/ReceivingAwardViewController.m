@@ -241,6 +241,7 @@
     {
         ReceivedModelTwo *model = self.DataAggregateArray[indexPath.row];
         DataAggregateViewController *DataAggregateVC = [[DataAggregateViewController alloc]init];
+        DataAggregateVC.navigationItem.title = model.date;
         DataAggregateVC.hidesBottomBarWhenPushed = YES;
         DataAggregateVC.dateStr = model.date;
         DataAggregateVC.ViewTag = 2;

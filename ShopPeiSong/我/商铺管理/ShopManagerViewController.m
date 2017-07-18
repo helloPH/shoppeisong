@@ -81,12 +81,17 @@
     
     SuperNavigationView * navi = [[SuperNavigationView alloc]initWithFrame:CGRectMake(0, 0, kDeviceWidth, 64)];
     [navi.titleView setTitle:@"商铺" forState:UIControlStateNormal];
-    [navi.rightBtn setTitle:@"" forState:UIControlStateNormal];
+    [navi.rightBtn setTitle:@"后台" forState:UIControlStateNormal];
+    [navi.rightBtn setTitleColor:textBlackColor forState:UIControlStateNormal];
     navi.block=^(NSInteger index){
         if (index == 0) {
             [self.navigationController popViewControllerAnimated:YES];
         }
+        if (index == 2) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.shp360.com/Store/Login.action"]];
+        }
     };
+    
     
     
     [self.view addSubview:navi];

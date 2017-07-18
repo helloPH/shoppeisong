@@ -10,12 +10,44 @@
 #import "ChangeFujiafeiView.h"
 #import "Header.h"
 @interface ChangeFujiafeiView ()<UITextFieldDelegate,MBProgressHUDDelegate>
+@property (nonatomic,strong)UIScrollView * backView;
 
 @property(nonatomic,strong)UIView *line1;
 @property(nonatomic,strong)UIButton *saveBtn;
 @property(nonatomic,assign)NSInteger ViewIndex;
 @end
 @implementation ChangeFujiafeiView
+-(instancetype)init{
+    if (self = [super init]) {
+        self.frame=CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width*0.8, 10);
+        
+        [self newView];
+    }
+    return self;
+}
+-(void)newView{
+    _backView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0,[UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(disAppear)];
+    [_backView addGestureRecognizer:tap];
+    _backView.contentSize=CGSizeMake(_backView.width, _backView.height);
+    
+    //    [_backView addTarget:self action:@selector(disAppear) forControlEvents:UIControlEventTouchUpInside];
+    self.frame=CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width*0.8, [UIScreen mainScreen].bounds.size.width*0.6);
+    self.backgroundColor=[UIColor whiteColor];
+    self.layer.cornerRadius = 15.0;
+    self.layer.shadowRadius = 5.0;
+    self.layer.shadowOpacity = 0.5;
+    self.alpha = 0.95;
+    self.layer.shadowOffset = CGSizeMake(0, 0);
+    //    self.clipsToBounds=YES;
+    self.center=CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/2+50*MCscale);
+    [_backView addSubview:self];
+    
+
+    
+
+    self.centerY=[UIScreen mainScreen].bounds.size.height/2;
+}
 
 - (instancetype)initWithFrame:(CGRect)frame
 {

@@ -64,16 +64,24 @@
 {
     BalanceRecordModel *model = array[indexpath.row];
     self.dateLabel.text = model.date;
-    self.yueLabel.text = [NSString stringWithFormat:@"金额:  %@",model.yue];
-    self.shuomingLabel.text = [NSString stringWithFormat:@"说明:支出%@,到付%@,存入%@",model.zhichu,model.daofu,model.cunru];
+    self.yueLabel.text = [NSString stringWithFormat:@"余额:  %@",model.yue];
+//    self.shuomingLabel.text = [NSString stringWithFormat:@"说明:支出%@,到付%@,存入%@",model.zhichu,model.daofu,model.cunru];
 }
 -(void)layoutSubviews
 {
     [super layoutSubviews];
     self.dateLabel.frame = CGRectMake(10*MCscale, 10*MCscale,self.width/2.0-20*MCscale, 20*MCscale);
     self.yueLabel.frame = CGRectMake(self.width/2.0+10*MCscale, self.dateLabel.top, self.width/2.0-20*MCscale, 20*MCscale);
-    self.shuomingLabel.frame = CGRectMake(10*MCscale,self.dateLabel.bottom + 10*MCscale,self.width-20*MCscale, 20*MCscale);
+    
+    
+    self.dateLabel.centerY=self.contentView.height/2;
+    self.yueLabel.centerY =self.contentView.height/2;
+    
+//    self.shuomingLabel.frame = CGRectMake(10*MCscale,self.dateLabel.bottom + 10*MCscale,self.width-20*MCscale, 20*MCscale);
     self.lineView.frame = CGRectMake(0, self.height-1,self.width,1);
+    
+    
+    
 }
 @end
 

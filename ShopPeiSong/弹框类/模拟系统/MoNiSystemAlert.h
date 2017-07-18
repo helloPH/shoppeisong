@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface MoNiSystemAlert : UIView
-
+@property (nonatomic,strong)NSString * title;
 @property (nonatomic,strong)NSString * content;
 -(void)appear;
 -(void)disAppear;

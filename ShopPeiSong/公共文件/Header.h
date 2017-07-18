@@ -84,6 +84,8 @@
 #define    local_Accounts     [[NSUserDefaults standardUserDefaults] objectForKey:@"local_Accounts"]
 #define    set_Local_Accounts(accounts)    [[NSUserDefaults standardUserDefaults]  setObject:accounts forKey:@"local_Accounts"]
 
+
+
 //登录分享内容  // 字典 两个键值 kaihufenxiang  images
 #define set_LoginShareContent(loginShareContent) [[NSUserDefaults standardUserDefaults] setValue:loginShareContent forKey:@"loginShareContent"]//登录时的分享内容
 #define loginShareContent [[NSUserDefaults standardUserDefaults]valueForKey:@"loginShareContent"]//登录时的分享内容
@@ -157,6 +159,17 @@
 // 推送提醒时间
 #define pushTimeInter [[NSUserDefaults standardUserDefaults] integerForKey:@"pushTimerInter"]
 #define set_PushTimeInter(timeInter) [[NSUserDefaults standardUserDefaults] setInteger:timeInter forKey:@"pushTimerInter"]
+
+// 系统唯未读消息 条数
+#define systemWeiDuCount [[NSUserDefaults standardUserDefaults] integerForKey:@"systemWeiDuCount"]
+#define set_SystemWeiDuCount(systemWeiDuCount) [[NSUserDefaults standardUserDefaults] setInteger:systemWeiDuCount forKey:@"systemWeiDuCount"]
+
+
+#define set_FindPassLastTel(findPassTelLast) [[NSUserDefaults standardUserDefaults]setValue:findPassTelLast forKey:@"findPassTelLast"]
+#define findPassLastTel [[NSUserDefaults standardUserDefaults]valueForKey:@"findPassTelLast"]
+
+#define set_RegistLastTel(registTelLast) [[NSUserDefaults standardUserDefaults]setValue:registTelLast forKey:@"registTelLast"]
+#define registLastTel [[NSUserDefaults standardUserDefaults]valueForKey:@"registTelLast"]
 
 
 #define user_PATH [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES) firstObject] stringByAppendingPathComponent:@"yingyongArrayXML.xml"]

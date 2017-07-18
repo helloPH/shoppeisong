@@ -199,14 +199,15 @@
                         [MBProgressHUD promptWithString:@"验证码已发送至您的手机"];
                     }else{// 发送手机验证码
                         MoNiSystemAlert * alert = [MoNiSystemAlert new];
-                        alert.content=message;
+                        
+                        alert.title=[NSString stringWithFormat:@"你好：你的重置密码验证码是“%@“",message];
                         [alert appear];
                     }
            
                     
                 } failure:^(NSError *error) {
                     MoNiSystemAlert * alert = [MoNiSystemAlert new];
-                    alert.content=@"验证码获取失败";
+                    alert.title=@"验证码获取失败";
                     [alert appear];
 
                 }];
