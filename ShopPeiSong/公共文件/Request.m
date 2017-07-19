@@ -143,7 +143,7 @@
 +(void)getSystemMessageListSuccess:(successBlock)success failure:(failureBlock)failure{
     NSString * url = @"Zonghe_findbyxinxixitong.action";
         [MBProgressHUD start];
-    NSMutableDictionary * parm = [NSMutableDictionary dictionaryWithDictionary:@{@"canshu":@"2",@"userid":user_Id}];
+    NSMutableDictionary * parm = [NSMutableDictionary dictionaryWithDictionary:@{@"canshu":@"6",@"userid":user_Id}];
     
     [HTTPTool getWithBaseUrl:HTTPHEADER url:url params:parm success:^(id json) {
                 [MBProgressHUD stop];

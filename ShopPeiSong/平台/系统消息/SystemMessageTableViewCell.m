@@ -74,8 +74,6 @@
     _btnDetail.imageView.contentMode=UIViewContentModeScaleAspectFit;
     [_btnDetail setTitleColor:lineColor forState:UIControlStateNormal];
     [self.contentView addSubview:_btnDetail];
-
-
     
     __weak typeof(self) weakSelf = self;
     [_btnDetail addAction:^{
@@ -103,24 +101,6 @@
         _block(btnTypeDetail,self.model);
     }
 }
--(void)layoutSubviews{
-    [super layoutSubviews];
-    
-    _imgContent.hidden=NO;
-    _btnDetail.hidden=NO;
-    
-    
-    if ([_model.url isEmptyString] || [_model.url isEqualToString:@"0"]) {
-        _btnDetail.hidden=YES;
-    }
-    
-    NSString * imgUrl = [NSString stringWithFormat:@"%@",_model.image];
-    if ([imgUrl isEmptyString] || [imgUrl isEqualToString:@"0"]) {
-        _imgContent.hidden=YES;
-    }else{
-        [_imgContent sd_setImageWithURL:[NSURL URLWithString:_model.image] placeholderImage:[UIImage imageNamed:@"yonghutouxiang"] options:SDWebImageRefreshCached];
-    }
-}
 -(void)setModel:(SystemMessageModel *)model{
     _model = model;
     NSInteger num =  [model.fenzu integerValue];
@@ -142,7 +122,7 @@
     _btnDetail.imgDirection = imgRight;
 
     
-    [_imgHead mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_imgHead mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.contentView.mas_top).offset(10);
         make.left.mas_equalTo(self.contentView.mas_left).offset(10);
         
@@ -150,14 +130,14 @@
         make.height.equalTo(@50);
     }];
     
-    [_btnType mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_btnType mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.contentView.mas_top).offset(10);
         make.right.mas_equalTo(self.contentView.mas_right).offset(-10);
         make.width.mas_equalTo(80);
         make.height.mas_equalTo(20);
     }];
     
-    [_btnTypeBackView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_btnTypeBackView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.btnType.mas_top).offset(-3);
         make.right.mas_equalTo(self.btnType.mas_right).offset(3);
         make.width.mas_equalTo(self.btnType.mas_width).offset(5);
@@ -165,7 +145,7 @@
     }];
     
     
-    [_labelTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_labelTitle mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.contentView.mas_top).offset(10);
         make.left.mas_equalTo(_imgHead.mas_right).offset(5);
         make.right.mas_equalTo(_btnType.mas_left).offset(-5);
@@ -173,40 +153,46 @@
         
     }];
     
-    [_labelContent mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_labelContent mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_labelTitle.mas_bottom).offset(10);
         make.left.mas_equalTo(_labelTitle.mas_left);
         make.right.mas_equalTo(_btnType.mas_right).offset(-10);
     }];
     
     
-    [_imgContent mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_imgContent mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_labelContent.mas_bottom).offset(5);
         make.left.mas_equalTo(_labelTitle.mas_left);
         make.width.mas_equalTo(_labelTitle.mas_width).offset(-20);
         
         NSString * imgUrl = [NSString stringWithFormat:@"%@",_model.image];
         
+        
+        _imgContent.hidden=NO;
         if ([imgUrl isEmptyString] || [imgUrl isEqualToString:@"0"]) {
             make.height.mas_equalTo(0.01);
+            _imgContent.hidden=YES;
         }else{
             make.height.mas_equalTo(_labelTitle.mas_width).offset(-20);
+            [_imgContent sd_setImageWithURL:[NSURL URLWithString:_model.image] placeholderImage:[UIImage imageNamed:@"yonghutouxiang"] options:SDWebImageRefreshCached];
         }
+        
     }];
-    
-    [_btnDetail mas_makeConstraints:^(MASConstraintMaker *make) {
+
+    [_btnDetail mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_imgContent.mas_bottom).offset(5);
         make.left.mas_equalTo(_imgContent.mas_left);
         make.width.mas_equalTo(110);
-        //        make.height.mas_equalTo(20);
+        _btnDetail.hidden=NO;
         if ([_model.url isEmptyString] || [_model.url isEqualToString:@"0"]) {
             make.height.mas_equalTo(0.01);
+             _btnDetail.hidden=YES;
         }else{
             make.height.mas_equalTo(20);
         }
     }];
     
-    [_labelTime mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_labelTime mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_btnDetail.mas_bottom).offset(5);
         make.left.mas_equalTo(_btnDetail.mas_left);
         make.width.mas_equalTo(_labelTitle.mas_width);
@@ -214,13 +200,12 @@
     }];
     
     
-    [_btnDelete mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_btnDelete mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_btnDetail.mas_bottom).offset(5);
         make.right.mas_equalTo(_btnType.mas_right);
         make.width.mas_equalTo(20);
         make.height.mas_equalTo(20);
         make.bottom.mas_equalTo(-10);
     }];
-    
 }
 @end
